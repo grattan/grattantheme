@@ -12,6 +12,7 @@
 
 requireNamespace(c("ggthemes", "ggplot2"), quietly = TRUE)
 
+
 theme_grattan <- function (base_size = 18, base_family = "sans") {
 
   (theme_foundation(base_size = base_size, base_family = base_family)
