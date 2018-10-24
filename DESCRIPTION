@@ -8,10 +8,9 @@ Description: This package enables the user to create ggplot2 charts that conform
     theme_grattan(), a ggplot2 theme with style guide-consistent defaults, as well as grattan_save(), a convenient way to save ggplot2
     charts in the correct size and resolution for use in Grattan reports. The colours from the Grattan palette are defined.
 License: GPL-3
-Imports:
-    ggplot2
 Depends:
-    ggthemes
+    ggthemes,
+    ggplot2
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
