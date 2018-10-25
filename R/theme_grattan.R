@@ -3,7 +3,7 @@
 #' @param base_size Size for text elements. Defaults to 18.
 #' @param base_family Font family for text elements. Defaults to "sans", indistinguishable from Arial.
 #' @examples
-#' library(ggplot)
+#' library(ggplot2)
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'     geom_point() +
 #'     theme_grattan()

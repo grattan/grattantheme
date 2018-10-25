@@ -5,7 +5,7 @@
 #' @param height Default is 14.5cm, Grattan default.
 #' @param width Default is 22.16cm, Grattan default.
 #' @examples
-#' library(ggplot)
+#' library(ggplot2)
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'     geom_point() +
 #'     theme_grattan()
