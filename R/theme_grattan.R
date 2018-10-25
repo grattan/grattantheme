@@ -17,7 +17,7 @@ theme_grattan <- function (base_size = 18, base_family = "sans") {
 
   (theme_foundation(base_size = base_size, base_family = base_family)
    + theme(
-     line = element_line(colour = "#C3C7CB",
+     line = element_line(colour = grattan_gridlinegrey,
                          size = 0.5),
      rect = element_rect(fill = "white",
                          linetype = 0,
@@ -25,7 +25,7 @@ theme_grattan <- function (base_size = 18, base_family = "sans") {
      text = element_text(family = base_family,
                          colour = "black",
                          size = base_size),
-     panel.grid.major = element_line(colour = "#C3C7CB"),
+     panel.grid.major = element_line(colour = grattan_gridlinegrey),
      panel.grid.major.x = element_blank(),
      axis.title = element_text(size = rel(1)),
      axis.text = element_text(size = rel(1)),
@@ -46,8 +46,8 @@ theme_grattan <- function (base_size = 18, base_family = "sans") {
      plot.title = element_text(face = "bold",
                                size = rel(1),
                                hjust = 0,
-                               colour = "#6A737B"),
-     plot.subtitle = element_text(colour = "#6A737B",
+                               colour = grattan_grey_title),
+     plot.subtitle = element_text(colour = grattan_grey_title,
                                   hjust = 0),
      plot.margin = unit(c(0.1, 0.75, 0.1, 0.25), "lines"),
      strip.background = element_rect(),
