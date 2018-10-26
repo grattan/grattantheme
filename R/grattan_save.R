@@ -19,7 +19,7 @@ requireNamespace("ggplot2", quietly = TRUE)
 
 grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 22.16, type = "normal") {
   
-  if (type == "fullpage")    height = 11.08
+  if (type == "tiny")    height = 11.08
   if (type == "wholecolumn") height = 22.16
   if (type == "fullpage")  {
     height = 22.16
