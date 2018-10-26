@@ -1,4 +1,4 @@
-#' Create a Grattan-appropriate palette for your chart. Based on Hugh Parsonage's function.
+#' Create a Grattan-appropriate palette for your chart.
 #'
 #' @param n The number of levels in your colour scale. Acceptable values are between 1 and 6.
 #' @param reverse FALSE by default. Non-reverse order runs from light to dark.

@@ -1,5 +1,5 @@
 #' Create a ggplot2 theme consistent with the Grattan style guide.
-#'
+#' @name theme_grattan
 #' @param base_size Size for text elements. Defaults to 18.
 #' @param base_family Font family for text elements. Defaults to "sans", indistinguishable from Arial.
 #' @examples

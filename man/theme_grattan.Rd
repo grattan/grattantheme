@@ -2,20 +2,17 @@
 % Please edit documentation in R/theme_grattan.R
 \name{theme_grattan}
 \alias{theme_grattan}
-\title{Create a ggplot2 theme consistent with the Grattan style guide}
-\usage{
-theme_grattan(base_size = 18, base_family = "sans")
-}
+\title{Create a ggplot2 theme consistent with the Grattan style guide.}
 \arguments{
 \item{base_size}{Size for text elements. Defaults to 18.}
 
 \item{base_family}{Font family for text elements. Defaults to "sans", indistinguishable from Arial.}
 }
 \description{
-Create a ggplot2 theme consistent with the Grattan style guide
+Create a ggplot2 theme consistent with the Grattan style guide.
 }
 \examples{
-library(ggplot)
+library(ggplot2)
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
     theme_grattan()
