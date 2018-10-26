@@ -9,3 +9,17 @@ Use grattan_save() to save your ggplot2 charts (eg. as .png or .pdf files) for u
 
 A range of colours from the style guide (such as grattan_lightorange, grattan_red, and so on) are defined for your convenience.
 
+An example, using the three functions in the package:
+
+library(tidyverse)
+library(grattantheme)
+
+mtcars %>%
+ggplot(aes(x = wt, y = mpg, col = factor(cyl))) +
+geom_point(size = 2) +
+theme_grattan() +
+scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
+scale_colour_manual(values = grattan_pal(n = 3))
+
+grattan_save("test.png")
+
