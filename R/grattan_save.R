@@ -4,7 +4,7 @@
 #' @param object Defaults to last_plot(). Can specify a different ggplot2 object to be saved.
 #' @param height Default is 14.5cm, Grattan normal size default. See \code{type}.
 #' @param width Default is 22.16cm, Grattan normal size default. See \code{type}.
-#' @param type Sets size to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage"). Normal is the default and uses default height and width. Tiny uses height of 11.08cm and default width. Whole-column uses height of 22.16cm and default width. Full-page uses height 22.16cm and width of 44.32cm.
+#' @param type Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage"). Normal is the default and uses default height and width. Tiny uses height of 11.08cm and default width. Whole-column uses height of 22.16cm and default width. Full-page uses height 22.16cm and width of 44.32cm.
 #' @examples
 #' library(ggplot2)
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
