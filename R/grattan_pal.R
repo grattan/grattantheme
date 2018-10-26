@@ -9,6 +9,8 @@
 #'     theme_grattan() +
 #'     scale_colour_manual(grattan_pal(n = 3))
 #'
+#' p
+#'
 #' @export
 
 grattan_pal <- function(n, reverse = FALSE){
