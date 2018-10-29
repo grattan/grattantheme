@@ -25,11 +25,12 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 p
 
 # To ensure your x-axis is at zero (or some other value you choose),
-# you'll need to manually tweak the scale of the y-axis, as:
+# you may need to manually tweak the scale of the y-axis, like this:
 
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
-    scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
+    scale_y_continuous(limits = c(0, 35),
+                       expand = c(0,0)) +
     theme_grattan()
 p
 
@@ -42,15 +43,15 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     theme_grattan()
 p
 
-# For Grattan-y charts you'll generally want to disable the legend,
-# which is on by default. Here's how:
+# The legend is off by default. You may wish to turn it on. Here's how:
 
 p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
     scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
     scale_colour_manual(values = grattan_pal(n = 3)) +
     theme_grattan() +
-    theme(legend.position = "none")
+    theme(legend.position = "bottom")
+
 p
 
 
