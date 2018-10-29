@@ -13,7 +13,8 @@ Create a ggplot2 theme consistent with the Grattan style guide.
 }
 \examples{
 
-# This function goes most of the way to making your charts Grattan-y, but manual tweaking will almost definitely be required
+# This function goes most of the way to making your charts Grattan-y,
+# but manual tweaking will almost definitely be required
 
 # A minimal example:
 library(ggplot2)
@@ -23,7 +24,8 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
     theme_grattan()
 p
 
-# To ensure your x-axis is at zero (or some other value you choose), you'll need to manually tweak the scale of the y-axis, as:
+# To ensure your x-axis is at zero (or some other value you choose),
+# you'll need to manually tweak the scale of the y-axis, as:
 
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
@@ -40,7 +42,8 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     theme_grattan()
 p
 
-# For Grattan-y charts you'll generally want to disable the legend, which is on by default. Here's how:
+# For Grattan-y charts you'll generally want to disable the legend,
+# which is on by default. Here's how:
 
 p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
