@@ -49,11 +49,9 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
     scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
     scale_colour_manual(values = grattan_pal(n = 3)) +
-    theme_grattan() +
-    theme(legend.position = "bottom")
+    theme(legend.position = "bottom") +
+    theme_grattan()
 
 p
-
-
 
 }
