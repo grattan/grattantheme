@@ -21,4 +21,6 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     theme_grattan() +
     scale_colour_manual(grattan_pal(n = 3))
 
+p
+
 }
