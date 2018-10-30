@@ -2,16 +2,16 @@
 % Please edit documentation in R/scale_y_continuous_grattan.R
 \name{scale_y_continuous_grattan}
 \alias{scale_y_continuous_grattan}
-\title{Ensure your y-axis is Grattan style guide-consistent}
+\title{Ensure your y-axis is Grattan style guide-consistent and doesn't hang off the edge of the chart.}
 \arguments{
 \item{...}{arguments passed to scale_y_continuous}
 
 \item{expand_bottom}{default is 0. This will ensure that your x-axis is at the bottom value of your plotted data. Increase to add some buffer between the lowest point in your data and the x-axis. Note that the value is interpreted as a fraction of the total plotting space - a value of 1 will add white space equal to the whole area of your data.}
 
-\item{expand_top}{default is 0.015. This will ensure that a small amount of white space is added to the top of}
+\item{expand_top}{default is 0.015. This will ensure that a small amount of white space is added to the top of your chart. Increase to add more white space.}
 }
 \description{
-Ensure your y-axis is Grattan style guide-consistent
+Ensure your y-axis is Grattan style guide-consistent and doesn't hang off the edge of the chart.
 }
 \examples{
 

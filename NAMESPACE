@@ -2,4 +2,5 @@
 
 export(grattan_pal)
 export(grattan_save)
+export(scale_y_continuous_grattan)
 export(theme_grattan)
