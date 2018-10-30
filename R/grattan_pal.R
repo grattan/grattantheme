@@ -1,6 +1,6 @@
 #' Create a Grattan-appropriate palette for your chart.
 #'
-#' @param n The number of levels in your colour scale. Acceptable values are between 1 and 6. If you don't specify n, a six-colour palette will be used, which may not look right. Specify n.
+#' @param n The number of levels in your colour scale. Minimum value is 1, maximum is 6. If you don't specify n, a six-colour palette will be used, which may not look right. Specify n.
 #' @param reverse FALSE by default. Non-reverse order runs from light to dark.
 #' @examples
 #' library(ggplot2)
