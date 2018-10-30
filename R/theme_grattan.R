@@ -22,8 +22,7 @@
 #'
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'     geom_point() +
-#'     scale_y_continuous(limits = c(0, 35),
-#'                        expand = c(0,0)) +
+#'     scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
 #'     theme_grattan()
 #' p
 #'
@@ -31,7 +30,7 @@
 #'
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'     geom_point() +
-#'     scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
+#'     scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
 #'     scale_colour_manual(values = grattan_pal(n = 3)) +
 #'     theme_grattan()
 #' p
@@ -40,7 +39,7 @@
 #'
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'     geom_point() +
-#'     scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
+#'     scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
 #'     scale_colour_manual(values = grattan_pal(n = 3)) +
 #'     theme_grattan() +
 #'     theme(legend.position = "bottom")
@@ -51,7 +50,7 @@
 #'
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'      geom_point() +
-#'      scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
+#'      scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
 #'      scale_colour_manual(values = grattan_pal(n = 3)) +
 #'      theme_grattan(flipped = TRUE) +
 #'      coord_flip() +
@@ -63,7 +62,7 @@
 #'
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'      geom_point() +
-#'      scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
+#'      scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
 #'      scale_colour_manual(values = grattan_pal(n = 3)) +
 #'      theme_grattan(flipped = TRUE, background = "orange") +
 #'      coord_flip() +
