@@ -1,4 +1,4 @@
-#' Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().
+#' Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave(). grattan_save() or save_grattan() both work.
 #' @name grattan_save
 #' @param filename Required. The filename (including path where necessary) for your image on disk. The extension defines the file type.
 #' @param object Defaults to last_plot(). Can specify a different ggplot2 object to be saved.
@@ -28,3 +28,8 @@ grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 
   ggsave(filename, object,
          width = width, height = height, units = "cm", dpi = "retina")
 }
+
+#' @name save_grattan
+#' @export
+
+save_grattan <- grattan_save

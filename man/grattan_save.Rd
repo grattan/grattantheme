@@ -6,7 +6,7 @@
 \arguments{
 \item{filename}{Required. The filename (including path where necessary) for your image on disk. The extension defines the file type.}
 
-\item{object}{Defaults to last_plot(). Can specify a different ggplot2 object to be saved.}
+\item{object}{Defaults to `last_plot()`. Can specify a different ggplot2 object to be saved.}
 
 \item{height}{Default is 14.5cm, Grattan normal size default. See \code{type}.}
 
