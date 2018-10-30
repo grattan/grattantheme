@@ -4,10 +4,10 @@
 \alias{grattan_pal}
 \title{Create a Grattan-appropriate palette for your chart.}
 \usage{
-grattan_pal(n, reverse = FALSE)
+grattan_pal(n = 0, reverse = FALSE)
 }
 \arguments{
-\item{n}{The number of levels in your colour scale. Acceptable values are between 1 and 6.}
+\item{n}{The number of levels in your colour scale. Acceptable values are between 1 and 6. If you don't specify n, a six-colour palette will be used, which may not look right. Specify n.}
 
 \item{reverse}{FALSE by default. Non-reverse order runs from light to dark.}
 }

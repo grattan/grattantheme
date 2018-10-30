@@ -53,11 +53,23 @@
 #'      geom_point() +
 #'      scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
 #'      scale_colour_manual(values = grattan_pal(n = 3)) +
-#'      theme_grattan2(flipped = TRUE) +
+#'      theme_grattan(flipped = TRUE) +
 #'      coord_flip() +
 #'      theme(legend.position = "bottom")
 #'
-#'      p
+#' p
+#'
+#' # Making a chart to go in a box? Then you'll want the background = "orange" option, as in:
+#'
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+#'      geom_point() +
+#'      scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
+#'      scale_colour_manual(values = grattan_pal(n = 3)) +
+#'      theme_grattan(flipped = TRUE, background = "orange") +
+#'      coord_flip() +
+#'      theme(legend.position = "bottom")
+#'
+#' p
 #'
 #' @export
 
