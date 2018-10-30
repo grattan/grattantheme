@@ -4,9 +4,13 @@
 \alias{theme_grattan}
 \title{Create a ggplot2 theme consistent with the Grattan style guide.}
 \arguments{
-\item{base_size}{Size for text elements. Defaults to 18.}
+\item{base_size}{Size for text elements. Defaults to 18, as per the Grattan style guide.}
 
 \item{base_family}{Font family for text elements. Defaults to "sans", indistinguishable from Arial.}
+
+\item{flipped}{FALSE by default. Set to TRUE if using coord_flip(). If set to TRUE, the theme will show a vertical axis line, ticks & panel grid, while hiding the horizontals.}
+
+\item{background}{"white" by default. Set to "orange" if you're making a chart to go in a Grattan report box.}
 }
 \description{
 Create a ggplot2 theme consistent with the Grattan style guide.
@@ -53,5 +57,17 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     theme(legend.position = "bottom")
 
 p
+
+# The flipped = TRUE option makes things easier when using coord_flip, as in:
+
+p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+     geom_point() +
+     scale_y_continuous(limits = c(0, 35), expand = c(0,0)) +
+     scale_colour_manual(values = grattan_pal(n = 3)) +
+     theme_grattan2(flipped = TRUE) +
+     coord_flip() +
+     theme(legend.position = "bottom")
+
+     p
 
 }
