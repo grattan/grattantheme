@@ -5,6 +5,8 @@ Use theme_grattan() to format your ggplot2 charts in a style consistent with the
 
 Use grattan_pal() to format the coloured elements of your ggplot2 chart using appropriately-spaced Grattan colours, ordered from either light to dark or the reverse.
 
+Use scale_y_continuous_grattan() and scale_x_continuous_grattan() to set default values for your axes that will work well with most Grattan charts.
+
 Use grattan_save() to save your ggplot2 charts (eg. as .png or .pdf files) for use elsewhere, such as in Powerpoint or LaTeX, with the size and resolution set to style guide-consistent values.
 
 A range of colours from the style guide (such as grattan_lightorange, grattan_red, and so on) are defined for your convenience.
