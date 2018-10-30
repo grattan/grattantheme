@@ -50,5 +50,5 @@
 requireNamespace(c("ggplot2"), quietly = TRUE)
 
 scale_y_continuous_grattan <- function(..., expand_bottom = 0, expand_top = 0.015) {
-  scale_y_continuous(expand = expand_scale(mult = c(expand_bottom, expand_top)), ...)
+  ggplot2::scale_y_continuous(expand = expand_scale(mult = c(expand_bottom, expand_top)), ...)
 }
