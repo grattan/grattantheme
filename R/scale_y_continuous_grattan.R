@@ -45,6 +45,7 @@
 #'
 #' p
 #'
+#' @export
 
 requireNamespace(c("ggplot2"), quietly = TRUE)
 
