@@ -6,13 +6,13 @@
 \arguments{
 \item{filename}{Required. The filename (including path where necessary) for your image on disk. The extension defines the file type.}
 
-\item{object}{Defaults to `last_plot()`. Can specify a different ggplot2 object to be saved.}
+\item{object}{Defaults to \code{last_plot()}. Can specify a different ggplot2 object to be saved.}
 
 \item{height}{Default is 14.5cm, Grattan normal size default. See \code{type}.}
 
 \item{width}{Default is 22.16cm, Grattan normal size default. See \code{type}.}
 
-\item{type}{Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage"). Normal is the default and uses default height and width. Tiny uses height of 11.08cm and default width. Whole-column uses height of 22.16cm and default width. Full-page uses height 22.16cm and width of 44.32cm.}
+\item{type}{Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage"). 'normal' is the default and uses default height and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm.}
 }
 \description{
 Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().
