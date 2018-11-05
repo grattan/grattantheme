@@ -23,62 +23,65 @@ Create a ggplot2 theme consistent with the Grattan style guide.
 # A minimal example:
 library(ggplot2)
 
-p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
     theme_grattan()
-p
 
 # To ensure your x-axis is at zero (or some other value you choose),
-# you may need to manually tweak the scale of the y-axis, like this:
+# you may need to manually tweak the scale of the y-axis.
+# Use scale_y_continuous_grattan() for some sensible default values, which may need further tweaking.
 
-p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
-    scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
+    scale_y_continuous_grattan() +
     theme_grattan()
-p
 
-# An example with colours follows. See ?grattan_pal for more information.
+# You'll notice in the example above that the top of the chart now looks good; the bottom has two
+# points that are half hanging off the axis. Try the following, substituing any value (incl. 0) for 10 as you like:
 
-p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
-    scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    theme_grattan()
+
+# An example with colours follows. See ?grattan_pal for more information and options.
+
+ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
     scale_colour_manual(values = grattan_pal(n = 3)) +
     theme_grattan()
-p
 
 # The legend is off by default. You may wish to turn it on. Here's how:
 
-p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
-    scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
     scale_colour_manual(values = grattan_pal(n = 3)) +
     theme_grattan() +
     theme(legend.position = "bottom")
 
-p
-
 # The flipped = TRUE option makes things easier when using coord_flip, as in:
 
-p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
-     geom_point() +
-     scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
-     scale_colour_manual(values = grattan_pal(n = 3)) +
-     theme_grattan(flipped = TRUE) +
-     coord_flip() +
-     theme(legend.position = "bottom")
+ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    scale_colour_manual(values = grattan_pal(n = 3)) +
+    theme_grattan(flipped = TRUE) +
+    theme(legend.position = "bottom") +
+    coord_flip()
 
-p
 
 # Making a chart to go in a box? Then you'll want the background = "orange" option, as in:
 
-p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
-     geom_point() +
-     scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
-     scale_colour_manual(values = grattan_pal(n = 3)) +
-     theme_grattan(flipped = TRUE, background = "orange") +
-     coord_flip() +
-     theme(legend.position = "bottom")
+ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    scale_colour_manual(values = grattan_pal(n = 3)) +
+    theme_grattan(flipped = TRUE, background = "orange") +
+    theme(legend.position = "bottom") +
+    coord_flip()
 
-p
+
 
 }

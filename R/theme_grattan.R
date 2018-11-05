@@ -12,63 +12,66 @@
 #' # A minimal example:
 #' library(ggplot2)
 #'
-#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#' ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'     geom_point() +
 #'     theme_grattan()
-#' p
 #'
 #' # To ensure your x-axis is at zero (or some other value you choose),
-#' # you may need to manually tweak the scale of the y-axis, like this:
+#' # you may need to manually tweak the scale of the y-axis.
+#' # Use scale_y_continuous_grattan() for some sensible default values, which may need further tweaking.
 #'
-#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#' ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'     geom_point() +
-#'     scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
+#'     scale_y_continuous_grattan() +
 #'     theme_grattan()
-#' p
 #'
-#' # An example with colours follows. See ?grattan_pal for more information.
+#' # You'll notice in the example above that the top of the chart now looks good; the bottom has two
+#' # points that are half hanging off the axis. Try the following, substituing any value (incl. 0) for 10 as you like:
 #'
-#' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+#' ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'     geom_point() +
-#'     scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
+#'     scale_y_continuous_grattan(limits = c(10, NA)) +
+#'     theme_grattan()
+#'
+#' # An example with colours follows. See ?grattan_pal for more information and options.
+#'
+#' ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+#'     geom_point() +
+#'     scale_y_continuous_grattan(limits = c(10, NA)) +
 #'     scale_colour_manual(values = grattan_pal(n = 3)) +
 #'     theme_grattan()
-#' p
 #'
 #' # The legend is off by default. You may wish to turn it on. Here's how:
 #'
-#' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+#' ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'     geom_point() +
-#'     scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
+#'     scale_y_continuous_grattan(limits = c(10, NA)) +
 #'     scale_colour_manual(values = grattan_pal(n = 3)) +
 #'     theme_grattan() +
 #'     theme(legend.position = "bottom")
 #'
-#' p
-#'
 #' # The flipped = TRUE option makes things easier when using coord_flip, as in:
 #'
-#' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
-#'      geom_point() +
-#'      scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
-#'      scale_colour_manual(values = grattan_pal(n = 3)) +
-#'      theme_grattan(flipped = TRUE) +
-#'      coord_flip() +
-#'      theme(legend.position = "bottom")
+#' ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+#'     geom_point() +
+#'     scale_y_continuous_grattan(limits = c(10, NA)) +
+#'     scale_colour_manual(values = grattan_pal(n = 3)) +
+#'     theme_grattan(flipped = TRUE) +
+#'     theme(legend.position = "bottom") +
+#'     coord_flip()
 #'
-#' p
 #'
 #' # Making a chart to go in a box? Then you'll want the background = "orange" option, as in:
 #'
-#' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
-#'      geom_point() +
-#'      scale_y_continuous(expand = expand_scale(mult = c(0, .015))) +
-#'      scale_colour_manual(values = grattan_pal(n = 3)) +
-#'      theme_grattan(flipped = TRUE, background = "orange") +
-#'      coord_flip() +
-#'      theme(legend.position = "bottom")
+#' ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+#'     geom_point() +
+#'     scale_y_continuous_grattan(limits = c(10, NA)) +
+#'     scale_colour_manual(values = grattan_pal(n = 3)) +
+#'     theme_grattan(flipped = TRUE, background = "orange") +
+#'     theme(legend.position = "bottom") +
+#'     coord_flip()
 #'
-#' p
+#'
 #'
 #' @export
 
@@ -83,11 +86,12 @@ theme_grattan <- function(base_size = 18,
   ret <-
     theme_foundation(base_size = base_size, base_family = base_family) +
     theme(line = element_line(colour = grattan_gridlinegrey,
-                              size = base_size / 36),
+                              # style guide says axis line = 0.75 points, need to convert to mm
+                              size = 0.75 / (.pt*72.27/96) ),
           rect = element_rect(fill = "white",
                               colour = NA,
                               linetype = 0),
-          text = element_text(colour = "black"),
+          text = element_text(colour = "black", size = base_size),
           ## Axis
           axis.line = element_line(size = rel(1),
                                    colour = "black"),
@@ -96,6 +100,7 @@ theme_grattan <- function(base_size = 18,
           axis.ticks = element_line(colour = "black"),
           axis.ticks.y = element_blank(),
           axis.title = element_text(size = rel(1)),
+          # style guide: "there is no need to label the x-axis unless the units are not obvious
           axis.title.x = element_text(),
           axis.title.y = element_blank(),
           #axis.ticks.length = unit( -base_size * 0.5, "points"),
@@ -138,6 +143,14 @@ theme_grattan <- function(base_size = 18,
                                       margin = margin(t = 15)),
           plot.margin = unit(c(0.1, 0.75, 0.1, 0.25) , "lines"),
           complete = TRUE)
+
+  # Define defaults for individual geoms in a style guide-consistent way
+  update_geom_defaults("point", list(colour = grattan_lightorange, 4 / .pt ))
+  update_geom_defaults("bar", list(colour = "white", fill = grattan_lightorange, size = 0.75 / .pt ))
+  update_geom_defaults("col", list(colour = "white", fill = grattan_lightorange, size = 0.75 / .pt ))
+  update_geom_defaults("line", list(colour = grattan_lightorange, size = 3 / .pt))
+  update_geom_defaults("text", list(colour = "black", size = 18 / .pt))
+
   if (flipped == TRUE) {
     ret <- ret + theme(panel.grid.major.x = element_line(),
                        panel.grid.major.y = element_blank(),
@@ -149,5 +162,6 @@ theme_grattan <- function(base_size = 18,
   if (background == "orange") {
     ret <- ret + theme(rect = element_rect(fill = grattan_orange_alpha))
   }
+
   ret
 }
