@@ -2,22 +2,104 @@
 % Please edit documentation in R/theme_grattan.R
 \name{theme_grattan}
 \alias{theme_grattan}
-\title{Create a ggplot2 theme consistent with the Grattan style guide}
-\usage{
-theme_grattan(base_size = 18, base_family = "sans")
-}
+\title{Create a ggplot2 theme consistent with the Grattan style guide.}
 \arguments{
-\item{base_size}{Size for text elements. Defaults to 18.}
+\item{base_size}{Size for text elements. Defaults to 18, as per the Grattan style guide.}
 
 \item{base_family}{Font family for text elements. Defaults to "sans", indistinguishable from Arial.}
+
+\item{flipped}{FALSE by default. Set to TRUE if using coord_flip(). If set to TRUE, the theme will show a vertical axis line, ticks & panel grid, while hiding the horizontals.}
+
+\item{background}{"white" by default. Set to "orange" if you're making a chart to go in a Grattan report box.}
 }
 \description{
-Create a ggplot2 theme consistent with the Grattan style guide
+Create a ggplot2 theme consistent with the Grattan style guide.
 }
 \examples{
-library(ggplot)
-p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+
+# This function goes most of the way to making your charts Grattan-y,
+# but manual tweaking will almost definitely be required
+
+# A minimal example:
+library(ggplot2)
+
+ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
     theme_grattan()
-p
+
+# To ensure your x-axis is at zero (or some other value you choose),
+# you may need to manually tweak the scale of the y-axis.
+# Use scale_y_continuous_grattan() for some sensible default values, which may need further tweaking.
+
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+    geom_point() +
+    scale_y_continuous_grattan() +
+    theme_grattan()
+
+# You'll notice in the example above that the top of the chart now looks good; the bottom has two
+# points that are half hanging off the axis. Try the following, substituing any value (incl. 0) for 10 as you like:
+
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    theme_grattan()
+
+# An example with colours follows. See ?grattan_pal for more information and options.
+
+ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    scale_colour_manual(values = grattan_pal(n = 3)) +
+    theme_grattan()
+
+# The legend is off by default. You may wish to turn it on. Here's how:
+
+ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    scale_colour_manual(values = grattan_pal(n = 3)) +
+    theme_grattan() +
+    theme(legend.position = "bottom")
+
+# The flipped = TRUE option makes things easier when using coord_flip, as in:
+
+ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    scale_colour_manual(values = grattan_pal(n = 3)) +
+    theme_grattan(flipped = TRUE) +
+    theme(legend.position = "bottom") +
+    coord_flip()
+
+
+# Making a chart to go in a box? Then you'll want the background = "orange" option, as in:
+
+ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    scale_colour_manual(values = grattan_pal(n = 3)) +
+    theme_grattan(flipped = TRUE, background = "orange") +
+    theme(legend.position = "bottom") +
+    coord_flip()
+
+
+# Want to make a 'self-contained' chart that includes a title/subtitle/caption,
+# eg. to go on the Grattan Blog? If so, just add them - they'll be properly
+# left-aligned when you save them with grattan_save(), like this:
+
+ ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    scale_colour_manual(values = grattan_pal(n = 3)) +
+    theme_grattan() +
+    labs(title = "Title goes here",
+         subtitle = "Subtitle goes here",
+         caption = "Notes: Notes go here\\nSource: Source goes here")
+
+ # The plot above won't look right in RStudio's viewer - the text is
+ # aligned to the left of the plot area, not the image. Once you save it,
+ # the file should have properly-aligned text:
+
+ grattan_save("your_file.png")
+
 }
