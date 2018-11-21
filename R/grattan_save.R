@@ -12,6 +12,36 @@
 #'     theme_grattan()
 #'
 #' grattan_save("p.png", p)
+#'
+#' # If you don't assign your chart to an object name, that's OK, it will still
+#' # save if it was the last plot displayed.
+#'
+#' ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'     geom_point() +
+#'     theme_grattan()
+#'
+#' grattan_save("p.png")
+#'
+#'
+#' # Want to make a 'self-contained' chart that includes a title/subtitle/caption,
+#' # eg. to go on the Grattan Blog? If so, just add them - they'll be properly
+#' # left-aligned when you save them with grattan_save(), like this:
+#'
+#'  ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+#'     geom_point() +
+#'     scale_y_continuous_grattan(limits = c(10, NA)) +
+#'     scale_colour_manual(values = grattan_pal(n = 3)) +
+#'     theme_grattan() +
+#'     labs(title = "Title goes here",
+#'          subtitle = "Subtitle goes here",
+#'          caption = "Notes: Notes go here\nSource: Source goes here")
+#'
+#'  # The plot above won't look right in RStudio's viewer - the text is
+#'  # aligned to the left of the plot area, not the image. Once you save it,
+#'  # the file should have properly-aligned text:
+#'
+#'  grattan_save("your_file.png")
+#'
 #' @export
 
 requireNamespace("ggplot2", quietly = TRUE)
@@ -25,6 +55,8 @@ grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 
     width  = 44.32
   }
 
+  # Modify the graph object so that title/subtitle/caption are properly
+  # left-aligned (to the left of the whole image, not just the plot area)
   g <- ggplotGrob(object)
 
   g$layout$l[g$layout$name == "title"] <- 1
