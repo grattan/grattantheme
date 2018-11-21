@@ -5,7 +5,7 @@ Use `theme_grattan()` to format your ggplot2 charts in a style consistent with t
 
 Use `grattan_pal()` to format the coloured elements of your ggplot2 chart using appropriately-spaced Grattan colours, ordered from either light to dark or the reverse.
 
-![grattan_pal](atlas/grattan_pal_colours.pdf)
+![grattan_pal](atlas/grattan_pal_colours.png)
 
 Use `scale_y_continuous_grattan()` to set default values for your vertical axis that will work well with most Grattan charts.
 
