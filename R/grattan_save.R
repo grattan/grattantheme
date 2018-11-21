@@ -25,7 +25,13 @@ grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 
     width  = 44.32
   }
 
-  ggsave(filename, object,
+  g <- ggplotGrob(object)
+
+  g$layout$l[g$layout$name == "title"] <- 1
+  g$layout$l[g$layout$name == "subtitle"] <- 1
+  g$layout$l[g$layout$name == "caption"] <- 1
+
+  ggsave(filename, g,
          width = width, height = height, units = "cm", dpi = "retina")
 }
 
