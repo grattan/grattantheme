@@ -7,7 +7,7 @@
 grattan_pal(n = 0, reverse = FALSE)
 }
 \arguments{
-\item{n}{The number of levels in your colour scale. Minimum value is 1, maximum is 6. If you don't specify `n`, a six-colour palette will be used, which may not look right. Specify `n`.}
+\item{n}{The number of levels in your colour scale. Minimum value is 1, maximum is 6. If you don't specify `n`, a five-colour palette will be used, which may not look right. Specify `n`.}
 
 \item{reverse}{FALSE by default. Non-reverse order runs from light to dark.}
 }
@@ -19,7 +19,7 @@ library(ggplot2)
 p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
     theme_grattan() +
-    scale_colour_manual(grattan_pal(n = 3))
+    scale_colour_manual(grattan_pal(n = 3, reverse = FALSE))
 
 p
 
