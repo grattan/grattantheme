@@ -12,7 +12,7 @@
 
 \item{width}{Default is 22.16cm, Grattan normal size default. See \code{type}.}
 
-\item{type}{Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage"). 'normal' is the default and uses default height and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm.}
+\item{type}{Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage", "fullslide"). 'normal' is the default and uses default height and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm. 'fullslide' saves an image that can be used as a complete 4:3 Powerpoint slide, complete with Grattan logo.}
 }
 \description{
 Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().
@@ -53,5 +53,19 @@ grattan_save("p.png")
  # the file should have properly-aligned text:
 
  grattan_save("your_file.png")
+
+ # Want to make a full Powerpoint slide? Just use type = "fullslide" in grattan_save(), like:
+
+ ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    scale_y_continuous_grattan(limits = c(10, NA)) +
+    scale_colour_manual(values = grattan_pal(n = 3)) +
+    theme_grattan() +
+    labs(title = "Title goes here",
+         subtitle = "Subtitle goes here",
+         caption = "Notes: Notes go here\\nSource: Source goes here")
+
+ grattan_save("your_file.png", type = "fullslide")
+
 
 }
