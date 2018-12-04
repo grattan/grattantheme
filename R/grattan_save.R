@@ -58,10 +58,10 @@
 #'
 #' @export
 
-requireNamespace("grid", quietly = TRUE)
-requireNamespace("gridExtra", quietly = TRUE)
-requireNamespace("readPNG", quietly = TRUE)
-requireNamespace("ggplot2", quietly = TRUE)
+requireNamespace(c("grid",
+                   "gridExtra",
+                   "ggplot2"),
+                   quietly = TRUE)
 
 grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 22.16, type = "normal") {
 
@@ -104,10 +104,10 @@ grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 
     #logogrob <- grid::rasterGrob(png::readPNG(source = "atlas/logo.png"))
 
     # create new grob of whitespace to be the border
-    border <- rectGrob(gp = gpar(fill = "white", col = "white"))
+    border <- grid::rectGrob(gp = grid::gpar(fill = "white", col = "white"))
 
     # create new grob of solid orange to be the horizontal line
-    linegrob <- rectGrob(gp = gpar(fill = "#F68B33", col = "white"))
+    linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F68B33", col = "white"))
 
     # create header (= title + logo side by side)
 
