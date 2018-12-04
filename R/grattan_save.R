@@ -101,7 +101,7 @@ grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 
             plot.margin = unit(c(0, 0, 0, 0), units = "cm"))
 
     # create new grob with the logo
-    logogrob <- grid::rasterGrob(png::readPNG(source = "atlas/logo.png"))
+    #logogrob <- grid::rasterGrob(png::readPNG(source = "atlas/logo.png"))
 
     # create new grob of whitespace to be the border
     border <- rectGrob(gp = gpar(fill = "white", col = "white"))
