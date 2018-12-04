@@ -111,20 +111,20 @@ grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 
 
     # create header (= title + logo side by side)
 
-    header <- grid.arrange(toptitle, logogrob,
+    header <- gridExtra::grid.arrange(toptitle, logogrob,
                            ncol = 2,
                            widths = unit(c(17.73, 4.57), "cm"),
                            heights = unit(1.48, "cm"))
 
     # create main plotting area
-    mainarea <- grid.arrange(border, header, linegrob, topsubtitle, p, border,
+    mainarea <- gridExtra::grid.arrange(border, header, linegrob, topsubtitle, p, border,
                              ncol = 1,
                              heights = unit(c(0.92, 1.48, 0.1, 1.48, 14.61, 0.46), "cm"),
                              widths = unit(17.73 + 4.57, "cm"))
 
     # create total plot
 
-    total <- grid.arrange(border, mainarea, border, ncol = 3,
+    total <- gridExtra::grid.arrange(border, mainarea, border, ncol = 3,
                           widths = unit(c((25.4 - (17.73 + 4.57))/2,
                                           17.73 + 4.57,
                                           (25.4 - (17.73 + 4.57))/2),
