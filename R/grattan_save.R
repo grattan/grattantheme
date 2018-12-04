@@ -130,7 +130,11 @@ grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 
                                           (25.4 - (17.73 + 4.57))/2),
                                         "cm"))
 
-    ggsave(filename, total, width = 25.4, height = 19.05, units = "cm", dpi = "retina")
+    # plot original chart again (so last_plot() shows this instead of topsubtitle)
+    print(object)
+
+    # save full image incl. logo etc.
+    ggsave(filename, plot = total, width = 25.4, height = 19.05, units = "cm", dpi = "retina")
 
   } else {
 
