@@ -26,6 +26,9 @@ grattan_pal <- function(n = 0, reverse = FALSE){
     palette <- c(grattan_yellow, grattan_lightorange, grattan_darkorange, grattan_red, grattan_darkred)
   } else if(n == 6){
     palette <- c(grattan_lightyellow, grattan_yellow, grattan_lightorange, grattan_darkorange, grattan_red, grattan_darkred)
+  } else if(n == 7){
+    palette <- c(grattan_lightyellow, grattan_yellow, grattan_lightorange, grattan_darkorange, grattan_red, grattan_darkred, "black")
+    warning("Are you sure you want to use more than six colours?")
   } else if(n == 0){
     palette <- c(grattan_yellow, grattan_lightorange, grattan_darkorange, grattan_red, grattan_darkred)
     warning("If you have fewer than 5 colours, your chart will look better if you specify n in grattan_pal().")
