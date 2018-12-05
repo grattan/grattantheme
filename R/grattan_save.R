@@ -212,6 +212,8 @@ grattan_save <- function(filename,
 
   if("gg" %in% class(object)) { #ie. only apply the following to plots, not grob objects
   g <- ggplotGrob(object)
+  } else {
+      g <- object
     }
 
   g$layout$l[g$layout$name == "title"] <- 1
