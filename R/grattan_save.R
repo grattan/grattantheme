@@ -174,7 +174,7 @@ grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 
     # save full image incl. logo etc.
     ggsave(filename, plot = total, width = 25.4, height = 19.05, units = "cm", dpi = "retina")
 
-  } else {
+  } else { # following code only applies if type != "fullslide"
 
     if (type == "tiny")    height = 11.08
     if (type == "wholecolumn") height = 22.16
