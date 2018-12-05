@@ -70,10 +70,48 @@ grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 
   if(type == "fullslide"){
 
     p <- object
+    char_width_grattan_title <- 50
+    char_width_grattan_subtitle <- 70
 
     # extract title and subtitle, created as usual in the plotting process
     stored_title <- p$labels$title
     stored_subtitle <- p$labels$subtitle
+
+    # add line break to title where necessary
+
+    if(nchar(stored_title) <= char_width_grattan_title){
+      stored_title <- paste0("\n", stored_title)
+
+    } else {
+
+      if(nchar(stored_title) > 2 * char_width_grattan_title) {
+        stop('Your chart title is too long for a Grattan Powerpoint slide. Please reduce the length of the title.')
+      } else {
+
+        stored_title <- paste0(strwrap(stored_title, char_width_grattan_title)[1],
+                               "\n",
+                               strwrap(stored_title, char_width_grattan_title)[2])
+      }
+    }
+
+    # add line break to subtitle where necessary
+
+    if(nchar(stored_subtitle) <= char_width_grattan_subtitle){
+      stored_subtitle <- paste0(stored_subtitle, "\n")
+
+    } else {
+
+      if(nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
+        stop('Your chart subtitle is too long for a Grattan Powerpoint slide. Please reduce the length of the subtitle')
+      } else {
+
+        stored_subtitle <- paste0(strwrap(stored_subtitle, char_width_grattan_subtitle)[1],
+                                  "\n",
+                                  strwrap(stored_subtitle, char_width_grattan_subtitle)[2])
+      }
+
+    }
+
     # remove title and subtitle on chart
     p$labels$title <- NULL
     p$labels$subtitle <- NULL
