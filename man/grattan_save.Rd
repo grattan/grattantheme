@@ -4,7 +4,7 @@
 \alias{grattan_save}
 \title{Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().}
 \arguments{
-\item{filename}{Required. The filename (including path where necessary) for your image on disk. The extension defines the file type.}
+\item{filename}{Required. This parameter sets the filename (including path where necessary) where you want to save your image. The extension defines the file type. Suggested filetypes are "pdf" or "png", but others are available (see \code{?ggsave} for the full list).}
 
 \item{object}{Defaults to \code{last_plot()}. Can specify a different ggplot2 object to be saved.}
 
@@ -13,6 +13,8 @@
 \item{width}{Default is 22.16cm, Grattan normal size default. See \code{type}.}
 
 \item{type}{Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage", "fullslide"). 'normal' is the default and uses default height and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm. 'fullslide' saves an image that can be used as a complete 4:3 Powerpoint slide, complete with Grattan logo.}
+
+\item{save_data}{Default is FALSE. If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension.}
 }
 \description{
 Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().

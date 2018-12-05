@@ -1,10 +1,11 @@
 #' Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().
 #' @name grattan_save
-#' @param filename Required. The filename (including path where necessary) for your image on disk. The extension defines the file type.
+#' @param filename Required. This parameter sets the filename (including path where necessary) where you want to save your image. The extension defines the file type. Suggested filetypes are "pdf" or "png", but others are available (see \code{?ggsave} for the full list).
 #' @param object Defaults to \code{last_plot()}. Can specify a different ggplot2 object to be saved.
 #' @param height Default is 14.5cm, Grattan normal size default. See \code{type}.
 #' @param width Default is 22.16cm, Grattan normal size default. See \code{type}.
 #' @param type Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage", "fullslide"). 'normal' is the default and uses default height and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm. 'fullslide' saves an image that can be used as a complete 4:3 Powerpoint slide, complete with Grattan logo.
+#' @param save_data Default is FALSE. If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension.
 #' @examples
 #' library(ggplot2)
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
@@ -63,7 +64,22 @@ requireNamespace(c("grid",
                    "ggplot2"),
                    quietly = TRUE)
 
-grattan_save <- function(filename, object = last_plot(), height = 14.5, width = 22.16, type = "normal") {
+grattan_save <- function(filename,
+                         object = last_plot(),
+                         height = 14.5,
+                         width = 22.16,
+                         type = "normal",
+                         save_data = FALSE) {
+
+  # at the moment, save_data is inflexible: only saves as .csv and
+  # with the same filename (except extension) as the plot.
+  # It saves the whole dataframe passed to ggplot(), not limited to the
+  # column(s)/row(s) used in the plot.
+
+  if(save_data == TRUE){
+     write.csv(x = object$data,
+               file = paste0(sub("\\..*", "", filename), ".csv"))
+    }
 
 
   # create an image the size of a 4:3 Powerpoint slide complete with Grattan logo
