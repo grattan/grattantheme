@@ -168,6 +168,7 @@ theme_grattan <- function(base_size = 18,
   update_geom_defaults("col", list(colour = "white", fill = grattan_lightorange, size = 0.75 / .pt ))
   update_geom_defaults("line", list(colour = grattan_lightorange, size = 3 / .pt))
   update_geom_defaults("text", list(colour = "black", size = 18 / .pt))
+  update_geom_defaults("smooth", list(colour = grattan_lightorange, fill = grattan_lightorange))
 
   if (flipped == TRUE) {
     ret <- ret + theme(panel.grid.major.x = element_line(),
