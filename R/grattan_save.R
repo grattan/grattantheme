@@ -94,6 +94,10 @@ grattan_save <- function(filename,
     stored_subtitle <- p$labels$subtitle
 
     # add line break to title where necessary
+    if(is.null(stored_title)){
+      warning("Your plot has no title, which is weird for type='fullslide'.\nAdd a title using +labs(title = 'Title')")
+      stored_title <- ""
+    }
 
     if(nchar(stored_title) <= char_width_grattan_title){
       stored_title <- paste0("\n", stored_title)
@@ -111,7 +115,10 @@ grattan_save <- function(filename,
     }
 
     # add line break to subtitle where necessary
-
+    if(is.null(stored_subtitle)){
+      warning("Your plot has not subtitle, which is weird for type='fullslide'.\nAdd a title using labs(subtitle = 'Text')")
+      stored_subtitle <- ""
+    }
     if(nchar(stored_subtitle) <= char_width_grattan_subtitle){
       stored_subtitle <- paste0(stored_subtitle, "\n")
 
