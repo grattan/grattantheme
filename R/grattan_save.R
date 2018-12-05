@@ -209,11 +209,15 @@ grattan_save <- function(filename,
   # Modify the graph object so that title/subtitle/caption are properly
   # left-aligned (to the left of the whole image, not just the plot area)
   # Only applies to non-fullslide chart types
+
+  if("gg" %in% class(object)) { #ie. only apply the following to plots, not grob objects
   g <- ggplotGrob(object)
+    }
 
   g$layout$l[g$layout$name == "title"] <- 1
   g$layout$l[g$layout$name == "subtitle"] <- 1
   g$layout$l[g$layout$name == "caption"] <- 1
+
 
   ggsave(filename, g,
          width = width, height = height, units = "cm", dpi = "retina")
