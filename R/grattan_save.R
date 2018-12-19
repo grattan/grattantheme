@@ -77,13 +77,20 @@ grattan_save <- function(filename,
   # column(s)/row(s) used in the plot.
 
   if(save_data == TRUE){
+    if("gg" %in% class(object)){
      write.csv(x = object$data,
                file = paste0(sub("\\..*", "", filename), ".csv"))
+    } else {
+      warning("save_data only works with ggplot graph objects")
     }
+  }
 
 
   # create an image the size of a 4:3 Powerpoint slide complete with Grattan logo
   if(type == "fullslide"){
+    if(!"gg" %in% class(object)){
+      stop("type = 'fullslide' only works with ggplot graph objects")
+    } else {
 
     p <- object
     char_width_grattan_title <- 50
@@ -197,7 +204,7 @@ grattan_save <- function(filename,
     # save full image incl. logo etc.
     ggsave(filename, plot = total, width = 25.4, height = 19.05, units = "cm", dpi = "retina")
 
-  } else { # following code only applies if type != "fullslide"
+    }} else { # following code only applies if type != "fullslide"
 
     if (type == "tiny")    height = 11.08
     if (type == "wholecolumn") height = 22.16
