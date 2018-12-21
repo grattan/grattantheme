@@ -4,6 +4,7 @@
 #' @param base_family Font family for text elements. Defaults to "sans", indistinguishable from Arial.
 #' @param flipped FALSE by default. Set to TRUE if using coord_flip(). If set to TRUE, the theme will show a vertical axis line, ticks & panel grid, while hiding the horizontals.
 #' @param background "white" by default. Set to "orange" if you're making a chart to go in a Grattan report box.
+#' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as desired.
 #' @examples
 #'
 #' # This function goes most of the way to making your charts Grattan-y,
@@ -99,7 +100,8 @@ requireNamespace(c("ggthemes", "ggplot2"), quietly = TRUE)
 theme_grattan <- function(base_size = 18,
                            base_family = "sans",
                            flipped = FALSE,
-                           background = "white") {
+                           background = "white",
+                           legend = "none") {
 
   ret <-
     theme_foundation(base_size = base_size, base_family = base_family) +
@@ -131,7 +133,7 @@ theme_grattan <- function(base_size = 18,
                                                      r = base_size, unit = "pt")),
           legend.text.align = 0,
           legend.title.align = NULL,
-          legend.position = "none",
+          legend.position = legend,
           legend.direction = "horizontal",
           legend.box = "vertical",
           legend.spacing = unit(base_size / 18,"cm"),
