@@ -11,6 +11,8 @@
 \item{flipped}{FALSE by default. Set to TRUE if using coord_flip(). If set to TRUE, the theme will show a vertical axis line, ticks & panel grid, while hiding the horizontals.}
 
 \item{background}{"white" by default. Set to "orange" if you're making a chart to go in a Grattan report box.}
+
+\item{legend}{"off" by default. Set to "bottom", "left", "right" or "top" as desired.}
 }
 \description{
 Create a ggplot2 theme consistent with the Grattan style guide.
