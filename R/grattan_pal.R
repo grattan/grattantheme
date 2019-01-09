@@ -18,6 +18,8 @@ grattan_pal <- function(n = 0, reverse = FALSE){
     palette <- grattantheme::grattan_lightorange
   } else if(n == 2){
     palette <- c(grattantheme::grattan_lightorange, grattantheme::grattan_darkorange)
+  } else if(n == "2b"){
+    palette <- c(grattantheme::grattan_lightorange, grattantheme::grattan_red)
   } else if(n == 3){
     palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
                  grattantheme::grattan_darkorange)
