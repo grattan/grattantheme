@@ -7,7 +7,10 @@
 grattan_pal(n = 0, reverse = FALSE)
 }
 \arguments{
-\item{n}{The number of levels in your colour scale. Minimum value is 1, maximum is 6. If you don't specify `n`, a five-colour palette will be used, which may not look right. Specify `n`.}
+\item{n}{The number of levels in your colour scale. Minimum value is 1, maximum is 6.
+If you don't specify `n`, a five-colour palette will be used, which may not look right.
+Specify `n`. By default, n = 2 will give you light orange and dark orange.
+Use n = "2a" if you want light orange and red.}
 
 \item{reverse}{FALSE by default. Non-reverse order runs from light to dark.}
 }
