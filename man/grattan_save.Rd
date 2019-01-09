@@ -3,6 +3,10 @@
 \name{grattan_save}
 \alias{grattan_save}
 \title{Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().}
+\usage{
+grattan_save(filename, object = ggplot2::last_plot(), height = 14.5,
+  width = 22.16, type = "normal", save_data = FALSE)
+}
 \arguments{
 \item{filename}{Required. This parameter sets the filename (including path where necessary) where you want to save your image. The extension defines the file type. Suggested filetypes are "pdf" or "png", but others are available (see \code{?ggsave} for the full list).}
 

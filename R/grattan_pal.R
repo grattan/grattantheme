@@ -7,7 +7,7 @@
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'     geom_point() +
 #'     theme_grattan() +
-#'     scale_colour_manual(grattan_pal(n = 3, reverse = FALSE))
+#'     scale_colour_manual(values = grattan_pal(n = 3, reverse = FALSE))
 #'
 #' p
 #'
@@ -15,22 +15,32 @@
 
 grattan_pal <- function(n = 0, reverse = FALSE){
   if(n == 1){
-    palette <- grattan_lightorange
+    palette <- grattantheme::grattan_lightorange
   } else if(n == 2){
-    palette <- c(grattan_lightorange, grattan_darkorange)
+    palette <- c(grattantheme::grattan_lightorange, grattantheme::grattan_darkorange)
   } else if(n == 3){
-    palette <- c(grattan_yellow, grattan_lightorange, grattan_darkorange)
+    palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
+                 grattantheme::grattan_darkorange)
   } else if(n == 4){
-    palette <- c(grattan_yellow, grattan_lightorange, grattan_darkorange, grattan_red)
+    palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
+                 grattantheme::grattan_darkorange, grattantheme::grattan_red)
   } else if(n == 5){
-    palette <- c(grattan_yellow, grattan_lightorange, grattan_darkorange, grattan_red, grattan_darkred)
+    palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
+                 grattantheme::grattan_darkorange, grattantheme::grattan_red,
+                 grattantheme::grattan_darkred)
   } else if(n == 6){
-    palette <- c(grattan_lightyellow, grattan_yellow, grattan_lightorange, grattan_darkorange, grattan_red, grattan_darkred)
+    palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
+                 grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
+                 grattantheme::grattan_red, grattantheme::grattan_darkred)
   } else if(n == 7){
-    palette <- c(grattan_lightyellow, grattan_yellow, grattan_lightorange, grattan_darkorange, grattan_red, grattan_darkred, "black")
+    palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
+                 grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
+                 grattantheme::grattan_red, grattantheme::grattan_darkred, "black")
     warning("Are you sure you want to use more than six colours?")
   } else if(n == 0){
-    palette <- c(grattan_yellow, grattan_lightorange, grattan_darkorange, grattan_red, grattan_darkred)
+    palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
+                 grattantheme::grattan_darkorange, grattantheme::grattan_red,
+                 grattantheme::grattan_darkred)
     warning("If you have fewer than 5 colours, your chart will look better if you specify n in grattan_pal().")
   }
 

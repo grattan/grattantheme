@@ -3,6 +3,9 @@
 #' @param ... arguments passed to scale_y_continuous
 #' @param expand_bottom default is 0. This will ensure that your x-axis is at the bottom value of your plotted data. Increase to add some buffer between the lowest point in your data and the x-axis. Note that the value is interpreted as a fraction of the total plotting space - a value of 1 will add white space equal to the whole area of your data.
 #' @param expand_top default is 0.015. This will ensure that a small amount of white space is added to the top of your chart. Increase to add more white space.
+#'
+#' @import ggplot2
+#'
 #' @examples
 #'
 #' # Here's a basic chart in the Grattan style:
@@ -47,7 +50,7 @@
 #'
 #' @export
 
-requireNamespace(c("ggplot2"), quietly = TRUE)
+#requireNamespace(c("ggplot2"), quietly = TRUE)
 
 scale_y_continuous_grattan <- function(..., expand_bottom = 0, expand_top = 0.015) {
   ggplot2::scale_y_continuous(expand = expand_scale(mult = c(expand_bottom, expand_top)), ...)

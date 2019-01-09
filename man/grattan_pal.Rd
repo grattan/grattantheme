@@ -19,7 +19,7 @@ library(ggplot2)
 p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
     theme_grattan() +
-    scale_colour_manual(grattan_pal(n = 3, reverse = FALSE))
+    scale_colour_manual(values = grattan_pal(n = 3, reverse = FALSE))
 
 p
 

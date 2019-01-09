@@ -3,6 +3,9 @@
 \name{scale_y_continuous_grattan}
 \alias{scale_y_continuous_grattan}
 \title{Ensure your y-axis is Grattan style guide-consistent and doesn't hang off the edge of the chart.}
+\usage{
+scale_y_continuous_grattan(..., expand_bottom = 0, expand_top = 0.015)
+}
 \arguments{
 \item{...}{arguments passed to scale_y_continuous}
 

@@ -3,6 +3,10 @@
 \name{theme_grattan}
 \alias{theme_grattan}
 \title{Create a ggplot2 theme consistent with the Grattan style guide.}
+\usage{
+theme_grattan(base_size = 18, base_family = "sans", flipped = FALSE,
+  background = "white", legend = "none")
+}
 \arguments{
 \item{base_size}{Size for text elements. Defaults to 18, as per the Grattan style guide.}
 

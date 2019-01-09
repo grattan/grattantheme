@@ -6,6 +6,12 @@
 #' @param width Default is 22.16cm, Grattan normal size default. See \code{type}.
 #' @param type Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage", "fullslide"). 'normal' is the default and uses default height and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm. 'fullslide' saves an image that can be used as a complete 4:3 Powerpoint slide, complete with Grattan logo.
 #' @param save_data Default is FALSE. If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension.
+#'
+#' @import ggplot2
+#' @import grid
+#' @importFrom utils write.csv
+#' @importFrom gridExtra grid.arrange
+#'
 #' @examples
 #' library(ggplot2)
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
@@ -59,13 +65,13 @@
 #'
 #' @export
 
-requireNamespace(c("grid",
-                   "gridExtra",
-                   "ggplot2"),
-                   quietly = TRUE)
+# requireNamespace(c("grid",
+#                    "gridExtra",
+#                    "ggplot2"),
+#                    quietly = TRUE)
 
 grattan_save <- function(filename,
-                         object = last_plot(),
+                         object = ggplot2::last_plot(),
                          height = 14.5,
                          width = 22.16,
                          type = "normal",
@@ -78,7 +84,7 @@ grattan_save <- function(filename,
 
   if(save_data == TRUE){
     if("gg" %in% class(object)){
-     write.csv(x = object$data,
+     utils::write.csv(x = object$data,
                file = paste0(sub("\\..*", "", filename), ".csv"))
     } else {
       warning("save_data only works with ggplot graph objects")
@@ -167,26 +173,26 @@ grattan_save <- function(filename,
     p$labels$caption <- stored_caption
 
     # left align caption
-    p <- ggplotGrob(p)
+    p <- ggplot2::ggplotGrob(p)
     p$layout$l[p$layout$name == "caption"] <- 1
 
     # create new ggplot object with just the title
-    toptitle <- ggplot() +
-      geom_blank() +
-      labs(title = stored_title) +
+    toptitle <- ggplot2::ggplot() +
+      ggplot2::geom_blank() +
+      ggplot2::labs(title = stored_title) +
       theme_grattan() +
-      theme(rect = element_blank(),
-            plot.title = element_text(colour = "black", hjust = 0, vjust = 0),
-            plot.margin = unit(c(0, 0, 0, 0), units = "cm"))
+      ggplot2::theme(rect = ggplot2::element_blank(),
+            plot.title = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0),
+            plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
 
     # create new ggplot object with just the subtitle
-    topsubtitle <- ggplot() +
-      geom_blank() +
-      labs(subtitle = stored_subtitle) +
+    topsubtitle <- ggplot2::ggplot() +
+      ggplot2::geom_blank() +
+      ggplot2::labs(subtitle = stored_subtitle) +
       theme_grattan() +
-      theme(rect = element_blank(),
-            plot.subtitle = element_text(colour = "black", hjust = 0, vjust = 0),
-            plot.margin = unit(c(0, 0, 0, 0), units = "cm"))
+      ggplot2::theme(rect = ggplot2::element_blank(),
+            plot.subtitle = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0),
+            plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
 
     # create new grob with the logo
     #logogrob <- grid::rasterGrob(png::readPNG(source = "atlas/logo.png"))
@@ -222,7 +228,7 @@ grattan_save <- function(filename,
     print(object)
 
     # save full image incl. logo etc.
-    ggsave(filename, plot = total, width = 25.4, height = 19.05, units = "cm", dpi = "retina")
+    ggplot2::ggsave(filename, plot = total, width = 25.4, height = 19.05, units = "cm", dpi = "retina")
 
     }} else { # following code only applies if type != "fullslide"
 
@@ -238,7 +244,7 @@ grattan_save <- function(filename,
   # Only applies to non-fullslide chart types
 
   if("gg" %in% class(object)) { #ie. only apply the following to plots, not grob objects
-  g <- ggplotGrob(object)
+  g <- ggplot2::ggplotGrob(object)
   } else {
       g <- object
     }
@@ -248,7 +254,7 @@ grattan_save <- function(filename,
   g$layout$l[g$layout$name == "caption"] <- 1
 
 
-  ggsave(filename, g,
+  ggplot2::ggsave(filename, g,
          width = width, height = height, units = "cm", dpi = "retina")
 
         }
