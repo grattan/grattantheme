@@ -1,10 +1,16 @@
 #' Create a ggplot2 theme consistent with the Grattan style guide.
 #' @name theme_grattan
-#' @param base_size Size for text elements. Defaults to 18, as per the Grattan style guide.
-#' @param base_family Font family for text elements. Defaults to "sans", indistinguishable from Arial.
-#' @param flipped FALSE by default. Set to TRUE if using coord_flip(). If set to TRUE, the theme will show a vertical axis line, ticks & panel grid, while hiding the horizontals.
-#' @param background "white" by default. Set to "orange" if you're making a chart to go in a Grattan report box.
-#' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as desired.
+#' @param base_size Size for text elements. Defaults to 18, as per the Grattan
+#' style guide.
+#' @param base_family Font family for text elements. Defaults to "sans",
+#' indistinguishable from Arial.
+#' @param flipped FALSE by default. Set to TRUE if using coord_flip(). If set to
+#' TRUE, the theme will show a vertical axis line, ticks & panel grid, while
+#' hiding the horizontals.
+#' @param background "white" by default. Set to "orange" if you're making a chart
+#' to go in a Grattan report box.
+#' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
+#' desired.
 #'
 #' @importFrom ggthemes theme_foundation
 #' @import ggplot2
@@ -23,22 +29,26 @@
 #'
 #' # To ensure your x-axis is at zero (or some other value you choose),
 #' # you may need to manually tweak the scale of the y-axis.
-#' # Use scale_y_continuous_grattan() for some sensible default values, which may need further tweaking.
+#' # Use scale_y_continuous_grattan() for some sensible default values, which
+#' # may need further tweaking.
 #'
 #' ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'     geom_point() +
 #'     scale_y_continuous_grattan() +
 #'     theme_grattan()
 #'
-#' # You'll notice in the example above that the top of the chart now looks good; the bottom has two
-#' # points that are half hanging off the axis. Try the following, substituing any value (incl. 0) for 10 as you like:
+#' # You'll notice in the example above that the top of the chart now looks good;
+#' # the bottom has two
+#' # points that are half hanging off the axis. Try the following, substituing
+#' # any value (incl. 0) for 10 as you like:
 #'
 #' ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'     geom_point() +
 #'     scale_y_continuous_grattan(limits = c(10, NA)) +
 #'     theme_grattan()
 #'
-#' # An example with colours follows. See ?grattan_pal for more information and options.
+#' # An example with colours follows. See ?grattan_pal for more information and
+#' # options.
 #'
 #' ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'     geom_point() +
@@ -66,7 +76,8 @@
 #'     coord_flip()
 #'
 #'
-#' # Making a chart to go in a box? Then you'll want the background = "orange" option, as in:
+#' # Making a chart to go in a box? Then you'll want the background = "orange"
+#' # option, as in:
 #'
 #' ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'     geom_point() +
@@ -109,7 +120,7 @@ theme_grattan <- function(base_size = 18,
 
   ret <-
     ggthemes::theme_foundation(base_size = base_size, base_family = base_family) +
-    ggplot2::theme(line = ggplot2::element_line(colour = grattan_gridlinegrey,
+    ggplot2::theme(line = ggplot2::element_line(colour = grattantheme::grattan_gridlinegrey,
                               # style guide says axis line = 0.75 points, need to convert to mm
                               size = 0.75 / (.pt*72.27/96) ),
           rect = ggplot2::element_rect(fill = "white",
@@ -124,7 +135,8 @@ theme_grattan <- function(base_size = 18,
           axis.ticks = ggplot2::element_line(colour = "black"),
           axis.ticks.y = ggplot2::element_blank(),
           axis.title = ggplot2::element_text(size = ggplot2::rel(1)),
-          # style guide: "there is no need to label the x-axis unless the units are not obvious
+          # style guide:
+          # "there is no need to label the x-axis unless the units are not obvious"
           axis.title.x = ggplot2::element_text(),
           axis.title.y = ggplot2::element_blank(),
           #axis.ticks.length = unit( -base_size * 0.5, "points"),
@@ -155,9 +167,9 @@ theme_grattan <- function(base_size = 18,
           plot.background = ggplot2::element_rect(),
           plot.title = ggplot2::element_text(size = ggplot2::rel(1),
                                     hjust = 0,
-                                    colour = grattan_grey_title,
+                                    colour = grattantheme::grattan_grey_title,
                                     face = "bold"),
-          plot.subtitle = element_text(colour = grattan_grey_title,
+          plot.subtitle = element_text(colour = grattantheme::grattan_grey_title,
                                        hjust = 0),
           plot.caption = element_text(family = base_family,
                                       size = rel(0.555),
@@ -169,12 +181,20 @@ theme_grattan <- function(base_size = 18,
           complete = TRUE)
 
   # Define defaults for individual geoms in a style guide-consistent way
-  ggplot2::update_geom_defaults("point", list(colour = grattan_lightorange, 4 / .pt ))
-  ggplot2::update_geom_defaults("bar", list(colour = "white", fill = grattan_lightorange, size = 0.75 / .pt ))
-  ggplot2::update_geom_defaults("col", list(colour = "white", fill = grattan_lightorange, size = 0.75 / .pt ))
-  ggplot2::update_geom_defaults("line", list(colour = grattan_lightorange, size = 3 / .pt))
-  ggplot2::update_geom_defaults("text", list(colour = "black", size = 18 / .pt))
-  ggplot2::update_geom_defaults("smooth", list(colour = grattan_lightorange, fill = grattan_lightorange))
+  ggplot2::update_geom_defaults("point", list(colour = grattantheme::grattan_lightorange,
+                                              size = 4 / .pt ))
+  ggplot2::update_geom_defaults("bar", list(colour = "white",
+                                            fill = grattantheme::grattan_lightorange,
+                                            size = 0.75 / .pt ))
+  ggplot2::update_geom_defaults("col", list(colour = "white",
+                                            fill = grattantheme::grattan_lightorange,
+                                            size = 0.75 / .pt ))
+  ggplot2::update_geom_defaults("line", list(colour = grattantheme::grattan_lightorange,
+                                             size = 3 / .pt))
+  ggplot2::update_geom_defaults("text", list(colour = "black",
+                                             size = 18 / .pt))
+  ggplot2::update_geom_defaults("smooth", list(colour = grattantheme::grattan_lightorange,
+                                               fill = grattantheme::grattan_lightorange))
 
   if (flipped == TRUE) {
     ret <- ret + ggplot2::theme(panel.grid.major.x = ggplot2::element_line(),
@@ -185,7 +205,7 @@ theme_grattan <- function(base_size = 18,
                        axis.ticks.x = ggplot2::element_blank())
   }
   if (background == "orange") {
-    ret <- ret + ggplot2::theme(rect = ggplot2::element_rect(fill = grattan_orange_alpha))
+    ret <- ret + ggplot2::theme(rect = ggplot2::element_rect(fill = grattantheme::grattan_orange_alpha))
   }
 
   ret

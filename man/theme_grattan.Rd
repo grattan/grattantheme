@@ -8,15 +8,21 @@ theme_grattan(base_size = 18, base_family = "sans", flipped = FALSE,
   background = "white", legend = "none")
 }
 \arguments{
-\item{base_size}{Size for text elements. Defaults to 18, as per the Grattan style guide.}
+\item{base_size}{Size for text elements. Defaults to 18, as per the Grattan
+style guide.}
 
-\item{base_family}{Font family for text elements. Defaults to "sans", indistinguishable from Arial.}
+\item{base_family}{Font family for text elements. Defaults to "sans",
+indistinguishable from Arial.}
 
-\item{flipped}{FALSE by default. Set to TRUE if using coord_flip(). If set to TRUE, the theme will show a vertical axis line, ticks & panel grid, while hiding the horizontals.}
+\item{flipped}{FALSE by default. Set to TRUE if using coord_flip(). If set to
+TRUE, the theme will show a vertical axis line, ticks & panel grid, while
+hiding the horizontals.}
 
-\item{background}{"white" by default. Set to "orange" if you're making a chart to go in a Grattan report box.}
+\item{background}{"white" by default. Set to "orange" if you're making a chart
+to go in a Grattan report box.}
 
-\item{legend}{"off" by default. Set to "bottom", "left", "right" or "top" as desired.}
+\item{legend}{"off" by default. Set to "bottom", "left", "right" or "top" as
+desired.}
 }
 \description{
 Create a ggplot2 theme consistent with the Grattan style guide.
@@ -35,22 +41,26 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
 
 # To ensure your x-axis is at zero (or some other value you choose),
 # you may need to manually tweak the scale of the y-axis.
-# Use scale_y_continuous_grattan() for some sensible default values, which may need further tweaking.
+# Use scale_y_continuous_grattan() for some sensible default values, which
+# may need further tweaking.
 
 ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
     scale_y_continuous_grattan() +
     theme_grattan()
 
-# You'll notice in the example above that the top of the chart now looks good; the bottom has two
-# points that are half hanging off the axis. Try the following, substituing any value (incl. 0) for 10 as you like:
+# You'll notice in the example above that the top of the chart now looks good;
+# the bottom has two
+# points that are half hanging off the axis. Try the following, substituing
+# any value (incl. 0) for 10 as you like:
 
 ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
     scale_y_continuous_grattan(limits = c(10, NA)) +
     theme_grattan()
 
-# An example with colours follows. See ?grattan_pal for more information and options.
+# An example with colours follows. See ?grattan_pal for more information and
+# options.
 
 ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
@@ -78,7 +88,8 @@ ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     coord_flip()
 
 
-# Making a chart to go in a box? Then you'll want the background = "orange" option, as in:
+# Making a chart to go in a box? Then you'll want the background = "orange"
+# option, as in:
 
 ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
