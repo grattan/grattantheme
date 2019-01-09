@@ -95,10 +95,12 @@ grattan_save <- function(filename,
     p <- object
     char_width_grattan_title <- 50
     char_width_grattan_subtitle <- 70
+    char_width_grattan_caption <- 140
 
     # extract title and subtitle, created as usual in the plotting process
     stored_title <- p$labels$title
     stored_subtitle <- p$labels$subtitle
+    stored_caption <- p$labels$caption
 
     # add line break to title where necessary
     if(is.null(stored_title)){
@@ -123,7 +125,7 @@ grattan_save <- function(filename,
 
     # add line break to subtitle where necessary
     if(is.null(stored_subtitle)){
-      warning("Your plot has not subtitle, which is weird for type='fullslide'.\nAdd a title using labs(subtitle = 'Text')")
+      warning("Your plot has no subtitle, which is weird for type='fullslide'.\nConsider adding a subtitle using labs(subtitle = 'Text')")
       stored_subtitle <- ""
     }
     if(nchar(stored_subtitle) <= char_width_grattan_subtitle){
@@ -142,9 +144,27 @@ grattan_save <- function(filename,
 
     }
 
+    # add line break to caption where necessary
+    if(is.null(stored_caption)){
+      warning("Your plot has no caption, which is weird for full slide charts.\nConsider adding a caption using labs(caption = 'Text')")
+      stored_caption <- ""
+    }
+
+    caption_lines <- ceiling(nchar(stored_caption) / char_width_grattan_caption)
+
+    if(caption_lines > 1){
+      stored_caption <- paste0(strwrap(stored_caption, char_width_grattan_caption), collapse = "\n")
+    }
+
+    stored_caption <- gsub("Source", "\nSource", stored_caption)
+
     # remove title and subtitle on chart
     p$labels$title <- NULL
     p$labels$subtitle <- NULL
+
+    # replace caption with version split over several lines (where necessary)
+
+    p$labels$caption <- stored_caption
 
     # left align caption
     p <- ggplotGrob(p)
