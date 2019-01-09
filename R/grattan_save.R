@@ -87,7 +87,7 @@ grattan_save <- function(filename,
      utils::write.csv(x = object$data,
                file = paste0(sub("\\..*", "", filename), ".csv"))
     } else {
-      warning("save_data only works with ggplot graph objects")
+      warning("save_data only works with ggplot graph objects. Your data has not been saved.")
     }
   }
 
@@ -110,7 +110,7 @@ grattan_save <- function(filename,
 
     # add line break to title where necessary
     if(is.null(stored_title)){
-      warning("Your plot has no title, which is weird for type='fullslide'.\nAdd a title using +labs(title = 'Title')")
+      message("Your plot has no title, which is weird for type='fullslide'.\nAdd a title using +labs(title = 'Title')")
       stored_title <- ""
     }
 
@@ -131,7 +131,7 @@ grattan_save <- function(filename,
 
     # add line break to subtitle where necessary
     if(is.null(stored_subtitle)){
-      warning("Your plot has no subtitle, which is weird for type='fullslide'.\nConsider adding a subtitle using labs(subtitle = 'Text')")
+      message("Your plot has no subtitle, which is weird for type='fullslide'.\nConsider adding a subtitle using labs(subtitle = 'Text')")
       stored_subtitle <- ""
     }
     if(nchar(stored_subtitle) <= char_width_grattan_subtitle){
@@ -152,7 +152,7 @@ grattan_save <- function(filename,
 
     # add line break to caption where necessary
     if(is.null(stored_caption)){
-      warning("Your plot has no caption, which is weird for full slide charts.\nConsider adding a caption using labs(caption = 'Text')")
+      message("Your plot has no caption, which is weird for full slide charts.\nConsider adding a caption using labs(caption = 'Text')")
       stored_caption <- ""
     }
 
