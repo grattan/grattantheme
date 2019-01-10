@@ -196,6 +196,12 @@ theme_grattan <- function(base_size = 18,
   ggplot2::update_geom_defaults("smooth", list(colour = grattantheme::grattan_lightorange,
                                                fill = grattantheme::grattan_lightorange))
 
+  ggplot2::update_geom_defaults("path", list(colour = grattantheme::grattan_lightorange,
+                                             size = 3 / .pt))
+
+  # ggplot2::update_geom_defaults(ggrepel::GeomTextRepel, list(size = 18 / .pt,
+  #                                                            colour = "black"))
+
   if (flipped == TRUE) {
     ret <- ret + ggplot2::theme(panel.grid.major.x = ggplot2::element_line(),
                        panel.grid.major.y = ggplot2::element_blank(),
