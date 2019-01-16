@@ -160,7 +160,7 @@ grattan_save <- function(filename,
       stored_caption <- ""
     }
 
-    contains_notes_and_source <- grepl("notes:", tolower(stored_caption)) & grepl("source:", tolower(stored_caption))
+    contains_notes_and_source <- grepl("notes?:", tolower(stored_caption)) & grepl("source?:", tolower(stored_caption))
 
     # if the caption doesn't contain "notes" and "source", we want to wrap the whole
     # caption string across lines; if notes and source are present we want to wrap them separately
