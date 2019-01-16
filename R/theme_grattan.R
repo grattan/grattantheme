@@ -181,6 +181,9 @@ theme_grattan <- function(base_size = 18,
           complete = TRUE)
 
   # Define defaults for individual geoms in a style guide-consistent way
+  # Note: looks as if update_geom_defaults() may be deprecated in a future ggplot2
+  # release (see https://github.com/tidyverse/ggplot2/pull/2749) in favour of a new
+  # way to update geom defaults; when this happens, replace the code below
   ggplot2::update_geom_defaults("point", list(colour = grattantheme::grattan_lightorange,
                                               size = 4 / .pt ))
   ggplot2::update_geom_defaults("bar", list(colour = "white",
