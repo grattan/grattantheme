@@ -124,7 +124,11 @@ grattan_save <- function(filename,
     } else {
 
       if(nchar(stored_title) > 2 * char_width_grattan_title) {
-        stop('Your chart title is too long for a Grattan Powerpoint slide. Please reduce the length of the title.')
+        # code to figure out the final 2 chunks of text before the title limit
+        trimmed_title <- strtrim(stored_title, 2* char_width_grattan_title)
+        trimmed_title_final_words <- paste0(tail(strsplit(trimmed_title,split=" ")[[1]],2), collapse = " ")
+        # return an error and tell the user where the useable string ends
+        stop(paste0('Your chart title is too long for a Grattan Powerpoint slide. Please reduce the length of the title.\nEverything after "', trimmed_title_final_words, '" cannot fit onto the slide.'))
       } else {
 
         stored_title <- paste0(strwrap(stored_title, char_width_grattan_title)[1],
@@ -144,7 +148,13 @@ grattan_save <- function(filename,
     } else {
 
       if(nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
-        stop('Your chart subtitle is too long for a Grattan Powerpoint slide. Please reduce the length of the subtitle')
+        # code to figure out the final 2 chunks of text before the title limit
+        trimmed_subtitle <- strtrim(stored_subtitle, 2* char_width_grattan_subtitle)
+        trimmed_subtitle_final_words <- paste0(tail(strsplit(trimmed_subtitle,split=" ")[[1]],2), collapse = " ")
+        # return an error and tell the user where the useable string ends
+        stop(paste0('Your chart subtitle is too long for a Grattan Powerpoint slide. Please reduce subtitle length.\nEverything after "', trimmed_subtitle_final_words, '" cannot fit onto the slide.'))
+
+
       } else {
 
         stored_subtitle <- paste0(strwrap(stored_subtitle, char_width_grattan_subtitle)[1],
