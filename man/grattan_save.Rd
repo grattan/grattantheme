@@ -60,7 +60,11 @@ grattan_save("p.png")
 
  grattan_save("your_file.png")
 
- # Want to make a full Powerpoint slide? Just use type = "fullslide" in grattan_save(), like:
+ # Want to make a full Powerpoint slide? Just use type = "fullslide" in grattan_save(), like this.
+ # If you include 'notes' and 'source' as below, grattan_save() will automatically
+ # split them onto separate rows. It will also wrap your title and subtitle
+ # automatically over up to 2 rows; and wrap your caption over as many rows
+ # as necessary.
 
  ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
@@ -69,7 +73,7 @@ grattan_save("p.png")
     theme_grattan() +
     labs(title = "Title goes here",
          subtitle = "Subtitle goes here",
-         caption = "Notes: Notes go here\\nSource: Source goes here")
+         caption = "Notes: Notes go here. Source: Source goes here")
 
  grattan_save("your_file.png", type = "fullslide")
 

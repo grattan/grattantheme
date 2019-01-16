@@ -49,7 +49,11 @@
 #'
 #'  grattan_save("your_file.png")
 #'
-#'  # Want to make a full Powerpoint slide? Just use type = "fullslide" in grattan_save(), like:
+#'  # Want to make a full Powerpoint slide? Just use type = "fullslide" in grattan_save(), like this.
+#'  # If you include 'notes' and 'source' as below, grattan_save() will automatically
+#'  # split them onto separate rows. It will also wrap your title and subtitle
+#'  # automatically over up to 2 rows; and wrap your caption over as many rows
+#'  # as necessary.
 #'
 #'  ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'     geom_point() +
@@ -58,7 +62,7 @@
 #'     theme_grattan() +
 #'     labs(title = "Title goes here",
 #'          subtitle = "Subtitle goes here",
-#'          caption = "Notes: Notes go here\nSource: Source goes here")
+#'          caption = "Notes: Notes go here. Source: Source goes here")
 #'
 #'  grattan_save("your_file.png", type = "fullslide")
 #'
@@ -156,13 +160,30 @@ grattan_save <- function(filename,
       stored_caption <- ""
     }
 
+    contains_notes_and_source <- grepl("notes:", tolower(stored_caption)) & grepl("source:", tolower(stored_caption))
+
+    # if the caption doesn't contain "notes" and "source", we want to wrap the whole
+    # caption string across lines; if notes and source are present we want to wrap them separately
+    if(!contains_notes_and_source){
     caption_lines <- ceiling(nchar(stored_caption) / char_width_grattan_caption)
 
-    if(caption_lines > 1){
-      stored_caption <- paste0(strwrap(stored_caption, char_width_grattan_caption), collapse = "\n")
+      if(caption_lines > 1){
+        stored_caption <- paste0(strwrap(stored_caption, char_width_grattan_caption), collapse = "\n")
+      }
+    } else { # now deal with the case when "notes" and "source" are present
+      notes_and_source <- strsplit(stored_caption, split = "Source:")
+      notes <- notes_and_source[[1]][1]
+      source <- paste0("Source:", notes_and_source[[1]][2])
+
+      notes <- paste0(strwrap(notes, char_width_grattan_caption),
+                      collapse = "\n")
+
+      source <- paste0(strwrap(source, char_width_grattan_caption),
+                       collapse = "\n")
+
+      stored_caption <- paste0(notes, "\n", source)
     }
 
-    stored_caption <- gsub("Source", "\nSource", stored_caption)
 
     # remove title and subtitle on chart
     p$labels$title <- NULL
