@@ -7,7 +7,7 @@
 #' @param flipped FALSE by default. Set to TRUE if using coord_flip(). If set to
 #' TRUE, the theme will show a vertical axis line, ticks & panel grid, while
 #' hiding the horizontals.
-#' @param background "white" by default. Set to "orange" if you're making a chart
+#' @param background "white" by default. Set to "orange" or "box" if you're making a chart
 #' to go in a Grattan report box.
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
 #' desired.
@@ -118,6 +118,8 @@ theme_grattan <- function(base_size = 18,
                            background = "white",
                            legend = "none") {
 
+  if (background = "box") background <- "#FEF0DE"
+
   ret <-
     ggthemes::theme_foundation(base_size = base_size, base_family = base_family) +
     ggplot2::theme(line = ggplot2::element_line(colour = grattantheme::grattan_gridlinegrey,
@@ -213,7 +215,7 @@ theme_grattan <- function(base_size = 18,
                        axis.ticks.y = ggplot2::element_line(),
                        axis.ticks.x = ggplot2::element_blank())
   }
-  if (background == "orange") {
+  if (background == "orange" |  background == "box") {
     ret <- ret + ggplot2::theme(rect = ggplot2::element_rect(fill = grattantheme::grattan_orange_alpha))
   }
 
