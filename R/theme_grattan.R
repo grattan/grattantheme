@@ -185,7 +185,7 @@ theme_grattan <- function(base_size = 18,
   # release (see https://github.com/tidyverse/ggplot2/pull/2749) in favour of a new
   # way to update geom defaults; when this happens, replace the code below
   ggplot2::update_geom_defaults("point", list(colour = grattantheme::grattan_lightorange,
-                                              size = 4 / .pt ))
+                                              size = 6 / .pt ))
   ggplot2::update_geom_defaults("bar", list(colour = "white",
                                             fill = grattantheme::grattan_lightorange,
                                             size = 0.75 / .pt ))
