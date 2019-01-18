@@ -2,8 +2,8 @@
 title: "Using grattantheme"
 output:
   pdf_document:
-    fig_width: 5
-    fig_height: 3.5
+    fig_width: 4.5
+    fig_height: 3
 vignette: >
   %\VignetteIndexEntry{Using grattantheme}
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,19 +11,20 @@ vignette: >
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+knitr::opts_chunk$set(collapse = T, comment = "#>", fig.align='center')
 library(ggplot2)
 library(grattantheme)
 ```
 
 
 ```{r, eval = FALSE, include = FALSE}
-# Run this to build the vignette:
+# Run to build this vignette before release:
 devtools::build_vignettes()
 ```
 
+This vignette explains how to use `grattantheme` to quickly and consistently apply Grattan chart formatting to charts made in `R` using `ggplot`.
 
-When creating a chart in `R` you have to:
+When creating a chart using `ggplot` we have to:
 
 * Choose a dataset;
 * Map variables to chart aesthetics `aes()`;
@@ -44,15 +45,18 @@ plot <- ggplot(Orange,
 
 This successfully plots the data we want to plot:
 
-```{r, echo = FALSE}
+```{r, fig.align='center', echo = FALSE}
 plot
 ```
 
-But it doesn't _look_ like a Grattan chart. To adjust the _look_ we use `theme` elements, like `axis.ticks.x = element_line(colour = "black")` to adjust the axis tickmarks on the x axis, and `panel.grid.major.x = element_blank()` to turn off vertical gridlines, and so on, and on, and on. 
+But it doesn't yet _look_ like a Grattan chart. To adjust the _look_ we adjust '`theme`' elements, like `axis.ticks.x = element_line(colour = "black")` to adjust the axis tickmarks on the x axis; `panel.grid.major.x = element_blank()` to turn off vertical gridlines; and so on; and on; and on. We also need to adjust aesthetic colours to the Grattan palette; setting, for example, `fill = "#F68B33"`. The `grattantheme` package contains tools and shortcuts to simplify this process.
 
-The function `theme_grattan()` contains all of the Grattan chart-guide elements in one handy command. Combined with `grattan_colour_manual` to easily change colours of aesthetics, your `R` chart will be ready for a report or a slide in no time.
 
+\newpage 
 ## Formatting theme elements with `theme_grattan()`
+
+The function `theme_grattan()` contains all of the Grattan `theme` adjustments in one handy command. Combined with `grattan_colour_manual`, which easily changes colours of aesthetics, your `R` chart will be ready for a report or a slide in no time.
+
 
 ```{r}
 plot + 
@@ -66,55 +70,92 @@ plot +
   theme_grattan(legend = "top")
 ```
 
+To align the y-axis with zero, change the y scale with `scale_y_continuous()`:
+
+```{r}
+plot + 
+  theme_grattan() +
+  scale_y_continuous_grattan()
+```
+
+
 Sometimes we'll want a chart for a box in a report. We can change the background colour with the `background` argument:
 
 ```{r}
 plot + 
-  theme_grattan(background = "orange")
-
+  theme_grattan(background = "orange") +
+  scale_y_continuous_grattan()
 ```
 
-The standard Grattan chart-guide `x` and `y` axis rules flip if the chart is a horizontal bar chart. The `x` axis then follows the rules of the `y` axis, and vice-versa. If we are using a 'flipped' chart (usually imlemented with `coord_flipped()`), we can tell `theme_grattan` this is the case using the argument `fillped` set to `TRUE` (it will )
+
+The standard Grattan rules for `x` and `y` axes flip if the chart is a horizontal bar chart. The `x` axis then follows the rules of the `y` axis, and vice-versa. If we are using a 'flipped' chart (imlemented with `coord_flipped()`), we can tell `theme_grattan` this is the case using the argument `fillped` set to `TRUE`.
 
 ```{r}
 plot + 
-  coord_flip(ylim = c(0, 1000),
-             xlim = c(0, 1000)) +
-  theme_grattan(flipped = TRUE)
-
+  coord_flip() +
+  theme_grattan(flipped = TRUE) +
+  scale_y_continuous_grattan()
 ```
 
 
 The final adjustments we can specify with `theme_grattan` are the font size and font family. The defaults meet Grattan formatting requirements, but if we do need to change them we can:
 
-```{r, include = FALSE}
+```{r}
 
-theme_grattan()
+plot + 
+  theme_grattan(base_size = 8, base_family = "serif") +
+  scale_y_continuous_grattan()
 
 ```
 
 
-
+\newpage
 ## Using Grattan colours
 
-Grattan's colours are loaded with `grattantheme`. It has all the classics: \dots
+Grattan's colours are loaded with `grattantheme`. The HEX codes for individual Grattan colours can be called using `grattan_[colourname]`, eg `grattan_lightorange`. Colours names are taken from the chart-guide and are:
 
-We can use the `grattan_colour_manual` function to change the colours of our colour aesthetic. In our example, we have five different trees each represented by a colour, so we set the number of colours to five `grattan_colour_manual(n = 5)`:
+```{r, out.width = "250px", echo = FALSE}
+knitr::include_graphics("../man/grattan_pal.pdf")
+```
+
+We can call a single colour:
+
+```{r}
+plot + 
+  geom_vline(xintercept = 850, colour = grattan_grey3) +
+  theme_grattan() +
+  scale_y_continuous_grattan()
+
+```
+
+
+We can also use the `grattan_fill_manual()` or `grattan_colour_manual()` functions to change the colours of our fill or colour _aesthetics_. In our example, we have five different trees each represented by a colour, so we set the number of colours to five: `grattan_fill_manual(n = 5)`:
 
 ```{r}
 plot + 
   theme_grattan() +
-  grattan_colour_manual(n = 5)
+  scale_y_continuous_grattan() +
+  grattan_fill_manual(n = 5)
+
 ```
 
-We can reverse the order of the colours using the `reverse` argument:
+We can reverse the order of the fill colours using the `reverse` argument:
 
 ```{r}
 plot + 
   theme_grattan() +
-  grattan_colour_manual(n = 5, reverse = TRUE)
+  scale_y_continuous_grattan() +
+  grattan_fill_manual(n = 5, reverse = TRUE)
+
 ```
 
 
+Note that if you do not specify _enough_ colours, will receive an error:
 
+```{r, error = TRUE}
+plot + 
+  theme_grattan() +
+  scale_y_continuous_grattan() +
+  grattan_fill_manual(n = 3)
 
+```
