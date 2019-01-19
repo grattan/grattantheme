@@ -233,7 +233,7 @@ grattan_save <- function(filename,
     border <- grid::rectGrob(gp = grid::gpar(fill = "white", col = "white"))
 
     # create new grob of solid orange to be the horizontal line
-    linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F68B33", col = "white"))
+    linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F3901D", col = "white"))
 
     # create header (= title + logo side by side)
 
