@@ -71,12 +71,12 @@ plot +
   theme_grattan(legend = "top")
 ```
 
-To align the y-axis with zero, change the y scale with `scale_y_continuous()`:
+To align the y-axis with zero, change the y scale with `grattan_y_continuous()`:
 
 ```{r}
 plot + 
   theme_grattan() +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 ```
 
 
@@ -85,7 +85,7 @@ Sometimes we'll want a chart for a box in a report. We can change the background
 ```{r}
 plot + 
   theme_grattan(background = "orange") +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 ```
 
 
@@ -95,7 +95,7 @@ The standard Grattan rules for `x` and `y` axes flip if the chart is a horizonta
 plot + 
   coord_flip() +
   theme_grattan(flipped = TRUE) +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 ```
 
 
@@ -105,7 +105,7 @@ The final adjustments we can specify with `theme_grattan` are the font size and 
 
 plot + 
   theme_grattan(base_size = 8, base_family = "serif") +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 
 ```
 
@@ -125,7 +125,7 @@ We can call a single colour:
 plot + 
   geom_vline(xintercept = 850, colour = grattan_grey3) +
   theme_grattan() +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 
 ```
 
@@ -135,7 +135,7 @@ We can also use the `grattan_fill_manual()` or `grattan_colour_manual()` functio
 ```{r}
 plot + 
   theme_grattan() +
-  scale_y_continuous_grattan() +
+  grattan_y_continuous()
   grattan_fill_manual(n = 5)
 
 ```
@@ -145,7 +145,7 @@ We can reverse the order of the fill colours using the `reverse` argument:
 ```{r}
 plot + 
   theme_grattan() +
-  scale_y_continuous_grattan() +
+  grattan_y_continuous()
   grattan_fill_manual(n = 5, reverse = TRUE)
 
 ```
@@ -155,7 +155,7 @@ Note that if you do not specify _enough_ colours, will receive an error:
 ```{r, error = TRUE}
 plot + 
   theme_grattan() +
-  scale_y_continuous_grattan() +
+  grattan_y_continuous()
   grattan_fill_manual(n = 3)
 
 ```

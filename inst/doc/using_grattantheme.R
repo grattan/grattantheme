@@ -32,24 +32,24 @@ plot +
 ## ------------------------------------------------------------------------
 plot + 
   theme_grattan() +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 
 ## ------------------------------------------------------------------------
 plot + 
   theme_grattan(background = "orange") +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 
 ## ------------------------------------------------------------------------
 plot + 
   coord_flip() +
   theme_grattan(flipped = TRUE) +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 
 ## ------------------------------------------------------------------------
 
 plot + 
   theme_grattan(base_size = 8, base_family = "serif") +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 
 
 ## ---- out.width = "250px", echo = FALSE----------------------------------
@@ -59,27 +59,27 @@ knitr::include_graphics("grattan_pal.pdf")
 plot + 
   geom_vline(xintercept = 850, colour = grattan_grey3) +
   theme_grattan() +
-  scale_y_continuous_grattan()
+  grattan_y_continuous()
 
 
 ## ------------------------------------------------------------------------
 plot + 
   theme_grattan() +
-  scale_y_continuous_grattan() +
+  grattan_y_continuous()
   grattan_fill_manual(n = 5)
 
 
 ## ------------------------------------------------------------------------
 plot + 
   theme_grattan() +
-  scale_y_continuous_grattan() +
+  grattan_y_continuous()
   grattan_fill_manual(n = 5, reverse = TRUE)
 
 
 ## ---- error = TRUE-------------------------------------------------------
 plot + 
   theme_grattan() +
-  scale_y_continuous_grattan() +
+  grattan_y_continuous()
   grattan_fill_manual(n = 3)
 
 
