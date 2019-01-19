@@ -118,6 +118,8 @@ theme_grattan <- function(base_size = 18,
                            background = "white",
                            legend = "none") {
 
+  if (background = "box") background <- "#FEF0DE"
+
   ret <-
     ggthemes::theme_foundation(base_size = base_size, base_family = base_family) +
     ggplot2::theme(line = ggplot2::element_line(colour = grattantheme::grattan_gridlinegrey,
