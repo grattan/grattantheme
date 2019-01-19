@@ -1,3 +1,6 @@
+[![Travis-CI Build Status](https://travis-ci.org/MattCowgill/grattantheme.svg?branch=master)](https://travis-ci.org/MattCowgill/grattantheme)
+
+
 # grattantheme
 Create ggplot2 charts in the Grattan Institute style.
 
