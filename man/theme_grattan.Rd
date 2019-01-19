@@ -18,7 +18,7 @@ indistinguishable from Arial.}
 TRUE, the theme will show a vertical axis line, ticks & panel grid, while
 hiding the horizontals.}
 
-\item{background}{"white" by default. Set to "orange" if you're making a chart
+\item{background}{"white" by default. Set to "orange" or "box" if you're making a chart
 to go in a Grattan report box.}
 
 \item{legend}{"off" by default. Set to "bottom", "left", "right" or "top" as

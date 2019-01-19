@@ -18,8 +18,9 @@ library(grattantheme)
 
 
 ```{r, eval = FALSE, include = FALSE}
-# Run this to build the vignette:
+# Run to build this vignette before release:
 devtools::build_vignettes()
+devtools::check()
 ```
 
 This vignette explains how to use `grattantheme` to quickly and consistently apply Grattan chart formatting to charts made in `R` using `ggplot`.
@@ -115,7 +116,7 @@ plot +
 Grattan's colours are loaded with `grattantheme`. The HEX codes for individual Grattan colours can be called using `grattan_[colourname]`, eg `grattan_lightorange`. Colours names are taken from the chart-guide and are:
 
 ```{r, out.width = "250px", echo = FALSE}
-knitr::include_graphics("../man/grattan_pal.pdf")
+knitr::include_graphics("grattan_pal.pdf")
 ```
 
 We can call a single colour:
@@ -148,7 +149,6 @@ plot +
   grattan_fill_manual(n = 5, reverse = TRUE)
 
 ```
-
 
 Note that if you do not specify _enough_ colours, will receive an error:
 

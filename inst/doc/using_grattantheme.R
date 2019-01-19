@@ -4,8 +4,9 @@ library(ggplot2)
 library(grattantheme)
 
 ## ---- eval = FALSE, include = FALSE--------------------------------------
-#  # Run this to build the vignette:
+#  # Run to build this vignette before release:
 #  devtools::build_vignettes()
+#  devtools::check()
 
 ## ------------------------------------------------------------------------
 plot <- ggplot(Orange,
@@ -52,7 +53,7 @@ plot +
 
 
 ## ---- out.width = "250px", echo = FALSE----------------------------------
-knitr::include_graphics("../man/grattan_pal.pdf")
+knitr::include_graphics("grattan_pal.pdf")
 
 ## ------------------------------------------------------------------------
 plot + 
