@@ -149,13 +149,3 @@ plot +
 
 ```
 
-
-Note that if you do not specify _enough_ colours, will receive an error:
-
-```{r, error = TRUE}
-plot + 
-  theme_grattan() +
-  scale_y_continuous_grattan() +
-  grattan_fill_manual(n = 3)
-
-```
