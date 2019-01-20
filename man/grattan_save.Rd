@@ -11,7 +11,7 @@ grattan_save(filename, object = ggplot2::last_plot(), height = 14.5,
 \arguments{
 \item{filename}{Required. This parameter sets the filename (including path where necessary) where you want to save your image. The extension defines the file type. Suggested filetypes are "pdf" or "png", but others are available (see \code{?ggsave} for the full list).}
 
-\item{object}{Defaults to \code{last_plot()}. Can specify a different ggplot2 object to be saved.}
+\item{object}{The ggplot2 graph object to be saved. Defaults to \code{last_plot()}, which will save the last plot that was displayed in your session.}
 
 \item{height}{Default is 14.5cm, Grattan normal size default. See \code{type}.}
 
