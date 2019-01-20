@@ -168,7 +168,9 @@ The `grattan_save()` function implements `ggsave()` with Grattan defaults for di
 * `"tiny"`: a rarely-used short chart for reports. [11.08 x 22.16]
 * `"fullslide"` : to produce charts on a full slide with the Grattan logo---to be used in articles or blogposts---use `"type = fullslide"`. This option allows notes and sources to accompany the saved figure. 
 
-The argument `filename` is required with an extension (`.pdf` is standard for Grattan charts). Like `ggsave`, the `ggplot2` object to be saved will default to the last plot, but you can specify something else with `object`.
+The argument `filename` is required. You must include an extension; `.pdf` is standard for Grattan charts for reports; `.png` is standard for the Grattan Blog. 
+
+Like `ggsave`, the `ggplot2` object to be saved will default to the last plot, but you can specify something else with `object`.
 
 Now we can save our Grattan-formatted graph as a normally-formatted report chart:
 
