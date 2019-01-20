@@ -5,7 +5,8 @@
 #' @param height Default is 14.5cm, Grattan normal size default. See \code{type}.
 #' @param width Default is 22.16cm, Grattan normal size default. See \code{type}.
 #' @param type Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage", "fullslide"). 'normal' is the default and uses default height and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm. 'fullslide' saves an image that can be used as a complete 4:3 Powerpoint slide, complete with Grattan logo.
-#' @param save_data Default is FALSE. If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension.
+#' @param save_data Logical. Default is FALSE. If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension.
+#' @param force_labs Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = \"fullslide\". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.
 #'
 #' @import ggplot2
 #' @import grid
@@ -80,7 +81,8 @@ grattan_save <- function(filename,
                          height = 14.5,
                          width = 22.16,
                          type = "normal",
-                         save_data = FALSE) {
+                         save_data = FALSE,
+                         force_labs = FALSE) {
 
   # at the moment, save_data is inflexible: only saves as .csv and
   # with the same filename (except extension) as the plot.
@@ -245,7 +247,7 @@ grattan_save <- function(filename,
     # create main plotting area
     mainarea <- gridExtra::grid.arrange(border, header, linegrob, topsubtitle, p, border,
                              ncol = 1,
-                             heights = unit(c(0.92, 1.48, 0.1, 1.48, 14.61, 0.46), "cm"),
+                             heights = unit(c(0.92, 1.48, 0.1, 1.7, 14.53, 0.46), "cm"),
                              widths = unit(17.73 + 4.57, "cm"))
 
     # create total plot
@@ -271,24 +273,28 @@ grattan_save <- function(filename,
       width  = 44.32
     }
 
-    # Remove title, subtitle and caption for type != "fullslide"
-    # Politely give warning before removal
-    if("title"    %in% names(object$labels)) message("Note: This save type removes titles.")
-    if("subtitle" %in% names(object$labels)) message("Note: This save type removes subtitles.")
-    if("caption"  %in% names(object$labels)) message("Note: This save type removes captions.")
+    if(!force_labs){
+      # Unless force_labs == TRUE (indicating the user wishes to retain their labels)
+      # Remove title, subtitle and caption for type != "fullslide"
+      # Politely give warning before removal
+      if("title"    %in% names(object$labels)) message("Note: This save type removes titles.")
+      if("subtitle" %in% names(object$labels)) message("Note: This save type removes subtitles.")
+      if("caption"  %in% names(object$labels)) message("Note: This save type removes captions.")
 
-    if(any(c("title", "subtitle", "caption") %in% names(object$labels))) {
-      message("Use type = \"fullslide\" to show titles, subtitles and captions.")
+      if(any(c("title", "subtitle", "caption") %in% names(object$labels))) {
+        message("Use type = \"fullslide\" to show titles, subtitles and captions.")
+
+        object <- object +
+            theme(plot.title = element_blank(),
+                  plot.subtitle = element_blank(),
+                  plot.caption = element_blank())
+      }
     }
 
 
-    g <- object +
-          theme(plot.title = element_blank(),
-                plot.subtitle = element_blank(),
-                plot.caption = element_blank())
 
 
-  ggplot2::ggsave(filename, g,
+  ggplot2::ggsave(filename, object,
          width = width, height = height, units = "cm", dpi = "retina")
 
         }
