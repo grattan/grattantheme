@@ -223,7 +223,7 @@ grattan_save <- function(filename,
       ggplot2::labs(subtitle = stored_subtitle) +
       theme_grattan() +
       ggplot2::theme(rect = ggplot2::element_blank(),
-            plot.subtitle = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0),
+            plot.subtitle = ggplot2::element_text(colour = "black", hjust = 0, vjust = -2),
             plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
 
     # create new grob with the logo
@@ -233,7 +233,7 @@ grattan_save <- function(filename,
     border <- grid::rectGrob(gp = grid::gpar(fill = "white", col = "white"))
 
     # create new grob of solid orange to be the horizontal line
-    linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F68B33", col = "white"))
+    linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F3901D", col = "white"))
 
     # create header (= title + logo side by side)
 
@@ -271,19 +271,21 @@ grattan_save <- function(filename,
       width  = 44.32
     }
 
-  # Modify the graph object so that title/subtitle/caption are properly
-  # left-aligned (to the left of the whole image, not just the plot area)
-  # Only applies to non-fullslide chart types
+    # Remove title, subtitle and caption for type != "fullslide"
+    # Politely give warning before removal
+    if("title"    %in% names(object$labels)) message("Note: This save type removes titles.")
+    if("subtitle" %in% names(object$labels)) message("Note: This save type removes subtitles.")
+    if("caption"  %in% names(object$labels)) message("Note: This save type removes captions.")
 
-  if("gg" %in% class(object)) { #ie. only apply the following to plots, not grob objects
-  g <- ggplot2::ggplotGrob(object)
-  } else {
-      g <- object
+    if(any(c("title", "subtitle", "caption") %in% names(object$labels))) {
+      message("Use type = \"fullslide\" to show titles, subtitles and captions.")
     }
 
-  g$layout$l[g$layout$name == "title"] <- 1
-  g$layout$l[g$layout$name == "subtitle"] <- 1
-  g$layout$l[g$layout$name == "caption"] <- 1
+
+    g <- object +
+          theme(plot.title = element_blank(),
+                plot.subtitle = element_blank(),
+                plot.caption = element_blank())
 
 
   ggplot2::ggsave(filename, g,
