@@ -2,7 +2,8 @@
 title: "Using grattantheme"
 output:
   pdf_document:
-    fig_width: 4.5
+    toc: TRUE
+    fig_width: 4
     fig_height: 3
 vignette: >
   %\VignetteIndexEntry{Using grattantheme}
@@ -16,12 +17,6 @@ library(ggplot2)
 library(grattantheme)
 ```
 
-
-```{r, eval = FALSE, include = FALSE}
-# Run to build this vignette before release:
-devtools::build_vignettes()
-devtools::check()
-```
 
 This vignette explains how to use `grattantheme` to quickly and consistently apply Grattan chart formatting to charts made in `R` using `ggplot`.
 
@@ -46,7 +41,7 @@ plot <- ggplot(Orange,
 
 This successfully plots the data we want to plot:
 
-```{r, fig.align='center', echo = FALSE}
+```{r, echo = FALSE}
 plot
 ```
 
@@ -84,7 +79,7 @@ Sometimes we'll want a chart for a box in a report. We can change the background
 
 ```{r}
 plot + 
-  theme_grattan(background = "orange") +
+  theme_grattan(background = "box") +
   grattan_y_continuous()
 ```
 
@@ -135,7 +130,7 @@ We can also use the `grattan_fill_manual()` or `grattan_colour_manual()` functio
 ```{r}
 plot + 
   theme_grattan() +
-  grattan_y_continuous()
+  grattan_y_continuous() +
   grattan_fill_manual(n = 5)
 
 ```
@@ -145,17 +140,88 @@ We can reverse the order of the fill colours using the `reverse` argument:
 ```{r}
 plot + 
   theme_grattan() +
-  grattan_y_continuous()
+  grattan_y_continuous() +
   grattan_fill_manual(n = 5, reverse = TRUE)
 
 ```
 
 Note that if you do not specify _enough_ colours, will receive an error:
 
-```{r, error = TRUE}
+```{r, eval = TRUE, error= TRUE, fig.show='hide'}
 plot + 
   theme_grattan() +
-  grattan_y_continuous()
+  grattan_y_continuous() + 
   grattan_fill_manual(n = 3)
+```
+
+You won't receive an error if you specify _too many_ colours. `ggplot` will choose the first `n` colours it needs and ignore the rest.
+
+
+## Saving plots with `grattan_save`
+
+
+The `grattan_save()` function implements `ggsave()` with Grattan defaults for different occasions. We specify the occasion with the `type` argument that can take the arguments:
+
+* `"normal"`: a standard report chart size, and the default. [**height** = 14.5cm x **width** = 22.16cm]
+* `"wholecolumn`: a taller whole-column chart for reports. [22.16 x 22.16]
+* `"fullpage"`: a full-page chart for reports. [22.16 x 44.32]
+* `"tiny"`: a rarely-used short chart for reports. [11.08 x 22.16]
+* `"fullslide"` : to produce charts on a full slide with the Grattan logo---to be used in articles or blogposts---use `"type = fullslide"`. This option allows notes and sources to accompany the saved figure. 
+
+The argument `filename` is required with an extension (`.pdf` is standard for Grattan charts). Like `ggsave`, the `ggplot2` object to be saved will default to the last plot, but you can specify something else with `object`.
+
+Now we can save our Grattan-formatted graph as a normally-formatted report chart:
+
+```{r}
+# Create and store the plot:
+plot_final <- plot +
+              theme_grattan() +
+              grattan_y_continuous() +
+              grattan_fill_manual(n = 5, reverse = TRUE) +
+              labs(title = "Intergenerational inequality in trees",
+                 subtitle = "Circumference of trees by age",
+                 x = "Age", 
+                 y = "",
+                 caption = "Notes: orange trees only. Source: inbuilt base R datasets.")
+
+# Save the plot
+grattan_save(filename = "tree_plot.pdf",
+             object = plot_final,
+             type = "normal")
 
 ```
+
+
+Which produces a chart that can fit into a report. Note that the title, subtitle and notes/sources have been removed.
+
+```{r, out.width = "300px", echo = FALSE}
+knitr::include_graphics("tree_plot.pdf")
+```
+
+If we wanted to save a full-slide chart, complete with a title, subtitle, notes/sources and the Grattan slide format, we specify `type = "fullslide"`:
+
+```{r, eval = FALSE}
+# Save the plot
+grattan_save(filename = "tree_plot_fullslide.pdf",
+             object = plot_final,
+             type = "fullslide")
+
+```
+
+```{r, include=FALSE}
+# Actually save the plot to call, but don't include output
+grattan_save(filename = "tree_plot_fullslide.pdf",
+             object = plot_final,
+             type = "fullslide")
+
+```
+
+```{r, out.width = "400px", echo = FALSE}
+knitr::include_graphics("tree_plot_fullslide.pdf")
+```
+
+
+
+
+
+

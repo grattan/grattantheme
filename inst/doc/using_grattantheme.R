@@ -3,11 +3,6 @@ knitr::opts_chunk$set(collapse = T, comment = "#>", fig.align='center')
 library(ggplot2)
 library(grattantheme)
 
-## ---- eval = FALSE, include = FALSE--------------------------------------
-#  # Run to build this vignette before release:
-#  devtools::build_vignettes()
-#  devtools::check()
-
 ## ------------------------------------------------------------------------
 plot <- ggplot(Orange,
                aes(x = age,
@@ -18,7 +13,7 @@ plot <- ggplot(Orange,
              y = "",
              colour = "Tree")
 
-## ---- fig.align='center', echo = FALSE-----------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 plot
 
 ## ------------------------------------------------------------------------
@@ -36,7 +31,7 @@ plot +
 
 ## ------------------------------------------------------------------------
 plot + 
-  theme_grattan(background = "orange") +
+  theme_grattan(background = "box") +
   grattan_y_continuous()
 
 ## ------------------------------------------------------------------------
@@ -65,21 +60,58 @@ plot +
 ## ------------------------------------------------------------------------
 plot + 
   theme_grattan() +
-  grattan_y_continuous()
+  grattan_y_continuous() +
   grattan_fill_manual(n = 5)
 
 
 ## ------------------------------------------------------------------------
 plot + 
   theme_grattan() +
-  grattan_y_continuous()
+  grattan_y_continuous() +
   grattan_fill_manual(n = 5, reverse = TRUE)
 
 
-## ---- error = TRUE-------------------------------------------------------
+## ---- eval = TRUE, error= TRUE, fig.show='hide'--------------------------
 plot + 
   theme_grattan() +
-  grattan_y_continuous()
+  grattan_y_continuous() + 
   grattan_fill_manual(n = 3)
 
+## ------------------------------------------------------------------------
+# Create and store the plot:
+plot_final <- plot +
+              theme_grattan() +
+              grattan_y_continuous() +
+              grattan_fill_manual(n = 5, reverse = TRUE) +
+              labs(title = "Intergenerational inequality in trees",
+                 subtitle = "Circumference of trees by age",
+                 x = "Age", 
+                 y = "",
+                 caption = "Notes: orange trees only. Source: inbuilt base R datasets.")
+
+# Save the plot
+grattan_save(filename = "tree_plot.pdf",
+             object = plot_final,
+             type = "normal")
+
+
+## ---- out.width = "300px", echo = FALSE----------------------------------
+knitr::include_graphics("tree_plot.pdf")
+
+## ---- eval = FALSE-------------------------------------------------------
+#  # Save the plot
+#  grattan_save(filename = "tree_plot_fullslide.pdf",
+#               object = plot_final,
+#               type = "fullslide")
+#  
+
+## ---- include=FALSE------------------------------------------------------
+# Actually save the plot to call, but don't include output
+grattan_save(filename = "tree_plot_fullslide.pdf",
+             object = plot_final,
+             type = "fullslide")
+
+
+## ---- out.width = "400px", echo = FALSE----------------------------------
+knitr::include_graphics("tree_plot_fullslide.pdf")
 
