@@ -27,19 +27,16 @@ stitch_pdfs <- function(pdfs, output_file = NULL, output_dir = getwd()){
                         backticks,
                         "\n")
 
-  image_code <- list()
-  for(i in pdfs){
+  image_code <- paste0(backticks,
+                       "{r, echo = FALSE}\n",
+                       "knitr::include_graphics(\"",
+                       pdfs,
+                       "\")\n",
+                       backticks,
+                       "\n",
+                       collapse = "\n")
 
-    image_code[i] <- paste0(backticks,
-                         "{r, echo = FALSE}\n",
-                         "knitr::include_graphics(\"",
-                         i,
-                         "\")\n",
-                         backticks,
-                         "\n")
-  }
 
-  image_code <- paste0(image_code, collapse = "\n")
 
   fulldoc <- paste(yaml_header, knitr_setup, image_code, sep = "\n")
 
