@@ -11,8 +11,6 @@ stitch_pdfs <- function(pdfs, output_file = NULL, output_dir = getwd()){
   backticks <- paste0((rep("\x60", 3)), collapse = "")
 
   yaml_header <- paste("---",
-                       #                      "title: \"Test doc\"",
-                       #                      "author: grattantheme package",
                        "output: pdf_document",
                        "geometry: a4paper, margin=0cm",
                        "classoption:",
