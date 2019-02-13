@@ -66,7 +66,7 @@
 #'          subtitle = "Subtitle goes here",
 #'          caption = "Notes: Notes go here. Source: Source goes here")
 #'
-#'  grattan_save("your_file.png", type = "fullslide")
+#'  grattan_save("your_file.png", type = "normal")
 #'
 #'
 #' @export
@@ -83,6 +83,11 @@ grattan_save <- function(filename,
                          type = "normal",
                          save_data = FALSE,
                          force_labs = FALSE) {
+
+  if(!type %in% chart_types$type){
+    stop(paste0("`type` not valid"))
+  }
+
 
   # at the moment, save_data is inflexible: only saves as .csv and
   # with the same filename (except extension) as the plot.
@@ -126,15 +131,8 @@ grattan_save <- function(filename,
     }
     } # end of section that only apples to type != "fullslide
 
-  if(type == "tiny")    height = 11.08
-  if(type == "wholecolumn") height = 22.16
-  if(type == "fullpage")  {
-        height = 22.16
-        width  = 44.32}
-  if(type == "fullslide"){
-    height = 19.05
-    width = 25.4
-  }
+  width <- chart_types$width[chart_types$type == type]
+  height <- chart_types$height[chart_types$type == type]
 
   ggplot2::ggsave(filename, object,
          width = width, height = height, units = "cm", dpi = "retina")
