@@ -1,11 +1,50 @@
+#' Combine multiple PDFs into a single PDF
+#'
+#' @param pdfs character vector containing filenames (with path, if the files
+#' aren't in the working directory) of the PDFs to be combined
+#'
+#' @param output name of the PDF file (including path where necessary)
+#' to be created, containing the stiched-together PDFs
+#'
 #' @import knitr
 #' @import rmarkdown
 #'
+#' @name stitch_pdfs
+#' @examples
+#' # stitch_pdfs() is useful when you have created multiple charts using
+#' # grattan_save() and wish to combine them into one document
+#'
+#' # First, create some charts and save them as individual PDFs:
+#' library(ggplot2)
+#'
+#' chart1 <- ggplot(mtcars, aes(x = mpg, y = hp)) +
+#'     geom_point() +
+#'     theme_grattan()
+#'
+#' chart2 <- ggplot(mtcars, aes(x = carb, y = mpg, group = carb)) +
+#'     geom_boxplot() +
+#'     theme_grattan()
+#'
+#' grattan_save("chart1.pdf", chart1)
+#' grattan_save("chart2.pdf", chart2)
+#'
+#' # Now combine the two saved charts into one pdf
+#' stitch_pdfs(c("chart1.pdf", "chart2.pdf"), output = "both_charts.pdf")
+#'
+#' @export
 
-stitch_pdfs <- function(pdfs, output_file = NULL, output_dir = getwd()){
 
-  if(is.null(output_file)){
-    stop("Must specify `output_file`")
+stitch_pdfs <- function(pdfs, output = NULL){
+
+  if(is.null(output)){
+    stop("Must specify `output` - the filename of the PDF to be created")
+  }
+
+  output_file <- basename(output)
+  output_dir <- dirname(output)
+
+  if(!dir.exists(output_dir)){
+    dir.create(output_dir)
   }
 
   backticks <- paste0((rep("\x60", 3)), collapse = "")
