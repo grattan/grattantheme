@@ -16,10 +16,9 @@ Imports:
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.1),
     grid,
-    gridExtra
-Suggests:
-	knitr, 
-	rmarkdown
+    gridExtra,
+    knitr,
+    rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
