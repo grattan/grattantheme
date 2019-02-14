@@ -1,11 +1,18 @@
 #' Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().
 #' @name grattan_save
-#' @param filename Required. This parameter sets the filename (including path where necessary) where you want to save your image. The extension defines the file type. Suggested filetypes are "pdf" or "png", but others are available (see \code{?ggsave} for the full list).
-#' @param object The ggplot2 graph object to be saved. Defaults to \code{last_plot()}, which will save the last plot that was displayed in your session.
-#' @param height Default is 14.5cm, Grattan normal size default. See \code{type}.
-#' @param width Default is 22.16cm, Grattan normal size default. See \code{type}.
-#' @param type Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage", "fullslide"). 'normal' is the default and uses default height and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm. 'fullslide' saves an image that can be used as a complete 4:3 Powerpoint slide, complete with Grattan logo.
-#' @param save_data Logical. Default is FALSE. If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension.
+#' @param filename Required. This parameter sets the filename (including path where necessary)
+#' where you want to save your image. The extension defines the file type. Suggested filetypes
+#' are "pdf" or "png", but others are available (see \code{?ggsave} for the full list).
+#' @param object The ggplot2 graph object to be saved. Defaults to \code{last_plot()}, which
+#' will save the last plot that was displayed in your session.
+#' @param type Sets height and width to Grattan defaults for one of c("normal", "tiny",
+#' "wholecolumn", "fullpage", "fullslide"). 'normal' is the default and uses default height
+#' and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of
+#' 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm.
+#' 'fullslide' saves an image that can be used as a complete 4:3 Powerpoint slide,
+#' complete with Grattan logo. Set type = "all" to save your chart in all available
+#' sizes.
+#' @param save_data Logical. Default is FALSE, unless `type` = "all". If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension. Data will always be saved if type = "all".
 #' @param force_labs Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = \"fullslide\". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.
 #'
 #' @import ggplot2
@@ -13,6 +20,7 @@
 #' @importFrom utils tail
 #' @importFrom utils write.csv
 #' @importFrom gridExtra grid.arrange
+#' @importFrom purrr walk2
 #'
 #' @examples
 #' library(ggplot2)
@@ -78,30 +86,83 @@
 
 grattan_save <- function(filename,
                          object = ggplot2::last_plot(),
-                         height = 14.5,
-                         width = 22.16,
                          type = "normal",
                          save_data = FALSE,
                          force_labs = FALSE) {
 
-  if(!type %in% chart_types$type){
+  if(!type %in% c("all", chart_types$type)){
     stop(paste0("`type` not valid"))
   }
 
+  if(type != "all"){
+
+    dir <- dirname(filename)
+
+    if(dir != "."){
+      if(!dir.exists(dir)){
+        dir.create(dir, recursive = TRUE)
+      }
+    }
+
+    if(save_data == TRUE){
+      if("gg" %in% class(object)){
+        utils::write.csv(x = object$data,
+                         file = paste0(sub("\\..*", "", filename), ".csv"))
+      } else {
+        warning("save_data only works with ggplot graph objects. Your data has not been saved.")
+      }
+    }
+
+    grattan_save_(filename = filename, object = object,
+                  type = type, force_labs = force_labs)
+  }
+
+  if(type == "all"){
+    dir <- tools::file_path_sans_ext(filename)
+    filetype <- tools::file_ext(filename)
+    file_name <- tools::file_path_sans_ext(basename(filename))
+
+    dir.create(dir, recursive = TRUE)
+
+    types <- chart_types$type
+
+    filenames <- paste0(dir, "/", file_name, "_", types, ".", filetype)
+
+      if("gg" %in% class(object)){
+        utils::write.csv(x = object$data,
+                         file = paste0(dir,
+                                       "/",
+                                       file_name,
+                                       ".csv"))
+      } else {
+        warning("save_data only works with ggplot graph objects. Your data has not been saved.")
+      }
+
+
+    purrr::walk2(.x = filenames,
+                 .y = types,
+                 .f = grattan_save_,
+                 object = object,
+                 force_labs = force_labs)
+
+  }
+
+
+}
+
+
+
+#### grattan_save_() is an internal function that does the actual work of saving
+#### individual plots; it is called by grattan_save()
+grattan_save_ <- function(filename,
+                          object = ggplot2::last_plot(),
+                          type = "normal",
+                          force_labs = FALSE){
 
   # at the moment, save_data is inflexible: only saves as .csv and
   # with the same filename (except extension) as the plot.
   # It saves the whole dataframe passed to ggplot(), not limited to the
   # column(s)/row(s) used in the plot.
-
-  if(save_data == TRUE){
-    if("gg" %in% class(object)){
-     utils::write.csv(x = object$data,
-               file = paste0(sub("\\..*", "", filename), ".csv"))
-    } else {
-      warning("save_data only works with ggplot graph objects. Your data has not been saved.")
-    }
-  }
 
 
   # create an image the size of a 4:3 Powerpoint slide complete with Grattan logo
@@ -110,7 +171,7 @@ grattan_save <- function(filename,
     # calls another function to do the work of assembling a full slide
     object <- save_fullslide(object = object)
 
-    } else { # following code only applies if type != "fullslide"
+  } else { # following code only applies if type != "fullslide"
 
     if(!force_labs){
       # Unless force_labs == TRUE (indicating the user wishes to retain their labels)
@@ -124,18 +185,18 @@ grattan_save <- function(filename,
         message("Use type = \"fullslide\" to show titles, subtitles and captions.\nAlternatively, set force_labs = TRUE.")
 
         object <- object +
-            theme(plot.title = element_blank(),
-                  plot.subtitle = element_blank(),
-                  plot.caption = element_blank())
+          theme(plot.title = element_blank(),
+                plot.subtitle = element_blank(),
+                plot.caption = element_blank())
       }
     }
-    } # end of section that only apples to type != "fullslide
+  } # end of section that only apples to type != "fullslide
 
   width <- chart_types$width[chart_types$type == type]
   height <- chart_types$height[chart_types$type == type]
 
   ggplot2::ggsave(filename, object,
-         width = width, height = height, units = "cm", dpi = "retina")
+                  width = width, height = height, units = "cm", dpi = "retina")
 
 }
 
