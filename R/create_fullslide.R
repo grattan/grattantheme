@@ -4,7 +4,7 @@
 #' @import ggplot2
 #' @import gridExtra
 
-save_fullslide <- function(object){
+create_fullslide <- function(object){
 
   if(!"gg" %in% class(object)){
     stop("type = 'fullslide' only works with ggplot graph objects")

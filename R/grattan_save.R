@@ -169,7 +169,7 @@ grattan_save_ <- function(filename,
   if(type == "fullslide"){
 
     # calls another function to do the work of assembling a full slide
-    object <- save_fullslide(object = object)
+    object <- create_fullslide(object = object)
 
   } else { # following code only applies if type != "fullslide"
 

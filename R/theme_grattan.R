@@ -181,6 +181,7 @@ theme_grattan <- function(base_size = 18,
           complete = TRUE)
 
   # Define defaults for individual geoms in a style guide-consistent way
+
   # Note: looks as if update_geom_defaults() may be deprecated in a future ggplot2
   # release (see https://github.com/tidyverse/ggplot2/pull/2749) in favour of a new
   # way to update geom defaults; when this happens, replace the code below
@@ -205,6 +206,46 @@ theme_grattan <- function(base_size = 18,
   ggplot2::update_geom_defaults(ggrepel::GeomTextRepel, list(size = 18 / .pt,
                                                              colour = "black"))
 
+  ggplot2::update_geom_defaults(ggrepel::GeomLabelRepel, list(size = 18 / .pt,
+                                                              fill = "white",
+                                                              colour = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("area", list(fill = grattantheme::grattan_lightorange,
+                                             col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("density", list(fill = grattantheme::grattan_lightorange,
+                                                col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("dotplot", list(fill = grattantheme::grattan_lightorange,
+                                                col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("polygon", list(fill = grattantheme::grattan_lightorange,
+                                                col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("path", list(col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("ribbon", list(fill = grattantheme::grattan_lightorange,
+                                                col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("rect", list(fill = grattantheme::grattan_lightorange,
+                                                col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("boxplot", list(fill = grattantheme::grattan_orange_alpha,
+                                             col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("crossbar", list(fill = grattantheme::grattan_lightorange,
+                                             col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("errorbar", list(col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("linerange", list(col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("pointrange", list(col = grattantheme::grattan_lightorange))
+
+  ggplot2::update_geom_defaults("tile", list(col = "white",
+                                             fill = grattantheme::grattan_lightorange))
+
+  # reverse when flipped = TRUE
   if (flipped == TRUE) {
     ret <- ret + ggplot2::theme(panel.grid.major.x = ggplot2::element_line(),
                        panel.grid.major.y = ggplot2::element_blank(),
