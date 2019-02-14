@@ -10,7 +10,7 @@
 #' @param background "white" by default. Set to "orange" or "box" if you're making a chart
 #' to go in a Grattan report box.
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
-#' desired.
+#' desired, or a two element numeric vector such as c(0.9, 0.1).
 #'
 #' @importFrom ggthemes theme_foundation
 #' @import ggrepel
@@ -63,8 +63,7 @@
 #'     geom_point() +
 #'     scale_y_continuous_grattan(limits = c(10, NA)) +
 #'     scale_colour_manual(values = grattan_pal(n = 3)) +
-#'     theme_grattan() +
-#'     theme(legend.position = "bottom")
+#'     theme_grattan(legend = "bottom")
 #'
 #' # The flipped = TRUE option makes things easier when using coord_flip, as in:
 #'
@@ -72,8 +71,7 @@
 #'     geom_point() +
 #'     scale_y_continuous_grattan(limits = c(10, NA)) +
 #'     scale_colour_manual(values = grattan_pal(n = 3)) +
-#'     theme_grattan(flipped = TRUE) +
-#'     theme(legend.position = "bottom") +
+#'     theme_grattan(flipped = TRUE, legend = "bottom") +
 #'     coord_flip()
 #'
 #'
