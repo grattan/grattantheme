@@ -158,7 +158,7 @@ create_fullslide <- function(object){
   # create main plotting area
   mainarea <- gridExtra::grid.arrange(border, header, linegrob, topsubtitle, p, border,
                                       ncol = 1,
-                                      heights = unit(c(0.92, 1.48, 0.1, 1.7, 14.53, 0.46), "cm"),
+                                      heights = unit(c(0.92, 1.48, 0.1, 1.73, 14.5, 0.46), "cm"),
                                       widths = unit(17.73 + 4.57, "cm"))
 
   # create total plot
