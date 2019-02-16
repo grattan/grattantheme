@@ -4,7 +4,7 @@
 #' @import ggplot2
 #' @import gridExtra
 
-create_fullslide <- function(object){
+create_fullslide <- function(object, type){
 
   if(!"gg" %in% class(object)){
     stop("type = 'fullslide' only works with ggplot graph objects")
@@ -13,9 +13,9 @@ create_fullslide <- function(object){
   p <- object
 
   # widths in characters
-  char_width_grattan_title <- 50
-  char_width_grattan_subtitle <- 70
-  char_width_grattan_caption <- 140
+  char_width_grattan_title <- ifelse(type == "fullslide", 50, 55)
+  char_width_grattan_subtitle <- ifelse(type == "fullslide", 70, 95)
+  char_width_grattan_caption <- ifelse(type == "fullslide", 140, 165)
 
   # extract title and subtitle, created as usual in the plotting process
   stored_title <- p$labels$title
@@ -24,7 +24,7 @@ create_fullslide <- function(object){
 
   # add line break to title where necessary
   if(is.null(stored_title)){
-    message("Your plot has no title, which is weird for type='fullslide'.\nAdd a title using +labs(title = 'Title')")
+    message("Your plot has no title, which is weird for a fullslide.\nAdd a title using +labs(title = 'Title')")
     stored_title <- ""
   }
 
@@ -53,7 +53,7 @@ create_fullslide <- function(object){
 
   # add line break to subtitle where necessary
   if(is.null(stored_subtitle)){
-    message("Your plot has no subtitle, which is weird for type='fullslide'.\nConsider adding a subtitle using labs(subtitle = 'Text')")
+    message("Your plot has no subtitle, which is weird for a fullslide.\nConsider adding a subtitle using labs(subtitle = 'Text')")
     stored_subtitle <- ""
   }
   if(nchar(stored_subtitle) <= char_width_grattan_subtitle){
@@ -125,7 +125,7 @@ create_fullslide <- function(object){
   toptitle <- ggplot2::ggplot() +
     ggplot2::geom_blank() +
     ggplot2::labs(title = stored_title) +
-    theme_grattan() +
+    theme_grattan(base_size = ifelse(type == "fullslide", 18, 24)) +
     ggplot2::theme(rect = ggplot2::element_blank(),
                    plot.title = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0),
                    plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
@@ -150,30 +150,31 @@ create_fullslide <- function(object){
 
   # create header (= title + logo side by side)
 
+  width_title <- ifelse(type == "fullslide", 17.73,  25.43)
+
   header <- gridExtra::grid.arrange(toptitle, logogrob,
                                     ncol = 2,
-                                    widths = unit(c(17.73, 4.57), "cm"),
+                                    widths = unit(c(width_title,4.57), "cm"),
                                     heights = unit(1.48, "cm"))
 
   # create main plotting area
   mainarea <- gridExtra::grid.arrange(border, header, linegrob, topsubtitle, p, border,
                                       ncol = 1,
-                                      heights = unit(c(0.92, 1.48, 0.1, 1.73, 14.5, 0.46), "cm"),
-                                      widths = unit(17.73 + 4.57, "cm"))
+                                      heights = unit(c(0.73, 1.65, 0.1, 1.73, 14.5, 0.34), "cm"),
+                                      widths = unit(ifelse(type == "fullslide", 22.16, 30), "cm"))
 
   # create total plot
 
+  width_leftborder <- ifelse(type == "fullslide", (25.4 - 22.16) / 2, (33.87 - 30) / 2)
+  width_mainarea <- ifelse(type == "fullslide", 22.16, 30)
+  width_rightborder <- width_leftborder
+
   total <- gridExtra::grid.arrange(border, mainarea, border, ncol = 3,
-                                   widths = unit(c((25.4 - (17.73 + 4.57))/2,
-                                                   17.73 + 4.57,
-                                                   (25.4 - (17.73 + 4.57))/2),
+                                   widths = unit(c(width_leftborder, width_mainarea, width_rightborder),
                                                  "cm"))
 
   # plot original chart again (so last_plot() shows this instead of topsubtitle)
   print(object)
-
-  # save full image incl. logo etc.
-  # ggplot2::ggsave(filename, plot = total, width = 25.4, height = 19.05, units = "cm", dpi = "retina")
 
   total
 
