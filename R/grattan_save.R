@@ -124,7 +124,9 @@ grattan_save <- function(filename,
     filetype <- tools::file_ext(filename)
     file_name <- tools::file_path_sans_ext(basename(filename))
 
-    dir.create(dir, recursive = TRUE)
+    if(!dir.exists(dir)){
+      dir.create(dir, recursive = TRUE)
+    }
 
     types <- chart_types$type
 
@@ -184,13 +186,7 @@ grattan_save_ <- function(filename,
          "subtitle" %in% names(object$labels) |
          "caption"  %in% names(object$labels)){
         message(paste0("Note: ", type, " charts remove titles, subtitles, or captions by default.\nSet `force_labs` to TRUE to retain them, or use type = 'fullslide'"))
-      }
-      # if("title"    %in% names(object$labels)) message("Note: This save type removes titles.")
-      # if("subtitle" %in% names(object$labels)) message("Note: This save type removes subtitles.")
-      # if("caption"  %in% names(object$labels)) message("Note: This save type removes captions.")
 
-      if(any(c("title", "subtitle", "caption") %in% names(object$labels))) {
-        message("Use type = \"fullslide\" to show titles, subtitles and captions.\nAlternatively, set force_labs = TRUE.")
 
         object <- object +
           theme(plot.title = element_blank(),
