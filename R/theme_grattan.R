@@ -10,7 +10,7 @@
 #' @param background "white" by default. Set to "orange" or "box" if you're making a chart
 #' to go in a Grattan report box.
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
-#' desired.
+#' desired, or a two element numeric vector such as c(0.9, 0.1).
 #'
 #' @importFrom ggthemes theme_foundation
 #' @import ggrepel
@@ -63,8 +63,7 @@
 #'     geom_point() +
 #'     scale_y_continuous_grattan(limits = c(10, NA)) +
 #'     scale_colour_manual(values = grattan_pal(n = 3)) +
-#'     theme_grattan() +
-#'     theme(legend.position = "bottom")
+#'     theme_grattan(legend = "bottom")
 #'
 #' # The flipped = TRUE option makes things easier when using coord_flip, as in:
 #'
@@ -72,8 +71,7 @@
 #'     geom_point() +
 #'     scale_y_continuous_grattan(limits = c(10, NA)) +
 #'     scale_colour_manual(values = grattan_pal(n = 3)) +
-#'     theme_grattan(flipped = TRUE) +
-#'     theme(legend.position = "bottom") +
+#'     theme_grattan(flipped = TRUE, legend = "bottom") +
 #'     coord_flip()
 #'
 #'
@@ -109,8 +107,6 @@
 #'  grattan_save("your_file.png")
 #'
 #' @export
-
-
 
 theme_grattan <- function(base_size = 18,
                            base_family = "sans",
@@ -180,31 +176,11 @@ theme_grattan <- function(base_size = 18,
           plot.margin = unit(c(0.1, 0.75, 0.1, 0.25) , "lines"),
           complete = TRUE)
 
-  # Define defaults for individual geoms in a style guide-consistent way
-  # Note: looks as if update_geom_defaults() may be deprecated in a future ggplot2
-  # release (see https://github.com/tidyverse/ggplot2/pull/2749) in favour of a new
-  # way to update geom defaults; when this happens, replace the code below
-  ggplot2::update_geom_defaults("point", list(colour = grattantheme::grattan_lightorange,
-                                              size = 6 / .pt ))
-  ggplot2::update_geom_defaults("bar", list(colour = "white",
-                                            fill = grattantheme::grattan_lightorange,
-                                            size = 0.75 / .pt ))
-  ggplot2::update_geom_defaults("col", list(colour = "white",
-                                            fill = grattantheme::grattan_lightorange,
-                                            size = 0.75 / .pt ))
-  ggplot2::update_geom_defaults("line", list(colour = grattantheme::grattan_lightorange,
-                                             size = 3 / .pt))
-  ggplot2::update_geom_defaults("text", list(colour = "black",
-                                             size = 18 / .pt))
-  ggplot2::update_geom_defaults("smooth", list(colour = grattantheme::grattan_lightorange,
-                                               fill = grattantheme::grattan_lightorange))
 
-  ggplot2::update_geom_defaults("path", list(colour = grattantheme::grattan_lightorange,
-                                             size = 3 / .pt))
+  # call a function that modifies various geom defaults
+  grattanify_geom_defaults()
 
-  ggplot2::update_geom_defaults(ggrepel::GeomTextRepel, list(size = 18 / .pt,
-                                                             colour = "black"))
-
+  # reverse when flipped = TRUE
   if (flipped == TRUE) {
     ret <- ret + ggplot2::theme(panel.grid.major.x = ggplot2::element_line(),
                        panel.grid.major.y = ggplot2::element_blank(),

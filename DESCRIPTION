@@ -15,6 +15,7 @@ Imports:
     ggthemes (>= 4.0),
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.1),
+    purrr (>= 0.3.0),
     grid,
     gridExtra,
     knitr,

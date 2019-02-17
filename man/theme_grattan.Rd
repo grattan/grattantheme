@@ -22,7 +22,7 @@ hiding the horizontals.}
 to go in a Grattan report box.}
 
 \item{legend}{"off" by default. Set to "bottom", "left", "right" or "top" as
-desired.}
+desired, or a two element numeric vector such as c(0.9, 0.1).}
 }
 \description{
 Create a ggplot2 theme consistent with the Grattan style guide.
@@ -74,8 +74,7 @@ ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
     scale_y_continuous_grattan(limits = c(10, NA)) +
     scale_colour_manual(values = grattan_pal(n = 3)) +
-    theme_grattan() +
-    theme(legend.position = "bottom")
+    theme_grattan(legend = "bottom")
 
 # The flipped = TRUE option makes things easier when using coord_flip, as in:
 
@@ -83,8 +82,7 @@ ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
     scale_y_continuous_grattan(limits = c(10, NA)) +
     scale_colour_manual(values = grattan_pal(n = 3)) +
-    theme_grattan(flipped = TRUE) +
-    theme(legend.position = "bottom") +
+    theme_grattan(flipped = TRUE, legend = "bottom") +
     coord_flip()
 
 

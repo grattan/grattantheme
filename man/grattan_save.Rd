@@ -4,24 +4,38 @@
 \alias{grattan_save}
 \title{Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().}
 \usage{
-grattan_save(filename, object = ggplot2::last_plot(), height = 14.5,
-  width = 22.16, type = "normal", save_data = FALSE,
-  force_labs = FALSE)
+grattan_save(filename, object = ggplot2::last_plot(), type = "normal",
+  save_data = FALSE, force_labs = FALSE)
 }
 \arguments{
-\item{filename}{Required. This parameter sets the filename (including path where necessary) where you want to save your image. The extension defines the file type. Suggested filetypes are "pdf" or "png", but others are available (see \code{?ggsave} for the full list).}
+\item{filename}{Required. This parameter sets the filename (including path where necessary)
+where you want to save your image. The extension defines the file type. Suggested filetypes
+are "pdf" or "png", but others are available (see \code{?ggsave} for the full list).}
 
-\item{object}{The ggplot2 graph object to be saved. Defaults to \code{last_plot()}, which will save the last plot that was displayed in your session.}
+\item{object}{The ggplot2 graph object to be saved. Defaults to \code{last_plot()}, which
+will save the last plot that was displayed in your session.}
 
-\item{height}{Default is 14.5cm, Grattan normal size default. See \code{type}.}
+\item{type}{Sets height and width to Grattan defaults. The following chart types are available:
 
-\item{width}{Default is 22.16cm, Grattan normal size default. See \code{type}.}
+\itemize{
+ \item{"normal"}{ The default. Use for normal Grattan report charts, or to paste into a 4:3 Powerpoint slide.
+ Width: 22.2cm, height: 14.5cm.}
+ \item{"normal_169"}{ Only useful for pasting into a 16:9 format Grattan Powerpoint slide. Width: 30cm, height: 14.5cm.}
+ \item{"tiny"}{ Fills the width of a column in a Grattan report, but is shorter than usual. Width: 22.2cm,
+ height: 11.1cm.}
+ \item{"wholecolumn"}{ Takes up a whole column in a Grattan report. Width: 22.2cm, height: 22.2cm.}
+ \item{"fullpage"}{ Fills a whole page of a Grattan report. Width: 44.3cm, height: 22.2cm.}
+ \item{"fullslide}{ Creates an image that looks like a 4:3 Grattan Powerpoint slide, complete with logo. Use this for the
+ Grattan Blog. Width: 25.4cm, height: 19.0cm.}
+ \item{"fullslide_169}{ Creates an image that looks like a 16:9 Grattan Powerpoint slide, complete with logo.
+ Width: 33.9cm, height: 19.0cm}
+}
 
-\item{type}{Sets height and width to Grattan defaults for one of c("normal", "tiny", "wholecolumn", "fullpage", "fullslide"). 'normal' is the default and uses default height and width. 'tiny' uses height of 11.08cm and default width. 'wholecolumn' uses height of 22.16cm and default width. 'fullpage' uses height 22.16cm and width of 44.32cm. 'fullslide' saves an image that can be used as a complete 4:3 Powerpoint slide, complete with Grattan logo.}
+Set type = "all" to save your chart in all available sizes.}
 
-\item{save_data}{Logical. Default is FALSE. If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension.}
+\item{save_data}{Logical. Default is FALSE, unless type = "all". If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension. Data will always be saved if type = "all".}
 
-\item{force_labs}{Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = \"fullslide\". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.}
+\item{force_labs}{Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = "fullslide". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.}
 }
 \description{
 Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().
@@ -78,7 +92,7 @@ grattan_save("p.png")
          subtitle = "Subtitle goes here",
          caption = "Notes: Notes go here. Source: Source goes here")
 
- grattan_save("your_file.png", type = "fullslide")
+ grattan_save("your_file.png", type = "normal")
 
 
 }
