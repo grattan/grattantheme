@@ -15,7 +15,7 @@ create_fullslide <- function(object, type){
   # widths in characters
   char_width_grattan_title <- ifelse(type == "fullslide", 50, 55)
   char_width_grattan_subtitle <- ifelse(type == "fullslide", 70, 95)
-  char_width_grattan_caption <- ifelse(type == "fullslide", 140, 165)
+  char_width_grattan_caption <- chart_types$caption[chart_types$type == type]
 
   # extract title and subtitle, created as usual in the plotting process
   stored_title <- p$labels$title

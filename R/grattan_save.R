@@ -193,7 +193,8 @@ grattan_save_ <- function(filename,
                 plot.subtitle = element_blank(),
                 plot.caption = element_blank())
       }
-    }
+    } # add 'else' condition here to wrap captions etc
+
   } # end of section that only apples to type != "fullslide
 
   width <- chart_types$width[chart_types$type == type]
