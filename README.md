@@ -6,11 +6,11 @@ Create ggplot2 charts in the Grattan Institute style.
 
 Use `theme_grattan()` to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc.
 
-Use `grattan_pal()` to format the coloured elements of your ggplot2 chart using appropriately-spaced Grattan colours, ordered from either light to dark or the reverse.
+Use `grattan_colour_manual(n)` or `grattan_fill_manual(n)` to format the `n` coloured elements of your `ggplot2` plot. These functions will choose appropriately-spaced Grattan colours, ordered from either light to dark or the reverse. Note that this is the same as `scale_colour_manual(values = grattan_pal(n)`, where `grattan_pal(n)` returns a vector of `n` Grattan colours:
 
 ![grattan_pal](man/grattan_pal_colours.png)
 
-Use `scale_y_continuous_grattan()` to set default values for your vertical axis that will work well with most Grattan charts.
+Use `grattan_y_continuous()` to set default values for your vertical axis that will work well with most Grattan charts.
 
 Use `grattan_save()` to save your ggplot2 charts (eg. as `.png` or `.pdf` files) for use elsewhere, such as in Powerpoint, LaTeX, or the Grattan Blog, with the size and resolution set to style guide-consistent values.
 
