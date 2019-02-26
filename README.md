@@ -16,5 +16,7 @@ Use `grattan_save()` to save your ggplot2 charts (eg. as `.png` or `.pdf` files)
 
 A range of colours from the style guide (such as `grattan_lightorange`, `grattan_red`, and so on) are defined for your convenience.
 
+See the [grattantheme vignette](https://github.com/MattCowgill/grattantheme/blob/master/vignettes/using_grattantheme.pdf) to learn how to make your ggplot2 charts Grattan-y.
+
 Please note that some manual modification to your chart will most likely be required in order to make it fully consistent with the style guide, just as it would in other graphing software. Some graph defaults (such as colour) will be modified during your R session; restart R to restore all defaults.
 
