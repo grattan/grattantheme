@@ -7,9 +7,11 @@
 grattan_pal(n = 0, reverse = FALSE)
 }
 \arguments{
-\item{n}{Numeric. The number of levels in your colour scale. Minimum value is 1, maximum is 7.
-If you don't specify `n`, a five-colour palette will be used, which may not look right.
-Specify `n`. By default, n = 2 will give you light orange and dark orange.
+\item{n}{Numeric. The number of levels in your colour scale. Minimum value is 1,
+maximum is 10. Using more than 6 is not recommended. If you don't specify `n`,
+a five-colour palette will be used, which may not look right. Specify `n`.
+
+By default, n = 2 will give you light orange and dark orange.
 Use n = "2a" if you want light orange and red.}
 
 \item{reverse}{Logical. FALSE by default. Setting to TRUE reverses the
@@ -21,10 +23,21 @@ Create a Grattan-appropriate palette for your chart.
 }
 \examples{
 library(ggplot2)
+
 p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     geom_point() +
     theme_grattan() +
-    scale_colour_manual(values = grattan_pal(n = 3, reverse = FALSE))
+    scale_colour_manual(values = grattan_pal(n = 3))
+
+p
+
+# Alternatively, use grattan_colour_manual(), which is a wrapper
+# around scale_colour_manual():
+
+p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    theme_grattan() +
+    grattan_colour_manual(n = 3)
 
 p
 
