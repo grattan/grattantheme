@@ -95,9 +95,9 @@ create_fullslide <- function(object, type){
       stored_caption <- paste0(strwrap(stored_caption, char_width_grattan_caption), collapse = "\n")
     }
   } else { # now deal with the case when "notes" and "source" are present
-    notes_and_source <- strsplit(stored_caption, split = "Source:")
+    notes_and_source <- strsplit(stored_caption, split = "Source")
     notes <- notes_and_source[[1]][1]
-    source <- paste0("Source:", notes_and_source[[1]][2])
+    source <- paste0("Source", notes_and_source[[1]][2])
 
     notes <- paste0(strwrap(notes, char_width_grattan_caption),
                     collapse = "\n")
