@@ -75,17 +75,17 @@ grattan_pal <- function(n = 0, reverse = FALSE){
     palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
                  grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
                  grattantheme::grattan_red, grattantheme::grattan_darkred, "black",
-                 grattan_grey3)
+                 grattan_grey4)
   } else if(n == 9){
     palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
                  grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
                  grattantheme::grattan_red, grattantheme::grattan_darkred, "black",
-                 grattan_grey3, grattan_grey2)
+                 grattan_grey4, grattan_grey3)
   } else if(n == 10){
     palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
                  grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
                  grattantheme::grattan_red, grattantheme::grattan_darkred, "black",
-                 grattan_grey3, grattan_grey2, grattan_grey1)
+                 grattan_grey4, grattan_grey3, grattan_grey2)
   }
 
 
