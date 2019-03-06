@@ -43,7 +43,7 @@ grattan_pal <- function(n = 0, reverse = FALSE){
     warning("Using more than six colours is not recommended.")
   }
 
-  if(n > 10){
+  if(n > 10 & n != "2a"){
     stop(paste0("You've requested ", n, " colours; grattan_pal() only supports up to 10."))
   }
 
