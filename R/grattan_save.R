@@ -201,7 +201,7 @@ grattan_save_ <- function(filename,
 
         object$layout$l[object$layout$name %in% c("title", "subtitle", "caption")] <- 1
 
-        grid::grid.draw(object)
+        #grid::grid.draw(object)
     }
 
   } # end of section that only apples to type != "fullslide
