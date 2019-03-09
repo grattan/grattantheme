@@ -193,7 +193,16 @@ grattan_save_ <- function(filename,
                 plot.subtitle = element_blank(),
                 plot.caption = element_blank())
       }
-    } # add 'else' condition here to wrap captions etc
+    } else {
+    # non-fullslide, force_labs = TRUE
+        object <- wrap_labs(object, type)
+
+        object <- ggplotGrob(object)
+
+        object$layout$l[object$layout$name %in% c("title", "subtitle", "caption")] <- 1
+
+        grid::grid.draw(object)
+    }
 
   } # end of section that only apples to type != "fullslide
 

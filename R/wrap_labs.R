@@ -2,28 +2,30 @@
 
 wrap_labs <- function(object, type){
 
+  p <- object
+
   # widths in characters
-  char_width_grattan_title <- ifelse(type == "fullslide", 50, 55)
-  char_width_grattan_subtitle <- ifelse(type == "fullslide", 70, 95)
-  char_width_grattan_caption <- chart_types$caption[chart_types$type == type]
+  char_width_grattan_title <-    chart_types$title[chart_types$type == type]
+  char_width_grattan_subtitle <- chart_types$subtitle[chart_types$type == type]
+  char_width_grattan_caption <-  chart_types$caption[chart_types$type == type]
 
   # extract title and subtitle, created as usual in the plotting process
   stored_title <- p$labels$title
   stored_subtitle <- p$labels$subtitle
   stored_caption <- p$labels$caption
 
+  stored_title <- ifelse(is.null(stored_title), "", stored_title)
+  stored_subtitle <- ifelse(is.null(stored_subtitle), "", stored_subtitle)
+  stored_caption <- ifelse(is.null(stored_caption), "", stored_caption)
+
   # add line break to title where necessary
-  if(is.null(stored_title)){
-    message("Your plot has no title, which is weird for a fullslide.\nAdd a title using +labs(title = 'Title')")
-    stored_title <- ""
+  if(nchar(stored_title) <= char_width_grattan_title &
+     type %in% c("fullslide", "fullslide169")){
+
+      stored_title <- paste0("\n", stored_title)
   }
 
-  if(nchar(stored_title) <= char_width_grattan_title){
-    stored_title <- paste0("\n", stored_title)
-
-  } else {
-
-    if(nchar(stored_title) > 2 * char_width_grattan_title) {
+  if(nchar(stored_title) > 2 * char_width_grattan_title) {
       # if title > 2 lines, return an informative error that tells users
       # where they need to trim their title to
 
@@ -32,27 +34,27 @@ wrap_labs <- function(object, type){
       trimmed_title_final_words <- paste0(utils::tail(strsplit(trimmed_title,split=" ")[[1]],2), collapse = " ")
 
       # return an error and tell the user where the useable string ends
-      stop(paste0('Your chart title is too long for a Grattan Powerpoint slide. Please reduce the length of the title.\nEverything after "', trimmed_title_final_words, '" cannot fit onto the slide.'))
-    } else {
+      stop(paste0('Your chart title is too long for a Grattan chart. Please reduce the length of the title.\nEverything after "', trimmed_title_final_words, '" cannot fit onto the slide.'))
+    }
+
+  if(nchar(stored_title) <= 2 * char_width_grattan_title &
+     nchar(stored_title) > char_width_grattan_title) {
 
       stored_title <- paste0(strwrap(stored_title, char_width_grattan_title)[1],
                              "\n",
                              strwrap(stored_title, char_width_grattan_title)[2])
     }
-  }
+
 
   # add line break to subtitle where necessary
-  if(is.null(stored_subtitle)){
-    message("Your plot has no subtitle, which is weird for a fullslide.\nConsider adding a subtitle using labs(subtitle = 'Text')")
-    stored_subtitle <- ""
-  }
 
-  if(nchar(stored_subtitle) <= char_width_grattan_subtitle){
+  if(nchar(stored_subtitle) <= char_width_grattan_subtitle &
+     type %in% c("fullslide", "fullslide_169")){
     stored_subtitle <- paste0(stored_subtitle, "\n")
 
-  } else {
+  }
 
-    if(nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
+  if(nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
       # code to figure out the final 2 chunks of text before the title limit
       trimmed_subtitle <- strtrim(stored_subtitle, 2* char_width_grattan_subtitle)
       trimmed_subtitle_final_words <- paste0(utils::tail(strsplit(trimmed_subtitle,split=" ")[[1]],2), collapse = " ")
@@ -60,20 +62,18 @@ wrap_labs <- function(object, type){
       stop(paste0('Your chart subtitle is too long for a Grattan Powerpoint slide. Please reduce subtitle length.\nEverything after "', trimmed_subtitle_final_words, '" cannot fit onto the slide.'))
 
 
-    } else {
-
-      stored_subtitle <- paste0(strwrap(stored_subtitle, char_width_grattan_subtitle)[1],
-                                "\n",
-                                strwrap(stored_subtitle, char_width_grattan_subtitle)[2])
-    }
-
   }
+
+  if(nchar(stored_subtitle) <= 2 * char_width_grattan_subtitle &
+     nchar(stored_subtitle) > char_width_grattan_subtitle) {
+
+        stored_subtitle <- paste0(strwrap(stored_subtitle, char_width_grattan_subtitle)[1],
+                                  "\n",
+                                  strwrap(stored_subtitle, char_width_grattan_subtitle)[2])
+  }
+
 
   # add line break to caption where necessary
-  if(is.null(stored_caption)){
-    message("Your plot has no caption, which is weird for full slide charts.\nConsider adding a caption using labs(caption = 'Text')")
-    stored_caption <- ""
-  }
 
   contains_notes_and_source <- grepl("notes?:", tolower(stored_caption)) & grepl("sources?:", tolower(stored_caption))
 
@@ -99,11 +99,12 @@ wrap_labs <- function(object, type){
     stored_caption <- paste0(notes, "\n", source)
   }
 
- object$labels$title <- stored_title
- object$labels$subtitle <- stored_subtitle
- object$labels$caption <- stored_caption
+ p$labels$title <- stored_title
+ p$labels$subtitle <- stored_subtitle
+ p$labels$caption <- stored_caption
+
+ object <- p
 
  object
-
 
 }

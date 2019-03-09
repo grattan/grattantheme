@@ -18,13 +18,24 @@ create_fullslide <- function(object, type){
   stored_subtitle <- p$labels$subtitle
   stored_caption <- p$labels$caption
 
+  if(stored_title == "\n"){
+    message("Your plot has no title, which is weird for a fullslide.\nAdd a title using +labs(title = 'Title')")
+    stored_title <- ""
+  }
+
+  if(stored_subtitle == "\n"){
+    message("Your plot has no subtitle, which is weird for a fullslide.\nConsider adding a subtitle using labs(subtitle = 'Text')")
+    stored_subtitle <- ""
+  }
+
+  if(stored_caption == ""){
+    message("Your plot has no caption, which is weird for full slide charts.\nConsider adding a caption using labs(caption = 'Text')")
+    stored_caption <- ""
+  }
+
   # remove title and subtitle on chart
   p$labels$title <- NULL
   p$labels$subtitle <- NULL
-
-  # replace caption with version split over several lines (where necessary)
-
-  p$labels$caption <- stored_caption
 
   # left align caption
   p <- ggplot2::ggplotGrob(p)
@@ -48,9 +59,6 @@ create_fullslide <- function(object, type){
                    plot.subtitle = ggplot2::element_text(colour = "black", hjust = 0, vjust = -2),
                    plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
 
-  # create new grob with the logo
-  #logogrob <- grid::rasterGrob(png::readPNG(source = "atlas/logo.png"))
-
   # create new grob of whitespace to be the border
   border <- grid::rectGrob(gp = grid::gpar(fill = "white", col = "white"))
 
@@ -58,7 +66,6 @@ create_fullslide <- function(object, type){
   linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F3901D", col = "white"))
 
   # create header (= title + logo side by side)
-
   width_title <- ifelse(type == "fullslide", 17.73,  25.43)
 
   header <- gridExtra::grid.arrange(toptitle, logogrob,
