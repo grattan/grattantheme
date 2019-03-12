@@ -89,10 +89,11 @@ grattan_pal <- function(n = 0, reverse = FALSE){
   }
 
 
-  if(reverse == TRUE){
-    rev(palette)
-  } else {
-    palette
-  }
+    if(reverse == TRUE){
+      rev(palette)
+    } else {
+      palette
+    }
+
 
 }

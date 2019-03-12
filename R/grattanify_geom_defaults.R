@@ -1,4 +1,4 @@
-#' @importFrom ggplot2 update_geom_defaults
+#' @importFrom ggplot2 update_geom_defaults .pt
 
 grattanify_geom_defaults <- function() {
     # Define defaults for individual geoms in a style guide-consistent way
@@ -30,6 +30,8 @@ grattanify_geom_defaults <- function() {
     ggplot2::update_geom_defaults(ggrepel::GeomLabelRepel, list(size = 18 / .pt,
                                                                 fill = "white",
                                                                 colour = grattantheme::grattan_lightorange))
+
+    ggplot2::update_geom_defaults("label", list(size = 18 / .pt, fill = "white"))
 
     ggplot2::update_geom_defaults("area", list(fill = grattantheme::grattan_lightorange,
                                                col = grattantheme::grattan_lightorange))
