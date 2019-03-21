@@ -80,7 +80,8 @@ stitch_pdfs <- function(pdfs, output = NULL){
   writeLines(fulldoc, "temp_rmd.Rmd")
 
   rmarkdown::render("temp_rmd.Rmd", output_file = output_file,
-                    output_dir = output_dir)
+                    output_dir = output_dir,
+                    quiet = TRUE)
 
   file.remove("temp_rmd.Rmd")
 }
