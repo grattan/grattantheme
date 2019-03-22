@@ -58,9 +58,13 @@ make_slide <- function(graph = last_plot(),
 
   temp_template <- paste0(temp_dir, basename(template_source))
 
-  file.copy(from = template_source,
+  result_of_copy <- file.copy(from = template_source,
             to = temp_template,
             overwrite = TRUE)
+
+  if(!result_of_copy){
+    stop("make_slide() encountered a problem copying the Powerpoint template to a temporary directory.")
+  }
 
   backticks <- paste0((rep("\x60", 3)), collapse = "")
 
@@ -129,9 +133,7 @@ make_slide <- function(graph = last_plot(),
                     output_dir = output_dir,
                     quiet = TRUE)
 
-  file.remove(paste0(temp_dir, "/temp_rmd.Rmd"))
-
-
+  result_of_file_remove <- file.remove(paste0(temp_dir, "/temp_rmd.Rmd"))
 
 }
 
