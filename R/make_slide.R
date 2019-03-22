@@ -1,22 +1,40 @@
-
-#' @importFrom rlang quo as_name
+#' Create a Powerpoint slide that contains a Grattan graph and editable title and subtitle
+#'
+#' @param graph The graph you want to include on your slide. Defaults to the last plot (ggplot2::last_plot())
+#' @param filename The filename for your Powerpoint slide.
+#' @param path Path to the directory you wish to save your slide in. Defaults to your working directory.
+#' @param type The type of Powerpoint slide to create; either "16:9" (the default, for a 16:9 orientation slide), or "4:3".
 #' @importFrom rmarkdown render
+#' @importFrom tools file_path_sans_ext
 #' @export
 
 
-make_slide <- function(graph = last_plot(), path = "."){
+make_slide <- function(graph = last_plot(),
+                       filename = NULL,
+                       path = ".",
+                       type = "16:9"){
 
   if(!"gg" %in% class(graph)){
     stop("The object is not a ggplot2 graph and cannot be plotted with make_slide()")
   }
 
+  if(is.null(filename)){
+    stop("You must specify a filename (such as 'my_slide') for the Powerpoint slide you wish to create.")
+  }
+
+  if(is.null(path)){
+    stop("You must specify a path to the directory where you want your slide to be saved.")
+  }
+
+  if(is.null(type) | !type %in% c("16:9", "4:3")){
+    stop("You must specify what type of slide you want - either '16:9' (the default) or '4:3'")
+  }
+
   p <- graph
 
-  #p <- wrap_labs(p, type = "normal_169")
+  filename <- tools::file_path_sans_ext("test.pptx")
 
-  graph_name <- rlang::quo(p) %>% rlang::as_name()
-
-  output_file <- paste0(graph_name, ".pptx")
+  output_file <- paste0(filename, ".pptx")
   output_dir <- dirname(path)
 
   if(!dir.exists(output_dir)){
@@ -25,7 +43,12 @@ make_slide <- function(graph = last_plot(), path = "."){
 
   # copy template to temporary directory
 
-  template_source <- system.file("extdata/template_169.pptx", package = "grattantheme")
+  if(type == "16:9"){
+    template_source <- system.file("extdata/template_169.pptx", package = "grattantheme")
+  } else {
+    template_source <- system.file("extdata/template_43.pptx", package = "grattantheme")
+  }
+
 
   temp_dir <- paste0(tempdir(), "/make_slide/")
 
@@ -65,12 +88,19 @@ make_slide <- function(graph = last_plot(), path = "."){
   p$labels$title <- NULL
   p$labels$subtitle <- NULL
 
-  p <- wrap_labs(p, type = "fullslide_169")
+  p <- wrap_labs(p,
+                 type = ifelse(type == "16:9",
+                               "normal_169",
+                               "normal"))
 
   plot_filename <- paste0(temp_dir, "plot.png")
 
   grattan_save(filename = plot_filename,
-               object = p, type = "normal_169", force_labs = TRUE)
+               object = p,
+               type = ifelse(type == "16:9",
+                             "normal_169",
+                             "normal"),
+               force_labs = TRUE)
 
 
   plot_area <- paste(graph_title,
