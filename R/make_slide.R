@@ -5,6 +5,7 @@
 #' @param path Path to the directory you wish to save your slide in. Defaults to your working directory.
 #' @param type The type of Powerpoint slide to create; either "16:9" (the default, for a 16:9 orientation slide), or "4:3".
 #' @importFrom rmarkdown render
+#' @importFrom knitr opts_chunk
 #' @importFrom tools file_path_sans_ext
 #' @export
 
