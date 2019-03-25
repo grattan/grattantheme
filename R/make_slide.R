@@ -33,7 +33,7 @@ make_slide <- function(graph = last_plot(),
 
   p <- graph
 
-  filename <- tools::file_path_sans_ext("test.pptx")
+  filename <- tools::file_path_sans_ext(filename)
 
   output_file <- paste0(filename, ".pptx")
   output_dir <- dirname(path)
