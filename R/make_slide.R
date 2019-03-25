@@ -44,20 +44,24 @@ make_slide <- function(graph = last_plot(),
 
   # copy template to temporary directory
 
+
   if(type == "16:9"){
-    template_source <- system.file("extdata/template_169.pptx", package = "grattantheme")
+    template_source <- system.file(file.path("extdata", "template_169.pptx"),
+                                   package = "grattantheme")
   } else {
-    template_source <- system.file("extdata/template_43.pptx", package = "grattantheme")
+    template_source <- system.file(file.path("extdata", "template_43.pptx"),
+                                   package = "grattantheme")
   }
 
 
-  temp_dir <- paste0(tempdir(), "/make_slide/")
+  temp_dir <- file.path(tempdir(), "make_slide")
+  #temp_dir <- paste0(tempdir(), "/make_slide/")
 
   if(!dir.exists(temp_dir)){
     dir.create(temp_dir)
   }
 
-  temp_template <- paste0(temp_dir, basename(template_source))
+  temp_template <- file.path(temp_dir, basename(template_source))
 
   result_of_copy <- file.copy(from = template_source,
             to = temp_template,
@@ -98,7 +102,7 @@ make_slide <- function(graph = last_plot(),
                                "normal_169",
                                "normal"))
 
-  plot_filename <- paste0(temp_dir, "plot.png")
+  plot_filename <- file.path(temp_dir, "plot.png")
 
   grattan_save(filename = plot_filename,
                object = p,
@@ -127,14 +131,14 @@ make_slide <- function(graph = last_plot(),
                    plot_area,
                    sep = "\n")
 
-  writeLines(fulldoc, paste0(temp_dir,"/temp_rmd.Rmd"))
+  writeLines(fulldoc, file.path(temp_dir,"temp_rmd.Rmd"))
 
-  rmarkdown::render(paste0(temp_dir, "/temp_rmd.Rmd"),
+  rmarkdown::render(file.path(temp_dir, "temp_rmd.Rmd"),
                     output_file = output_file,
                     output_dir = output_dir,
                     quiet = TRUE)
 
-  result_of_file_remove <- file.remove(paste0(temp_dir, "/temp_rmd.Rmd"))
+  result_of_file_remove <- file.remove(file.path(temp_dir, "temp_rmd.Rmd"))
 
 }
 
