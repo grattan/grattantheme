@@ -74,7 +74,8 @@ make_slide <- function(graph = last_plot(),
   backticks <- paste0((rep("\x60", 3)), collapse = "")
 
   ref_doc <- paste0('    reference_doc: "',
-                    temp_template,
+                    #temp_template,
+                    basename(template_source),
                     '"')
 
   yaml_header <- paste("---",
@@ -119,7 +120,8 @@ make_slide <- function(graph = last_plot(),
                      ":::",
                      "::: {.column}",
                      paste0("![](",
-                            plot_filename,
+                            #plot_filename,
+                            basename(plot_filename),
                             ")"),
                      ":::",
                      "::::::::::::::",
