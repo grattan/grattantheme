@@ -19,3 +19,25 @@ make_slide(graph = last_plot(), filename = NULL, path = ".",
 \description{
 Create a Powerpoint slide that contains a Grattan graph and editable title and subtitle
 }
+\examples{
+
+# First, create your ggplot2 object. Include your subtitle, title, and caption with +labs()
+
+library(ggplot2)
+library(grattantheme)
+
+ggplot(mtcars, aes(x = mpg, y = hp)) +
+   geom_point() +
+   theme_grattan() +
+   labs(title = "Long title goes here with a bunch of text lorem ipsum
+   Grattan blah blah sensible orange",
+   subtitle = "Subtitle",
+   caption = "Source: blah")
+
+# Now, create a Powerpoint slide with your graph in your working directory.
+# By default, make_slide() will use the last plot you generated; you can specify a
+# different object to use with the `graph` argument.
+
+make_slide(filename = "test.pptx")
+
+}

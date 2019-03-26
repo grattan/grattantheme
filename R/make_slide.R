@@ -7,6 +7,28 @@
 #' @importFrom rmarkdown render
 #' @importFrom knitr opts_chunk
 #' @importFrom tools file_path_sans_ext
+#'
+#' @examples
+#'
+#' # First, create your ggplot2 object. Include your subtitle, title, and caption with +labs()
+#'
+#'library(ggplot2)
+#'library(grattantheme)
+#'
+#'ggplot(mtcars, aes(x = mpg, y = hp)) +
+#'    geom_point() +
+#'    theme_grattan() +
+#'    labs(title = "Long title goes here with a bunch of text lorem ipsum
+#'    Grattan blah blah sensible orange",
+#'    subtitle = "Subtitle",
+#'    caption = "Source: blah")
+#'
+#' # Now, create a Powerpoint slide with your graph in your working directory.
+#' # By default, make_slide() will use the last plot you generated; you can specify a
+#' # different object to use with the `graph` argument.
+#'
+#' make_slide(filename = "test.pptx")
+#'
 #' @export
 
 
