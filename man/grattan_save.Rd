@@ -28,7 +28,9 @@ will save the last plot that was displayed in your session.}
  \item{"fullslide}{ Creates an image that looks like a 4:3 Grattan Powerpoint slide, complete with logo. Use this for the
  Grattan Blog. Width: 25.4cm, height: 19.0cm.}
  \item{"fullslide_169}{ Creates an image that looks like a 16:9 Grattan Powerpoint slide, complete with logo.
- Width: 33.9cm, height: 19.0cm}
+ Use this to drop into standard presentations. Width: 33.9cm, height: 19.0cm}
+ \item{"fullslide_44"}{ Creates an image that looks like a 4:4 Grattan Powerpoint slide. This may be useful for taller charts
+ for the Grattan blog; not useful for any other purpose. Width: 25.4cm, height: 25.4cm.}
 }
 
 Set type = "all" to save your chart in all available sizes.}

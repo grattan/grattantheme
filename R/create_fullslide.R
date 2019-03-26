@@ -45,7 +45,8 @@ create_fullslide <- function(object, type){
   toptitle <- ggplot2::ggplot() +
     ggplot2::geom_blank() +
     ggplot2::labs(title = stored_title) +
-    theme_grattan(base_size = ifelse(type == "fullslide", 18, 24)) +
+    theme_grattan(base_size = ifelse(type %in% c("fullslide", "fullslide_44"),
+                                     18, 24)) +
     ggplot2::theme(rect = ggplot2::element_blank(),
                    plot.title = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0),
                    plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
@@ -66,23 +67,32 @@ create_fullslide <- function(object, type){
   linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F3901D", col = "white"))
 
   # create header (= title + logo side by side)
-  width_title <- ifelse(type == "fullslide", 17.73,  25.43)
+  width_title <- ifelse(type %in% c("fullslide", "fullslide_44"), 17.73,  25.43)
 
   header <- gridExtra::grid.arrange(toptitle, logogrob,
                                     ncol = 2,
                                     widths = unit(c(width_title,4.57), "cm"),
                                     heights = unit(1.48, "cm"))
 
+
+  plot_height <- ifelse(type == "fullslide_44", 14.5 + (25.4-19.05), 14.5)
+
   # create main plotting area
   mainarea <- gridExtra::grid.arrange(border, header, linegrob, topsubtitle, p, border,
                                       ncol = 1,
-                                      heights = unit(c(0.73, 1.65, 0.1, 1.73, 14.5, 0.34), "cm"),
-                                      widths = unit(ifelse(type == "fullslide", 22.16, 30), "cm"))
+                                      heights = unit(c(0.73, 1.65, 0.1, 1.73, plot_height, 0.34),
+                                                     "cm"),
+                                      widths = unit(ifelse(type %in% c("fullslide", "fullslide_44"),
+                                                                       22.16, 30), "cm"))
 
   # create total plot
 
-  width_leftborder <- ifelse(type == "fullslide", (25.4 - 22.16) / 2, (33.87 - 30) / 2)
-  width_mainarea <- ifelse(type == "fullslide", 22.16, 30)
+  width_leftborder <- ifelse(type %in% c("fullslide", "fullslide_44"),
+                             (25.4 - 22.16) / 2,
+                             (33.87 - 30) / 2)
+
+  width_mainarea <- ifelse(type %in% c("fullslide","fullslide_44"), 22.16, 30)
+
   width_rightborder <- width_leftborder
 
   total <- gridExtra::grid.arrange(border, mainarea, border, ncol = 3,
