@@ -1,3 +1,6 @@
+# grattantheme 0.3.0.900
+* New make_presentation() function takes a list of graphs and creates a .pptx presentation with multiple slides
+
 # grattantheme 0.3.0
 * New make_slide() function creates a .pptx slide with an embedded Grattan-y graph
 * Labels now wrap nicely for various graph types
