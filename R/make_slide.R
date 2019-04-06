@@ -1,5 +1,7 @@
-#' Create a Powerpoint slide that contains a Grattan graph and editable title and subtitle
+#' Create a Powerpoint slide(s) that contains a Grattan graph and editable title and subtitle.
 #'
+#' @description Use `make_slide()` to create a Powerpoint presentation containing a single slide,
+#' or `make_presentation()` for a presentation with multiple slides.
 #' @param graph The graph you want to include on your slide. Defaults to the last plot (ggplot2::last_plot())
 #' @param filename The filename for your Powerpoint slide.
 #' @param path Path to the directory you wish to save your slide in. Defaults to your working directory.
@@ -10,6 +12,7 @@
 #'
 #' @examples
 #'
+#' # To take a single ggplot2 graph and turn it into a slide:
 #' # First, create your ggplot2 object. Include your subtitle, title, and caption with +labs()
 #'
 #'library(ggplot2)
@@ -153,6 +156,182 @@ make_slide <- function(graph = last_plot(),
   fulldoc <- paste(yaml_header,
                    knitr_setup,
                    plot_area,
+                   sep = "\n")
+
+  writeLines(fulldoc, file.path(temp_dir,"temp_rmd.Rmd"))
+
+  rmarkdown::render(file.path(temp_dir, "temp_rmd.Rmd"),
+                    output_file = output_file,
+                    output_dir = output_dir,
+                    quiet = TRUE)
+
+  result_of_file_remove <- file.remove(file.path(temp_dir, "temp_rmd.Rmd"))
+
+}
+
+#' @param graphs A list of ggplot2 objects
+#' @rdname make_slide
+#' @name make_presentation
+#' @examples
+#'
+#' # To take multiple ggplot2 graphs and turn them into slides in a single presentation:
+#' # First, create multiple ggplot2 objects. Include your subtitle, title, and caption with +labs()
+#'
+#'library(ggplot2)
+#'library(grattantheme)
+#'
+#'graph1 <- ggplot(mtcars, aes(x = mpg, y = hp)) +
+#'    geom_point() +
+#'    theme_grattan() +
+#'    labs(title = "Title goes here with a bunch of text lorem ipsum",
+#'    subtitle = "Subtitle",
+#'    caption = "Source: blah")
+#'
+#'graph2 <- ggplot(mtcars, aes(x = mpg, y = hp)) +
+#'    geom_col() +
+#'    theme_grattan() +
+#'    labs(title = "This is another graph to go on the second slide",
+#'    subtitle = "Units go here",
+#'    caption = "Source: mtcars.")
+#'
+#'# Now combine your two graphs together in a list:
+#'
+#'graphs <- list(graph1, graph2)
+#'
+#' # Now, create a Powerpoint presentation with one slide per graph in your list:
+#'
+#' make_presentation(graphs, filename = "test.pptx")
+#' @export
+
+
+make_presentation <- function(graphs,
+                              filename = NULL,
+                              path = ".",
+                              type = "16:9"){
+
+  if(is.null(filename)){
+    stop("You must specify a filename (such as 'my_presentation') for the Powerpoint presentation you wish to create.")
+  }
+
+  if(is.null(path)){
+    stop("You must specify a path to the directory where you want your presentation to be saved.")
+  }
+
+  if(is.null(type) | !type %in% c("16:9", "4:3")){
+    stop("You must specify what type of presentation you want - either '16:9' (the default) or '4:3'")
+  }
+
+  if("gg" %in% class(graphs)){
+    graphs <- list(graphs)
+  }
+
+  filename <- tools::file_path_sans_ext(filename)
+
+  output_file <- paste0(filename, ".pptx")
+  output_dir <- dirname(path)
+
+  if(!dir.exists(output_dir)){
+    dir.create(output_dir)
+  }
+
+  # copy template to temporary directory
+
+
+  if(type == "16:9"){
+    template_source <- system.file(file.path("extdata", "template_169.pptx"),
+                                   package = "grattantheme")
+  } else {
+    template_source <- system.file(file.path("extdata", "template_43.pptx"),
+                                   package = "grattantheme")
+  }
+
+
+  temp_dir <- file.path(tempdir(), "make_slide")
+  #temp_dir <- paste0(tempdir(), "/make_slide/")
+
+  if(!dir.exists(temp_dir)){
+    dir.create(temp_dir)
+  }
+
+  temp_template <- file.path(temp_dir, basename(template_source))
+
+  result_of_copy <- file.copy(from = template_source,
+                              to = temp_template,
+                              overwrite = TRUE)
+
+  if(!result_of_copy){
+    stop("make_presentation() encountered a problem copying the Powerpoint template to a temporary directory.")
+  }
+
+  backticks <- paste0((rep("\x60", 3)), collapse = "")
+
+  ref_doc <- paste0('    reference_doc: "',
+                    #temp_template,
+                    basename(template_source),
+                    '"')
+
+  yaml_header <- paste("---",
+                       "output:",
+                       "  powerpoint_presentation: ",
+                       ref_doc,
+                       "---",
+                       "\n",
+                       sep = "\n")
+
+  knitr_setup <- paste0(backticks,
+                        "{r setup, include=FALSE, message=FALSE}\n",
+                        "knitr::opts_chunk$set(echo = FALSE,\nfig.height = 5.63,\nfig.width = 11.8,\nfig.retina = 2)\n",
+                        backticks,
+                        "\n")
+
+  plot_areas <- list()
+  for(i in seq_along(graphs)){
+
+      p <- graphs[[i]]
+
+      graph_title <- paste0("## ", p$labels$title)
+      graph_subtitle <- p$labels$subtitle
+
+      p$labels$title <- NULL
+      p$labels$subtitle <- NULL
+
+      p <- wrap_labs(p,
+                     type = ifelse(type == "16:9",
+                                   "normal_169",
+                                   "normal"))
+
+      plot_filename <- file.path(temp_dir, paste0("plot", i, ".png"))
+
+      grattan_save(filename = plot_filename,
+                   object = p,
+                   type = ifelse(type == "16:9",
+                                 "normal_169",
+                                 "normal"),
+                   force_labs = TRUE)
+
+
+      plot_area <- paste(graph_title,
+                         ":::::::::::::: {.columns}",
+                         "::: {.column}",
+                         graph_subtitle,
+                         ":::",
+                         "::: {.column}",
+                         paste0("![](",
+                                #plot_filename,
+                                basename(plot_filename),
+                                ")"),
+                         ":::",
+                         "::::::::::::::",
+                         sep = "\n")
+
+      plot_areas[[i]] <- plot_area
+  }
+
+  plot_areas <- paste(plot_areas, collapse = "\n")
+
+  fulldoc <- paste(yaml_header,
+                   knitr_setup,
+                   plot_areas,
                    sep = "\n")
 
   writeLines(fulldoc, file.path(temp_dir,"temp_rmd.Rmd"))
