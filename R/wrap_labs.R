@@ -5,9 +5,9 @@ wrap_labs <- function(object, type){
   p <- object
 
   # widths in characters
-  char_width_grattan_title <-    chart_types$title[chart_types$type == type]
+  char_width_grattan_title    <- chart_types$title[chart_types$type == type]
   char_width_grattan_subtitle <- chart_types$subtitle[chart_types$type == type]
-  char_width_grattan_caption <-  chart_types$caption[chart_types$type == type]
+  char_width_grattan_caption  <- chart_types$caption[chart_types$type == type]
 
   # extract title and subtitle, created as usual in the plotting process
   stored_title <- p$labels$title

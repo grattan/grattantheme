@@ -111,31 +111,35 @@ make_slide <- function(graph = last_plot(),
                        "\n",
                        sep = "\n")
 
+  knitr_optschunk <- ifelse(type == "16:9",
+                            "knitr::opts_chunk$set(echo = FALSE,\nfig.height = 5.70,\nfig.width = 11.81,\nfig.retina = 2)\n",
+                            "knitr::opts_chunk$set(echo = FALSE,\nfig.height = 5.70,\nfig.width = 8.66,\nfig.retina = 2)\n")
+
   knitr_setup <- paste0(backticks,
                         "{r setup-makeslide-chunk, include=FALSE, message=FALSE}\n",
-                        "knitr::opts_chunk$set(echo = FALSE,\nfig.height = 5.63,\nfig.width = 11.8,\nfig.retina = 2)\n",
+                        knitr_optschunk,
                         backticks,
                         "\n")
 
   graph_title <- paste0("## ", p$labels$title)
   graph_subtitle <- p$labels$subtitle
 
-  p$labels$title <- NULL
-  p$labels$subtitle <- NULL
-
   p <- wrap_labs(p,
                  type = ifelse(type == "16:9",
                                "normal_169",
                                "normal"))
 
+  p$labels$title <- NULL
+  p$labels$subtitle <- NULL
+
   plot_filename <- file.path(temp_dir, "plot.png")
 
-  grattan_save(filename = plot_filename,
-               object = p,
-               type = ifelse(type == "16:9",
-                             "normal_169",
-                             "normal"),
-               force_labs = TRUE)
+  ggsave(filename = plot_filename,
+         plot = p,
+         height = 14.5,
+         width = ifelse(type == "16:9",
+                             30, 22.2),
+         units = "cm")
 
 
   plot_area <- paste(graph_title,
@@ -292,22 +296,23 @@ make_presentation <- function(graphs,
       graph_title <- paste0("## ", p$labels$title)
       graph_subtitle <- p$labels$subtitle
 
-      p$labels$title <- NULL
-      p$labels$subtitle <- NULL
 
       p <- wrap_labs(p,
                      type = ifelse(type == "16:9",
                                    "normal_169",
                                    "normal"))
 
+      p$labels$title <- NULL
+      p$labels$subtitle <- NULL
+
       plot_filename <- file.path(temp_dir, paste0("plot", i, ".png"))
 
-      grattan_save(filename = plot_filename,
-                   object = p,
-                   type = ifelse(type == "16:9",
-                                 "normal_169",
-                                 "normal"),
-                   force_labs = TRUE)
+      ggsave(filename = plot_filename,
+             plot = p,
+             height = 14.5,
+             width = ifelse(type == "16:9",
+                            30, 22.2),
+             units = "cm")
 
 
       plot_area <- paste(graph_title,
