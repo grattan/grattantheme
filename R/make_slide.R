@@ -112,7 +112,7 @@ make_slide <- function(graph = last_plot(),
                        sep = "\n")
 
   knitr_setup <- paste0(backticks,
-                        "{r setup, include=FALSE, message=FALSE}\n",
+                        "{r setup-makeslide-chunk, include=FALSE, message=FALSE}\n",
                         "knitr::opts_chunk$set(echo = FALSE,\nfig.height = 5.63,\nfig.width = 11.8,\nfig.retina = 2)\n",
                         backticks,
                         "\n")
@@ -279,7 +279,7 @@ make_presentation <- function(graphs,
                        sep = "\n")
 
   knitr_setup <- paste0(backticks,
-                        "{r setup, include=FALSE, message=FALSE}\n",
+                        "{r setup-makepresentation-chunk, include=FALSE, message=FALSE}\n",
                         "knitr::opts_chunk$set(echo = FALSE,\nfig.height = 5.63,\nfig.width = 11.8,\nfig.retina = 2)\n",
                         backticks,
                         "\n")
