@@ -174,6 +174,8 @@ make_slide <- function(graph = last_plot(),
 }
 
 #' @param graphs A list of ggplot2 objects
+#' @param title Optional. The title of your presentation, if you want a title slide.
+#' @param subtitle Optional. The subtitle of your presentation, if you want a title slide.
 #' @rdname make_slide
 #' @name make_presentation
 #' @examples
@@ -211,7 +213,9 @@ make_slide <- function(graph = last_plot(),
 make_presentation <- function(graphs,
                               filename = NULL,
                               path = ".",
-                              type = "16:9"){
+                              type = "16:9",
+                              title = NULL,
+                              subtitle = NULL){
 
   if(is.null(filename)){
     stop("You must specify a filename (such as 'my_presentation') for the Powerpoint presentation you wish to create.")
@@ -274,10 +278,32 @@ make_presentation <- function(graphs,
                     basename(template_source),
                     '"')
 
+  # create title slide
+
+  if(!is.null(title) | !is.null(subtitle)){
+
+    null_to_blank <- function(x) {
+      x <- ifelse(is.null(x), "", x)
+      x
+    }
+
+    title <- paste0("title: \"", null_to_blank(title), "\"")
+    subtitle <- paste0("author: \"", null_to_blank(subtitle), "\"")
+
+    title_subtitle <- paste("title:")
+
+  } else {
+    title <- ""
+    subtitle <- ""
+  }
+
+
   yaml_header <- paste("---",
                        "output:",
                        "  powerpoint_presentation: ",
                        ref_doc,
+                       title,
+                       subtitle,
                        "---",
                        "\n",
                        sep = "\n")

@@ -8,7 +8,8 @@
 make_slide(graph = last_plot(), filename = NULL, path = ".",
   type = "16:9")
 
-make_presentation(graphs, filename = NULL, path = ".", type = "16:9")
+make_presentation(graphs, filename = NULL, path = ".", type = "16:9",
+  title = NULL, subtitle = NULL)
 }
 \arguments{
 \item{graph}{The graph you want to include on your slide. Defaults to the last plot (ggplot2::last_plot())}
@@ -20,6 +21,10 @@ make_presentation(graphs, filename = NULL, path = ".", type = "16:9")
 \item{type}{The type of Powerpoint slide to create; either "16:9" (the default, for a 16:9 orientation slide), or "4:3".}
 
 \item{graphs}{A list of ggplot2 objects}
+
+\item{title}{Optional. The title of your presentation, if you want a title slide.}
+
+\item{subtitle}{Optional. The subtitle of your presentation, if you want a title slide.}
 }
 \description{
 Use `make_slide()` to create a Powerpoint presentation containing a single slide,
