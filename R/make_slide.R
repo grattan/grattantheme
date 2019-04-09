@@ -377,8 +377,8 @@ make_presentation <- function(graphs,
 
   result_of_file_remove <- file.remove(file.path(temp_dir, "temp_rmd.Rmd"))
 
-  if(contains_title_slide){
-    remove_pptx_error(output_file)
-  }
+  # if(contains_title_slide){
+  #   remove_pptx_error(output_file)
+  # }
 }
 
