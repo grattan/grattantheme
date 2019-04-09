@@ -19,7 +19,9 @@ Imports:
     grid,
     gridExtra,
     knitr (>= 1.22),
-    rmarkdown (>= 1.12)
+    rmarkdown (>= 1.12),
+    xml2,
+    zip
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
