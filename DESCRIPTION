@@ -10,7 +10,7 @@ Authors@R: c(
 Description: This package enables the user to create ggplot2 charts that conform 
     to the Grattan Institute style guide. 
 License: GPL-3
-Depends: R (>= 3.5)
+Depends: R (>= 3.1)
 Imports:
     ggthemes (>= 4.0),
     ggrepel (>= 0.8.0),
