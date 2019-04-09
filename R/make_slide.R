@@ -314,6 +314,7 @@ make_presentation <- function(graphs,
                         backticks,
                         "\n")
 
+
   plot_areas <- list()
   for(i in seq_along(graphs)){
 
