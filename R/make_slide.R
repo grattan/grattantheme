@@ -373,6 +373,8 @@ make_presentation <- function(graphs,
                     output_dir = output_dir,
                     quiet = TRUE)
 
+  remove_pptx_error(output_file)
+
   result_of_file_remove <- file.remove(file.path(temp_dir, "temp_rmd.Rmd"))
 
 }
