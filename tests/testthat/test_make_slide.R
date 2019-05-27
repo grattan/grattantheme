@@ -1,8 +1,5 @@
 context("Powerpoint slide creation")
 
-library(grattantheme)
-library(ggplot2)
-
 # Create base object to use for test
 base_plot <- ggplot(mtcars, aes(x = mpg, y = hp)) +
   geom_point()
