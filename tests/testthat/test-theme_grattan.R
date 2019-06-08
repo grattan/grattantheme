@@ -39,3 +39,26 @@ test_that("theme_grattan() arguments work",{
   expect_equal(p_legend$theme$legend.position, "top")
 
 })
+
+test_that("grattan colour functions work as expected", {
+
+  expect_length(grattan_pal(), 5)
+
+  expect_length(grattan_pal(n = 2), 2)
+
+  expect_length(grattan_pal(n = 10), 10)
+
+  expect_warning(grattan_pal(n = 10))
+
+  expect_error(grattan_pal(n = 11))
+
+  plot_w_col <- base_plot +
+    geom_point(aes(col = factor(cyl))) +
+    grattan_colour_manual(n = 3)
+
+  expect_is(plot_w_col, "gg")
+
+  plot_w_col_built <- ggplot_build(plot_w_col)
+
+  expect_equal(length(unique(plot_w_col_built$data[[2]]$colour)), 3)
+})
