@@ -19,6 +19,8 @@ test_that("theme_grattan() creates ggplot2 object",{
 
 test_that("make_slide() saves .pptx object",{
 
+  skip_if_not(pandoc_version() >= 2.1)
+
   make_slide(graph = p_labs, filename = "testslide.pptx")
 
   expect_true(file.exists("./testslide.pptx"))
@@ -28,6 +30,8 @@ test_that("make_slide() saves .pptx object",{
 })
 
 test_that("make_presentation() saves .pptx object",{
+
+  skip_if_not(pandoc_version() >= 2.1)
 
   make_presentation(plot_list, filename = "testpresentation.pptx",
                     title = "Test presentation", subtitle = "Subtitle")
