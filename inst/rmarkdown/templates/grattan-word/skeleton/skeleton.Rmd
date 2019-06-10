@@ -5,14 +5,16 @@ author: Matt Cowgill
 date: Created `r Sys.Date()`
 output:
   redoc::redoc:
-    reference_docx: !expr system.file("inst", "rmarkdown", "templates", "grattan-word", "skeleton", "rmd-word-template.docx", package = "grattantheme")
+    reference_docx: !expr system.file("rmarkdown", "templates", "grattan-word", "skeleton", "rmd-word-template.docx", package = "grattantheme")
     toc: yes
     highlight_outputs: no
     line_numbers: no
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.height = 2.93,
+                      fig.width = 4.48)
 ```
 
 # This is a section header
@@ -28,7 +30,7 @@ You can use things like inline <!--- an HTML comment ---> comments.
 Chunks with plots
 -----------------
 
-You can of course also embed plots, for example:
+You can also embed plots, for example:
 
 #### This is a plot title
 ##### This is a plot subtitle
