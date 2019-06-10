@@ -25,9 +25,10 @@ You can add footnotes.[^1]
 
 If you have a bib file, you can add citations.
 
+
 You can use things like inline <!--- an HTML comment ---> comments.
 
-Chunks with plots
+Chunks with plots {#chunks-with-plots}
 -----------------
 
 You can also embed plots, for example:
