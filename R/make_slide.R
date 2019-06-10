@@ -9,6 +9,7 @@
 #' @importFrom rmarkdown render
 #' @importFrom knitr opts_chunk
 #' @importFrom tools file_path_sans_ext
+#' @importFrom rmarkdown pandoc_version pandoc_available
 #'
 #' @examples
 #'
@@ -30,7 +31,7 @@
 #' # By default, make_slide() will use the last plot you generated; you can specify a
 #' # different object to use with the `graph` argument.
 #'
-#' make_slide(filename = "test.pptx")
+#' \donttest{make_slide(filename = "test.pptx")}
 #'
 #' @export
 
@@ -39,6 +40,8 @@ make_slide <- function(graph = last_plot(),
                        filename = NULL,
                        path = ".",
                        type = "16:9"){
+
+  pandoc_test()
 
   if(!"gg" %in% class(graph)){
     stop("The object is not a ggplot2 graph and cannot be plotted with make_slide()")
@@ -206,7 +209,8 @@ make_slide <- function(graph = last_plot(),
 #'
 #' # Now, create a Powerpoint presentation with one slide per graph in your list:
 #'
-#' make_presentation(graphs, filename = "test.pptx")
+#' \donttest{make_presentation(graphs, filename = "test.pptx")}
+#'
 #' @export
 
 
@@ -216,6 +220,8 @@ make_presentation <- function(graphs,
                               type = "16:9",
                               title = NULL,
                               subtitle = NULL){
+
+  pandoc_test()
 
   if(is.null(filename)){
     stop("You must specify a filename (such as 'my_presentation') for the Powerpoint presentation you wish to create.")
@@ -379,3 +385,14 @@ make_presentation <- function(graphs,
 
 }
 
+pandoc_test <- function(){
+
+  if(!rmarkdown::pandoc_available()){
+    stop("To use this function, you must install 'pandoc' on your system from pandoc.org. See the grattantheme administrators if you need help.")
+  }
+
+  if(rmarkdown::pandoc_version() < 2.1){
+    stop("The version of 'pandoc' on your system is too old to use this function. Install a newer version from pandoc.org. See the grattantheme administrators if you need help.")
+  }
+
+}

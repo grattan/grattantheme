@@ -132,14 +132,12 @@ grattan_save <- function(filename,
 
     types <- chart_types$type
 
-    filenames <- paste0(dir, "/", file_name, "_", types, ".", filetype)
+    filenames <- file.path(dir, paste0(file_name, "_", types, ".", filetype))
 
       if("gg" %in% class(object)){
         utils::write.csv(x = object$data,
-                         file = paste0(dir,
-                                       "/",
-                                       file_name,
-                                       ".csv"))
+                         file = file.path(dir,
+                                       paste0(file_name,".csv")))
       } else {
         warning("save_data only works with ggplot graph objects. Your data has not been saved.")
       }

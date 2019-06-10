@@ -1,5 +1,7 @@
-# grattantheme 0.3.0.900
+# grattantheme 0.3.1
 * New make_presentation() function takes a list of graphs and creates a .pptx presentation with multiple slides
+* grattan_save() accepts type="all", which will save your graph in all available types
+* Bugs fixed
 
 # grattantheme 0.3.0
 * New make_slide() function creates a .pptx slide with an embedded Grattan-y graph

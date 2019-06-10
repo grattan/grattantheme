@@ -1,13 +1,13 @@
 Package: grattantheme
 Type: Package
-Title: Create Graphs In The Grattan Institute Style
-Version: 0.3.0.900
+Title: Create Graphs in the Grattan Institute Style
+Version: 0.3.1
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
                 role = c("aut", "cre")),
     person("Will", "Mackey", email = "william.mackey@grattaninstitute.edu.au",
                 role = "aut"))
-Description: This package enables the user to create ggplot2 charts that conform 
+Description: Enables the user to create ggplot2 charts that conform 
     to the Grattan Institute style guide. 
 License: GPL-3
 Depends: R (>= 3.1)
@@ -27,5 +27,5 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
-    testthat,
+    testthat (>= 2.1.0),
     covr
