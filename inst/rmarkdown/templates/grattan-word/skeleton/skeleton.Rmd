@@ -5,7 +5,7 @@ author: Matt Cowgill
 date: Created `r Sys.Date()`
 output:
   redoc::redoc:
-    reference_docx: !expr system.file("rmarkdown", "templates", "grattan-word", "skeleton", "rmd-word-template.docx", package = "grattantheme")
+    reference_docx: rmd-grattan-word-template.docx
     toc: yes
     highlight_outputs: no
     line_numbers: no
@@ -39,8 +39,9 @@ You can also embed plots, for example:
 library(ggplot2)
 library(grattantheme)
 
-  ggplot(mtcars, aes(x = wt, y = mpg)) +
+ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point() +
+  grattan_y_continuous(limits = c(0, 40)) +
   theme_grattan()
 
 ```
