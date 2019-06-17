@@ -23,7 +23,7 @@ This is a template for an R Markdown document that you can Knit to a Word docume
 
 You can add footnotes.[^1]
 
-If you have a bib file, you can add citations.
+If you have a bib file, you can add citations. `r 1+2`
 
 
 You can use things like inline <!--- an HTML comment ---> comments.

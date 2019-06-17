@@ -242,7 +242,7 @@ make_presentation <- function(graphs,
   filename <- tools::file_path_sans_ext(filename)
 
   output_file <- paste0(filename, ".pptx")
-  output_dir <- dirname(path)
+  output_dir <- file.path(path)
 
   if(!dir.exists(output_dir)){
     dir.create(output_dir)
@@ -358,6 +358,11 @@ make_presentation <- function(graphs,
                                 #plot_filename,
                                 basename(plot_filename),
                                 ")"),
+                         ":::",
+                         "::: notes",
+                         paste0("Title: ", gsub("## ", "", graph_title), "\n"),
+                         paste0("Subtitle: ", graph_subtitle, "\n"),
+                         p$labels$caption,
                          ":::",
                          "::::::::::::::",
                          sep = "\n")
