@@ -1,3 +1,8 @@
+# grattantheme 0.3.1.900
+* make_presentation() now includes the chart title, subtitle, and caption in .pptx notes
+* Grattan-ish Word template now included for use with redoc/Rmarkdown
+* fixes bug in create_fullslide() introduced with ggplot 3.2.0
+
 # grattantheme 0.3.1
 * New make_presentation() function takes a list of graphs and creates a .pptx presentation with multiple slides
 * grattan_save() accepts type="all", which will save your graph in all available types

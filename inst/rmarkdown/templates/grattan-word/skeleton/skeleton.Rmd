@@ -1,0 +1,72 @@
+---
+title: Grattan Institute Word Template for RMarkdown
+subtitle: Live that all-RStudio lifestyle you've always dreamed of
+author: Matt Cowgill
+date: Created `r Sys.Date()`
+output:
+  redoc::redoc:
+    reference_docx: rmd-grattan-word-template.docx
+    toc: yes
+    highlight_outputs: no
+    line_numbers: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.height = 2.93,
+                      fig.width = 4.48)
+```
+
+# This is a section header
+
+This is a template for an R Markdown document that you can Knit to a Word document. It will produce a document that is consistent with the basic elements of the Grattan Institute style. Note that the [redoc package](https://noamross.github.io/redoc/index.html) is required to generate Word documents that can be re-converted to R Markdown. If you don't have redoc, and don't want to install it for some reason, amend the output listed in the YAML header above from `redoc::redoc:` to `word_document:`.
+
+You can add footnotes.[^1]
+
+If you have a bib file, you can add citations. `r 1+2`
+
+
+You can use things like inline <!--- an HTML comment ---> comments.
+
+Chunks with plots {#chunks-with-plots}
+-----------------
+
+You can also embed plots, for example:
+
+#### This is a plot title
+##### This is a plot subtitle
+```{r plot, dev.args=list(bg='transparent'), echo = FALSE, message = FALSE, results = 'hide'}
+library(ggplot2)
+library(grattantheme)
+
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  grattan_y_continuous(limits = c(0, 40)) +
+  theme_grattan()
+
+```
+###### This is a plot caption
+
+Some text goes here.
+
+### This is a heading with Heading 3 styling 
+
+More text goes here
+
+## This is a second-level heading
+
+Lorem grattsum
+
+This is a heading with the underline style
+------------------------------------------
+
+Track Changes
+-------------
+
+**redoc** supports [Critic Markup](http://criticmarkup.com/users-guide.php)
+syntax for comments. You can include edits and they will be converted to tracked
+changes in your {==  Word document  ==}{>> Neat! <<}. By default , your system
+username is used as the author of changes, but this can be set with the
+`comment_author` argument in `redoc()` or your document YAML.
+
+[^1]: Test footnote.
