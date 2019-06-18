@@ -45,17 +45,19 @@ create_fullslide <- function(object, type){
   toptitle <- ggplot2::ggplot() +
     ggplot2::geom_blank() +
     ggplot2::labs(title = stored_title) +
-    theme_grattan(base_size = ifelse(type %in% c("fullslide", "fullslide_44"),
+    theme_grey(base_family = "sans",
+               base_size = ifelse(type %in% c("fullslide", "fullslide_44"),
                                      18, 24)) +
     ggplot2::theme(rect = ggplot2::element_blank(),
-                   plot.title = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0),
+                   plot.title = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0,
+                                                      face = "bold", size = ggplot2::rel(1)),
                    plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
 
   # create new ggplot object with just the subtitle
   topsubtitle <- ggplot2::ggplot() +
     ggplot2::geom_blank() +
     ggplot2::labs(subtitle = stored_subtitle) +
-    theme_grattan() +
+    theme_grey(base_family = "sans", base_size = 18) +
     ggplot2::theme(rect = ggplot2::element_blank(),
                    plot.subtitle = ggplot2::element_text(colour = "black", hjust = 0, vjust = -2),
                    plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
@@ -72,7 +74,8 @@ create_fullslide <- function(object, type){
   header <- gridExtra::grid.arrange(toptitle, logogrob,
                                     ncol = 2,
                                     widths = unit(c(width_title,4.57), "cm"),
-                                    heights = unit(1.48, "cm"))
+                                    heights = unit(1.48, "cm"),
+                                    padding = unit(0, "line"))
 
 
   plot_height <- ifelse(type == "fullslide_44", 14.5 + (25.4-19.05), 14.5)
