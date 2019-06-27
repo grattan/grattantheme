@@ -5,7 +5,7 @@
 \title{Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().}
 \usage{
 grattan_save(filename, object = ggplot2::last_plot(), type = "normal",
-  save_data = FALSE, force_labs = FALSE)
+  save_data = FALSE, force_labs = FALSE, ...)
 }
 \arguments{
 \item{filename}{Required. This parameter sets the filename (including path where necessary)
@@ -38,6 +38,8 @@ Set type = "all" to save your chart in all available sizes.}
 \item{save_data}{Logical. Default is FALSE, unless type = "all". If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension. Data will always be saved if type = "all".}
 
 \item{force_labs}{Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = "fullslide". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.}
+
+\item{...}{arguments passed to `ggsave()`}
 }
 \description{
 Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().

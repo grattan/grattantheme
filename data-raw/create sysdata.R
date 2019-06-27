@@ -5,7 +5,7 @@ load("data-raw/logogrob.Rda")
 chart_types <- tibble::tribble(
                          ~type, ~width, ~height, ~caption, ~title,  ~subtitle,
                       "normal",  22.16,    14.5,      120,     70,         75,
-                  "normal_169",  30.00,    14.5,      150,     95,        100,
+                  "normal_169",  30.00,    14.5,      180,     95,        100,
                         "tiny",  22.16,   11.08,      120,     70,         75,
                  "wholecolumn",  22.16,   22.16,      120,     70,         75,
                     "fullpage",  44.32,   22.16,      240,    140,        150,
