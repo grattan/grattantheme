@@ -27,7 +27,7 @@
 #' @param save_data Logical. Default is FALSE, unless type = "all". If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension. Data will always be saved if type = "all".
 #' @param force_labs Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = "fullslide". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.
 #' @param warn_labs Logical. Default is TRUE, unless type = "all". When TRUE, `grattan_save()` will warn you if you try to save a normal chart with labels, or a fullslide chart without labels. Suppress these warnings by setting `warn_labels` to FALSE.
-#' @param ... arguments passed to `ggsave()`
+#' @param ... arguments passed to `ggsave()`. For example, use `device = cairo_pdf` to use the Cairo PDF rendering engine.
 #'
 #' @import ggplot2
 #' @import grid
