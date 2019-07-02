@@ -77,17 +77,23 @@ create_fullslide <- function(object, type, warn_labs){
   # create header (= title + logo side by side)
   width_title <- ifelse(type %in% c("fullslide", "fullslide_44"), 17.73,  25.43)
 
-  header <- gridExtra::grid.arrange(toptitle, logogrob,
-                                    ncol = 2,
-                                    widths = unit(c(width_title,4.57), "cm"),
-                                    heights = unit(1.48, "cm"),
-                                    padding = unit(0, "line"))
+  # header <- gridExtra::grid.arrange(toptitle, logogrob,
+  #                                   ncol = 2,
+  #                                   widths = unit(c(width_title,4.57), "cm"),
+  #                                   heights = unit(1.48, "cm"),
+  #                                   padding = unit(0, "line"))
+
+  header <- gridExtra::arrangeGrob(grobs = list(toptitle, logogrob),
+                          ncol = 2,
+                          widths = unit(c(width_title,4.57), "cm"),
+                          heights = unit(1.48, "cm"),
+                          padding = unit(0, "line"))
 
 
   plot_height <- ifelse(type == "fullslide_44", 14.5 + (25.4-19.05), 14.5)
 
   # create main plotting area
-  mainarea <- gridExtra::grid.arrange(border, header, linegrob, topsubtitle, p, border,
+  mainarea <- gridExtra::arrangeGrob(grobs = list(border, header, linegrob, topsubtitle, p, border),
                                       ncol = 1,
                                       heights = unit(c(0.73, 1.75, 0.1, 1.73, plot_height, 0.24),
                                                      "cm"),
@@ -104,8 +110,9 @@ create_fullslide <- function(object, type, warn_labs){
 
   width_rightborder <- width_leftborder
 
-  total <- gridExtra::grid.arrange(border, mainarea, border, ncol = 3,
-                                   widths = unit(c(width_leftborder, width_mainarea, width_rightborder),
+  total <- gridExtra::arrangeGrob(grobs = list(border, mainarea, border),
+                                  ncol = 3,
+                                  widths = unit(c(width_leftborder, width_mainarea, width_rightborder),
                                                  "cm"))
 
   # plot original chart again (so last_plot() shows this instead of topsubtitle)

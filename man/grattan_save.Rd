@@ -41,7 +41,7 @@ Set type = "all" to save your chart in all available sizes.}
 
 \item{warn_labs}{Logical. Default is TRUE, unless type = "all". When TRUE, `grattan_save()` will warn you if you try to save a normal chart with labels, or a fullslide chart without labels. Suppress these warnings by setting `warn_labels` to FALSE.}
 
-\item{...}{arguments passed to `ggsave()`}
+\item{...}{arguments passed to `ggsave()`. For example, use `device = cairo_pdf` to use the Cairo PDF rendering engine.}
 }
 \description{
 Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().
