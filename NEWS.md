@@ -1,5 +1,7 @@
+
 # grattantheme 0.3.1.901
 * grattan_save() now accepts additional arguments ... to pass to ggsave()
+* Warnings about labels are no longer displayed when using grattan_save(type = "all")
 
 # grattantheme 0.3.1.900
 * make_presentation() now includes the chart title, subtitle, and caption in .pptx notes

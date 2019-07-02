@@ -4,7 +4,7 @@
 #' @import ggplot2
 #' @import gridExtra
 
-create_fullslide <- function(object, type){
+create_fullslide <- function(object, type, warn_labs){
 
   if(!"gg" %in% class(object)){
     stop("type = 'fullslide' only works with ggplot graph objects")
@@ -19,17 +19,23 @@ create_fullslide <- function(object, type){
   stored_caption <- p$labels$caption
 
   if(stored_title == "\n"){
-    message("Your plot has no title, which is weird for a fullslide.\nAdd a title using +labs(title = 'Title')")
+    if(warn_labs) {
+      message("Your plot has no title, which is weird for a fullslide.\nAdd a title using +labs(title = 'Title')")
+    }
     stored_title <- ""
   }
 
   if(stored_subtitle == "\n"){
-    message("Your plot has no subtitle, which is weird for a fullslide.\nConsider adding a subtitle using labs(subtitle = 'Text')")
+    if(warn_labs) {
+      message("Your plot has no subtitle, which is weird for a fullslide.\nConsider adding a subtitle using labs(subtitle = 'Text')")
+    }
     stored_subtitle <- ""
   }
 
   if(stored_caption == ""){
-    message("Your plot has no caption, which is weird for full slide charts.\nConsider adding a caption using labs(caption = 'Text')")
+    if(warn_labs) {
+      message("Your plot has no caption, which is weird for full slide charts.\nConsider adding a caption using labs(caption = 'Text')")
+    }
     stored_caption <- ""
   }
 
