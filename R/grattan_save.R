@@ -26,6 +26,7 @@
 #' Set type = "all" to save your chart in all available sizes.
 #' @param save_data Logical. Default is FALSE, unless type = "all". If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension. Data will always be saved if type = "all".
 #' @param force_labs Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = "fullslide". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.
+#' @param warn_labs Logical. Default is TRUE, unless type = "all". When TRUE, `grattan_save()` will warn you if you try to save a normal chart with labels, or a fullslide chart without labels. Suppress these warnings by setting `warn_labels` to FALSE.
 #' @param ... arguments passed to `ggsave()`
 #'
 #' @import ggplot2
@@ -102,6 +103,7 @@ grattan_save <- function(filename,
                          type = "normal",
                          save_data = FALSE,
                          force_labs = FALSE,
+                         warn_labs = TRUE,
                          ...) {
 
   if(!type %in% c("all", chart_types$type)){
@@ -120,7 +122,9 @@ grattan_save <- function(filename,
     }
 
     grattan_save_(filename = filename, object = object,
-                  type = type, force_labs = force_labs, ...)
+                  type = type, force_labs = force_labs,
+                  warn_labs = warn_labs,
+                  ...)
   }
 
   if(type == "all"){
@@ -165,7 +169,7 @@ grattan_save_ <- function(filename,
                           object = ggplot2::last_plot(),
                           type = "normal",
                           force_labs = FALSE,
-                          warn_labs = TRUE,
+                          warn_labs,
                           ...){
 
   # at the moment, save_data is inflexible: only saves as .csv and
@@ -178,7 +182,9 @@ grattan_save_ <- function(filename,
   if(grepl("fullslide", type)){
 
     # calls another function to do the work of assembling a full slide
-    object <- create_fullslide(object = object, type = type)
+    object <- create_fullslide(object = object,
+                               type = type,
+                               warn_labs = warn_labs)
 
   } else { # following code only applies if type != "fullslide"
 
