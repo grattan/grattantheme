@@ -149,7 +149,8 @@ grattan_save <- function(filename,
                  .y = types,
                  .f = grattan_save_,
                  object = object,
-                 force_labs = force_labs)
+                 force_labs = force_labs,
+                 warn_labs = FALSE)
 
   }
 
@@ -164,6 +165,7 @@ grattan_save_ <- function(filename,
                           object = ggplot2::last_plot(),
                           type = "normal",
                           force_labs = FALSE,
+                          warn_labs = TRUE,
                           ...){
 
   # at the moment, save_data is inflexible: only saves as .csv and
@@ -188,8 +190,10 @@ grattan_save_ <- function(filename,
       if("title"    %in% names(object$labels) |
          "subtitle" %in% names(object$labels) |
          "caption"  %in% names(object$labels)){
-        message(paste0("Note: ", type, " charts remove titles, subtitles, or captions by default.\nSet `force_labs` to TRUE to retain them, or use type = 'fullslide'"))
 
+        if(warn_labs) {
+          message(paste0("Note: ", type, " charts remove titles, subtitles, or captions by default.\nSet `force_labs` to TRUE to retain them, or use type = 'fullslide'"))
+        }
 
         object <- object +
           theme(plot.title = element_blank(),
