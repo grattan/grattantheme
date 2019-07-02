@@ -77,12 +77,6 @@ create_fullslide <- function(object, type, warn_labs){
   # create header (= title + logo side by side)
   width_title <- ifelse(type %in% c("fullslide", "fullslide_44"), 17.73,  25.43)
 
-  # header <- gridExtra::grid.arrange(toptitle, logogrob,
-  #                                   ncol = 2,
-  #                                   widths = unit(c(width_title,4.57), "cm"),
-  #                                   heights = unit(1.48, "cm"),
-  #                                   padding = unit(0, "line"))
-
   header <- gridExtra::arrangeGrob(grobs = list(toptitle, logogrob),
                           ncol = 2,
                           widths = unit(c(width_title,4.57), "cm"),
