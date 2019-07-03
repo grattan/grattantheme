@@ -65,7 +65,7 @@ create_fullslide <- function(object, type, warn_labs){
     ggplot2::labs(subtitle = stored_subtitle) +
     theme_grey(base_family = "sans", base_size = 18) +
     ggplot2::theme(rect = ggplot2::element_blank(),
-                   plot.subtitle = ggplot2::element_text(colour = "black", hjust = 0, vjust = -2),
+                   plot.subtitle = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0),
                    plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
 
   # create new grob of whitespace to be the border
@@ -89,7 +89,7 @@ create_fullslide <- function(object, type, warn_labs){
   # create main plotting area
   mainarea <- gridExtra::arrangeGrob(grobs = list(border, header, linegrob, topsubtitle, p, border),
                                       ncol = 1,
-                                      heights = unit(c(0.73, 1.75, 0.1, 1.73, plot_height, 0.24),
+                                      heights = unit(c(0.70, 1.75, 0.1, 1.76, plot_height, 0.24),
                                                      "cm"),
                                       widths = unit(ifelse(type %in% c("fullslide", "fullslide_44"),
                                                                        22.16, 30), "cm"))

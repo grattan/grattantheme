@@ -22,7 +22,7 @@ wrap_labs <- function(object, type){
   if(nchar(stored_title) <= char_width_grattan_title &
      type %in% c("fullslide", "fullslide169")){
 
-      stored_title <- paste0("\n", stored_title)
+      stored_title <- paste0("\n ", stored_title)
   }
 
   if(nchar(stored_title) > 2 * char_width_grattan_title) {
@@ -50,7 +50,7 @@ wrap_labs <- function(object, type){
 
   if(nchar(stored_subtitle) <= char_width_grattan_subtitle &
      type %in% c("fullslide", "fullslide_169")){
-    stored_subtitle <- paste0(stored_subtitle, "\n")
+    stored_subtitle <- paste0(stored_subtitle, "\n ")
 
   }
 
