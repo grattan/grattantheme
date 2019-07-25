@@ -4,3 +4,5 @@
 ^\.Rproj\.user$
 atlas
 .travis.yml
+^doc$
+^Meta$
