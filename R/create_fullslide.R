@@ -77,51 +77,70 @@ create_fullslide <- function(object,
   # create new grob of solid orange to be the horizontal line
   linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F3901D", col = "white"))
 
-  # create header (= title + logo side by side)
-  width_title <- ifelse(type %in% c("fullslide", "fullslide_44"), 17.73,  25.43)
-
-  header <- gridExtra::arrangeGrob(grobs = list(toptitle, logogrob),
-                          ncol = 2,
-                          widths = unit(c(width_title, 4.57), "cm"),
-                          heights = unit(1.48, "cm"),
-                          padding = unit(0, "line"))
-
+  # define heights of elements
   if(is.null(height)) {
     height <- chart_types$height[chart_types$type == type]
   }
 
-  top_border_height <- 0.70
+  blog_border <- 0.05
+
+  top_border_height <- ifelse(type == "blog", blog_border, 0.70)
   header_height <- 1.75
   linegrob_height <- 0.1
   subtitle_height <- 1.76
-  bottom_border_height <- 0.24
+  bottom_border_height <- ifelse(type == "blog", blog_border, 0.24)
 
   non_plot_height <- sum(top_border_height, header_height, linegrob_height,
                          subtitle_height, bottom_border_height)
 
   plot_height <- height - non_plot_height
 
-  # create main plotting area
-  mainarea <- gridExtra::arrangeGrob(grobs = list(border, header, linegrob, topsubtitle, p, border),
-                                      ncol = 1,
-                                      heights = unit(c(0.70, 1.75, 0.1, 1.76, plot_height, 0.24),
-                                                     "cm"),
-                                      widths = unit(ifelse(type %in% c("fullslide", "fullslide_44"),
-                                                                       22.16, 30), "cm"))
+  # define widths of elements
+  width <- chart_types$width[chart_types$type == type]
 
-  # create total plot
+  plot_width <- if(type %in% c("fullslide", "fullslide_44")) {
+    22.16
+  } else if(type == "fullslide_169") {
+    30
+  } else if(type == "blog") {
+    width - (blog_border * 2)
+  }
 
-  width_leftborder <- ifelse(type %in% c("fullslide", "fullslide_44"),
-                             (25.4 - 22.16) / 2,
-                             (33.87 - 30) / 2)
-
-  width_mainarea <- ifelse(type %in% c("fullslide","fullslide_44"), 22.16, 30)
+  width_leftborder <- ifelse(grepl("fullslide", type),
+                             (width - plot_width) / 2,
+                             blog_border)
 
   width_rightborder <- width_leftborder
 
+  # create header (= title + logo side by side)
+
+  width_logo <- 4.57
+
+  width_title <- plot_width - width_logo
+
+  header <- gridExtra::arrangeGrob(grobs = list(toptitle, logogrob),
+                                   ncol = 2,
+                                   widths = unit(c(width_title, width_logo), "cm"),
+                                   heights = unit(1.48, "cm"),
+                                   padding = unit(0, "line"))
+
+  # create main plotting area
+  mainarea <- gridExtra::arrangeGrob(grobs = list(border, header, linegrob, topsubtitle, p, border),
+                                      ncol = 1,
+                                      heights = unit(c(top_border_height,
+                                                       header_height,
+                                                       linegrob_height,
+                                                       subtitle_height,
+                                                       plot_height,
+                                                       bottom_border_height),
+                                                     "cm"),
+                                      widths = unit(plot_width, "cm"))
+
+  # create total plot
+
   total <- gridExtra::arrangeGrob(grobs = list(border, mainarea, border),
                                   ncol = 3,
-                                  widths = unit(c(width_leftborder, width_mainarea, width_rightborder),
+                                  widths = unit(c(width_leftborder, plot_width, width_rightborder),
                                                  "cm"))
 
   # plot original chart again (so last_plot() shows this instead of topsubtitle)

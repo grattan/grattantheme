@@ -30,6 +30,7 @@ test_that("grattan_save() saves charts", {
   expect_true(file.exists("../figs/test/test_plot/test_plot_normal.png"))
   expect_true(file.exists("../figs/test/test_plot/test_plot_tiny.png"))
   expect_true(file.exists("../figs/test/test_plot/test_plot_wholecolumn.png"))
+  expect_true(file.exists("../figs/test/test_plot/test_plot_blog.png"))
   expect_true(file.exists("../figs/test/test_plot/test_plot.csv"))
 
   unlink("../figs", recursive = TRUE)
