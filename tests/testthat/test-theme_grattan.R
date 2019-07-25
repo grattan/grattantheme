@@ -60,5 +60,43 @@ test_that("grattan colour functions work as expected", {
 
   plot_w_col_built <- ggplot_build(plot_w_col)
 
+  expect_equal(plot_w_col_built$data[[2]]$colour[1], "#F68B33")
+
   expect_equal(length(unique(plot_w_col_built$data[[2]]$colour)), 3)
+})
+
+
+test_that("grattan continuous palette functions work as expected (colour)", {
+
+  plot_cont <- ggplot(mtcars, aes(x = mpg, y = cyl)) +
+    geom_point(aes(col = hp)) +
+    grattan_colour_manual(discrete = FALSE)
+
+  expect_is(plot_cont, "gg")
+
+  plot_cont_built <- ggplot_build(plot_cont)
+
+  expect_equal(length(unique(plot_cont_built$data[[1]]$colour)), 22)
+
+  expect_equal(plot_cont_built$data[[1]]$colour[1], "#CA4E29")
+
+})
+
+
+
+
+test_that("grattan continuous palette functions work as expected (fill)", {
+
+  plot_fill <-  ggplot(iris, aes(x = Species, y = Sepal.Length, fill = Sepal.Length)) +
+    geom_col() +
+    grattan_fill_manual(discrete = FALSE, palette = "full_f")
+
+  expect_is(plot_fill, "gg")
+
+  plot_fill_built <- ggplot_build(plot_fill)
+
+  expect_equal(length(unique(plot_fill_built$data[[1]]$fill)), 35)
+
+  expect_equal(plot_fill_built$data[[1]]$fill[150], "#F29F64")
+
 })

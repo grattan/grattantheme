@@ -65,6 +65,13 @@
 #'
 "grattan_lightorange"
 
+#' Hex code for the colour: Grattan light orange (sweet potato soup)
+#'
+#' #F68B33
+#'
+"grattan_orange"
+
+
 #' Hex code for the colour: Grattan light yello (corn chowder)
 #'
 #' #FFE07F
@@ -89,3 +96,72 @@
 #' #FFC35A
 #'
 "grattan_yellow"
+
+
+#' Hex code for the faded colour: Grattan light yellow (faded)
+#'
+#' #FFE79F
+#'
+"grattan_lightyellow_f"
+
+
+
+#' Hex code for the faded colour: Grattan yellow (faded)
+#'
+#' #FFD283
+#'
+"grattan_yellow_f"
+
+
+
+#' Hex code for the faded colour: Grattan light orange (faded)
+#'
+#' #F8A866
+#'
+"grattan_lightorange_f"
+
+
+
+#' Hex code for the faded colour: Grattan light orange (faded)
+#'
+#' #F8A866
+#'
+"grattan_orange_f"
+
+
+
+#' Hex code for the faded colour: Grattan dark orange (faded)
+#'
+#' #DE815F
+#'
+"grattan_darkorange_f"
+
+
+#' Hex code for the faded colour: Grattan red (faded)
+#'
+#' #B7595C
+#'
+"grattan_red_f"
+
+
+#' Hex code for the faded colour: Grattan dark red (faded)
+#'
+#' #894D4E
+#'
+"grattan_darkred_f"
+
+
+
+#' A list of Grattan colour sets
+#'
+#' "full": red, dark orange, light orange, yellow, light yellow
+#' "full_f": faded version of "full"
+#' "light": light orange, yellow, light yellow
+#' "dark": red, dark orange, light orange
+#' "diverging": red, faded red, white, faded light orange, light orange
+#' "grey": grey 1, grey 2, grey 3, grey 4, grey 5
+#'
+"grattan_palette_set"
+
+
+
