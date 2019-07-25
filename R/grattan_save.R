@@ -15,15 +15,16 @@
 ##'  height: 11.1cm.}
 ##'  \item{"wholecolumn"}{ Takes up a whole column in a Grattan report. Width: 22.2cm, height: 22.2cm.}
 ##'  \item{"fullpage"}{ Fills a whole page of a Grattan report. Width: 44.3cm, height: 22.2cm.}
-##'  \item{"fullslide}{ Creates an image that looks like a 4:3 Grattan Powerpoint slide, complete with logo. Use this for the
-##'  Grattan Blog. Width: 25.4cm, height: 19.0cm.}
+##'  \item{"fullslide}{ Creates an image that looks like a 4:3 Grattan Powerpoint slide, complete with logo.  Width: 25.4cm, height: 19.0cm.}
 ##'  \item{"fullslide_169}{ Creates an image that looks like a 16:9 Grattan Powerpoint slide, complete with logo.
 ##'  Use this to drop into standard presentations. Width: 33.9cm, height: 19.0cm}
-##'  \item{"fullslide_44"}{ Creates an image that looks like a 4:4 Grattan Powerpoint slide. This may be useful for taller charts
+##'  \item{"blog"}{"Creates a 4:3 image that looks like a Grattan Powerpoint slide, but with less border whitespace than `fullslide`."}
+##'  \item{"fullslide_44"}{Creates an image that looks like a 4:4 Grattan Powerpoint slide. This may be useful for taller charts
 ##'  for the Grattan blog; not useful for any other purpose. Width: 25.4cm, height: 25.4cm.}
 ##' }
 #'
 #' Set type = "all" to save your chart in all available sizes.
+#' @param height Numeric, optional. NULL by default. Controls the height (in cm) of the image you wish to save. If specified, `height` will override the default height for your chosen chart type.
 #' @param save_data Logical. Default is FALSE, unless type = "all". If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension. Data will always be saved if type = "all".
 #' @param force_labs Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = "fullslide". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.
 #' @param warn_labs Logical. Default is TRUE, unless type = "all". When TRUE, `grattan_save()` will warn you if you try to save a normal chart with labels, or a fullslide chart without labels. Suppress these warnings by setting `warn_labels` to FALSE.
@@ -101,6 +102,7 @@
 grattan_save <- function(filename,
                          object = ggplot2::last_plot(),
                          type = "normal",
+                         height = NULL,
                          save_data = FALSE,
                          force_labs = FALSE,
                          warn_labs = TRUE,
@@ -121,8 +123,11 @@ grattan_save <- function(filename,
       }
     }
 
-    grattan_save_(filename = filename, object = object,
-                  type = type, force_labs = force_labs,
+    grattan_save_(filename = filename,
+                  object = object,
+                  type = type,
+                  height = height,
+                  force_labs = force_labs,
                   warn_labs = warn_labs,
                   ...)
   }
@@ -153,6 +158,7 @@ grattan_save <- function(filename,
                  .y = types,
                  .f = grattan_save_,
                  object = object,
+                 height = height,
                  force_labs = force_labs,
                  warn_labs = FALSE)
 
@@ -166,9 +172,10 @@ grattan_save <- function(filename,
 #### grattan_save_() is an internal function that does the actual work of saving
 #### individual plots; it is called by grattan_save()
 grattan_save_ <- function(filename,
-                          object = ggplot2::last_plot(),
-                          type = "normal",
-                          force_labs = FALSE,
+                          object,
+                          type,
+                          height,
+                          force_labs,
                           warn_labs,
                           ...){
 
@@ -179,11 +186,12 @@ grattan_save_ <- function(filename,
 
 
   # create an image the size of a 4:3 Powerpoint slide complete with Grattan logo
-  if(grepl("fullslide", type)){
+  if(grepl("fullslide", type) | type == "blog"){
 
     # calls another function to do the work of assembling a full slide
     object <- create_fullslide(object = object,
                                type = type,
+                               height = height,
                                warn_labs = warn_labs)
 
   } else { # following code only applies if type != "fullslide"
@@ -220,7 +228,10 @@ grattan_save_ <- function(filename,
   } # end of section that only apples to type != "fullslide
 
   width <- chart_types$width[chart_types$type == type]
-  height <- chart_types$height[chart_types$type == type]
+
+  if(is.null(height)) {
+    height <- chart_types$height[chart_types$type == type]
+  }
 
   ggplot2::ggsave(filename, object,
                   width = width, height = height, units = "cm", dpi = "retina", ...)
