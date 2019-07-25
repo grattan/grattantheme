@@ -61,20 +61,20 @@ grattan_colour_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palet
 #' @rdname grattan_scale
 #' @import ggplot2
 #' @export
+
 grattan_fill_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palette = "full", ...){
-  if(discrete) {
+  if (discrete) {
     return(
-    ggplot2::scale_fill_manual(...,
+      ggplot2::scale_fill_manual(...,
                                  values = grattantheme::grattan_pal(n = n,
                                                                     reverse = reverse))
     )
   }
 
-  if(!discrete){
+  if (!discrete) {
     pal <- grattan_palette(palette = palette, reverse = reverse)
     return(ggplot2::scale_fill_gradientn(colours = pal(256), ...))
   }
-
 
 }
 
