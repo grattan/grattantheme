@@ -1,3 +1,9 @@
+# grattantheme 0.4.0
+* New "blog" type available with grattan_save()
+* Users can now manually specify height of figures, overriding defaults
+* New palettes options added
+* Left and white plot margins reduced
+* stitch_pdfs() function is now deprecated
 
 # grattantheme 0.3.1.901
 * grattan_save() now accepts additional arguments ... to pass to ggsave()
