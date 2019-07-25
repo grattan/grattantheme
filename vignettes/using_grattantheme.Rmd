@@ -12,9 +12,16 @@ vignette: >
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>", fig.align='center')
+
+height <- 4
+width <- 6
+
+knitr::opts_chunk$set(collapse = T, comment = "#>", fig.align='center',
+                      fig.height = height,
+                      fig.width = width)
 library(ggplot2)
 library(grattantheme)
+
 ```
 
 
@@ -26,17 +33,17 @@ When creating a chart using `ggplot` we have to:
 * Map variables to chart aesthetics `aes()`;
 * Choose a `geom_`.
 
-For example, using the `Orange` dataset tracking the growth of five orange trees by age:
+For example, using the in-built `iris` dataset:
 
 ```{r}
-plot <- ggplot(Orange,
-               aes(x = age,
-                   y = circumference,
-                   fill = Tree)) +
-        geom_bar(stat = "identity") +
-        labs(x = "Age of tree",
+plot <- ggplot(iris,
+               aes(x = Sepal.Length,
+                   y = Sepal.Width,
+                   colour = Species)) +
+        geom_point(size = 4) +
+        labs(x = "Species",
              y = "",
-             colour = "Tree")
+             colour = "Species")
 ```
 
 This successfully plots the data we want to plot:
@@ -97,11 +104,9 @@ plot +
 The final adjustments we can specify with `theme_grattan` are the font size and font family. The defaults meet Grattan formatting requirements, but if we do need to change them we can:
 
 ```{r}
-
 plot + 
   theme_grattan(base_size = 8, base_family = "serif") +
   grattan_y_continuous()
-
 ```
 
 
@@ -114,24 +119,27 @@ Grattan's colours are loaded with `grattantheme`. The HEX codes for individual G
 knitr::include_graphics("grattan_pal.pdf")
 ```
 
-We can call a single colour:
+We can call single colours:
 
 ```{r}
 plot + 
-  geom_vline(xintercept = 850, colour = grattan_grey3) +
+  geom_hline(yintercept = 3, colour = grattan_lightorange) +
+  geom_vline(xintercept = 6, colour = grattan_darkorange) +
   theme_grattan() +
   grattan_y_continuous()
-
 ```
 
 
-We can also use the `grattan_fill_manual()` or `grattan_colour_manual()` functions to change the colours of our fill or colour _aesthetics_. In our example, we have five different trees each represented by a colour, so we set the number of colours to five: `grattan_fill_manual(n = 5)`:
+We can also use the `grattan_fill_manual()` or `grattan_colour_manual()` functions to change the colours of our fill or colour _aesthetics_. These can be used for discrete/catagorical data (the default) or continuous data. 
+
+### Discrete colours
+In our example, we have five different trees each represented by a colour, so we set the number of colours to five: `grattan_fill_manual(n = 5)`:
 
 ```{r}
 plot + 
   theme_grattan() +
   grattan_y_continuous() +
-  grattan_fill_manual(n = 5)
+  grattan_colour_manual(3)
 
 ```
 
@@ -141,7 +149,7 @@ We can reverse the order of the fill colours using the `reverse` argument:
 plot + 
   theme_grattan() +
   grattan_y_continuous() +
-  grattan_fill_manual(n = 5, reverse = TRUE)
+  grattan_colour_manual(3, reverse = TRUE)
 
 ```
 
@@ -151,10 +159,65 @@ Note that if you do not specify _enough_ colours, will receive an error:
 plot + 
   theme_grattan() +
   grattan_y_continuous() + 
-  grattan_fill_manual(n = 3)
+  grattan_colour_manual(2)
 ```
 
 You won't receive an error if you specify _too many_ colours. `ggplot` will choose the first `n` colours it needs and ignore the rest.
+
+
+### Continuous colours
+
+`grattan_(colour|fill)_manual` includes an option for continuous colours: `discrete = FALSE`. 
+
+```{r}
+plot2 <- ggplot(iris,
+               aes(x = Sepal.Length,
+                   y = Sepal.Width,
+                   colour = Sepal.Length)) +
+        geom_point(size = 5) +
+        grattan_y_continuous() +
+        labs(x = "")
+
+plot2 +
+  theme_grattan() +
+  grattan_colour_manual(discrete = FALSE)
+```
+
+
+We can change the set of colours the continuous palette is generated from using the `palette` argument:
+
+```{r, fig.height=10, fig.width=10}
+p_full <- plot2 +
+  theme_grattan() +
+  grattan_colour_manual(discrete = FALSE, palette = "full")
+
+
+p_full_f <- plot2 +
+  theme_grattan() +
+  grattan_colour_manual(discrete = FALSE, palette = "full_f")
+
+p_dark <- plot2 +
+  theme_grattan() +
+  grattan_colour_manual(discrete = FALSE, palette = "dark")
+
+
+p_light <- plot2 +
+  theme_grattan() +
+  grattan_colour_manual(discrete = FALSE, palette = "light")
+
+p_diverging <- plot2 +
+  theme_grattan() +
+  grattan_colour_manual(discrete = FALSE, palette = "diverging")
+
+p_grey <- plot2 +
+  theme_grattan() +
+  grattan_colour_manual(discrete = FALSE, palette = "grey")
+
+
+gridExtra::grid.arrange(p_full, p_full_f, 
+                        p_dark, p_light, 
+                        p_diverging, p_grey)
+```
 
 
 ## Saving plots with `grattan_save`
@@ -176,18 +239,15 @@ Now we can save our Grattan-formatted graph as a normally-formatted report chart
 
 ```{r}
 # Create and store the plot:
-plot_final <- plot +
-              theme_grattan() +
-              grattan_y_continuous() +
-              grattan_fill_manual(n = 5, reverse = TRUE) +
-              labs(title = "Intergenerational inequality in trees",
-                 subtitle = "Circumference of trees by age",
-                 x = "Age", 
+plot_final <- p_full_f +
+              labs(title = "Iris plants are rad!",
+                 subtitle = "Width of sepal",
+                 x = "Length of sepal", 
                  y = "",
-                 caption = "Notes: orange trees only. Source: inbuilt base R datasets.")
+                 caption = "Notes: A classic dataset. Source: Fisher (1936)")
 
 # Save the plot
-grattan_save(filename = "tree_plot.pdf",
+grattan_save(filename = "iris.pdf",
              object = plot_final,
              type = "normal")
 
@@ -197,14 +257,14 @@ grattan_save(filename = "tree_plot.pdf",
 Which produces a chart that can fit into a report. Note that the title, subtitle and notes/sources have been removed.
 
 ```{r, out.width = "300px", echo = FALSE}
-knitr::include_graphics("tree_plot.pdf")
+knitr::include_graphics("iris.pdf")
 ```
 
 If we wanted to save a full-slide chart, complete with a title, subtitle, notes/sources and the Grattan slide format, we specify `type = "fullslide"`:
 
 ```{r, eval = FALSE}
 # Save the plot
-grattan_save(filename = "tree_plot_fullslide.pdf",
+grattan_save(filename = "iris_fullslide.pdf",
              object = plot_final,
              type = "fullslide")
 
@@ -212,14 +272,14 @@ grattan_save(filename = "tree_plot_fullslide.pdf",
 
 ```{r, include=FALSE}
 # Actually save the plot to call, but don't include output
-grattan_save(filename = "tree_plot_fullslide.pdf",
+grattan_save(filename = "iris_fullslide.pdf",
              object = plot_final,
              type = "fullslide")
 
 ```
 
 ```{r, out.width = "400px", echo = FALSE}
-knitr::include_graphics("tree_plot_fullslide.pdf")
+knitr::include_graphics("iris_fullslide.pdf")
 ```
 
 
