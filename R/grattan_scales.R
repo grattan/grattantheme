@@ -42,15 +42,17 @@ NULL
 
 
 grattan_colour_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palette = "full", ...){
-  if(discrete) {
+  if (discrete) {
+    return(
   ggplot2::scale_colour_manual(...,
                       values = grattantheme::grattan_pal(n = n,
                                                          reverse = reverse))
+    )
   }
 
-  if(!discrete){
+  if (!discrete) {
   pal <- grattan_palette(palette = palette, reverse = reverse)
-  ggplot2::scale_color_gradientn(colours = pal(256), ...)
+  return(ggplot2::scale_color_gradientn(colours = pal(256), ...))
   }
 
 
@@ -61,14 +63,16 @@ grattan_colour_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palet
 #' @export
 grattan_fill_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palette = "full", ...){
   if(discrete) {
+    return(
     ggplot2::scale_fill_manual(...,
                                  values = grattantheme::grattan_pal(n = n,
                                                                     reverse = reverse))
+    )
   }
 
   if(!discrete){
     pal <- grattan_palette(palette = palette, reverse = reverse)
-    ggplot2::scale_fill_gradientn(colours = pal(256), ...)
+    return(ggplot2::scale_fill_gradientn(colours = pal(256), ...))
   }
 
 

@@ -60,6 +60,8 @@ test_that("grattan colour functions work as expected", {
 
   plot_w_col_built <- ggplot_build(plot_w_col)
 
+  expect_equal(plot_w_col_built$data[[2]]$colour[1], "#F68B33")
+
   expect_equal(length(unique(plot_w_col_built$data[[2]]$colour)), 3)
 })
 
