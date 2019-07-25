@@ -62,4 +62,46 @@ test_that("grattan_save() shows or hides messages about labels as appropriate", 
 
 })
 
+test_that("grattan_save() height behaviour works as expected with normal charts", {
 
+  grattan_save(filename = "test_plot_normal_default_height.png",
+               object = test_plot,
+               type = "normal")
+
+  grattan_save(filename = "test_plot_normal_manual_height.png",
+               object = test_plot,
+               type = "normal",
+               height = 20)
+
+  expect_true(file.exists("test_plot_normal_default_height.png"))
+  expect_true(file.exists("test_plot_normal_manual_height.png"))
+
+  expect_gt(file.size("test_plot_normal_manual_height.png"),
+            file.size("test_plot_normal_default_height.png"))
+
+  unlink("test_plot_normal_default_height.png")
+  unlink("test_plot_normal_manual_height.png")
+
+})
+
+test_that("grattan_save() height behaviour works as expected with fullslide charts", {
+
+  grattan_save(filename = "test_plot_fullslide_default_height.png",
+               object = test_plot,
+               type = "fullslide")
+
+  grattan_save(filename = "test_plot_fullslide_manual_height.png",
+               object = test_plot,
+               type = "fullslide",
+               height = 40)
+
+  expect_true(file.exists("test_plot_fullslide_default_height.png"))
+  expect_true(file.exists("test_plot_fullslide_manual_height.png"))
+
+  expect_gt(file.size("test_plot_fullslide_manual_height.png"),
+            file.size("test_plot_fullslide_default_height.png"))
+
+  unlink("test_plot_fullslide_default_height.png")
+  unlink("test_plot_fullslide_manual_height.png")
+
+})

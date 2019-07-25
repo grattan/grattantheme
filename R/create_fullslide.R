@@ -4,7 +4,10 @@
 #' @import ggplot2
 #' @import gridExtra
 
-create_fullslide <- function(object, type, warn_labs){
+create_fullslide <- function(object,
+                             type,
+                             height,
+                             warn_labs){
 
   if(!"gg" %in% class(object)){
     stop("type = 'fullslide' only works with ggplot graph objects")
@@ -79,12 +82,24 @@ create_fullslide <- function(object, type, warn_labs){
 
   header <- gridExtra::arrangeGrob(grobs = list(toptitle, logogrob),
                           ncol = 2,
-                          widths = unit(c(width_title,4.57), "cm"),
+                          widths = unit(c(width_title, 4.57), "cm"),
                           heights = unit(1.48, "cm"),
                           padding = unit(0, "line"))
 
+  if(is.null(height)) {
+    height <- chart_types$height[chart_types$type == type]
+  }
 
-  plot_height <- ifelse(type == "fullslide_44", 14.5 + (25.4-19.05), 14.5)
+  top_border_height <- 0.70
+  header_height <- 1.75
+  linegrob_height <- 0.1
+  subtitle_height <- 1.76
+  bottom_border_height <- 0.24
+
+  non_plot_height <- sum(top_border_height, header_height, linegrob_height,
+                         subtitle_height, bottom_border_height)
+
+  plot_height <- height - non_plot_height
 
   # create main plotting area
   mainarea <- gridExtra::arrangeGrob(grobs = list(border, header, linegrob, topsubtitle, p, border),
