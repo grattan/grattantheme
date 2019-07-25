@@ -11,6 +11,7 @@
 #'
 #' @name stitch_pdfs
 #' @examples
+#' # Deprecated function, will be removed in future versions.
 #' # stitch_pdfs() is useful when you have created multiple charts using
 #' # grattan_save() and wish to combine them into one document
 #'
@@ -35,6 +36,10 @@
 
 
 stitch_pdfs <- function(pdfs, output = NULL){
+
+  .Deprecated(new = "pdf_combine()",
+              package = "pdftools",
+              msg = "stitch_pdfs() is deprecated and will be removed in a future version. Consider using pdftools::pdf_combine().")
 
   if(is.null(output)){
     stop("Must specify `output` - the filename of the PDF to be created")
