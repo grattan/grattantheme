@@ -62,3 +62,21 @@ test_that("grattan colour functions work as expected", {
 
   expect_equal(length(unique(plot_w_col_built$data[[2]]$colour)), 3)
 })
+
+
+test_that("grattan continuous palette functions work as expected", {
+
+  expect_length(grattan_palette()(5), 5)
+
+  plot_cont <- ggplot(mtcars, aes(x = mpg, y = cyl)) +
+    geom_point() +
+    geom_point(aes(col = hp)) +
+    grattan_colour_manual(discrete = FALSE)
+
+  expect_is(plot_cont, "gg")
+
+  plot_cont_built <- ggplot_build(plot_cont)
+
+  expect_equal(length(unique(plot_cont_built$data[[2]]$colour)), 22)
+})
+

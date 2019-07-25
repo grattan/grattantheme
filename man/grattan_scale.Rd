@@ -5,9 +5,11 @@
 \alias{grattan_fill_manual}
 \title{Convenient functions to set Grattan-appropriate palettes}
 \usage{
-grattan_colour_manual(n = 0, reverse = FALSE, ...)
+grattan_colour_manual(n = 0, reverse = FALSE, discrete = TRUE,
+  palette = "full", ...)
 
-grattan_fill_manual(n = 0, reverse = FALSE, ...)
+grattan_fill_manual(n = 0, reverse = FALSE, discrete = TRUE,
+  palette = "full", ...)
 }
 \arguments{
 \item{n}{Numeric. The number of levels in your colour scale.
@@ -16,6 +18,20 @@ see ?grattan_pal for more information.}
 
 \item{reverse}{Logical. FALSE by default. Setting to TRUE reverses the
 standard colour order.}
+
+\item{discrete}{Logical. TRUE by default. Setting to FALSE generates a
+continuous colour scale.}
+
+\item{palette}{Sets the colours that will form the continuous palette when discrete = FALSE. One of:
+
+\itemize{
+\item{"full"}{The default. Red, dark orange, light orange, yellow, light yellow}
+\item{"full_f"}{ faded version of "full"}
+\item{"light"}{ light orange, yellow, light yellow}
+\item{"dark"}{ red, dark orange, light orange}
+\item{"diverging"}{ red, faded red, white, faded light orange, light orange}
+\item{"grey"}{ grey 1, grey 2, grey 3, grey 4, grey 5}
+}}
 
 \item{...}{arguments passed to ggplot2 scales}
 }

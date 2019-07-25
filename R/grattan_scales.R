@@ -7,6 +7,20 @@
 #' @param reverse Logical. FALSE by default. Setting to TRUE reverses the
 #' standard colour order.
 #'
+#' @param discrete Logical. TRUE by default. Setting to FALSE generates a
+#' continuous colour scale.
+#'
+#' @param palette Sets the colours that will form the continuous palette when discrete = FALSE. One of:
+#'
+#' \itemize{
+##' \item{"full"}{The default. Red, dark orange, light orange, yellow, light yellow}
+##' \item{"full_f"}{ faded version of "full"}
+##' \item{"light"}{ light orange, yellow, light yellow}
+##' \item{"dark"}{ red, dark orange, light orange}
+##' \item{"diverging"}{ red, faded red, white, faded light orange, light orange}
+##' \item{"grey"}{ grey 1, grey 2, grey 3, grey 4, grey 5}
+##'}
+#'
 #' @param ... arguments passed to ggplot2 scales
 #'
 #' @examples
@@ -26,19 +40,47 @@ NULL
 #' @import ggplot2
 #' @export
 
-grattan_colour_manual <- function(n = 0, reverse = FALSE, ...){
+
+grattan_colour_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palette = "full", ...){
+  if(discrete) {
   ggplot2::scale_colour_manual(...,
                       values = grattantheme::grattan_pal(n = n,
                                                          reverse = reverse))
+  }
+
+  if(!discrete){
+  pal <- grattan_palette(palette = palette, reverse = reverse)
+  ggplot2::scale_color_gradientn(colours = pal(256), ...)
+  }
+
+
 }
 
 #' @rdname grattan_scale
 #' @import ggplot2
 #' @export
-grattan_fill_manual <- function(n = 0, reverse = FALSE, ...){
-  ggplot2::scale_fill_manual(...,
-                             values = grattantheme::grattan_pal(n = n,
-                                                                reverse = reverse))
+grattan_fill_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palette = "full", ...){
+  if(discrete) {
+    ggplot2::scale_fill_manual(...,
+                                 values = grattantheme::grattan_pal(n = n,
+                                                                    reverse = reverse))
+  }
+
+  if(!discrete){
+    pal <- grattan_palette(palette = palette, reverse = reverse)
+    ggplot2::scale_fill_gradientn(colours = pal(256), ...)
+  }
+
 
 }
 
+
+# Generates a full palette
+grattan_palette <- function(palette = "full", reverse = FALSE, ...) {
+
+  pal <- grattantheme::grattan_palette_set[[palette]]
+
+  if (reverse) pal <- rev(pal)
+
+  grDevices::colorRampPalette(pal, ...)
+}
