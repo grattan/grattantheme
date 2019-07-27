@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 0.4.0
+Version: 0.4.0.900
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
                 role = c("aut", "cre")),
@@ -28,4 +28,5 @@ LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0),
-    covr
+    covr,
+    vdiffr

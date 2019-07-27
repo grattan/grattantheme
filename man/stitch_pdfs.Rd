@@ -17,6 +17,7 @@ to be created, containing the stiched-together PDFs}
 Combine multiple PDFs into a single PDF
 }
 \examples{
+# Deprecated function, will be removed in future versions.
 # stitch_pdfs() is useful when you have created multiple charts using
 # grattan_save() and wish to combine them into one document
 

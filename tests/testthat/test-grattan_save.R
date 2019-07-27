@@ -18,22 +18,22 @@ test_plot_nolabs <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 
 test_that("grattan_save() saves charts", {
 
-  grattan_save(filename = "../figs/test/test_plot.png",
+  grattan_save(filename = "../figs/grattan_save/test_plot.png",
                object = test_plot,
                type = "all")
 
-  expect_true(file.exists("../figs/test/test_plot/test_plot_fullslide_44.png"))
-  expect_true(file.exists("../figs/test/test_plot/test_plot_fullslide_169.png"))
-  expect_true(file.exists("../figs/test/test_plot/test_plot_fullslide.png"))
-  expect_true(file.exists("../figs/test/test_plot/test_plot_fullpage.png"))
-  expect_true(file.exists("../figs/test/test_plot/test_plot_normal_169.png"))
-  expect_true(file.exists("../figs/test/test_plot/test_plot_normal.png"))
-  expect_true(file.exists("../figs/test/test_plot/test_plot_tiny.png"))
-  expect_true(file.exists("../figs/test/test_plot/test_plot_wholecolumn.png"))
-  expect_true(file.exists("../figs/test/test_plot/test_plot_blog.png"))
-  expect_true(file.exists("../figs/test/test_plot/test_plot.csv"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_169.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullpage.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal_169.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot.csv"))
 
-  unlink("../figs", recursive = TRUE)
+  unlink("../figs/grattan_save", recursive = TRUE)
   unlink("../testthat/Rplots.pdf")
 })
 

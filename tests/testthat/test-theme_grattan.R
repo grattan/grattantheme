@@ -46,7 +46,7 @@ test_that("grattan colour functions work as expected", {
 
   expect_length(grattan_pal(n = 2), 2)
 
-  expect_length(grattan_pal(n = 10), 10)
+  expect_length(suppressWarnings(grattan_pal(n = 10)), 10)
 
   expect_warning(grattan_pal(n = 10))
 
