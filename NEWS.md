@@ -1,17 +1,17 @@
+# grattantheme 0.4.0.900
+* Minor visual fixes to fullslide charts
+* More testing of functions to ensure style guide-compatibility
+
 # grattantheme 0.4.0
 * New "blog" type available with grattan_save()
 * Users can now manually specify height of figures, overriding defaults
 * New palettes options added
 * Left and white plot margins reduced
 * stitch_pdfs() function is now deprecated
-
-# grattantheme 0.3.1.901
 * grattan_save() now accepts additional arguments ... to pass to ggsave()
 * Warnings about labels are no longer displayed when using grattan_save(type = "all")
 * fullslide charts are now quicker to save, and don't print chart elements
 * Vertical alignment of subtitles in fullslide charts fixed, to ensure appropriate whitespace between subtitle and plot
-
-# grattantheme 0.3.1.900
 * make_presentation() now includes the chart title, subtitle, and caption in .pptx notes
 * Grattan-ish Word template now included for use with redoc/Rmarkdown
 * fixes bug in create_fullslide() introduced with ggplot 3.2.0
