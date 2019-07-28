@@ -44,15 +44,28 @@ test_that("grattan colour functions work as expected", {
 
   expect_length(grattan_pal(), 5)
 
+  expect_length(grattan_pal(n = 1), 1)
   expect_length(grattan_pal(n = 2), 2)
-
-  expect_length(grattan_pal(n = 10), 10)
+  expect_length(grattan_pal(n = 3), 3)
+  expect_length(grattan_pal(n = 4), 4)
+  expect_length(grattan_pal(n = 5), 5)
+  expect_length(grattan_pal(n = 6), 6)
+  expect_length(suppressWarnings(grattan_pal(n = 7)), 7)
+  expect_length(suppressWarnings(grattan_pal(n = 8)), 8)
+  expect_length(suppressWarnings(grattan_pal(n = 9)), 9)
+  expect_length(suppressWarnings(grattan_pal(n = 10)), 10)
+  expect_length(grattan_pal(n = 3, reverse = TRUE), 3)
 
   expect_warning(grattan_pal(n = 10))
 
   expect_error(grattan_pal(n = 11))
 
-  plot_w_col <- base_plot +
+  expect_equal(grattan_pal(n = 5),
+               c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
+                 grattantheme::grattan_darkorange, grattantheme::grattan_red,
+                 grattantheme::grattan_darkred))
+
+    plot_w_col <- base_plot +
     geom_point(aes(col = factor(cyl))) +
     grattan_colour_manual(n = 3)
 

@@ -4,6 +4,8 @@ wrap_labs <- function(object, type){
 
   p <- object
 
+  chart_class <- chart_types$class[chart_types$type == type]
+
   # widths in characters
   char_width_grattan_title    <- chart_types$title[chart_types$type == type]
   char_width_grattan_subtitle <- chart_types$subtitle[chart_types$type == type]
@@ -20,9 +22,10 @@ wrap_labs <- function(object, type){
 
   # add line break to title where necessary
   if(nchar(stored_title) <= char_width_grattan_title &
-     type %in% c("fullslide", "fullslide169")){
+     chart_class == "fullslide" &
+     !grepl("\n", stored_title)){
 
-      stored_title <- paste0("\n ", stored_title)
+      stored_title <- paste0("\n", stored_title)
   }
 
   if(nchar(stored_title) > 2 * char_width_grattan_title) {
@@ -49,7 +52,8 @@ wrap_labs <- function(object, type){
   # add line break to subtitle where necessary
 
   if(nchar(stored_subtitle) <= char_width_grattan_subtitle &
-     type %in% c("fullslide", "fullslide_169")){
+     chart_class == "fullslide" &
+     !grepl("\n", stored_subtitle)){
     stored_subtitle <- paste0(stored_subtitle, "\n ")
 
   }
