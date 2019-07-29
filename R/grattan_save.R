@@ -184,9 +184,15 @@ grattan_save_ <- function(filename,
   # It saves the whole dataframe passed to ggplot(), not limited to the
   # column(s)/row(s) used in the plot.
 
+  plot_class <- chart_types$class[chart_types$type == type]
 
   # create an image the size of a 4:3 Powerpoint slide complete with Grattan logo
-  if(grepl("fullslide", type) | type == "blog"){
+  if(plot_class == "fullslide"){
+
+    if("ggassemble" %in% class(object)) {
+      stop(paste0("Charts assembled with the patchwork package cannot be assembled as ",
+                  type, " charts."))
+    }
 
     # calls another function to do the work of assembling a full slide
     object <- create_fullslide(object = object,
@@ -216,6 +222,11 @@ grattan_save_ <- function(filename,
       }
     } else {
     # non-fullslide, force_labs = TRUE
+
+        if("ggassemble" %in% class(object)) {
+          stop("Charts assembled with the patchwork package cannot be saved using the `force_labs = TRUE` argument of `grattan_save()`")
+        }
+
         object <- wrap_labs(object, type)
 
         object <- ggplotGrob(object)
