@@ -179,7 +179,7 @@ theme_grattan <- function(base_size = 18,
                                       colour = "black",
                                       face = "italic",
                                       margin = ggplot2::margin(t = 15)),
-          plot.margin = unit(c(0.5, 0.75, 0.1, 0.01) , "lines"),
+          plot.margin = unit(c(0.5, 0.6, 0.1, 0.01) , "lines"),
           complete = TRUE)
 
 
