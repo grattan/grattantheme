@@ -82,7 +82,7 @@ create_fullslide <- function(object,
     height <- chart_types$height[chart_types$type == type]
   }
 
-  blog_border <- 0.05
+  blog_border <- 0.15
 
   top_border_height <- ifelse(type == "blog", blog_border, 0.70)
   header_height <- 1.75
