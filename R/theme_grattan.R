@@ -184,7 +184,7 @@ theme_grattan <- function(base_size = 18,
           plot.margin = unit(c(0.5, 0.6, 0.1, 0.01) , "lines"),
           complete = TRUE)
 
-  # add panel borders if the use requests them
+  # add panel borders if the user requests them
 
   if(panel_borders) {
     ret <- ret +

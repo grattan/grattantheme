@@ -1,4 +1,5 @@
-# grattantheme 0.4.0.900
+# grattantheme 0.4.0.9
+* theme_grattan() gains a panel_borders argument
 * Minor visual fixes to fullslide charts
 * More testing of functions to ensure style guide-compatibility
 
