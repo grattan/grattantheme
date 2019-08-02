@@ -5,7 +5,7 @@
 \title{Create a ggplot2 theme consistent with the Grattan style guide.}
 \usage{
 theme_grattan(base_size = 18, base_family = "sans", flipped = FALSE,
-  background = "white", legend = "none")
+  background = "white", legend = "none", panel_borders = FALSE)
 }
 \arguments{
 \item{base_size}{Size for text elements. Defaults to 18, as per the Grattan
@@ -23,6 +23,8 @@ to go in a Grattan report box.}
 
 \item{legend}{"off" by default. Set to "bottom", "left", "right" or "top" as
 desired, or a two element numeric vector such as c(0.9, 0.1).}
+
+\item{panel_borders}{`FALSE` by default. Set to `TRUE` to enable a black border around the plotting area.}
 }
 \description{
 Create a ggplot2 theme consistent with the Grattan style guide.

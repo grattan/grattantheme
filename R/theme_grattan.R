@@ -11,6 +11,7 @@
 #' to go in a Grattan report box.
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
 #' desired, or a two element numeric vector such as c(0.9, 0.1).
+#' @param panel_borders `FALSE` by default. Set to `TRUE` to enable a black border around the plotting area.
 #'
 #' @importFrom ggthemes theme_foundation
 #' @import ggrepel
@@ -112,7 +113,8 @@ theme_grattan <- function(base_size = 18,
                            base_family = "sans",
                            flipped = FALSE,
                            background = "white",
-                           legend = "none") {
+                           legend = "none",
+                           panel_borders = FALSE) {
 
   ret <-
     ggthemes::theme_foundation(base_size = base_size, base_family = base_family) +
@@ -182,12 +184,20 @@ theme_grattan <- function(base_size = 18,
           plot.margin = unit(c(0.5, 0.6, 0.1, 0.01) , "lines"),
           complete = TRUE)
 
+  # add panel borders if the use requests them
+
+  if(panel_borders) {
+    ret <- ret +
+      theme(panel.background = element_rect(linetype = 1,
+                                            colour = "black"))
+  }
+
 
   # call a function that modifies various geom defaults
   grattanify_geom_defaults()
 
   # reverse when flipped = TRUE
-  if (flipped == TRUE) {
+  if (flipped) {
     ret <- ret + ggplot2::theme(panel.grid.major.x = ggplot2::element_line(),
                        panel.grid.major.y = ggplot2::element_blank(),
                        axis.line.x = ggplot2::element_blank(),
