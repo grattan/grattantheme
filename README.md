@@ -12,7 +12,9 @@ Use `grattan_colour_manual(n)` or `grattan_fill_manual(n)` to format the `n` col
 
 Use `grattan_y_continuous()` to set default values for your vertical axis that will work well with most Grattan charts.
 
-Use `grattan_save()` to save your ggplot2 charts (eg. as `.png` or `.pdf` files) for use elsewhere, such as in Powerpoint, LaTeX, or the Grattan Blog, with the size and resolution set to style guide-consistent values.
+Use `grattan_save()` to save your ggplot2 charts (eg. as `.png` or `.pdf` files) for use elsewhere, such as in Powerpoint, LaTeX, or the Grattan Blog, with the size and resolution set to style guide-consistent values. Design features including the Grattan logo are included in the image where appropriate.
+
+Use `make_slide()` and `make_presentation()` to create Powerpoint presentations from your chart(s), including editable titles and subtitles.
 
 A range of colours from the style guide (such as `grattan_lightorange`, `grattan_red`, and so on) are defined for your convenience.
 
