@@ -6,13 +6,17 @@
 
 create_fullslide <- function(object,
                              type,
-                             height,
-                             warn_labs,
+                             height = NULL,
+                             warn_labs = TRUE,
                              print_object = TRUE) {
 
   # if(!"gg" %in% class(object)) {
   #   stop("type = 'fullslide' only works with ggplot graph objects")
   # }
+
+  if(missing(type)) {
+    stop("You must specify a plot type.")
+  }
 
   p <- object
 
