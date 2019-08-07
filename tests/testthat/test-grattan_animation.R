@@ -1,3 +1,6 @@
+library(ggplot2)
+library(gganimate)
+
 static_plot <- ggplot(mtcars,
                       aes(x = wt, y = mpg)) +
   geom_point() +
