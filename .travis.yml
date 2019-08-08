@@ -19,3 +19,4 @@ addons:
     update: false
     packages:
       - cargo
+      - libavfilter-dev
