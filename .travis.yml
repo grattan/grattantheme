@@ -16,7 +16,7 @@ matrix:
 
 addons:
   apt:
-    update: true
+    update: false
     packages:
       - libfreetype6
       - libmagick++-dev
