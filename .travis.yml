@@ -16,6 +16,6 @@ matrix:
 
 addons:
   apt:
-    update: true
+    update: false
     packages:
       - cargo
