@@ -22,13 +22,12 @@ test_that("animation works with blog type chart", {
 
   grattan_anim_save(tempfile, anim_plot, type = "blog", nframes = 6, fps = 2)
 
-  expect_true(file.exists("test.gif"))
+  expect_true(file.exists(tempfile))
 
-  expect_gt(file.size("test.gif"), 300000)
+  expect_gt(file.size(tempfile), 300000)
 
-  expect_lt(file.size("test.gif"), 450000)
+  expect_lt(file.size(tempfile), 450000)
 
-  unlink("test.gif")
 
 })
 
