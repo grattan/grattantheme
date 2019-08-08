@@ -45,12 +45,3 @@ test_that("animation throws error when unsupported type is requested",{
   expect_error(grattan_anim_save("test.gif", anim_plot, type = "fullslide_169", nframes = 6, fps = 2))
 })
 
-test_that("animation throws error when named object already exists", {
-
-  ggplot_build_grattan <<- c(1:3)
-
-  expect_error(grattan_anim_save("test.gif", anim_plot, type = "blog", nframes = 6, fps = 2))
-
-})
-
-
