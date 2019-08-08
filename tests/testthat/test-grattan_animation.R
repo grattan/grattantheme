@@ -15,6 +15,8 @@ anim_plot <- static_plot +
 
 test_that("animation works with blog type chart", {
 
+  skip_on_travis()
+
   grattan_anim_save("test.gif", anim_plot, type = "blog", nframes = 6, fps = 2)
 
   expect_true(file.exists("test.gif"))
@@ -28,6 +30,8 @@ test_that("animation works with blog type chart", {
 })
 
 test_that("animation works with normal type chart", {
+
+  skip_on_travis()
 
   grattan_anim_save("test_normal.gif", anim_plot, type = "normal", nframes = 6, fps = 2)
 

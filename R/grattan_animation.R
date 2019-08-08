@@ -57,6 +57,10 @@ grattan_anim_save <- function(filename,
                               path = NULL,
                               ...) {
 
+  if(type == "fullslide") {
+    message("'fullslide' charts are not yet supported by grattan_anim_save; creating a 'blog' type instead")
+  }
+
   # To add more types in the future, add more options here and create a new 'Scene'
   anim_chart_types <- c("blog", "normal")
 
