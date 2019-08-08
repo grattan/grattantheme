@@ -1,8 +1,9 @@
-# grattantheme 0.4.0.9
+# grattantheme 0.5.0
 * grattan_anim_save() allows users to save gganimate animations formatted in the Grattan style
 * theme_grattan() gains a panel_borders argument
 * Minor visual fixes to fullslide charts
 * More testing of functions to ensure style guide-compatibility
+* stitch_pdfs() function is now hard-deprecated
 
 # grattantheme 0.4.0
 * New "blog" type available with grattan_save()

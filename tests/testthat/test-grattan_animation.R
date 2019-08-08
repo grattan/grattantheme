@@ -24,9 +24,9 @@ test_that("animation works with blog type chart", {
 
   expect_true(file.exists(tempfile))
 
-  expect_gt(file.size(tempfile), 300000)
+  frames_in_file <- length(magick::image_read(tempfile))
 
-  expect_lt(file.size(tempfile), 450000)
+  expect_equal(frames_in_file, 6)
 
 
 })
