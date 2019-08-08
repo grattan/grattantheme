@@ -21,7 +21,8 @@ Imports:
     rmarkdown (>= 1.12),
     xml2 (>= 1.2.0),
     zip (>= 2.0.0),
-    gganimate (>= 1.0.0)
+    gganimate (>= 1.0.0),
+    gifski
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
@@ -29,5 +30,4 @@ RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0),
     covr,
-    vdiffr,
-    gifski
+    vdiffr
