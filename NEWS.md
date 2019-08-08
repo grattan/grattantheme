@@ -1,4 +1,5 @@
 # grattantheme 0.4.0.9
+* grattan_anim_save() allows users to save gganimate animations formatted in the Grattan style
 * theme_grattan() gains a panel_borders argument
 * Minor visual fixes to fullslide charts
 * More testing of functions to ensure style guide-compatibility
