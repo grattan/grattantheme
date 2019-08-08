@@ -16,7 +16,12 @@ matrix:
 
 addons:
   apt:
-    update: false
+    update: true
     packages:
+      - libfreetype6
+      - libmagick++-dev
       - cargo
       - libavfilter-dev
+    sources:
+      - sourceline: 'ppa:jonathonf/ffmpeg-4'
+      - sourceline: 'ppa:jonathonf/ffmpeg-3'
