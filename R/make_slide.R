@@ -218,8 +218,8 @@ make_presentation <- function(graphs,
                               filename = NULL,
                               path = ".",
                               type = "16:9",
-                              title = NULL,
-                              subtitle = NULL){
+                              title = "Title",
+                              subtitle = "Subtitle"){
 
   pandoc_test()
 
