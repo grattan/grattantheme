@@ -14,28 +14,6 @@ aren't in the working directory) of the PDFs to be combined}
 to be created, containing the stiched-together PDFs}
 }
 \description{
-Combine multiple PDFs into a single PDF
-}
-\examples{
-# Deprecated function, will be removed in future versions.
-# stitch_pdfs() is useful when you have created multiple charts using
-# grattan_save() and wish to combine them into one document
-
-# First, create some charts and save them as individual PDFs:
-library(ggplot2)
-
-chart1 <- ggplot(mtcars, aes(x = mpg, y = hp)) +
-    geom_point() +
-    theme_grattan()
-
-chart2 <- ggplot(mtcars, aes(x = carb, y = mpg, group = carb)) +
-    geom_boxplot() +
-    theme_grattan()
-
-grattan_save("chart1.pdf", chart1)
-grattan_save("chart2.pdf", chart2)
-
-# Now combine the two saved charts into one pdf
-stitch_pdfs(c("chart1.pdf", "chart2.pdf"), output = "both_charts.pdf")
-
+Deprecated function, no longer available.
+Consider using pdftools::pdf_combine() to combine multiple PDFs.
 }

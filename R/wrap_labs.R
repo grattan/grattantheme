@@ -107,8 +107,6 @@ wrap_labs <- function(object, type){
  p$labels$subtitle <- stored_subtitle
  p$labels$caption <- stored_caption
 
- object <- p
-
- object
+ p
 
 }
