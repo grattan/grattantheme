@@ -30,8 +30,6 @@ Use `theme_grattan()` to format your ggplot2 charts in a style consistent with t
 
 Use `grattan_colour_manual(n)` or `grattan_fill_manual(n)` to format the `n` coloured elements of your `ggplot2` plot. These functions will choose appropriately-spaced Grattan colours, ordered from either light to dark or the reverse. 
 
-![](man/grattan_pal_colours.png)
-
 Use `grattan_y_continuous()` to set default values for your vertical axis that will work well with most Grattan charts.
 
 A range of colours from the style guide (such as `grattan_lightorange`, `grattan_red`, and so on) are defined for your convenience.
