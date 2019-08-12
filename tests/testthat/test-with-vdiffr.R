@@ -21,6 +21,13 @@ coloured_plot <- base_plot +
   grattan_colour_manual(n = 3) +
   theme_grattan()
 
+# fullslide_plot <- grattantheme:::create_fullslide(normal_plot,
+#                                                   type = "fullslide",
+#                                                   height = NULL,
+#                                                   warn_labs = FALSE) %>%
+#   gridExtra::grid.arrange() %>%
+#   ggplotify::as.ggplot()
+
 test_that("normal plot looks correct", {
 
   vdiffr::expect_doppelganger("normal plot", normal_plot)
@@ -42,14 +49,6 @@ test_that("plot with discrete colours looks correct", {
 
 # test_that("fullslide plot looks correct", {
 #
-#   fullslide_plot <- grattantheme:::create_fullslide(normal_plot,
-#                                                     type = "fullslide",
-#                                                     height = NULL,
-#                                                     warn_labs = FALSE) %>%
-#       gridExtra::grid.arrange() %>%
-#       ggplotify::as.ggplot()
-#
-#
 #   vdiffr::expect_doppelganger("fullslide plot", fullslide_plot)
 # })
-#
+
