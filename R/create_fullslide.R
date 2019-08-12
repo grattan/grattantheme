@@ -104,7 +104,7 @@ create_fullslide <- function(object,
   top_border_height <- ifelse(type == "blog", blog_border, 0.70)
   header_height <- 1.75
   linegrob_height <- 0.1
-  subtitle_height <- ifelse(is.null(stored_subtitle), 0.3, 1.76)
+  subtitle_height <- ifelse(is.null(stored_subtitle), 0.21, 1.76)
   bottom_border_height <- ifelse(type == "blog", blog_border, 0.24)
 
   non_plot_height <- sum(top_border_height, header_height, linegrob_height,
