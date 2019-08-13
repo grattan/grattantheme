@@ -10,10 +10,6 @@ create_fullslide <- function(object,
                              warn_labs = TRUE,
                              print_object = TRUE) {
 
-  # if(!"gg" %in% class(object)) {
-  #   stop("type = 'fullslide' only works with ggplot graph objects")
-  # }
-
   if(missing(type)) {
     stop("You must specify a plot type.")
   }
@@ -41,10 +37,11 @@ create_fullslide <- function(object,
     stored_title <- ""
   }
 
-  if(stored_subtitle == "\n "){
+  if(is.null(stored_subtitle) | stored_subtitle == "") {
     if(warn_labs) {
       message(paste0("Your plot has no subtitle, which is weird for type = ", type, "\nConsider adding a subtitle using labs(subtitle = 'Text')"))
     }
+
     stored_subtitle <- NULL
   }
 
@@ -58,6 +55,10 @@ create_fullslide <- function(object,
   # remove title and subtitle on chart
   p$labels$title <- NULL
   p$labels$subtitle <- NULL
+
+  # how many lines in the subtitle?
+
+  subtitle_lines <- ceiling(nchar(stored_subtitle) / chart_types$subtitle[chart_types$type == type])
 
   # convert to gtable
   p_built$plot <- p
@@ -104,7 +105,8 @@ create_fullslide <- function(object,
   top_border_height <- ifelse(type == "blog", blog_border, 0.70)
   header_height <- 1.75
   linegrob_height <- 0.1
-  subtitle_height <- ifelse(is.null(stored_subtitle), 0.21, 1.76)
+  subtitle_height <- ifelse(is.null(stored_subtitle), 0.21,
+                            ifelse(subtitle_lines == 1, 1.76 / 2, 1.76))
   bottom_border_height <- ifelse(type == "blog", blog_border, 0.24)
 
   non_plot_height <- sum(top_border_height, header_height, linegrob_height,
