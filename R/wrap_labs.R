@@ -51,12 +51,12 @@ wrap_labs <- function(object, type){
 
   # add line break to subtitle where necessary
 
-  if(nchar(stored_subtitle) <= char_width_grattan_subtitle &
-     chart_class == "fullslide" &
-     !grepl("\n", stored_subtitle)){
-    stored_subtitle <- paste0(stored_subtitle, "\n ")
-
-  }
+  # if(nchar(stored_subtitle) <= char_width_grattan_subtitle &
+  #    chart_class == "fullslide" &
+  #    !grepl("\n", stored_subtitle)){
+  #   stored_subtitle <- paste0(stored_subtitle, "\n ")
+  #
+  # }
 
   if(nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
       # code to figure out the final 2 chunks of text before the title limit
