@@ -160,7 +160,8 @@ grattan_save <- function(filename,
                  object = object,
                  height = height,
                  force_labs = force_labs,
-                 warn_labs = FALSE)
+                 warn_labs = FALSE,
+                 ...)
 
   }
 
