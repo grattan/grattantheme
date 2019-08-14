@@ -2,10 +2,32 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: false
+sudo: true
 cache: packages
 r_packages:
   - covr
 
-after_success:
-  - Rscript -e 'library(covr); codecov()'
+matrix:
+  include:
+  - r: devel
+  - r: release
+    after_success:
+    - Rscript -e 'covr::codecov()'
+
+addons:
+  apt:
+    update: false
+    packages:
+      - libfreetype6
+      - libmagick++-dev
+      - cargo
+      - libavfilter-dev
+    sources:
+      - sourceline: 'ppa:jonathonf/ffmpeg-4'
+      - sourceline: 'ppa:jonathonf/ffmpeg-3'
+
+before_install:
+  - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
+  #- sudo apt-get --yes --force-yes update -qq
+  #- sudo apt-get install --yes libudunits2-dev libproj-dev libgeos-dev libgdal-dev
+  #- Rscript -e 'update.packages(ask = FALSE)'

@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 0.4.0.903
+Version: 0.5.1
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
                 role = c("aut", "cre")),
@@ -16,12 +16,12 @@ Imports:
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.1),
     purrr (>= 0.3.0),
-    grid,
     gridExtra,
     knitr (>= 1.22),
     rmarkdown (>= 1.12),
     xml2 (>= 1.2.0),
-    zip (>= 2.0.0)
+    zip (>= 2.0.0),
+    gganimate (>= 1.0.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
@@ -29,4 +29,8 @@ RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0),
     covr,
-    vdiffr
+    vdiffr,
+    magick,
+    av,
+    png,
+    gifski

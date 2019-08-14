@@ -94,11 +94,6 @@
 #'
 #' @export
 
-# requireNamespace(c("grid",
-#                    "gridExtra",
-#                    "ggplot2"),
-#                    quietly = TRUE)
-
 grattan_save <- function(filename,
                          object = ggplot2::last_plot(),
                          type = "normal",

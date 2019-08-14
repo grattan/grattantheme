@@ -6,15 +6,24 @@
 
 create_fullslide <- function(object,
                              type,
-                             height,
-                             warn_labs){
+                             height = NULL,
+                             warn_labs = TRUE,
+                             print_object = TRUE) {
 
-  if(!"gg" %in% class(object)){
-    stop("type = 'fullslide' only works with ggplot graph objects")
+  if(missing(type)) {
+    stop("You must specify a plot type.")
   }
 
   p <- object
 
+  if(!"ggplot_built" %in% class(p)) {
+    p_built <- ggplot_build(p)
+
+  } else {
+    p_built <- p
+  }
+
+  p <- p_built$plot
   p <- wrap_labs(p, type)
 
   stored_title <- p$labels$title
@@ -28,11 +37,12 @@ create_fullslide <- function(object,
     stored_title <- ""
   }
 
-  if(stored_subtitle == "\n"){
+  if(is.null(stored_subtitle) | stored_subtitle == "") {
     if(warn_labs) {
-      message("Your plot has no subtitle, which is weird for a fullslide.\nConsider adding a subtitle using labs(subtitle = 'Text')")
+      message(paste0("Your plot has no subtitle, which is weird for type = ", type, "\nConsider adding a subtitle using labs(subtitle = 'Text')"))
     }
-    stored_subtitle <- ""
+
+    stored_subtitle <- NULL
   }
 
   if(stored_caption == ""){
@@ -46,9 +56,17 @@ create_fullslide <- function(object,
   p$labels$title <- NULL
   p$labels$subtitle <- NULL
 
+  # how many lines in the subtitle?
+
+  subtitle_lines <- ceiling(nchar(stored_subtitle) / chart_types$subtitle[chart_types$type == type])
+
+  # convert to gtable
+  p_built$plot <- p
+  p <- p_built
+  p <- ggplot2::ggplot_gtable(p)
+
   # left align caption
-  p <- ggplot2::ggplotGrob(p)
-  p$layout$l[p$layout$name == "caption"] <- 1
+  p$layout[which(p$layout$name == "caption"), c("l", "r")] <- c(2, max(p$layout$r))
 
   # create new ggplot object with just the title
   toptitle <- ggplot2::ggplot() +
@@ -87,7 +105,8 @@ create_fullslide <- function(object,
   top_border_height <- ifelse(type == "blog", blog_border, 0.70)
   header_height <- 1.75
   linegrob_height <- 0.1
-  subtitle_height <- 1.76
+  subtitle_height <- ifelse(is.null(stored_subtitle), 0.21,
+                            ifelse(subtitle_lines == 1, 1.76 / 2, 1.76))
   bottom_border_height <- ifelse(type == "blog", blog_border, 0.24)
 
   non_plot_height <- sum(top_border_height, header_height, linegrob_height,
@@ -144,7 +163,9 @@ create_fullslide <- function(object,
                                                  "cm"))
 
   # plot original chart again (so last_plot() shows this instead of topsubtitle)
-  print(object)
+  if(print_object) {
+    print(object)
+  }
 
   total
 

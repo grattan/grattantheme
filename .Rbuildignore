@@ -6,3 +6,4 @@ atlas
 .travis.yml
 ^doc$
 ^Meta$
+^\.httr-oauth$
