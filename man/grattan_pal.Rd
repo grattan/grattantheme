@@ -19,7 +19,7 @@ standard colour order. Standard colour order runs from light to dark. If you
 set reverse to TRUE, colours will run from dark to light.}
 
 \item{faded}{Logical. FALSE by default. Setting to TRUE returns the faded
-variations of colours.}
+variations of the standard colours.}
 }
 \description{
 Create a Grattan-appropriate palette for your chart.

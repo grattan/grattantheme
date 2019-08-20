@@ -15,6 +15,7 @@ test_that("grattan colour functions work as expected", {
 
   expect_length(grattan_pal(n = 1), 1)
   expect_length(grattan_pal(n = 2), 2)
+  expect_length(grattan_pal(n = "2a"), 2)
   expect_length(grattan_pal(n = 3), 3)
   expect_length(grattan_pal(n = 4), 4)
   expect_length(grattan_pal(n = 5), 5)
@@ -25,9 +26,16 @@ test_that("grattan colour functions work as expected", {
   expect_length(suppressWarnings(grattan_pal(n = 10)), 10)
   expect_length(grattan_pal(n = 3, reverse = TRUE), 3)
 
+  expect_length(grattan_pal(n = 1, faded = TRUE), 1)
+  expect_length(grattan_pal(n = 2, faded = TRUE), 2)
+  expect_length(grattan_pal(n = "2a", faded = TRUE), 2)
   expect_length(grattan_pal(n = 3, faded = TRUE), 3)
   expect_length(grattan_pal(n = 4, faded = TRUE), 4)
   expect_length(grattan_pal(n = 5, faded = TRUE), 5)
+  expect_length(grattan_pal(n = 6, faded = TRUE), 6)
+  expect_length(suppressWarnings(grattan_pal(n = 7, faded = TRUE)), 7)
+  expect_length(suppressWarnings(grattan_pal(n = 8, faded = TRUE)), 8)
+  expect_length(suppressWarnings(grattan_pal(n = 9, faded = TRUE)), 9)
   expect_length(suppressWarnings(grattan_pal(n = 10, faded = TRUE)), 10)
 
   expect_warning(grattan_pal(n = 10))
