@@ -56,14 +56,27 @@ test_that("grattan colour functions work as expected", {
   expect_length(suppressWarnings(grattan_pal(n = 10)), 10)
   expect_length(grattan_pal(n = 3, reverse = TRUE), 3)
 
+  expect_length(grattan_pal(n = 3, faded = TRUE), 3)
+  expect_length(grattan_pal(n = 4, faded = TRUE), 4)
+  expect_length(grattan_pal(n = 5, faded = TRUE), 5)
+  expect_length(suppressWarnings(grattan_pal(n = 10, faded = TRUE)), 10)
+
   expect_warning(grattan_pal(n = 10))
+  expect_warning(grattan_pal(n = 10, faded = TRUE))
 
   expect_error(grattan_pal(n = 11))
+  expect_error(grattan_pal(n = 11, faded = TRUE))
 
   expect_equal(grattan_pal(n = 5),
                c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
                  grattantheme::grattan_darkorange, grattantheme::grattan_red,
                  grattantheme::grattan_darkred))
+
+  expect_equal(grattan_pal(n = 5, faded = TRUE),
+               c(grattantheme::grattan_yellow_f, grattantheme::grattan_lightorange_f,
+                 grattantheme::grattan_darkorange_f, grattantheme::grattan_red_f,
+                 grattantheme::grattan_darkred_f))
+
 
     plot_w_col <- base_plot +
     geom_point(aes(col = factor(cyl))) +

@@ -7,6 +7,9 @@
 #' @param reverse Logical. FALSE by default. Setting to TRUE reverses the
 #' standard colour order.
 #'
+#' @param faded Logical. FALSE by default. Setting to TRUE returns faded variations
+#' of the standard colours.
+#'
 #' @param discrete Logical. TRUE by default. Setting to FALSE generates a
 #' continuous colour scale.
 #'
@@ -41,12 +44,17 @@ NULL
 #' @export
 
 
-grattan_colour_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palette = "full", ...){
+grattan_colour_manual <- function(n = 0,
+                                  reverse = FALSE,
+                                  discrete = TRUE,
+                                  faded = FALSE,
+                                  palette = "full", ...){
   if (discrete) {
     return(
   ggplot2::scale_colour_manual(...,
                       values = grattantheme::grattan_pal(n = n,
-                                                         reverse = reverse))
+                                                         reverse = reverse,
+                                                         faded = faded))
     )
   }
 
@@ -62,12 +70,16 @@ grattan_colour_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palet
 #' @import ggplot2
 #' @export
 
-grattan_fill_manual <- function(n = 0, reverse = FALSE, discrete = TRUE, palette = "full", ...){
+grattan_fill_manual <- function(n = 0, reverse = FALSE,
+                                discrete = TRUE,
+                                faded = FALSE,
+                                palette = "full", ...){
   if (discrete) {
     return(
       ggplot2::scale_fill_manual(...,
                                  values = grattantheme::grattan_pal(n = n,
-                                                                    reverse = reverse))
+                                                                    reverse = reverse,
+                                                                    faded = faded))
     )
   }
 
