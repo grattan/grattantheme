@@ -1,5 +1,6 @@
 # grattantheme 0.5.1
 * Charts without a subtitle that are saved as "fullslide" or similar will now vertically expand the plot to fill the space of the absent subtitle 
+* New 'faded' versions of the Grattan palette available
 
 # grattantheme 0.5.0
 * grattan_anim_save() allows users to save gganimate animations formatted in the Grattan style

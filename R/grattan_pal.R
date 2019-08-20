@@ -9,6 +9,8 @@
 #' @param reverse Logical. FALSE by default. Setting to TRUE reverses the
 #' standard colour order. Standard colour order runs from light to dark. If you
 #' set reverse to TRUE, colours will run from dark to light.
+#' @param faded Logical. FALSE by default. Setting to TRUE returns the faded
+#' variations of the standard colours.
 #'
 #' @examples
 #' library(ggplot2)
@@ -32,7 +34,7 @@
 #'
 #' @export
 
-grattan_pal <- function(n = 0, reverse = FALSE){
+grattan_pal <- function(n = 0, reverse = FALSE, faded = FALSE){
 
   if(n == 0){
     n <- 5
@@ -47,54 +49,103 @@ grattan_pal <- function(n = 0, reverse = FALSE){
     stop(paste0("You've requested ", n, " colours; grattan_pal() only supports up to 10."))
   }
 
-  if(n == 1){
-    palette <- grattantheme::grattan_lightorange
-  } else if(n == "2a"){
-    palette <- c(grattantheme::grattan_lightorange, grattantheme::grattan_darkorange)
-  } else if(n == 2){
-    palette <- c(grattantheme::grattan_lightorange, grattantheme::grattan_red)
-  } else if(n == 3){
-    palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange)
-  } else if(n == 4){
-    palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange, grattantheme::grattan_red)
-  } else if(n == 5){
-    palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange, grattantheme::grattan_red,
-                 grattantheme::grattan_darkred)
-  } else if(n == 6){
-    palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red, grattantheme::grattan_darkred)
-  } else if(n == 7){
-    palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red, grattantheme::grattan_darkred, "black")
-  } else if(n == 8){
-    palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red, grattantheme::grattan_darkred, "black",
-                 grattantheme::grattan_grey4)
-  } else if(n == 9){
-    palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red, grattantheme::grattan_darkred, "black",
-                 grattantheme::grattan_grey4, grattantheme::grattan_grey3)
-  } else if(n == 10){
-    palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red, grattantheme::grattan_darkred, "black",
-                 grattantheme::grattan_grey4, grattantheme::grattan_grey3,
-                 grattantheme::grattan_grey2)
+  if(!faded) {
+
+    if(n == 1){
+      palette <- grattantheme::grattan_lightorange
+    } else if(n == "2a"){
+      palette <- c(grattantheme::grattan_lightorange, grattantheme::grattan_darkorange)
+    } else if(n == 2){
+      palette <- c(grattantheme::grattan_lightorange, grattantheme::grattan_red)
+    } else if(n == 3){
+      palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
+                   grattantheme::grattan_darkorange)
+    } else if(n == 4){
+      palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
+                   grattantheme::grattan_darkorange, grattantheme::grattan_red)
+    } else if(n == 5){
+      palette <- c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
+                   grattantheme::grattan_darkorange, grattantheme::grattan_red,
+                   grattantheme::grattan_darkred)
+    } else if(n == 6){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
+                   grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
+                   grattantheme::grattan_red, grattantheme::grattan_darkred)
+    } else if(n == 7){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
+                   grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
+                   grattantheme::grattan_red, grattantheme::grattan_darkred, "black")
+    } else if(n == 8){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
+                   grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
+                   grattantheme::grattan_red, grattantheme::grattan_darkred, "black",
+                   grattantheme::grattan_grey4)
+    } else if(n == 9){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
+                   grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
+                   grattantheme::grattan_red, grattantheme::grattan_darkred, "black",
+                   grattantheme::grattan_grey4, grattantheme::grattan_grey3)
+    } else if(n == 10){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow,
+                   grattantheme::grattan_lightorange, grattantheme::grattan_darkorange,
+                   grattantheme::grattan_red, grattantheme::grattan_darkred, "black",
+                   grattantheme::grattan_grey4, grattantheme::grattan_grey3,
+                   grattantheme::grattan_grey2)
+    }
+
+  }
+
+  if(faded) {
+
+    if(n == 1){
+      palette <- grattantheme::grattan_lightorange_f
+    } else if(n == "2a"){
+      palette <- c(grattantheme::grattan_lightorange_f, grattantheme::grattan_darkorange_f)
+    } else if(n == 2){
+      palette <- c(grattantheme::grattan_lightorange_f, grattantheme::grattan_red_f)
+    } else if(n == 3){
+      palette <- c(grattantheme::grattan_yellow_f, grattantheme::grattan_lightorange_f,
+                   grattantheme::grattan_darkorange_f)
+    } else if(n == 4){
+      palette <- c(grattantheme::grattan_yellow_f, grattantheme::grattan_lightorange_f,
+                   grattantheme::grattan_darkorange_f, grattantheme::grattan_red_f)
+    } else if(n == 5){
+      palette <- c(grattantheme::grattan_yellow_f, grattantheme::grattan_lightorange_f,
+                   grattantheme::grattan_darkorange_f, grattantheme::grattan_red_f,
+                   grattantheme::grattan_darkred_f)
+    } else if(n == 6){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow_f,
+                   grattantheme::grattan_lightorange_f, grattantheme::grattan_darkorange_f,
+                   grattantheme::grattan_red_f, grattantheme::grattan_darkred_f)
+    } else if(n == 7){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow_f,
+                   grattantheme::grattan_lightorange_f, grattantheme::grattan_darkorange_f,
+                   grattantheme::grattan_red_f, grattantheme::grattan_darkred_f, "black")
+    } else if(n == 8){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow_f,
+                   grattantheme::grattan_lightorange_f, grattantheme::grattan_darkorange_f,
+                   grattantheme::grattan_red_f, grattantheme::grattan_darkred_f, "black",
+                   grattantheme::grattan_grey3)
+    } else if(n == 9){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow_f,
+                   grattantheme::grattan_lightorange_f, grattantheme::grattan_darkorange_f,
+                   grattantheme::grattan_red_f, grattantheme::grattan_darkred_f, "black",
+                   grattantheme::grattan_grey3, grattantheme::grattan_grey2)
+    } else if(n == 10){
+      palette <- c(grattantheme::grattan_lightyellow, grattantheme::grattan_yellow_f,
+                   grattantheme::grattan_lightorange_f, grattantheme::grattan_darkorange_f,
+                   grattantheme::grattan_red_f, grattantheme::grattan_darkred_f, "black",
+                   grattantheme::grattan_grey3, grattantheme::grattan_grey2,
+                   grattantheme::grattan_grey1)
+    }
+
   }
 
 
-    if(reverse == TRUE){
-      rev(palette)
-    } else {
-      palette
-    }
-
+  if(reverse == TRUE){
+    rev(palette)
+  } else {
+    palette
+  }
 
 }

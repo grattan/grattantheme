@@ -6,10 +6,10 @@
 \title{Convenient functions to set Grattan-appropriate palettes}
 \usage{
 grattan_colour_manual(n = 0, reverse = FALSE, discrete = TRUE,
-  palette = "full", ...)
+  faded = FALSE, palette = "full", ...)
 
 grattan_fill_manual(n = 0, reverse = FALSE, discrete = TRUE,
-  palette = "full", ...)
+  faded = FALSE, palette = "full", ...)
 }
 \arguments{
 \item{n}{Numeric. The number of levels in your colour scale.
@@ -21,6 +21,9 @@ standard colour order.}
 
 \item{discrete}{Logical. TRUE by default. Setting to FALSE generates a
 continuous colour scale.}
+
+\item{faded}{Logical. FALSE by default. Setting to TRUE returns faded variations
+of the standard colours.}
 
 \item{palette}{Sets the colours that will form the continuous palette when discrete = FALSE. One of:
 

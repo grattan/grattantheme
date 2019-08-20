@@ -105,7 +105,7 @@
 #'  # aligned to the left of the plot area, not the image. Once you save it,
 #'  # the file should have properly-aligned text:
 #'
-#'  grattan_save("your_file.png")
+#'  \dontrun{grattan_save("your_file.png")}
 #'
 #' @export
 

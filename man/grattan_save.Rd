@@ -55,7 +55,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
     theme_grattan()
 
-grattan_save("p.png", p)
+\dontrun{grattan_save("p.png", p)}
 
 # If you don't assign your chart to an object name, that's OK, it will still
 # save if it was the last plot displayed.
@@ -64,7 +64,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point() +
     theme_grattan()
 
-grattan_save("p.png")
+\dontrun{grattan_save("p.png")}
 
 
 # Want to make a 'self-contained' chart that includes a title/subtitle/caption,
@@ -84,7 +84,7 @@ grattan_save("p.png")
  # aligned to the left of the plot area, not the image. Once you save it,
  # the file should have properly-aligned text:
 
- grattan_save("your_file.png")
+ \dontrun{grattan_save("your_file.png")}
 
  # Want to make a full Powerpoint slide? Just use type = "fullslide" in grattan_save(), like this.
  # If you include 'notes' and 'source' as below, grattan_save() will automatically
@@ -101,7 +101,7 @@ grattan_save("p.png")
          subtitle = "Subtitle goes here",
          caption = "Notes: Notes go here. Source: Source goes here")
 
- grattan_save("your_file.png", type = "normal")
+ \dontrun{grattan_save("your_file.png", type = "normal")}
 
 
 }
