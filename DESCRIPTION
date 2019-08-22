@@ -5,7 +5,7 @@ Version: 0.5.1
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
                 role = c("aut", "cre")),
-    person("Will", "Mackey", email = "william.mackey@grattaninstitute.edu.au",
+    person(given = "Will 'TeX'", family = "Mackey", email = "william.mackey@grattaninstitute.edu.au",
                 role = "aut"))
 Description: Enables the user to create ggplot2 charts that conform 
     to the Grattan Institute style guide. 
