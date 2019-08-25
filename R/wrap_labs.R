@@ -1,3 +1,32 @@
+#' Format title, subtitle, and caption of a ggplot2 chart in the Grattan style.
+#'
+#' Use `wrap_labs()` to wrap the title, subtitle, and caption of a ggplot2 chart
+#' onto multiple lines, left-align them, and split 'notes' and 'source' onto multiple lines.
+#' Note that this is done automatically for you if you use `grattan_save()` -
+#' there is no need to use `wrap_labs()` if you also plan to use `grattan_save()`.
+#'
+#' @name wrap_labs
+#' @param object Name of the ggplot2 chart object with the labels you wish to modify.
+#' @param type The type of chart you intend to save (different chart types have different numbers of
+#' characters on each line). `type` can be 'normal', 'fullslide', 'blog', etc.
+#' For a full list of possible types, see \code{?grattan_save()}.
+#'
+#' @examples
+#'
+#' library(ggplot2)
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'     geom_point() +
+#'     theme_grattan() +
+#'     labs(title = "My title goes here and is quite long and needs to break
+#'     over two lines, as is common for Grattan charts",
+#'     subtitle = "Subtitle goes here",
+#'     caption = "Notes: Put some notes here. Source: Put your source here.")
+#'
+#' p_wrapped <- wrap_labs(p, "normal")
+#'
+#' p_wrapped
+#'
+#' @export
 
 
 wrap_labs <- function(object, type){
