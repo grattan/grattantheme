@@ -13,4 +13,8 @@ test_that("save_chartdata creates an xlsx workbook", {
 
   unlink("../testthat/save_chartdata_test.xlsx")
 
+  if(file.exists("../testthat/Rplots.pdf")) {
+    unlink("../testthat/Rplots.pdf")
+  }
+
 })
