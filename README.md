@@ -40,6 +40,9 @@ Use `grattan_save()` to save your ggplot2 charts (eg. as `.png` or `.pdf` files)
 
 Use `make_slide()` and `make_presentation()` to create Powerpoint presentations from your chart(s), including editable titles and subtitles.
 
+Use `save_chartdata()` to save your chart and accompanying data as a
+properly-formatted .xlsx workbook.
+
 ## Save animated charts
 
 Use `grattan_anim_save()` to save gganimate animations formatted in the Grattan style.
