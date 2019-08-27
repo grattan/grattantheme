@@ -38,7 +38,7 @@ Set type = "all" to save your chart in all available sizes.}
 
 \item{height}{Numeric, optional. NULL by default. Controls the height (in cm) of the image you wish to save. If specified, `height` will override the default height for your chosen chart type.}
 
-\item{save_data}{Logical. Default is FALSE, unless type = "all". If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension. Data will always be saved if type = "all".}
+\item{save_data}{Logical. Default is FALSE, unless type = "all". If set to TRUE, a properly-formatted .xlsx file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .xlsx extension. Data will always be saved if type = "all".}
 
 \item{force_labs}{Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = "fullslide". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.}
 
