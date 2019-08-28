@@ -7,3 +7,4 @@ atlas
 ^doc$
 ^Meta$
 ^\.httr-oauth$
+^README\.Rmd$
