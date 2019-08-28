@@ -49,7 +49,7 @@ Use `grattan_colour_manual(n)` or `grattan_fill_manual(n)` to format the
 choose appropriately-spaced Grattan colours, ordered from either light
 to dark or the reverse.
 
-The colours that will be used in your plot are shown below:
+The colours that will be used in your plot are:
 
 <img src="man/figures/README-show-cols-1.png" width="75%" />
 
