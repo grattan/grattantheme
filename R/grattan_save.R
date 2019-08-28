@@ -25,7 +25,7 @@
 #'
 #' Set type = "all" to save your chart in all available sizes.
 #' @param height Numeric, optional. NULL by default. Controls the height (in cm) of the image you wish to save. If specified, `height` will override the default height for your chosen chart type.
-#' @param save_data Logical. Default is FALSE, unless type = "all". If set to TRUE, a .csv file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .csv extension. Data will always be saved if type = "all".
+#' @param save_data Logical. Default is FALSE, unless type = "all". If set to TRUE, a properly-formatted .xlsx file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .xlsx extension. Data will always be saved if type = "all".
 #' @param force_labs Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = "fullslide". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.
 #' @param warn_labs Logical. Default is TRUE, unless type = "all". When TRUE, `grattan_save()` will warn you if you try to save a normal chart with labels, or a fullslide chart without labels. Suppress these warnings by setting `warn_labels` to FALSE.
 #' @param ... arguments passed to `ggsave()`. For example, use `device = cairo_pdf` to use the Cairo PDF rendering engine.
@@ -33,7 +33,6 @@
 #' @import ggplot2
 #' @import grid
 #' @importFrom utils tail
-#' @importFrom utils write.csv
 #' @importFrom gridExtra grid.arrange
 #' @importFrom purrr walk2
 #'
@@ -111,8 +110,12 @@ grattan_save <- function(filename,
 
     if(save_data == TRUE){
       if("gg" %in% class(object)){
-        utils::write.csv(x = object$data,
-                         file = paste0(sub("\\..*", "", filename), ".csv"))
+
+        save_chartdata(filename = paste0(sub("\\..*", "", filename), ".xlsx"),
+                       object = object,
+                       type = type,
+                       height = height)
+
       } else {
         warning("save_data only works with ggplot graph objects. Your data has not been saved.")
       }
@@ -141,9 +144,12 @@ grattan_save <- function(filename,
     filenames <- file.path(dir, paste0(file_name, "_", types, ".", filetype))
 
       if("gg" %in% class(object)){
-        utils::write.csv(x = object$data,
-                         file = file.path(dir,
-                                       paste0(file_name,".csv")))
+
+        save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
+                       object = object,
+                       type = "normal",
+                       height = height)
+
       } else {
         warning("save_data only works with ggplot graph objects. Your data has not been saved.")
       }
@@ -175,10 +181,11 @@ grattan_save_ <- function(filename,
                           warn_labs,
                           ...){
 
-  # at the moment, save_data is inflexible: only saves as .csv and
+  # at the moment, save_data is inflexible: only saves as .xlsx and
   # with the same filename (except extension) as the plot.
   # It saves the whole dataframe passed to ggplot(), not limited to the
   # column(s)/row(s) used in the plot.
+  # Users can call save_chartdata() directly for more control over the filename, etc.
 
   plot_class <- chart_types$class[chart_types$type == type]
 
