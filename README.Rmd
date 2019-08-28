@@ -49,7 +49,7 @@ Use `grattan_colour_manual(n)` or `grattan_fill_manual(n)` to format the `n` col
 
 The colours that will be used in your plot are:
 
-```{r show-cols, echo = FALSE, warning=FALSE, dpi=320}
+```{r show-cols-image, echo = FALSE, warning=FALSE, dpi=350}
 library(tidyverse)
 library(grattantheme)
 

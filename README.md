@@ -51,7 +51,7 @@ to dark or the reverse.
 
 The colours that will be used in your plot are:
 
-<img src="man/figures/README-show-cols-1.png" width="75%" />
+<img src="man/figures/README-show-cols-image-1.png" width="75%" />
 
 Use `grattan_y_continuous()` to set default values for your vertical
 axis that will work well with most Grattan charts.
