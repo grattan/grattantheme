@@ -141,6 +141,10 @@ theme_grattan <- function(base_size = 18,
     if (flipped) message("Note that the 'flipped' argument is ignored for scatter plots.")
   }
 
+  # Call a function that modifies various geom defaults
+  grattanify_geom_defaults()
+
+  # Return
   return(ret)
 
 }

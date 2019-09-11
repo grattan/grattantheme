@@ -86,10 +86,6 @@ theme_grattan_base <- function(base_size = 18,
   }
 
 
-  # call a function that modifies various geom defaults
-  grattanify_geom_defaults()
-
-
   if (background == "orange" |  background == "box") {
     ret <- ret + ggplot2::theme(rect = ggplot2::element_rect(fill = grattantheme::grattan_orange_alpha))
   }
