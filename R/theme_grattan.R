@@ -123,7 +123,6 @@ theme_grattan <- function(base_size = 18,
     type <- "normal"
   }
 
-
   if (type == "normal") {
     ret <- theme_grattan_normal(base_size = base_size,
                                 base_family = base_family,
@@ -139,6 +138,7 @@ theme_grattan <- function(base_size = 18,
                                  background = background,
                                  legend = legend,
                                  panel_borders = panel_borders)
+    message("Note that the 'flipped' argument is ignored for scatter plots.")
   }
 
   return(ret)
