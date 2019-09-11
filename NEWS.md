@@ -1,3 +1,6 @@
+# grattantheme 0.5.1.900
+* theme_grattan() has gained a new chart_type argument; can be set to "scatter" to format scatterplots nicely.
+
 # grattantheme 0.5.1
 * Charts without a subtitle that are saved as "fullslide" or similar will now vertically expand the plot to fill the space of the absent subtitle 
 * save_chartdata() function added
