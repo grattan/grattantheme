@@ -103,7 +103,9 @@ grattan_save <- function(filename,
                          ...) {
 
   if(!type %in% c("all", chart_types$type)){
-    stop(paste0("`type` not valid"))
+    warning(paste0("`type` not valid, reverting to 'normal'. ",
+                   "See ?grattan_save for valid types."))
+    type <- "normal"
   }
 
   if(type != "all"){
