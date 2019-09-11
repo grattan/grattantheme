@@ -48,3 +48,12 @@ test_that("theme_grattan() arguments work",{
 
 })
 
+
+test_that("theme_grattan() sends the right messages",{
+  expect_message(base_plot +
+                  theme_grattan(chart_type = "scatter", flipped = TRUE))
+
+  expect_warning(base_plot +
+                   theme_grattan(chart_type = "nah mate"))
+
+})
