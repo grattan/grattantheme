@@ -4,8 +4,9 @@
 \alias{theme_grattan}
 \title{Create a ggplot2 theme consistent with the Grattan style guide.}
 \usage{
-theme_grattan(base_size = 18, base_family = "sans", flipped = FALSE,
-  background = "white", legend = "none", panel_borders = FALSE)
+theme_grattan(base_size = 18, base_family = "sans",
+  chart_type = "normal", flipped = FALSE, background = "white",
+  legend = "none", panel_borders = FALSE)
 }
 \arguments{
 \item{base_size}{Size for text elements. Defaults to 18, as per the Grattan
@@ -14,9 +15,11 @@ style guide.}
 \item{base_family}{Font family for text elements. Defaults to "sans",
 indistinguishable from Arial.}
 
+\item{chart_type}{"normal" by detault. Set to "scatter" for scatter plots.}
+
 \item{flipped}{FALSE by default. Set to TRUE if using coord_flip(). If set to
 TRUE, the theme will show a vertical axis line, ticks & panel grid, while
-hiding the horizontals.}
+hiding the horizontals. Ignored for type = "scatter".}
 
 \item{background}{"white" by default. Set to "orange" or "box" if you're making a chart
 to go in a Grattan report box.}
