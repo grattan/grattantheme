@@ -106,3 +106,13 @@ test_that("grattan_save() height behaviour works as expected with fullslide char
   unlink("test_plot_fullslide_manual_height.png")
 
 })
+
+
+test_that("grattan_save() sends the right messages",{
+  expect_warning(
+  grattan_save(filename = "test_plot_normal_default_height.png",
+               object = test_plot,
+               type = "nahhhh mate")
+  )
+
+})
