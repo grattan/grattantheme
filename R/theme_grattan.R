@@ -4,7 +4,7 @@
 #' style guide.
 #' @param base_family Font family for text elements. Defaults to "sans",
 #' indistinguishable from Arial.
-#' @param type "normal" by detault. Set to "scatter" for scatter plots.
+#' @param chart_type "normal" by detault. Set to "scatter" for scatter plots.
 #' @param flipped FALSE by default. Set to TRUE if using coord_flip(). If set to
 #' TRUE, the theme will show a vertical axis line, ticks & panel grid, while
 #' hiding the horizontals. Ignored for type = "scatter".
@@ -111,19 +111,19 @@
 
 theme_grattan <- function(base_size = 18,
                           base_family = "sans",
-                          type = "normal",
+                          chart_type = "normal",
                           flipped = FALSE,
                           background = "white",
                           legend = "none",
                           panel_borders = FALSE) {
 
-  if (!type %in% c("normal", "scatter")) {
-    warning(paste0("Note: type should be 'normal' or 'scatter', but you entered '",
-                   type,"'. Reverting to 'normal'"))
-    type <- "normal"
+  if (!chart_type %in% c("normal", "scatter")) {
+    warning(paste0("Note: chart_type should be 'normal' or 'scatter', but you entered '",
+                   chart_type,"'. Reverting to 'normal'"))
+    chart_type <- "normal"
   }
 
-  if (type == "normal") {
+  if (chart_type == "normal") {
     ret <- theme_grattan_normal(base_size = base_size,
                                 base_family = base_family,
                                 background = background,
@@ -132,13 +132,13 @@ theme_grattan <- function(base_size = 18,
                                 flipped = flipped)
   }
 
-  if (type == "scatter") {
+  if (chart_type == "scatter") {
     ret <- theme_grattan_scatter(base_size = base_size,
                                  base_family = base_family,
                                  background = background,
                                  legend = legend,
                                  panel_borders = panel_borders)
-    message("Note that the 'flipped' argument is ignored for scatter plots.")
+    if (flipped) message("Note that the 'flipped' argument is ignored for scatter plots.")
   }
 
   return(ret)

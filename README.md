@@ -42,7 +42,8 @@ for a more complete guide.
 
 Use `theme_grattan()` to format your ggplot2 charts in a style
 consistent with the Grattan style guide, including elements such as
-gridline colours and line width, font size, etc.
+gridline colours and line width, font size, etc. For scatter plots,
+`theme_grattan(chart_type = "scatter")` provides a black y-axis.
 
 Use `grattan_colour_manual(n)` or `grattan_fill_manual(n)` to format the
 `n` coloured elements of your `ggplot2` plot. These functions will

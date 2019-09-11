@@ -6,6 +6,8 @@ base_plot <- ggplot(mtcars, aes(x = mpg, y = hp)) +
 
 p <- base_plot + theme_grattan()
 
+p_scatter <- base_plot + theme_grattan(chart_type = "scatter")
+
 test_that("theme_grattan() is a theme object", {
   expect_is(theme_grattan(), "theme")
 })
@@ -37,6 +39,12 @@ test_that("theme_grattan() arguments work",{
   p_legend <- base_plot + theme_grattan(legend = "top")
 
   expect_equal(p_legend$theme$legend.position, "top")
+
+  # Normal plot:
+  expect_equal(class(p$theme$axis.line.y)[1], "element_blank")
+
+  # Scatter plot:
+  expect_null(p_scatter$theme$axis.line.y)
 
 })
 
