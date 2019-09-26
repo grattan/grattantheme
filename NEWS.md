@@ -1,4 +1,4 @@
-# grattantheme 0.5.1.900
+# grattantheme 0.5.1.901
 * theme_grattan() has gained a new chart_type argument; can be set to "scatter" to format scatterplots nicely.
 * Minor revisions to reflect changes in ggplot2
 
