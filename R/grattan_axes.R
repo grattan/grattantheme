@@ -52,17 +52,16 @@
 NULL
 
 #' @rdname grattan_axes
-#' @importFrom ggplot2 scale_y_continuous expand_scale
 #' @export
 
 grattan_y_continuous <- function(expand_bottom = 0, expand_top = 0.015, ...) {
   if(packageVersion("ggplot2") < '3.2.1.900') {
 
-    ggplot2::scale_y_continuous(expand = expand_scale(mult = c(expand_bottom, expand_top)), ...)
+    ggplot2::scale_y_continuous(expand = ggplot2::expand_scale(mult = c(expand_bottom, expand_top)), ...)
 
   } else {
 
-    ggplot2::scale_y_continuous(expand = expansion(mult = c(expand_bottom, expand_top)), ...)
+    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(expand_bottom, expand_top)), ...)
 
   }
 }
@@ -82,11 +81,11 @@ scale_y_continuous_grattan <- function(expand_bottom = 0, expand_top = 0.015, ..
 grattan_x_continuous <- function(expand_left = 0, expand_right = 0.015, ...) {
   if(packageVersion("ggplot2") < '3.2.1.900') {
 
-    ggplot2::scale_x_continuous(expand = expand_scale(mult = c(expand_bottom, expand_top)), ...)
+    ggplot2::scale_x_continuous(expand = ggplot2::expand_scale(mult = c(expand_left, expand_right)), ...)
 
   } else {
 
-    ggplot2::scale_x_continuous(expand = expansion(mult = c(expand_bottom, expand_top)), ...)
+    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(expand_left, expand_right)), ...)
 
   }
 }
