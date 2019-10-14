@@ -24,10 +24,7 @@ Once devtools is installed, you can download and install grattantheme as
 follows:
 
 `devtools::install_github("mattcowgill/grattantheme", dependencies =
-"Imports")`
-
-R will probably ask if you want to install or update a range of other
-packages. It’s generally a good idea to agree to this.
+TRUE, upgrade = "always")`
 
 Once grattantheme is installed, you can load it the same way you
 normally load an R package:
@@ -45,6 +42,9 @@ consistent with the Grattan style guide, including elements such as
 gridline colours and line width, font size, etc. For scatter plots,
 `theme_grattan(chart_type = "scatter")` provides a black y-axis.
 
+Use `grattan_y_continuous()` to set default values for your vertical
+axis that will work well with most Grattan charts.
+
 Use `grattan_colour_manual(n)` or `grattan_fill_manual(n)` to format the
 `n` coloured elements of your `ggplot2` plot. These functions will
 choose appropriately-spaced Grattan colours, ordered from either light
@@ -54,9 +54,6 @@ The colours that will be used in your plot are:
 
 <img src="man/figures/README-show-cols-image-1.png" width="75%" />
 
-Use `grattan_y_continuous()` to set default values for your vertical
-axis that will work well with most Grattan charts.
-
 A range of colours from the style guide (such as `grattan_lightorange`,
 `grattan_red`, and so on) are defined for your convenience.
 
@@ -65,8 +62,8 @@ A range of colours from the style guide (such as `grattan_lightorange`,
 Use `grattan_save()` to save your ggplot2 charts (eg. as `.png` or
 `.pdf` files) for use elsewhere, such as in Powerpoint, LaTeX, or the
 Grattan Blog, with the size and resolution set to style guide-consistent
-values. Design features including the Grattan logo are included in the
-image where appropriate.
+values. You can save your charts in a variety of sizes and styles (see
+`?grattan_save()` for a list).
 
 Use `make_slide()` and `make_presentation()` to create Powerpoint
 presentations from your chart(s), including editable titles and
