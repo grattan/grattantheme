@@ -12,7 +12,6 @@ Description: Enables the user to create ggplot2 charts that conform
 License: GPL-3
 Depends: R (>= 3.5.0)
 Imports:
-    ggthemes (>= 4.0),
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.2),
     purrr (>= 0.3.0),
