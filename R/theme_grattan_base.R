@@ -7,7 +7,7 @@ theme_grattan_base <- function(base_size = 18,
                                panel_borders = FALSE) {
 
   ret <-
-    ggthemes::theme_foundation(base_size = base_size, base_family = base_family) +
+    theme_foundation(base_size = base_size, base_family = base_family) +
     ggplot2::theme(line = ggplot2::element_line(colour = grattantheme::grattan_gridlinegrey,
                                                 # style guide says axis line = 0.75 points, need to convert to mm
                                                 size = 0.75 / (.pt*72.27/96) ),

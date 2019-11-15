@@ -13,7 +13,6 @@
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
 #' desired, or a two element numeric vector such as c(0.9, 0.1).
 #' @param panel_borders `FALSE` by default. Set to `TRUE` to enable a black border around the plotting area.
-#' @importFrom ggthemes theme_foundation
 #' @import ggrepel
 #' @import ggplot2
 #'
