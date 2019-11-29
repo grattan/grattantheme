@@ -5,11 +5,23 @@
 \alias{grattan_fill_manual}
 \title{Convenient functions to set Grattan-appropriate palettes}
 \usage{
-grattan_colour_manual(n = 0, reverse = FALSE, discrete = TRUE,
-  faded = FALSE, palette = "full", ...)
+grattan_colour_manual(
+  n = 0,
+  reverse = FALSE,
+  discrete = TRUE,
+  faded = FALSE,
+  palette = "full",
+  ...
+)
 
-grattan_fill_manual(n = 0, reverse = FALSE, discrete = TRUE,
-  faded = FALSE, palette = "full", ...)
+grattan_fill_manual(
+  n = 0,
+  reverse = FALSE,
+  discrete = TRUE,
+  faded = FALSE,
+  palette = "full",
+  ...
+)
 }
 \arguments{
 \item{n}{Numeric. The number of levels in your colour scale.

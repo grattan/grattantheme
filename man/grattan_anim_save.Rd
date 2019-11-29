@@ -4,8 +4,13 @@
 \alias{grattan_anim_save}
 \title{Save gganimate animation with Grattan visual styling}
 \usage{
-grattan_anim_save(filename, animation = gganimate::last_animation(),
-  type, path = NULL, ...)
+grattan_anim_save(
+  filename,
+  animation = gganimate::last_animation(),
+  type,
+  path = NULL,
+  ...
+)
 }
 \arguments{
 \item{filename}{File to create on disk; required.}

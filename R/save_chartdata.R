@@ -61,7 +61,7 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
     obj_name <- "plot"
   }
 
-  # Expand height of graph if not set manually, labels are present, and type == "normal"
+  # Expand height of graph if not set manually & labels are present
 
   if(is.null(height)) {
 

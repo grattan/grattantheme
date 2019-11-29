@@ -4,9 +4,16 @@
 \alias{grattan_save}
 \title{Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().}
 \usage{
-grattan_save(filename, object = ggplot2::last_plot(), type = "normal",
-  height = NULL, save_data = FALSE, force_labs = FALSE,
-  warn_labs = TRUE, ...)
+grattan_save(
+  filename,
+  object = ggplot2::last_plot(),
+  type = "normal",
+  height = NULL,
+  save_data = FALSE,
+  force_labs = FALSE,
+  warn_labs = TRUE,
+  ...
+)
 }
 \arguments{
 \item{filename}{Required. This parameter sets the filename (including path where necessary)
@@ -78,7 +85,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
     theme_grattan() +
     labs(title = "Title goes here",
          subtitle = "Subtitle goes here",
-         caption = "Notes: Notes go here\\nSource: Source goes here")
+         caption = "Notes: Notes go here\nSource: Source goes here")
 
  # The plot above won't look right in RStudio's viewer - the text is
  # aligned to the left of the plot area, not the image. Once you save it,
