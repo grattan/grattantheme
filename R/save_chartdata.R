@@ -92,9 +92,12 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
   # Get chart data
   chart_data <- object$data
-  for(col in seq_along(chart_data)) { # To ensure that dates are correctly-formatted, etc
-    chart_data[[col]] <- as.character(chart_data[[col]])
+  for(col in seq_along(chart_data)) { # To ensure that dates are correctly-formatted, save as strings
+    if(inherits(chart_data[[col]], "Date")) {
+      chart_data[[col]] <- as.character(chart_data[[col]])
+    }
   }
+
   names(chart_data) <- tools::toTitleCase(names(chart_data))
 
   data_columns <- ncol(chart_data)
