@@ -13,7 +13,9 @@
 #' @param object ggplot2 chart to create chart data from. If left blank,
 #' \code{ggplot2::last_plot()} is used to get the last plot displayed.
 #' @param type type of plot. Default is "normal". See \code{?grattan_save} for
-#' full list of types.
+#' full list of types. Note that if "normal" type is used and labels (title,
+#' subtitle, caption) are included in your chart and height is not manually
+#' specified, the plot height will be expanded a little to accommodate the labels.
 #' @param height Numeric, optional. Use this to override the default height
 #' for plots of your chosen `type`; see \code{?grattan_save} for more details.
 #'
@@ -52,6 +54,30 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
   }
 
   obj_name <- deparse(substitute(object))
+
+  if(obj_name == "ggplot2::last_plot()") {
+    obj_name <- "plot"
+  }
+
+  # Expand height of graph if not set manually, labels are present, and type == "normal"
+
+  if(type == "normal" & is.null(height)) {
+
+    labels_present <- ifelse(!is.null(object$labels$caption) |
+                               !is.null(object$labels$title) |
+                               !is.null(object$labels$subtitle),
+                             TRUE,
+                             FALSE)
+
+    if(isTRUE(labels_present)) {
+      height <- chart_types$height[chart_types$type == "normal"] + 2
+    }
+
+  }
+
+  if(is.null(height)) {
+    height <- chart_types$height[chart_types$type == type]
+  }
 
   # Save graph
   temp_image_location <- file.path(tempdir(), "chart_data_image.png")
@@ -104,8 +130,8 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
                         startRow = 3,
                         startCol = data_columns + 3,
                         file = temp_image_location,
-                        width = 22.2 / 1.5,
-                        height = 14.5 / 1.5,
+                        width = chart_types$width[chart_types$type == type] / 1.5,
+                        height = height / 1.5,
                         units = "cm",
                         dpi = 320)
 
