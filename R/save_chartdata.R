@@ -13,9 +13,10 @@
 #' @param object ggplot2 chart to create chart data from. If left blank,
 #' \code{ggplot2::last_plot()} is used to get the last plot displayed.
 #' @param type type of plot. Default is "normal". See \code{?grattan_save} for
-#' full list of types. Note that if "normal" type is used and labels (title,
+#' full list of types. Note that if labels (title,
 #' subtitle, caption) are included in your chart and height is not manually
-#' specified, the plot height will be expanded a little to accommodate the labels.
+#' specified with the `height` argument, the plot height will be expanded a
+#' little to accommodate the labels.
 #' @param height Numeric, optional. Use this to override the default height
 #' for plots of your chosen `type`; see \code{?grattan_save} for more details.
 #'
@@ -62,7 +63,7 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
   # Expand height of graph if not set manually, labels are present, and type == "normal"
 
-  if(type == "normal" & is.null(height)) {
+  if(is.null(height)) {
 
     labels_present <- ifelse(!is.null(object$labels$caption) |
                                !is.null(object$labels$title) |
