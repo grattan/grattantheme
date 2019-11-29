@@ -22,6 +22,7 @@
 #' @export
 #' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage createStyle addStyle setColWidths saveWorkbook
 #' @importFrom ggplot2 last_plot
+#' @importFrom purrr map_dfr
 #'
 #' @examples
 #'
@@ -91,6 +92,7 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
   # Get chart data
   chart_data <- object$data
+  chart_data <- purrr::map_dfr(chart_data, as.character) # To ensure that dates are correctly-formatted, etc
   names(chart_data) <- tools::toTitleCase(names(chart_data))
 
   data_columns <- ncol(chart_data)
