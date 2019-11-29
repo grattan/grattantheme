@@ -146,6 +146,7 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
   # Change font of entire sheet
   grattan_font_style <- openxlsx::createStyle(fontName = "Arial",
                                               fontSize = 11,
+                                              halign = "center",
                                               fontColour = "#000000")
 
   addStyle(wb, 1, grattan_font_style, cols = 1:100, rows = 1:2000, gridExpand = TRUE)
@@ -153,6 +154,7 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
   # Bold title
 
   grattan_title_style <- openxlsx::createStyle(textDecoration = "bold",
+                                               halign = "left",
                                                fontSize = 12)
 
   addStyle(wb, 1, grattan_title_style, cols = 2, rows = 1, stack = TRUE)
@@ -173,7 +175,8 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
   # Italicise caption
 
   grattan_caption_style <- openxlsx::createStyle(textDecoration = c("italic",
-                                                                    "underline"))
+                                                                    "underline"),
+                                                 halign = "left")
 
   addStyle(wb,
            1,
