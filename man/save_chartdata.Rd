@@ -4,8 +4,12 @@
 \alias{save_chartdata}
 \title{Save a ggplot2 chart as a properly-formatted "chart data" Excel spreadsheet}
 \usage{
-save_chartdata(filename, object = ggplot2::last_plot(),
-  type = "normal", height = NULL)
+save_chartdata(
+  filename,
+  object = ggplot2::last_plot(),
+  type = "normal",
+  height = NULL
+)
 }
 \arguments{
 \item{filename}{filename of the Excel workbook you wish to create. Can be a
@@ -15,7 +19,10 @@ file path, but the directory must already exist.}
 \code{ggplot2::last_plot()} is used to get the last plot displayed.}
 
 \item{type}{type of plot. Default is "normal". See \code{?grattan_save} for
-full list of types.}
+full list of types. Note that if labels (title,
+subtitle, caption) are included in your chart and height is not manually
+specified with the `height` argument, the plot height will be expanded a
+little to accommodate the labels.}
 
 \item{height}{Numeric, optional. Use this to override the default height
 for plots of your chosen `type`; see \code{?grattan_save} for more details.}

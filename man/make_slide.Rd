@@ -5,11 +5,16 @@
 \alias{make_presentation}
 \title{Create a Powerpoint slide(s) that contains a Grattan graph and editable title and subtitle.}
 \usage{
-make_slide(graph = last_plot(), filename = NULL, path = ".",
-  type = "16:9")
+make_slide(graph = last_plot(), filename = NULL, path = ".", type = "16:9")
 
-make_presentation(graphs, filename = NULL, path = ".", type = "16:9",
-  title = "Title", subtitle = "Subtitle")
+make_presentation(
+  graphs,
+  filename = NULL,
+  path = ".",
+  type = "16:9",
+  title = "Title",
+  subtitle = "Subtitle"
+)
 }
 \arguments{
 \item{graph}{The graph you want to include on your slide. Defaults to the last plot (ggplot2::last_plot())}

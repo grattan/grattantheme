@@ -4,9 +4,15 @@
 \alias{theme_grattan}
 \title{Create a ggplot2 theme consistent with the Grattan style guide.}
 \usage{
-theme_grattan(base_size = 18, base_family = "sans",
-  chart_type = "normal", flipped = FALSE, background = "white",
-  legend = "none", panel_borders = FALSE)
+theme_grattan(
+  base_size = 18,
+  base_family = "sans",
+  chart_type = "normal",
+  flipped = FALSE,
+  background = "white",
+  legend = "none",
+  panel_borders = FALSE
+)
 }
 \arguments{
 \item{base_size}{Size for text elements. Defaults to 18, as per the Grattan
@@ -114,7 +120,7 @@ ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
     theme_grattan() +
     labs(title = "Title goes here",
          subtitle = "Subtitle goes here",
-         caption = "Notes: Notes go here\\nSource: Source goes here")
+         caption = "Notes: Notes go here\nSource: Source goes here")
 
  # The plot above won't look right in RStudio's viewer - the text is
  # aligned to the left of the plot area, not the image. Once you save it,
