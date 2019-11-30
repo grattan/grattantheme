@@ -71,7 +71,7 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
                              FALSE)
 
     if(isTRUE(labels_present)) {
-      height <- chart_types$height[chart_types$type == "normal"] + 2
+      height <- chart_types$height[chart_types$type == type] + 3
     }
 
   }
