@@ -2,7 +2,8 @@
 % Please edit documentation in R/grattan_save.R
 \name{grattan_save}
 \alias{grattan_save}
-\title{Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().}
+\title{Save ggplot2 object as an image in the correct size and resolution for
+Grattan charts. Wrapper around ggsave().}
 \usage{
 grattan_save(
   filename,
@@ -16,45 +17,66 @@ grattan_save(
 )
 }
 \arguments{
-\item{filename}{Required. This parameter sets the filename (including path where necessary)
-where you want to save your image. The extension defines the file type. Suggested filetypes
-are "pdf" or "png", but others are available (see \code{?ggsave} for the full list).}
+\item{filename}{Required. This parameter sets the filename (including path
+where necessary) where you want to save your image. The extension defines
+the file type. Suggested filetypes are "pdf" or "png", but others are
+available (see \code{?ggsave} for the full list).}
 
-\item{object}{The ggplot2 graph object to be saved. Defaults to \code{last_plot()}, which
-will save the last plot that was displayed in your session.}
+\item{object}{The ggplot2 graph object to be saved. Defaults to
+\code{last_plot()}, which will save the last plot that was displayed in
+your session.}
 
-\item{type}{Sets height and width to Grattan defaults. The following chart types are available:
+\item{type}{Sets height and width to Grattan defaults. The following chart
+  types are available:
 
-\itemize{
- \item{"normal"}{ The default. Use for normal Grattan report charts, or to paste into a 4:3 Powerpoint slide.
- Width: 22.2cm, height: 14.5cm.}
- \item{"normal_169"}{ Only useful for pasting into a 16:9 format Grattan Powerpoint slide. Width: 30cm, height: 14.5cm.}
- \item{"tiny"}{ Fills the width of a column in a Grattan report, but is shorter than usual. Width: 22.2cm,
- height: 11.1cm.}
- \item{"wholecolumn"}{ Takes up a whole column in a Grattan report. Width: 22.2cm, height: 22.2cm.}
- \item{"fullpage"}{ Fills a whole page of a Grattan report. Width: 44.3cm, height: 22.2cm.}
- \item{"fullslide}{ Creates an image that looks like a 4:3 Grattan Powerpoint slide, complete with logo.  Width: 25.4cm, height: 19.0cm.}
- \item{"fullslide_169}{ Creates an image that looks like a 16:9 Grattan Powerpoint slide, complete with logo.
- Use this to drop into standard presentations. Width: 33.9cm, height: 19.0cm}
- \item{"blog"}{"Creates a 4:3 image that looks like a Grattan Powerpoint slide, but with less border whitespace than `fullslide`."}
- \item{"fullslide_44"}{Creates an image that looks like a 4:4 Grattan Powerpoint slide. This may be useful for taller charts
- for the Grattan blog; not useful for any other purpose. Width: 25.4cm, height: 25.4cm.}
+\itemize{ \item{"normal"}{ The default. Use for normal Grattan report charts,
+or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.}
+\item{"normal_169"}{ Only useful for pasting into a 16:9 format Grattan
+Powerpoint slide. Width: 30cm, height: 14.5cm.} \item{"tiny"}{ Fills the
+width of a column in a Grattan report, but is shorter than usual. Width:
+22.2cm, height: 11.1cm.} \item{"wholecolumn"}{ Takes up a whole column in a
+Grattan report. Width: 22.2cm, height: 22.2cm.} \item{"fullpage"}{ Fills a
+whole page of a Grattan report. Width: 44.3cm, height: 22.2cm.}
+\item{"fullslide}{ Creates an image that looks like a 4:3 Grattan Powerpoint
+slide, complete with logo.  Width: 25.4cm, height: 19.0cm.}
+\item{"fullslide_169}{ Creates an image that looks like a 16:9 Grattan
+Powerpoint slide, complete with logo. Use this to drop into standard
+presentations. Width: 33.9cm, height: 19.0cm} \item{"blog"}{"Creates a 4:3
+image that looks like a Grattan Powerpoint slide, but with less border
+whitespace than `fullslide`."} \item{"fullslide_44"}{Creates an image that
+looks like a 4:4 Grattan Powerpoint slide. This may be useful for taller
+charts for the Grattan blog; not useful for any other purpose. Width: 25.4cm,
+height: 25.4cm.}
 }
 
 Set type = "all" to save your chart in all available sizes.}
 
-\item{height}{Numeric, optional. NULL by default. Controls the height (in cm) of the image you wish to save. If specified, `height` will override the default height for your chosen chart type.}
+\item{height}{Numeric, optional. NULL by default. Controls the height (in cm)
+of the image you wish to save. If specified, `height` will override the
+default height for your chosen chart type.}
 
-\item{save_data}{Logical. Default is FALSE, unless type = "all". If set to TRUE, a properly-formatted .xlsx file will be created containing the dataframe you passed to ggplot(). The filename and path will be the same as your image, but with a .xlsx extension. Data will always be saved if type = "all".}
+\item{save_data}{Logical. Default is FALSE, unless type = "all". If set to
+TRUE, a properly-formatted .xlsx file will be created containing the
+dataframe you passed to ggplot(). The filename and path will be the same as
+your image, but with a .xlsx extension. Data will always be saved if type =
+"all".}
 
-\item{force_labs}{Logical. By default, `grattan_save()` will remove your title, subtitle, and caption (if present) from your graph before saving it, unless `type` = "fullslide". By setting `force_labs` to TRUE, your title/subtitle/caption will be retained regardless of `type`.}
+\item{force_labs}{Logical. By default, `grattan_save()` will remove your
+title, subtitle, and caption (if present) from your graph before saving it,
+unless `type` = "fullslide". By setting `force_labs` to TRUE, your
+title/subtitle/caption will be retained regardless of `type`.}
 
-\item{warn_labs}{Logical. Default is TRUE, unless type = "all". When TRUE, `grattan_save()` will warn you if you try to save a normal chart with labels, or a fullslide chart without labels. Suppress these warnings by setting `warn_labels` to FALSE.}
+\item{warn_labs}{Logical. Default is TRUE, unless type = "all". When TRUE,
+`grattan_save()` will warn you if you try to save a normal chart with
+labels, or a fullslide chart without labels. Suppress these warnings by
+setting `warn_labels` to FALSE.}
 
-\item{...}{arguments passed to `ggsave()`. For example, use `device = cairo_pdf` to use the Cairo PDF rendering engine.}
+\item{...}{arguments passed to `ggsave()`. For example, use `device =
+cairo_pdf` to use the Cairo PDF rendering engine.}
 }
 \description{
-Save ggplot2 object as an image in the correct size and resolution for Grattan charts. Wrapper around ggsave().
+Save ggplot2 object as an image in the correct size and resolution for
+Grattan charts. Wrapper around ggsave().
 }
 \examples{
 library(ggplot2)
@@ -74,8 +96,9 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
 \dontrun{grattan_save("p.png")}
 
 
-# Want to make a 'self-contained' chart that includes a title/subtitle/caption,
-# eg. to go on the Grattan Blog? If so, just add them - they'll be properly
+# Want to make a 'self-contained' chart that includes a
+# title/subtitle/caption, eg. to go on the Grattan Blog?
+# If so, just add them - they'll be properly
 # left-aligned when you save them with grattan_save(), like this:
 
  ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
@@ -93,8 +116,10 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
 
  \dontrun{grattan_save("your_file.png")}
 
- # Want to make a full Powerpoint slide? Just use type = "fullslide" in grattan_save(), like this.
- # If you include 'notes' and 'source' as below, grattan_save() will automatically
+ # Want to make a full Powerpoint slide? Just use type = "fullslide"
+ # in grattan_save(), like this.
+ # If you include 'notes' and 'source' as below, grattan_save() will
+ # automatically
  # split them onto separate rows. It will also wrap your title and subtitle
  # automatically over up to 2 rows; and wrap your caption over as many rows
  # as necessary.

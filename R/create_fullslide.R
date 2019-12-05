@@ -1,5 +1,5 @@
-# Assemble an image resembling a full PPT slide containing a Grattan chart
-# Not intended to be called directly, this function is called from grattan_save()
+# Assemble an image resembling a full PPT slide containing a Grattan chart. Not
+# intended to be called directly, this function is called from grattan_save()
 
 #' @import ggplot2
 #' @import gridExtra
@@ -10,13 +10,13 @@ create_fullslide <- function(object,
                              warn_labs = TRUE,
                              print_object = TRUE) {
 
-  if(missing(type)) {
+  if (missing(type)) {
     stop("You must specify a plot type.")
   }
 
   p <- object
 
-  if(!"ggplot_built" %in% class(p)) {
+  if (isFALSE(inherits(p, "ggplot_built"))) {
     p_built <- ggplot_build(p)
 
   } else {
@@ -30,24 +30,29 @@ create_fullslide <- function(object,
   stored_subtitle <- p$labels$subtitle
   stored_caption <- p$labels$caption
 
-  if(stored_title == "\n"){
-    if(warn_labs) {
-      message("Your plot has no title, which is weird for a fullslide.\nAdd a title using +labs(title = 'Title')")
+  if (stored_title == "\n") {
+    if (warn_labs) {
+      message("Your plot has no title, which is weird for a fullslide.",
+              "\nAdd a title using +labs(title = 'Title')")
     }
     stored_title <- ""
   }
 
-  if(is.null(stored_subtitle) | stored_subtitle == "") {
-    if(warn_labs) {
-      message(paste0("Your plot has no subtitle, which is weird for type = ", type, "\nConsider adding a subtitle using labs(subtitle = 'Text')"))
+  if (is.null(stored_subtitle) | stored_subtitle == "") {
+    if (warn_labs) {
+      message(paste0("Your plot has no subtitle, which is weird for type = ",
+                     type,
+                     "\nConsider adding a subtitle using",
+                     "labs(subtitle = 'Text')"))
     }
 
     stored_subtitle <- NULL
   }
 
-  if(stored_caption == ""){
-    if(warn_labs) {
-      message("Your plot has no caption, which is weird for full slide charts.\nConsider adding a caption using labs(caption = 'Text')")
+  if (stored_caption == "") {
+    if (warn_labs) {
+      message("Your plot has no caption, which is weird for full slide charts.",
+              "\nConsider adding a caption using labs(caption = 'Text')")
     }
     stored_caption <- ""
   }
@@ -58,7 +63,8 @@ create_fullslide <- function(object,
 
   # how many lines in the subtitle?
 
-  subtitle_lines <- ceiling(nchar(stored_subtitle) / chart_types$subtitle[chart_types$type == type])
+  subtitle_lines <- ceiling(nchar(stored_subtitle) /
+                              chart_types$subtitle[chart_types$type == type])
 
   # convert to gtable
   p_built$plot <- p
@@ -66,7 +72,8 @@ create_fullslide <- function(object,
   p <- ggplot2::ggplot_gtable(p)
 
   # left align caption
-  p$layout[which(p$layout$name == "caption"), c("l", "r")] <- c(2, max(p$layout$r))
+  p$layout[which(p$layout$name == "caption"),
+           c("l", "r")] <- c(2, max(p$layout$r))
 
   # create new ggplot object with just the title
   toptitle <- ggplot2::ggplot() +
@@ -76,9 +83,13 @@ create_fullslide <- function(object,
                base_size = ifelse(type == "fullslide_169",
                                      24, 18)) +
     ggplot2::theme(rect = ggplot2::element_blank(),
-                   plot.title = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0,
-                                                      face = "bold", size = ggplot2::rel(1)),
-                   plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
+                   plot.title = ggplot2::element_text(colour = "black",
+                                                      hjust = 0,
+                                                      vjust = 0,
+                                                      face = "bold",
+                                                      size = ggplot2::rel(1)),
+                   plot.margin = ggplot2::unit(c(0, 0, 0, 0),
+                                               units = "cm"))
 
   # create new ggplot object with just the subtitle
   topsubtitle <- ggplot2::ggplot() +
@@ -86,7 +97,9 @@ create_fullslide <- function(object,
     ggplot2::labs(subtitle = stored_subtitle) +
     theme_grey(base_family = "sans", base_size = 18) +
     ggplot2::theme(rect = ggplot2::element_blank(),
-                   plot.subtitle = ggplot2::element_text(colour = "black", hjust = 0, vjust = 0),
+                   plot.subtitle = ggplot2::element_text(colour = "black",
+                                                         hjust = 0,
+                                                         vjust = 0),
                    plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
 
   # create new grob of whitespace to be the border
@@ -96,7 +109,7 @@ create_fullslide <- function(object,
   linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F3901D", col = "white"))
 
   # define heights of elements
-  if(is.null(height)) {
+  if (is.null(height)) {
     height <- chart_types$height[chart_types$type == type]
   }
 
@@ -117,11 +130,11 @@ create_fullslide <- function(object,
   # define widths of elements
   width <- chart_types$width[chart_types$type == type]
 
-  plot_width <- if(type %in% c("fullslide", "fullslide_44")) {
+  plot_width <- if (type %in% c("fullslide", "fullslide_44")) {
     22.16
-  } else if(type == "fullslide_169") {
+  } else if (type == "fullslide_169") {
     30
-  } else if(type == "blog") {
+  } else if (type == "blog") {
     width - (blog_border * 2)
   }
 
@@ -139,12 +152,20 @@ create_fullslide <- function(object,
 
   header <- gridExtra::arrangeGrob(grobs = list(toptitle, logogrob),
                                    ncol = 2,
-                                   widths = unit(c(width_title, width_logo), "cm"),
-                                   heights = unit(1.48, "cm"),
-                                   padding = unit(0, "line"))
+                                   widths = unit(c(width_title, width_logo),
+                                                 "cm"),
+                                   heights = unit(1.48,
+                                                  "cm"),
+                                   padding = unit(0,
+                                                  "line"))
 
   # create main plotting area
-  mainarea <- gridExtra::arrangeGrob(grobs = list(border, header, linegrob, topsubtitle, p, border),
+  mainarea <- gridExtra::arrangeGrob(grobs = list(border,
+                                                  header,
+                                                  linegrob,
+                                                  topsubtitle,
+                                                  p,
+                                                  border),
                                       ncol = 1,
                                       heights = unit(c(top_border_height,
                                                        header_height,
@@ -159,11 +180,13 @@ create_fullslide <- function(object,
 
   total <- gridExtra::arrangeGrob(grobs = list(border, mainarea, border),
                                   ncol = 3,
-                                  widths = unit(c(width_leftborder, plot_width, width_rightborder),
+                                  widths = unit(c(width_leftborder,
+                                                  plot_width,
+                                                  width_rightborder),
                                                  "cm"))
 
   # plot original chart again (so last_plot() shows this instead of topsubtitle)
-  if(print_object) {
+  if (print_object) {
     print(object)
   }
 
