@@ -73,7 +73,6 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
     if(isTRUE(labels_present)) {
       height <- chart_types$height[chart_types$type == type] + 3
     }
-
   }
 
   if(is.null(height)) {
@@ -112,6 +111,8 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
   plot_subtitle <- object$labels$subtitle
   plot_caption <- object$labels$caption
+  # Remove everything before "Source:" in caption
+  plot_caption <- gsub(".+?(?=Source:)", "", plot_caption, perl = TRUE)
 
   openxlsx::writeData(wb = wb,
                       sheet = 1,
