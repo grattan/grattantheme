@@ -194,6 +194,7 @@ grattan_save <- function(filename,
 
   }
 
+  ggplot2::set_last_plot(object)
 
 }
 

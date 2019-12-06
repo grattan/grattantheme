@@ -8,7 +8,7 @@ create_fullslide <- function(object,
                              type,
                              height = NULL,
                              warn_labs = TRUE,
-                             print_object = TRUE) {
+                             print_object = FALSE) {
 
   if (missing(type)) {
     stop("You must specify a plot type.")
@@ -185,10 +185,12 @@ create_fullslide <- function(object,
                                                   width_rightborder),
                                                  "cm"))
 
-  # plot original chart again (so last_plot() shows this instead of topsubtitle)
+  # plot original chart again if requested
   if (print_object) {
     print(object)
   }
+
+  ggplot2::set_last_plot(object)
 
   total
 
