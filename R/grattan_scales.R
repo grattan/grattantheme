@@ -51,7 +51,7 @@ grattan_colour_manual <- function(n = 0,
                                   reverse = FALSE,
                                   discrete = TRUE,
                                   faded = FALSE,
-                                  palette = "full", ...){
+                                  palette = "full", ...) {
   if (discrete) {
     return(
   ggplot2::scale_colour_manual(...,
@@ -76,7 +76,7 @@ grattan_colour_manual <- function(n = 0,
 grattan_fill_manual <- function(n = 0, reverse = FALSE,
                                 discrete = TRUE,
                                 faded = FALSE,
-                                palette = "full", ...){
+                                palette = "full", ...) {
   if (discrete) {
     return(
       ggplot2::scale_fill_manual(...,

@@ -1,11 +1,16 @@
-#' Create a Powerpoint slide(s) that contains a Grattan graph and editable title and subtitle.
+#' Create a Powerpoint slide(s) that contains a Grattan graph and editable title
+#' and subtitle.
 #'
-#' @description Use `make_slide()` to create a Powerpoint presentation containing a single slide,
-#' or `make_presentation()` for a presentation with multiple slides.
-#' @param graph The graph you want to include on your slide. Defaults to the last plot (ggplot2::last_plot())
+#' @description Use `make_slide()` to create a Powerpoint presentation
+#'   containing a single slide, or `make_presentation()` for a presentation with
+#'   multiple slides.
+#' @param graph The graph you want to include on your slide. Defaults to the
+#'   last plot (ggplot2::last_plot())
 #' @param filename The filename for your Powerpoint slide.
-#' @param path Path to the directory you wish to save your slide in. Defaults to your working directory.
-#' @param type The type of Powerpoint slide to create; either "16:9" (the default, for a 16:9 orientation slide), or "4:3".
+#' @param path Path to the directory you wish to save your slide in. Defaults to
+#'   your working directory.
+#' @param type The type of Powerpoint slide to create; either "16:9" (the
+#'   default, for a 16:9 orientation slide), or "4:3".
 #' @importFrom rmarkdown render
 #' @importFrom knitr opts_chunk
 #' @importFrom tools file_path_sans_ext
@@ -14,7 +19,8 @@
 #' @examples
 #'
 #' # To take a single ggplot2 graph and turn it into a slide:
-#' # First, create your ggplot2 object. Include your subtitle, title, and caption with +labs()
+#' # First, create your ggplot2 object. Include your subtitle,
+#' # title, and caption with +labs()
 #'
 #'library(ggplot2)
 #'library(grattantheme)
@@ -28,8 +34,8 @@
 #'    caption = "Source: blah")
 #'
 #' # Now, create a Powerpoint slide with your graph in your working directory.
-#' # By default, make_slide() will use the last plot you generated; you can specify a
-#' # different object to use with the `graph` argument.
+#' # By default, make_slide() will use the last plot you generated;
+#' # you can specify a different object to use with the `graph` argument.
 #'
 #' \donttest{make_slide(filename = "test.pptx")}
 #'
@@ -39,24 +45,28 @@
 make_slide <- function(graph = last_plot(),
                        filename = NULL,
                        path = ".",
-                       type = "16:9"){
+                       type = "16:9") {
 
   pandoc_test()
 
-  if(!"gg" %in% class(graph)){
-    stop("The object is not a ggplot2 graph and cannot be plotted with make_slide()")
+  if (!"gg" %in% class(graph)) {
+    stop("The object is not a ggplot2 graph and",
+         " cannot be plotted with make_slide()")
   }
 
-  if(is.null(filename)){
-    stop("You must specify a filename (such as 'my_slide') for the Powerpoint slide you wish to create.")
+  if (is.null(filename)) {
+    stop("You must specify a filename (such as 'my_slide')",
+         " for the Powerpoint slide you wish to create.")
   }
 
-  if(is.null(path)){
-    stop("You must specify a path to the directory where you want your slide to be saved.")
+  if (is.null(path)) {
+    stop("You must specify a path to the directory where",
+         " you want your slide to be saved.")
   }
 
-  if(is.null(type) | !type %in% c("16:9", "4:3")){
-    stop("You must specify what type of slide you want - either '16:9' (the default) or '4:3'")
+  if (is.null(type) | !type %in% c("16:9", "4:3")) {
+    stop("You must specify what type of slide you want -",
+         " either '16:9' (the default) or '4:3'")
   }
 
   p <- graph
@@ -66,14 +76,14 @@ make_slide <- function(graph = last_plot(),
   output_file <- paste0(filename, ".pptx")
   output_dir <- dirname(path)
 
-  if(!dir.exists(output_dir)){
+  if (!dir.exists(output_dir)) {
     dir.create(output_dir)
   }
 
   # copy template to temporary directory
 
 
-  if(type == "16:9"){
+  if (type == "16:9") {
     template_source <- system.file(file.path("extdata", "template_169.pptx"),
                                    package = "grattantheme")
   } else {
@@ -83,9 +93,8 @@ make_slide <- function(graph = last_plot(),
 
 
   temp_dir <- file.path(tempdir(), "make_slide")
-  #temp_dir <- paste0(tempdir(), "/make_slide/")
 
-  if(!dir.exists(temp_dir)){
+  if (!dir.exists(temp_dir)) {
     dir.create(temp_dir)
   }
 
@@ -95,8 +104,9 @@ make_slide <- function(graph = last_plot(),
             to = temp_template,
             overwrite = TRUE)
 
-  if(!result_of_copy){
-    stop("make_slide() encountered a problem copying the Powerpoint template to a temporary directory.")
+  if (!result_of_copy) {
+    stop("make_slide() encountered a problem copying the Powerpoint",
+         " template to a temporary directory.")
   }
 
   backticks <- paste0((rep("\x60", 3)), collapse = "")
@@ -165,7 +175,7 @@ make_slide <- function(graph = last_plot(),
                    plot_area,
                    sep = "\n")
 
-  writeLines(fulldoc, file.path(temp_dir,"temp_rmd.Rmd"))
+  writeLines(fulldoc, file.path(temp_dir, "temp_rmd.Rmd"))
 
   rmarkdown::render(file.path(temp_dir, "temp_rmd.Rmd"),
                     output_file = output_file,
@@ -177,14 +187,18 @@ make_slide <- function(graph = last_plot(),
 }
 
 #' @param graphs A list of ggplot2 objects
-#' @param title Optional. The title of your presentation, if you want a title slide.
-#' @param subtitle Optional. The subtitle of your presentation, if you want a title slide.
+#' @param title Optional. The title of your presentation, if you want a title
+#'   slide.
+#' @param subtitle Optional. The subtitle of your presentation, if you want a
+#'   title slide.
 #' @rdname make_slide
 #' @name make_presentation
 #' @examples
 #'
-#' # To take multiple ggplot2 graphs and turn them into slides in a single presentation:
-#' # First, create multiple ggplot2 objects. Include your subtitle, title, and caption with +labs()
+#' # To take multiple ggplot2 graphs and turn them into slides in a single
+#' # presentation:
+#' # First, create multiple ggplot2 objects. Include your subtitle, title,
+#' # and caption with +labs()
 #'
 #'library(ggplot2)
 #'library(grattantheme)
@@ -207,7 +221,8 @@ make_slide <- function(graph = last_plot(),
 #'
 #'graphs <- list(graph1, graph2)
 #'
-#' # Now, create a Powerpoint presentation with one slide per graph in your list:
+#' # Now, create a Powerpoint presentation with one
+#' # slide per graph in your list:
 #'
 #' \donttest{make_presentation(graphs, filename = "test.pptx")}
 #'
@@ -219,23 +234,26 @@ make_presentation <- function(graphs,
                               path = ".",
                               type = "16:9",
                               title = "Title",
-                              subtitle = "Subtitle"){
+                              subtitle = "Subtitle") {
 
   pandoc_test()
 
-  if(is.null(filename)){
-    stop("You must specify a filename (such as 'my_presentation') for the Powerpoint presentation you wish to create.")
+  if (is.null(filename)) {
+    stop("You must specify a filename (such as 'my_presentation') for",
+         " the Powerpoint presentation you wish to create.")
   }
 
-  if(is.null(path)){
-    stop("You must specify a path to the directory where you want your presentation to be saved.")
+  if (is.null(path)) {
+    stop("You must specify a path to the directory where you",
+         " want your presentation to be saved.")
   }
 
-  if(is.null(type) | !type %in% c("16:9", "4:3")){
-    stop("You must specify what type of presentation you want - either '16:9' (the default) or '4:3'")
+  if (is.null(type) | !type %in% c("16:9", "4:3")) {
+    stop("You must specify what type of presentation you want -",
+         " either '16:9' (the default) or '4:3'")
   }
 
-  if("gg" %in% class(graphs)){
+  if ("gg" %in% class(graphs)) {
     graphs <- list(graphs)
   }
 
@@ -244,14 +262,14 @@ make_presentation <- function(graphs,
   output_file <- paste0(filename, ".pptx")
   output_dir <- file.path(path)
 
-  if(!dir.exists(output_dir)){
+  if (!dir.exists(output_dir)) {
     dir.create(output_dir)
   }
 
   # copy template to temporary directory
 
 
-  if(type == "16:9"){
+  if (type == "16:9") {
     template_source <- system.file(file.path("extdata", "template_169.pptx"),
                                    package = "grattantheme")
   } else {
@@ -261,9 +279,8 @@ make_presentation <- function(graphs,
 
 
   temp_dir <- file.path(tempdir(), "make_slide")
-  #temp_dir <- paste0(tempdir(), "/make_slide/")
 
-  if(!dir.exists(temp_dir)){
+  if (!dir.exists(temp_dir)) {
     dir.create(temp_dir)
   }
 
@@ -273,8 +290,9 @@ make_presentation <- function(graphs,
                               to = temp_template,
                               overwrite = TRUE)
 
-  if(!result_of_copy){
-    stop("make_presentation() encountered a problem copying the Powerpoint template to a temporary directory.")
+  if (!result_of_copy) {
+    stop("make_presentation() encountered a problem copying the Powerpoint",
+         " template to a temporary directory.")
   }
 
   backticks <- paste0((rep("\x60", 3)), collapse = "")
@@ -286,7 +304,7 @@ make_presentation <- function(graphs,
 
   # create title slide
 
-  if(!is.null(title) | !is.null(subtitle)){
+  if (!is.null(title) | !is.null(subtitle)) {
 
     null_to_blank <- function(x) {
       x <- ifelse(is.null(x), "", x)
@@ -295,8 +313,6 @@ make_presentation <- function(graphs,
 
     title <- paste0("title: \"", null_to_blank(title), "\"")
     subtitle <- paste0("author: \"", null_to_blank(subtitle), "\"")
-
-    title_subtitle <- paste("title:")
 
   } else {
     title <- ""
@@ -322,7 +338,7 @@ make_presentation <- function(graphs,
 
 
   plot_areas <- list()
-  for(i in seq_along(graphs)){
+  for (i in seq_along(graphs)) {
 
       p <- graphs[[i]]
 
@@ -377,7 +393,7 @@ make_presentation <- function(graphs,
                    plot_areas,
                    sep = "\n")
 
-  writeLines(fulldoc, file.path(temp_dir,"temp_rmd.Rmd"))
+  writeLines(fulldoc, file.path(temp_dir, "temp_rmd.Rmd"))
 
   rmarkdown::render(file.path(temp_dir, "temp_rmd.Rmd"),
                     output_file = output_file,
@@ -390,14 +406,18 @@ make_presentation <- function(graphs,
 
 }
 
-pandoc_test <- function(){
+pandoc_test <- function() {
 
-  if(!rmarkdown::pandoc_available()){
-    stop("To use this function, you must install 'pandoc' on your system from pandoc.org. See the grattantheme administrators if you need help.")
+  if(!rmarkdown::pandoc_available()) {
+    stop("To use this function, you must install 'pandoc' on your system",
+         " from pandoc.org. See the grattantheme administrators",
+         " if you need help.")
   }
 
-  if(rmarkdown::pandoc_version() < 2.1){
-    stop("The version of 'pandoc' on your system is too old to use this function. Install a newer version from pandoc.org. See the grattantheme administrators if you need help.")
+  if(rmarkdown::pandoc_version() < 2.1) {
+    stop("The version of 'pandoc' on your system is too old to use this",
+         " function. Install a newer version from pandoc.org.",
+         " See the grattantheme administrators if you need help.")
   }
 
 }
