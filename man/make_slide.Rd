@@ -3,7 +3,8 @@
 \name{make_slide}
 \alias{make_slide}
 \alias{make_presentation}
-\title{Create a Powerpoint slide(s) that contains a Grattan graph and editable title and subtitle.}
+\title{Create a Powerpoint slide(s) that contains a Grattan graph and editable title
+and subtitle.}
 \usage{
 make_slide(graph = last_plot(), filename = NULL, path = ".", type = "16:9")
 
@@ -17,28 +18,35 @@ make_presentation(
 )
 }
 \arguments{
-\item{graph}{The graph you want to include on your slide. Defaults to the last plot (ggplot2::last_plot())}
+\item{graph}{The graph you want to include on your slide. Defaults to the
+last plot (ggplot2::last_plot())}
 
 \item{filename}{The filename for your Powerpoint slide.}
 
-\item{path}{Path to the directory you wish to save your slide in. Defaults to your working directory.}
+\item{path}{Path to the directory you wish to save your slide in. Defaults to
+your working directory.}
 
-\item{type}{The type of Powerpoint slide to create; either "16:9" (the default, for a 16:9 orientation slide), or "4:3".}
+\item{type}{The type of Powerpoint slide to create; either "16:9" (the
+default, for a 16:9 orientation slide), or "4:3".}
 
 \item{graphs}{A list of ggplot2 objects}
 
-\item{title}{Optional. The title of your presentation, if you want a title slide.}
+\item{title}{Optional. The title of your presentation, if you want a title
+slide.}
 
-\item{subtitle}{Optional. The subtitle of your presentation, if you want a title slide.}
+\item{subtitle}{Optional. The subtitle of your presentation, if you want a
+title slide.}
 }
 \description{
-Use `make_slide()` to create a Powerpoint presentation containing a single slide,
-or `make_presentation()` for a presentation with multiple slides.
+Use `make_slide()` to create a Powerpoint presentation
+  containing a single slide, or `make_presentation()` for a presentation with
+  multiple slides.
 }
 \examples{
 
 # To take a single ggplot2 graph and turn it into a slide:
-# First, create your ggplot2 object. Include your subtitle, title, and caption with +labs()
+# First, create your ggplot2 object. Include your subtitle,
+# title, and caption with +labs()
 
 library(ggplot2)
 library(grattantheme)
@@ -52,14 +60,16 @@ ggplot(mtcars, aes(x = mpg, y = hp)) +
    caption = "Source: blah")
 
 # Now, create a Powerpoint slide with your graph in your working directory.
-# By default, make_slide() will use the last plot you generated; you can specify a
-# different object to use with the `graph` argument.
+# By default, make_slide() will use the last plot you generated;
+# you can specify a different object to use with the `graph` argument.
 
 \donttest{make_slide(filename = "test.pptx")}
 
 
-# To take multiple ggplot2 graphs and turn them into slides in a single presentation:
-# First, create multiple ggplot2 objects. Include your subtitle, title, and caption with +labs()
+# To take multiple ggplot2 graphs and turn them into slides in a single
+# presentation:
+# First, create multiple ggplot2 objects. Include your subtitle, title,
+# and caption with +labs()
 
 library(ggplot2)
 library(grattantheme)
@@ -82,7 +92,8 @@ graph2 <- ggplot(mtcars, aes(x = mpg, y = hp)) +
 
 graphs <- list(graph1, graph2)
 
-# Now, create a Powerpoint presentation with one slide per graph in your list:
+# Now, create a Powerpoint presentation with one
+# slide per graph in your list:
 
 \donttest{make_presentation(graphs, filename = "test.pptx")}
 

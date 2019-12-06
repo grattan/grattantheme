@@ -41,9 +41,11 @@ variations of the standard colours.}
   discrete = FALSE. One of:
 
 \itemize{
-\item{"full"}{The default. Red, dark orange, light orange, yellow, light yellow}
+\item{"full"}{The default. Red, dark orange, light orange, yellow, light
+yellow}
 \item{"full_f"}{ faded version of "full"}
-\item{"light"}{ light orange, yellow, light yellow}
+\item{"light"}{ light
+orange, yellow, light yellow}
 \item{"dark"}{ red, dark orange, light orange}
 \item{"diverging"}{ red, faded red, white, faded light orange, light orange}
 \item{"grey"}{ grey 1, grey 2, grey 3, grey 4, grey 5}

@@ -1,17 +1,60 @@
-# Assemble an image resembling a full PPT slide containing a Grattan chart. Not
-# intended to be called directly, this function is called from grattan_save()
-
+#' Assemble an image resembling a full PPT slide containing a Grattan chart
+#'
+#' `create_fullslide()` takes a ggplot2 object and formats it to look like a
+#' Grattan Powerpoint slide. You will rarely need to call this function
+#' directly - use `grattan_save()` to save a ggplot2 object as a 'slide'-like
+#' image.
+#'
+#' @param object A ggplot2 object.
+#' @param type One of "fullslide", "fullslide_169", "fullslide_44", "blog". See
+#' `?grattan_save` for more information about these types.
+#' @param height NULL by default.
+#' @param warn_labs TRUE by default. If set to FALSE, you will not be warned
+#' about missing labels, such as an absent title or subtitle.
+#' @param print_object FALSE by default. Set to TRUE if you want to print
+#' to the console the original object that you supplied to the function.
+#'
+#' @return An object of class gtable
+#'
+#' @examples
+#'
+#' library(grattantheme)
+#' library(ggplot2)
+#' library(gridExtra)
+#'
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#' geom_point() +
+#' theme_grattan() +
+#' labs(title = "Title goes here", subtitle = "Subtitle here", caption = "Notes:
+#' some notes. Source: source information")
+#'
+#' fullslide_p <- create_fullslide(p, "fullslide")
+#'
+#' # If you want to display your fullslide plot in RStudio, you can use
+#' # `gridExtra::grid.arrange()`
+#'
+#' gridExtra::grid.arrange(fullslide_p)
+#'
+#'
+#' @export
 #' @import ggplot2
 #' @import gridExtra
 
 create_fullslide <- function(object,
-                             type,
+                             type = "fullslide",
                              height = NULL,
                              warn_labs = TRUE,
                              print_object = FALSE) {
 
-  if (missing(type)) {
-    stop("You must specify a plot type.")
+  fullslide_types <- chart_types$type[chart_types$class == "fullslide"]
+
+  if(!type %in% fullslide_types) {
+    stop("create_fullslide() does not work with type '",
+         type,
+         "'.\ntype must be one of: ",
+         paste0(fullslide_types, collapse = ", "),
+         "."
+         )
   }
 
   p <- object
