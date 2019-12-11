@@ -9,12 +9,13 @@ theme_grattan_base <- function(base_size = 18,
   ret <-
     theme_foundation(base_size = base_size, base_family = base_family) +
     ggplot2::theme(line = ggplot2::element_line(colour = grattantheme::grattan_gridlinegrey,
-                                                # style guide says axis line = 0.75 points, need to convert to mm
-                                                size = 0.75 / (.pt*72.27/96) ),
+           # style guide says axis line = 0.75 points, need to convert to mm
+                                                size = 0.75 / ( .pt * 72.27 / 96 ) ),
                    rect = ggplot2::element_rect(fill = "white",
                                                 colour = NA,
                                                 linetype = 0),
-                   text = ggplot2::element_text(colour = "black", size = base_size),
+                   text = ggplot2::element_text(colour = "black",
+                                                size = base_size),
                    ## Axis
                    axis.line = ggplot2::element_line(size = ggplot2::rel(1),
                                                      colour = "black"),
@@ -26,7 +27,8 @@ theme_grattan_base <- function(base_size = 18,
                    # axis.ticks.y = ggplot2::element_blank(),
                    axis.title = ggplot2::element_text(size = ggplot2::rel(1)),
                    # style guide:
-                   # "there is no need to label the x-axis unless the units are not obvious"
+                   # "there is no need to label the x-axis
+                   # unless the units are not obvious"
                    axis.title.x = ggplot2::element_text(),
                    # moved to theme_grattan()
                    # axis.title.y = ggplot2::element_blank(),
@@ -43,10 +45,14 @@ theme_grattan_base <- function(base_size = 18,
                    legend.position = legend,
                    legend.direction = "horizontal",
                    legend.box = "vertical",
-                   legend.spacing = ggplot2::unit(base_size / 18,"cm"),
+                   legend.spacing = ggplot2::unit(base_size / 18, "cm"),
                    legend.justification = "center",
                    legend.key.height = ggplot2::unit(1, "line"),
-                   legend.margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 0, unit = "cm"),
+                   legend.margin = ggplot2::margin(t = 0,
+                                                   r = 0,
+                                                   b = 0,
+                                                   l = 0,
+                                                   unit = "cm"),
                    legend.title = ggplot2::element_blank(),
                    panel.border = ggplot2::element_blank(),
                    panel.grid.major = ggplot2::element_line(),
@@ -75,11 +81,11 @@ theme_grattan_base <- function(base_size = 18,
                                                colour = "black",
                                                face = "italic",
                                                margin = ggplot2::margin(t = 15)),
-                   plot.margin = unit(c(0.5, 0.6, 0.1, 0.01) , "lines"),
+                   plot.margin = unit(c(0.5, 0.6, 0.1, 0.01), "lines"),
                    complete = TRUE)
 
   # add panel borders if the user requests them
-  if(panel_borders) {
+  if (panel_borders) {
     ret <- ret +
       theme(panel.background = element_rect(linetype = 1,
                                             colour = "black"))
@@ -87,13 +93,10 @@ theme_grattan_base <- function(base_size = 18,
 
 
   if (background == "orange" |  background == "box") {
-    ret <- ret + ggplot2::theme(rect = ggplot2::element_rect(fill = grattantheme::grattan_orange_alpha))
+    ret <- ret +
+      ggplot2::theme(rect = ggplot2::element_rect(fill = grattantheme::grattan_orange_alpha))
   }
 
   ret
 
 }
-
-
-
-

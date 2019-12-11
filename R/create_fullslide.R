@@ -48,7 +48,7 @@ create_fullslide <- function(object,
 
   fullslide_types <- chart_types$type[chart_types$class == "fullslide"]
 
-  if(!type %in% fullslide_types) {
+  if (!type %in% fullslide_types) {
     stop("create_fullslide() does not work with type '",
          type,
          "'.\ntype must be one of: ",

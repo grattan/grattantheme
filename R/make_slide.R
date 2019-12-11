@@ -408,13 +408,13 @@ make_presentation <- function(graphs,
 
 pandoc_test <- function() {
 
-  if(!rmarkdown::pandoc_available()) {
+  if (!rmarkdown::pandoc_available()) {
     stop("To use this function, you must install 'pandoc' on your system",
          " from pandoc.org. See the grattantheme administrators",
          " if you need help.")
   }
 
-  if(rmarkdown::pandoc_version() < 2.1) {
+  if (rmarkdown::pandoc_version() < 2.1) {
     stop("The version of 'pandoc' on your system is too old to use this",
          " function. Install a newer version from pandoc.org.",
          " See the grattantheme administrators if you need help.")

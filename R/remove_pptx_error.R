@@ -5,14 +5,15 @@
 #' function is not intended to be called directly; it is called at the end of
 #' `make_presentation()` where a title slide is present.
 #'
-#' This is a temporary fix based on: https://github.com/jgm/pandoc/issues/4827#issuecomment-463596185
+#' This is a temporary fix based on:
+#' https://github.com/jgm/pandoc/issues/4827#issuecomment-463596185
 #'
 #' @param filename the filename of the .pptx file to be fixed
 #' @importFrom xml2 xml_remove write_xml
 #' @importFrom utils unzip
 #' @importFrom zip zipr
 
-remove_pptx_error <- function(filename){
+remove_pptx_error <- function(filename) {
 
   ## unzip it
   utils::unzip(filename, exdir = "unzipped-pptx")
@@ -28,7 +29,7 @@ remove_pptx_error <- function(filename){
   suppressMessages(zip::zip(zipfile = file.path(wd, "out.pptx"),
                             files = list.files(recursive = TRUE,
                                                include.dirs = FALSE,
-                                               all.files=TRUE)))
+                                               all.files = TRUE)))
   setwd(wd)
 
   ## clean up
