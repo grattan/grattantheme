@@ -1,18 +1,19 @@
 #' Create a ggplot2 theme consistent with the Grattan style guide.
 #' @name theme_grattan
 #' @param base_size Size for text elements. Defaults to 18, as per the Grattan
-#' style guide.
+#'   style guide.
 #' @param base_family Font family for text elements. Defaults to "sans",
-#' indistinguishable from Arial.
+#'   indistinguishable from Arial.
 #' @param chart_type "normal" by detault. Set to "scatter" for scatter plots.
 #' @param flipped FALSE by default. Set to TRUE if using coord_flip(). If set to
-#' TRUE, the theme will show a vertical axis line, ticks & panel grid, while
-#' hiding the horizontals. Ignored for type = "scatter".
-#' @param background "white" by default. Set to "orange" or "box" if you're making a chart
-#' to go in a Grattan report box.
+#'   TRUE, the theme will show a vertical axis line, ticks & panel grid, while
+#'   hiding the horizontals. Ignored for type = "scatter".
+#' @param background "white" by default. Set to "orange" or "box" if you're
+#'   making a chart to go in a Grattan report box.
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
-#' desired, or a two element numeric vector such as c(0.9, 0.1).
-#' @param panel_borders `FALSE` by default. Set to `TRUE` to enable a black border around the plotting area.
+#'   desired, or a two element numeric vector such as c(0.9, 0.1).
+#' @param panel_borders `FALSE` by default. Set to `TRUE` to enable a black
+#'   border around the plotting area.
 #' @import ggrepel
 #' @import ggplot2
 #'
@@ -38,8 +39,8 @@
 #'     scale_y_continuous_grattan() +
 #'     theme_grattan()
 #'
-#' # You'll notice in the example above that the top of the chart now looks good;
-#' # the bottom has two
+#' # You'll notice in the example above that the top of the chart now looks
+#' # good; the bottom has two
 #' # points that are half hanging off the axis. Try the following, substituing
 #' # any value (incl. 0) for 10 as you like:
 #'
@@ -118,7 +119,7 @@ theme_grattan <- function(base_size = 18,
 
   if (!chart_type %in% c("normal", "scatter")) {
     warning(paste0("Note: chart_type should be 'normal' or 'scatter', but you entered '",
-                   chart_type,"'. Reverting to 'normal'"))
+                   chart_type, "'. Reverting to 'normal'"))
     chart_type <- "normal"
   }
 
@@ -147,5 +148,3 @@ theme_grattan <- function(base_size = 18,
   return(ret)
 
 }
-
-

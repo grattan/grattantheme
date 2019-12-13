@@ -1,15 +1,18 @@
 #' Format title, subtitle, and caption of a ggplot2 chart in the Grattan style.
 #'
 #' Use `wrap_labs()` to wrap the title, subtitle, and caption of a ggplot2 chart
-#' onto multiple lines, left-align them, and split 'notes' and 'source' onto multiple lines.
-#' Note that this is done automatically for you if you use `grattan_save()` -
-#' there is no need to use `wrap_labs()` if you also plan to use `grattan_save()`.
+#' onto multiple lines, left-align them, and split 'notes' and 'source' onto
+#' multiple lines. Note that this is done automatically for you if you use
+#' `grattan_save()` - there is no need to use `wrap_labs()` if you also plan to
+#' use `grattan_save()`.
 #'
 #' @name wrap_labs
-#' @param object Name of the ggplot2 chart object with the labels you wish to modify.
-#' @param type The type of chart you intend to save (different chart types have different numbers of
-#' characters on each line). `type` can be 'normal', 'fullslide', 'blog', etc.
-#' For a full list of possible types, see \code{?grattan_save()}.
+#' @param object Name of the ggplot2 chart object with the labels you wish to
+#'   modify.
+#' @param type The type of chart you intend to save (different chart types have
+#'   different numbers of characters on each line). `type` can be 'normal',
+#'   'fullslide', 'blog', etc. For a full list of possible types, see
+#'   \code{?grattan_save()}.
 #'
 #' @examples
 #'
@@ -29,7 +32,7 @@
 #' @export
 
 
-wrap_labs <- function(object, type){
+wrap_labs <- function(object, type) {
 
   p <- object
 
@@ -50,26 +53,26 @@ wrap_labs <- function(object, type){
   stored_caption <- ifelse(is.null(stored_caption), "", stored_caption)
 
   # add line break to title where necessary
-  if(nchar(stored_title) <= char_width_grattan_title &
+  if (nchar(stored_title) <= char_width_grattan_title &
      chart_class == "fullslide" &
-     !grepl("\n", stored_title)){
+     !grepl("\n", stored_title)) {
 
       stored_title <- paste0("\n", stored_title)
   }
 
-  if(nchar(stored_title) > 2 * char_width_grattan_title) {
+  if (nchar(stored_title) > 2 * char_width_grattan_title) {
       # if title > 2 lines, return an informative error that tells users
       # where they need to trim their title to
 
       # code to figure out the final 2 chunks of text before the title limit
-      trimmed_title <- strtrim(stored_title, 2* char_width_grattan_title)
-      trimmed_title_final_words <- paste0(utils::tail(strsplit(trimmed_title,split=" ")[[1]],2), collapse = " ")
+      trimmed_title <- strtrim(stored_title, 2 * char_width_grattan_title)
+      trimmed_title_final_words <- paste0(utils::tail(strsplit(trimmed_title, split = " ")[[1]], 2), collapse = " ")
 
       # return an error and tell the user where the useable string ends
       stop(paste0('Your chart title is too long for a Grattan chart. Please reduce the length of the title.\nEverything after "', trimmed_title_final_words, '" cannot fit onto the slide.'))
     }
 
-  if(nchar(stored_title) <= 2 * char_width_grattan_title &
+  if (nchar(stored_title) <= 2 * char_width_grattan_title &
      nchar(stored_title) > char_width_grattan_title) {
 
       stored_title <- paste0(strwrap(stored_title, char_width_grattan_title)[1],
@@ -80,24 +83,17 @@ wrap_labs <- function(object, type){
 
   # add line break to subtitle where necessary
 
-  # if(nchar(stored_subtitle) <= char_width_grattan_subtitle &
-  #    chart_class == "fullslide" &
-  #    !grepl("\n", stored_subtitle)){
-  #   stored_subtitle <- paste0(stored_subtitle, "\n ")
-  #
-  # }
-
-  if(nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
+  if (nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
       # code to figure out the final 2 chunks of text before the title limit
-      trimmed_subtitle <- strtrim(stored_subtitle, 2* char_width_grattan_subtitle)
-      trimmed_subtitle_final_words <- paste0(utils::tail(strsplit(trimmed_subtitle,split=" ")[[1]],2), collapse = " ")
+      trimmed_subtitle <- strtrim(stored_subtitle, 2 * char_width_grattan_subtitle)
+      trimmed_subtitle_final_words <- paste0(utils::tail(strsplit(trimmed_subtitle, split = " ")[[1]],2), collapse = " ")
       # return an error and tell the user where the useable string ends
       stop(paste0('Your chart subtitle is too long for a Grattan Powerpoint slide. Please reduce subtitle length.\nEverything after "', trimmed_subtitle_final_words, '" cannot fit onto the slide.'))
 
 
   }
 
-  if(nchar(stored_subtitle) <= 2 * char_width_grattan_subtitle &
+  if (nchar(stored_subtitle) <= 2 * char_width_grattan_subtitle &
      nchar(stored_subtitle) > char_width_grattan_subtitle) {
 
         stored_subtitle <- paste0(strwrap(stored_subtitle, char_width_grattan_subtitle)[1],
@@ -112,11 +108,13 @@ wrap_labs <- function(object, type){
 
   # if the caption doesn't contain "notes" and "source", we want to wrap the whole
   # caption string across lines; if notes and source are present we want to wrap them separately
-  if(!contains_notes_and_source){
+  if (!contains_notes_and_source) {
     caption_lines <- ceiling(nchar(stored_caption) / char_width_grattan_caption)
 
-    if(caption_lines > 1){
-      stored_caption <- paste0(strwrap(stored_caption, char_width_grattan_caption), collapse = "\n")
+    if (caption_lines > 1) {
+      stored_caption <- paste0(strwrap(stored_caption,
+                                       char_width_grattan_caption),
+                               collapse = "\n")
     }
   } else { # now deal with the case when "notes" and "source" are present
     notes_and_source <- strsplit(stored_caption, split = "Source")

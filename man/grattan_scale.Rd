@@ -24,9 +24,9 @@ grattan_fill_manual(
 )
 }
 \arguments{
-\item{n}{Numeric. The number of levels in your colour scale.
-Minimum value is 1, maximum is 7. Passed to \code{grattan_pal};
-see ?grattan_pal for more information.}
+\item{n}{Numeric. The number of levels in your colour scale. Minimum value is
+1, maximum is 7. Passed to \code{grattan_pal}; see ?grattan_pal for more
+information.}
 
 \item{reverse}{Logical. FALSE by default. Setting to TRUE reverses the
 standard colour order.}
@@ -34,15 +34,18 @@ standard colour order.}
 \item{discrete}{Logical. TRUE by default. Setting to FALSE generates a
 continuous colour scale.}
 
-\item{faded}{Logical. FALSE by default. Setting to TRUE returns faded variations
-of the standard colours.}
+\item{faded}{Logical. FALSE by default. Setting to TRUE returns faded
+variations of the standard colours.}
 
-\item{palette}{Sets the colours that will form the continuous palette when discrete = FALSE. One of:
+\item{palette}{Sets the colours that will form the continuous palette when
+  discrete = FALSE. One of:
 
 \itemize{
-\item{"full"}{The default. Red, dark orange, light orange, yellow, light yellow}
+\item{"full"}{The default. Red, dark orange, light orange, yellow, light
+yellow}
 \item{"full_f"}{ faded version of "full"}
-\item{"light"}{ light orange, yellow, light yellow}
+\item{"light"}{ light
+orange, yellow, light yellow}
 \item{"dark"}{ red, dark orange, light orange}
 \item{"diverging"}{ red, faded red, white, faded light orange, light orange}
 \item{"grey"}{ grey 1, grey 2, grey 3, grey 4, grey 5}

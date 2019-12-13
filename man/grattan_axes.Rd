@@ -5,7 +5,8 @@
 \alias{scale_y_continuous_grattan}
 \alias{grattan_x_continuous}
 \alias{scale_x_continuous_grattan}
-\title{Ensure your y- and x-axis are Grattan style guide-consistent and doesn't hang off the edge of the chart.}
+\title{Ensure your y- and x-axis are Grattan style guide-consistent and doesn't hang
+off the edge of the chart.}
 \usage{
 grattan_y_continuous(expand_bottom = 0, expand_top = 0.015, ...)
 
@@ -16,18 +17,27 @@ grattan_x_continuous(expand_left = 0, expand_right = 0.015, ...)
 scale_x_continuous_grattan(expand_left = 0, expand_right = 0.015, ...)
 }
 \arguments{
-\item{expand_bottom}{default is 0. This will ensure that your x-axis is at the bottom value of your plotted data. Increase to add some buffer between the lowest point in your data and the x-axis. Note that the value is interpreted as a fraction of the total plotting space - a value of 1 will add white space equal to the whole area of your data.}
+\item{expand_bottom}{default is 0. This will ensure that your x-axis is at
+the bottom value of your plotted data. Increase to add some buffer between
+the lowest point in your data and the x-axis. Note that the value is
+interpreted as a fraction of the total plotting space - a value of 1 will
+add white space equal to the whole area of your data.}
 
-\item{expand_top}{default is 0.015. This will ensure that a small amount of white space is added to the top of your chart. Increase to add more white space.}
+\item{expand_top}{default is 0.015. This will ensure that a small amount of
+white space is added to the top of your chart. Increase to add more white
+space.}
 
 \item{...}{arguments passed to scale_y_continuous or scale_x_continuous}
 
-\item{expand_left}{default is 0. This will ensure your y-axis is at the lowest value of your plotted value.}
+\item{expand_left}{default is 0. This will ensure your y-axis is at the
+lowest value of your plotted value.}
 
-\item{expand_right}{default is 0.015. This will ensure that a small amount of white space is added to the right of your chart.}
+\item{expand_right}{default is 0.015. This will ensure that a small amount of
+white space is added to the right of your chart.}
 }
 \description{
-Ensure your y- and x-axis are Grattan style guide-consistent and doesn't hang off the edge of the chart.
+Ensure your y- and x-axis are Grattan style guide-consistent and doesn't hang
+off the edge of the chart.
 }
 \examples{
 
@@ -39,7 +49,8 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
     theme_grattan()
 p
 
-# In the example above, the top label on the y-axis is hanging off the top. To fix:
+# In the example above, the top label on the y-axis is hanging off the top.
+# To fix:
 
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
      geom_point() +
@@ -49,7 +60,8 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 p
 
 # Now the top of the chart looks fine, but the bottom has two points
-# (at the lower right) that are partially obscured. We could fix this by doing:
+# (at the lower right) that are partially obscured.
+# We could fix this by doing:
 
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
      geom_point() +
@@ -58,10 +70,11 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 
 p
 
-# Alternatively, set the limits of the chart (in this example we'll set the lower limit to 0,
-# but you could use some other value like 10 in this case).
-# Note that by setting the second value of limits to NA, we're telling ggplot2 to calculate the
-# upper limit as usual based on the data. All the usual arguments of grattan_y_continuous
+# Alternatively, set the limits of the chart (in this example we'll set
+# the lower limit to 0, but you could use some other value
+# like 10 in this case).Note that by setting the second value of limits
+# to NA, we're telling ggplot2 to calculate theupper limit as usual based
+# on the data. All the usual arguments of `scale_y_continuous()`
 # (limits, breaks, labels, etc.) can be used.
 
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +

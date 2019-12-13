@@ -13,7 +13,7 @@
 #' @export
 
 
-stitch_pdfs <- function(pdfs, output = NULL){
+stitch_pdfs <- function(pdfs, output = NULL) {
 
   .Deprecated(new = "pdf_combine()",
               package = "pdftools",

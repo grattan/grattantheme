@@ -1,13 +1,13 @@
 #' Save gganimate animation with Grattan visual styling
 #'
 #' `grattan_anim_save()` takes a gganimate animation and formats it in line with
-#' the Grattan Institute style guide, in a manner similar to `grattan_save()` for
-#' static plots, then saves the animation to disk.
+#' the Grattan Institute style guide, in a manner similar to `grattan_save()`
+#' for static plots, then saves the animation to disk.
 #'
 #' @name grattan_anim_save
 #' @param filename File to create on disk; required.
-#' @param animation The animation objkect to save. Defaults to last rendered animation
-#' using `gganimate::last_animation()`
+#' @param animation The animation objkect to save. Defaults to last rendered
+#'   animation using `gganimate::last_animation()`
 #' @param type Either "blog" (to save using the Grattan Blog template) or
 #' "normal" (to save as a Grattan chart as in a report).
 #' @param path Path to save plot to (combined with filename)
@@ -26,24 +26,23 @@
 #'
 #' static_plot <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'  geom_point() +
-#'  labs(title = "If you use a long title, grattan_anim_save() will break it over two lines
-#'  (but not three)",
-#'       subtitle = "Your subtitle will also break over two lines if it needs to, and let's
-#'       face it, it probably will need to. How nice! How cool!",
-#'       caption = "And the title, subtitle, and caption are all aligned with the left of
-#'       the image, not the left of the plotting area.") +
+#'  labs(title = "Title goes here",
+#'       subtitle = "Subtitle goes here",
+#'       caption = "Notes: some notes. Source: data source") +
 #'  theme_grattan()  +
 #'  theme(axis.title = element_blank())
 #'
-#' # Then animate it (this can be in one step with the code above, if you'd prefer):
+#' # Then animate it (this can be in one step with the code above,
+#' # if you'd prefer):
 #'
 #' anim_plot <- static_plot +
 #'  transition_states(cyl)
 #'
-#' # Then save it. Note that you must specify the chart type. You can optionally specify
-#' # nframes, fps, and other arguments to gganimate::animate()
+#' # Then save it. Note that you must specify the chart type. You can optionally
+#' # specify # nframes, fps, and other arguments to gganimate::animate()
 #'
-#' \dontrun{grattan_anim_save("test.gif", anim_plot, type = "blog", fps = 5, nframes = 20)}
+#' \dontrun{grattan_anim_save("test.gif", anim_plot, type = "blog",
+#' fps = 5, nframes = 20)}
 #'
 #'
 #' @export
@@ -57,15 +56,19 @@ grattan_anim_save <- function(filename,
                               path = NULL,
                               ...) {
 
-  if(type == "fullslide") {
-    message("'fullslide' charts are not yet supported by grattan_anim_save; creating a 'blog' type instead")
+  if (type == "fullslide") {
+    message("'fullslide' charts are not yet supported by grattan_anim_save;",
+            "creating a 'blog' type instead")
   }
 
-  # To add more types in the future, add more options here and create a new 'Scene'
+  # To add more types in the future, add more options here and create a new
+  # 'Scene'
   anim_chart_types <- c("blog", "normal")
 
-  if(!type %in% anim_chart_types) {
-    stop(paste0(type, " is not currently a supported chart type for a Grattan animated plot.\nFor supported types, see ?grattan_anim_save."))
+  if (!type %in% anim_chart_types) {
+    stop(paste0(type,
+                " is not currently a supported chart type for a Grattan",
+                "animated plot.\nFor supported types, see ?grattan_anim_save."))
   }
 
   anim_width <- chart_types$width[chart_types$type == type]
@@ -88,7 +91,8 @@ grattan_anim_save <- function(filename,
 }
 
 # The following are a series of hacky, non-exported functions that modify
-# gganimate non-exported functions. This is a fragile method subject to breakage.
+# gganimate non-exported functions.
+# This is a fragile method subject to breakage.
 # This is an ill-advised solution to the problem, which will in time be
 # broken by changes to gganimate.
 
@@ -163,16 +167,21 @@ SceneNormal <- ggproto(
 # Function that calls the correct 'scene' ggproto based on selected chart type
 
 create_scene_grattan <- function(type,
-                                 transition, view, shadow, ease, transmuters, nframes) {
+                                 transition,
+                                 view,
+                                 shadow,
+                                 ease,
+                                 transmuters,
+                                 nframes) {
   if (is.null(nframes)) nframes <- 100
 
-  if(type == "blog") {
+  if (type == "blog") {
     scene <- ggproto(NULL, SceneBlog, transition = transition,
                      view = view, shadow = shadow, ease = ease,
                      transmuters = transmuters, nframes = nframes)
   }
 
-  if(type == "normal") {
+  if (type == "normal") {
     scene <- ggproto(NULL, SceneNormal, transition = transition,
                      view = view, shadow = shadow, ease = ease,
                      transmuters = transmuters, nframes = nframes)
@@ -184,7 +193,8 @@ create_scene_grattan <- function(type,
 
 # ggplot_build_grattan ----
 
-# This function is based on gganimate:::ggplot_build.gganim by Thomas Lin Pedersen
+# This function is based on gganimate:::ggplot_build.gganim by
+# Thomas Lin Pedersen
 # The only change is that create_scene() is now create_scene_grattan() and the
 # function takes a `type` argument, which is passed to create_scene_grattan()
 
@@ -202,14 +212,20 @@ ggplot_build_grattan <- function(plot, type) {
   if (length(plot$layers) == 0) {
     plot <- plot + geom_blank()
   }
-  scene <- create_scene_grattan(type = type, plot$transition, plot$view, plot$shadow, plot$ease, plot$transmuters, plot$nframes)
+  scene <- create_scene_grattan(type = type,
+                                plot$transition,
+                                plot$view,
+                                plot$shadow,
+                                plot$ease,
+                                plot$transmuters,
+                                plot$nframes)
   layers <- plot$layers
   layer_data <- lapply(layers, function(y) y$layer_data(plot$data))
 
   scales <- plot$scales
 
   # Extract scale names and merge it with label list
-  scale_labels <- lapply(scales$scales, `[[`, 'name')
+  scale_labels <- lapply(scales$scales, `[[`, "name")
   names(scale_labels) <- vapply(scales$scales, function(sc) sc$aesthetics[1], character(1))
   lapply(scales$scales, function(sc) sc$name <- waiver())
   scale_labels <- scale_labels[!vapply(scale_labels, is.waive, logical(1))]
@@ -327,10 +343,24 @@ prerender_grattan <- function(plot, nframes, type) {
 
 # animate_grattan -----
 
-# Note that this function is copied from gganimate::animate by Thomas Lin Pedersen
-# The original calls gganimate::prerender() while this calls grattantheme::prerender_grattan()
+# Note that this function is copied from gganimate::animate by
+# Thomas Lin Pedersen
+# The original calls gganimate::prerender()
+# while this calls grattantheme::prerender_grattan()
 
-animate_grattan <- function(plot, nframes, fps, duration, detail, renderer, device, ref_frame, start_pause, end_pause, rewind, type, ...) {
+animate_grattan <- function(plot,
+                            nframes,
+                            fps,
+                            duration,
+                            detail,
+                            renderer,
+                            device,
+                            ref_frame,
+                            start_pause,
+                            end_pause,
+                            rewind,
+                            type,
+                            ...) {
 
   prepare_args <- getFromNamespace("prepare_args", "gganimate")
   get_nframes <- getFromNamespace("get_nframes", "gganimate")
@@ -362,9 +392,14 @@ animate_grattan <- function(plot, nframes, fps, duration, detail, renderer, devi
 
   frame_ind <- unique(round(seq(1, nframes_final, length.out = args$nframes)))
 
-  if (args$device == 'current') {
-    frame_ind <- c(rep(frame_ind[1], args$start_pause), frame_ind, rep(frame_ind[length(frame_ind)], args$end_pause))
-    if (args$rewind) frame_ind <- c(frame_ind, rev(frame_ind))
+  if (args$device == "current") {
+    frame_ind <- c(rep(frame_ind[1],
+                       args$start_pause),
+                   frame_ind,
+                   rep(frame_ind[length(frame_ind)],
+                                  args$end_pause))
+    if (args$rewind) frame_ind <- c(frame_ind,
+                                    rev(frame_ind))
     if (args$ref_frame < 0) {
       args$ref_frame <- args$ref_frame - args$end_pause
     } else {
@@ -373,7 +408,7 @@ animate_grattan <- function(plot, nframes, fps, duration, detail, renderer, devi
   }
 
   if (args$nframes != length(frame_ind)) {
-    message('nframes and fps adjusted to match transition')
+    message("nframes and fps adjusted to match transition")
     args$fps <- args$fps * length(frame_ind) / args$nframes
   }
 
@@ -387,17 +422,14 @@ animate_grattan <- function(plot, nframes, fps, duration, detail, renderer, devi
            ref_frame = args$ref_frame),
       args$dev_args)
   )
-  if (args$device == 'current') return(invisible(frames_vars))
+  if (args$device == "current") return(invisible(frames_vars))
 
   if (args$start_pause != 0) frames_vars <- rbind(frames_vars[rep(1, args$start_pause), , drop = FALSE], frames_vars)
   if (args$end_pause != 0) frames_vars <- rbind(frames_vars, frames_vars[rep(nrow(frames_vars), args$end_pause), , drop = FALSE])
   if (args$rewind) frames_vars <- rbind(frames_vars, frames_vars[rev(seq_len(orig_nframes - nrow(frames_vars))), , drop = FALSE])
 
   animation <- args$renderer(frames_vars$frame_source, args$fps)
-  attr(animation, 'frame_vars') <- frames_vars
+  attr(animation, "frame_vars") <- frames_vars
   set_last_animation(animation)
   animation
 }
-
-
-

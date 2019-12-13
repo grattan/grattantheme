@@ -6,7 +6,9 @@ base_plot <- ggplot(mtcars, aes(x = mpg, y = hp)) +
 
 p <- base_plot + theme_grattan()
 
-p_labs <- p + labs(title = "Title", subtitle = "Subtitle", caption = "Notes: Source:")
+p_labs <- p + labs(title = "Title",
+                   subtitle = "Subtitle",
+                   caption = "Notes: Source:")
 
 p_labs_2 <- p_labs + labs(title = "This is my second slide")
 

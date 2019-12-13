@@ -162,6 +162,3 @@
 #' "grey": grey 1, grey 2, grey 3, grey 4, grey 5
 #'
 "grattan_palette_set"
-
-
-

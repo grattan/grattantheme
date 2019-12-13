@@ -21,7 +21,8 @@
 #' for plots of your chosen `type`; see \code{?grattan_save} for more details.
 #'
 #' @export
-#' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage createStyle addStyle setColWidths saveWorkbook
+#' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage
+#' @importFrom openxlsx createStyle addStyle setColWidths saveWorkbook
 #' @importFrom ggplot2 last_plot
 #'
 #' @examples
@@ -42,27 +43,30 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
   # check inputs
 
-  if(tools::file_ext(filename) != "xlsx") {
-    stop(paste0(filename, " is not a valid filename; filename must end in .xlsx"))
+  if (tools::file_ext(filename) != "xlsx") {
+    stop(paste0(filename,
+                " is not a valid filename; filename must end in .xlsx"))
   }
 
-  if(!"ggplot" %in% class(object)) {
+  if (!"ggplot" %in% class(object)) {
     stop("`object` is not a ggplot2 object")
   }
 
-  if(!type %in% chart_types$type) {
-    stop(paste0(type, " is not a recognised chart type; see ?grattan_save for types."))
+  if (!type %in% chart_types$type) {
+    stop(paste0(type,
+                " is not a recognised chart type;",
+                " see ?grattan_save for types."))
   }
 
   obj_name <- deparse(substitute(object))
 
-  if(obj_name == "ggplot2::last_plot()") {
+  if (obj_name == "ggplot2::last_plot()") {
     obj_name <- "plot"
   }
 
   # Expand height of graph if not set manually & labels are present
 
-  if(is.null(height)) {
+  if (is.null(height)) {
 
     labels_present <- ifelse(!is.null(object$labels$caption) |
                                !is.null(object$labels$title) |
@@ -70,13 +74,12 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
                              TRUE,
                              FALSE)
 
-    if(isTRUE(labels_present)) {
+    if (isTRUE(labels_present)) {
       height <- chart_types$height[chart_types$type == type] + 3
     }
-
   }
 
-  if(is.null(height)) {
+  if (is.null(height)) {
     height <- chart_types$height[chart_types$type == type]
   }
 
@@ -92,8 +95,9 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
   # Get chart data
   chart_data <- object$data
-  for(col in seq_along(chart_data)) { # To ensure that dates are correctly-formatted, save as strings
-    if(inherits(chart_data[[col]], "Date")) {
+  # To ensure that dates are correctly-formatted, save as strings
+  for (col in seq_along(chart_data)) {
+    if (inherits(chart_data[[col]], "Date")) {
       chart_data[[col]] <- as.character(chart_data[[col]])
     }
   }
@@ -112,6 +116,8 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
   plot_subtitle <- object$labels$subtitle
   plot_caption <- object$labels$caption
+  # Remove everything before "Source:" in caption
+  plot_caption <- gsub(".+?(?=Source:)", "", plot_caption, perl = TRUE)
 
   openxlsx::writeData(wb = wb,
                       sheet = 1,
@@ -149,7 +155,8 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
                                               halign = "center",
                                               fontColour = "#000000")
 
-  addStyle(wb, 1, grattan_font_style, cols = 1:100, rows = 1:2000, gridExpand = TRUE)
+  addStyle(wb, 1, grattan_font_style, cols = 1:100, rows = 1:2000,
+           gridExpand = TRUE)
 
   # Bold title
 

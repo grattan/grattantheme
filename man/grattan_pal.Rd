@@ -7,16 +7,17 @@
 grattan_pal(n = 0, reverse = FALSE, faded = FALSE)
 }
 \arguments{
-\item{n}{Numeric. The number of levels in your colour scale. Minimum value is 1,
-maximum is 10. Using more than 6 is not recommended. If you don't specify `n`,
-a five-colour palette will be used, which may not look right. Specify `n`.
+\item{n}{Numeric. The number of levels in your colour scale. Minimum value is
+  1, maximum is 10. Using more than 6 is not recommended. If you don't
+  specify `n`, a five-colour palette will be used, which may not look right.
+  Specify `n`.
 
-By default, n = 2 will give you light orange and dark orange.
-Use n = "2a" if you want light orange and red.}
+  By default, n = 2 will give you light orange and dark orange. Use n = "2a"
+  if you want light orange and red.}
 
 \item{reverse}{Logical. FALSE by default. Setting to TRUE reverses the
-standard colour order. Standard colour order runs from light to dark. If you
-set reverse to TRUE, colours will run from dark to light.}
+standard colour order. Standard colour order runs from light to dark. If
+you set reverse to TRUE, colours will run from dark to light.}
 
 \item{faded}{Logical. FALSE by default. Setting to TRUE returns the faded
 variations of the standard colours.}

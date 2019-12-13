@@ -15,8 +15,8 @@ grattan_anim_save(
 \arguments{
 \item{filename}{File to create on disk; required.}
 
-\item{animation}{The animation objkect to save. Defaults to last rendered animation
-using `gganimate::last_animation()`}
+\item{animation}{The animation objkect to save. Defaults to last rendered
+animation using `gganimate::last_animation()`}
 
 \item{type}{Either "blog" (to save using the Grattan Blog template) or
 "normal" (to save as a Grattan chart as in a report).}
@@ -27,8 +27,8 @@ using `gganimate::last_animation()`}
 }
 \description{
 `grattan_anim_save()` takes a gganimate animation and formats it in line with
-the Grattan Institute style guide, in a manner similar to `grattan_save()` for
-static plots, then saves the animation to disk.
+the Grattan Institute style guide, in a manner similar to `grattan_save()`
+for static plots, then saves the animation to disk.
 }
 \examples{
 
@@ -39,24 +39,23 @@ library(gganimate)
 
 static_plot <- ggplot(mtcars, aes(x = wt, y = mpg)) +
  geom_point() +
- labs(title = "If you use a long title, grattan_anim_save() will break it over two lines
- (but not three)",
-      subtitle = "Your subtitle will also break over two lines if it needs to, and let's
-      face it, it probably will need to. How nice! How cool!",
-      caption = "And the title, subtitle, and caption are all aligned with the left of
-      the image, not the left of the plotting area.") +
+ labs(title = "Title goes here",
+      subtitle = "Subtitle goes here",
+      caption = "Notes: some notes. Source: data source") +
  theme_grattan()  +
  theme(axis.title = element_blank())
 
-# Then animate it (this can be in one step with the code above, if you'd prefer):
+# Then animate it (this can be in one step with the code above,
+# if you'd prefer):
 
 anim_plot <- static_plot +
  transition_states(cyl)
 
-# Then save it. Note that you must specify the chart type. You can optionally specify
-# nframes, fps, and other arguments to gganimate::animate()
+# Then save it. Note that you must specify the chart type. You can optionally
+# specify # nframes, fps, and other arguments to gganimate::animate()
 
-\dontrun{grattan_anim_save("test.gif", anim_plot, type = "blog", fps = 5, nframes = 20)}
+\dontrun{grattan_anim_save("test.gif", anim_plot, type = "blog",
+fps = 5, nframes = 20)}
 
 
 }

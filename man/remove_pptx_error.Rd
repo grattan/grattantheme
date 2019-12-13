@@ -16,5 +16,6 @@ be displayed' box over the image. This function removes the error box. This
 function is not intended to be called directly; it is called at the end of
 `make_presentation()` where a title slide is present.
 
-This is a temporary fix based on: https://github.com/jgm/pandoc/issues/4827#issuecomment-463596185
+This is a temporary fix based on:
+https://github.com/jgm/pandoc/issues/4827#issuecomment-463596185
 }

@@ -7,17 +7,20 @@
 wrap_labs(object, type)
 }
 \arguments{
-\item{object}{Name of the ggplot2 chart object with the labels you wish to modify.}
+\item{object}{Name of the ggplot2 chart object with the labels you wish to
+modify.}
 
-\item{type}{The type of chart you intend to save (different chart types have different numbers of
-characters on each line). `type` can be 'normal', 'fullslide', 'blog', etc.
-For a full list of possible types, see \code{?grattan_save()}.}
+\item{type}{The type of chart you intend to save (different chart types have
+different numbers of characters on each line). `type` can be 'normal',
+'fullslide', 'blog', etc. For a full list of possible types, see
+\code{?grattan_save()}.}
 }
 \description{
 Use `wrap_labs()` to wrap the title, subtitle, and caption of a ggplot2 chart
-onto multiple lines, left-align them, and split 'notes' and 'source' onto multiple lines.
-Note that this is done automatically for you if you use `grattan_save()` -
-there is no need to use `wrap_labs()` if you also plan to use `grattan_save()`.
+onto multiple lines, left-align them, and split 'notes' and 'source' onto
+multiple lines. Note that this is done automatically for you if you use
+`grattan_save()` - there is no need to use `wrap_labs()` if you also plan to
+use `grattan_save()`.
 }
 \examples{
 
