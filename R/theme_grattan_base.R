@@ -37,27 +37,21 @@ theme_grattan_base <- function(base_size = 18,
         size = base_size
       ),
       axis.line = element_line(
-        size = base_line_size * (1/0.75),
+        size = points_to_mm(1),
         colour = "black"
       ),
       axis.line.x = NULL,
       axis.line.y = NULL,
       axis.text = element_text(size = rel(1)),
-      axis.text.x = element_text(margin = margin(t = 0.8 *
-                                                   half_line /
-                                                   2,
-                                                 b = 0),
-                                 vjust = 1,
-                                 lineheight = 0.7),
-      axis.text.x.top = element_text(margin = margin(b = 0.8 *
-                                                       half_line /
-                                                       2), vjust = 0),
-      axis.text.y = element_text(margin = margin(r = 0.8 *
-                                                   half_line /
-                                                   2), hjust = 1),
-      axis.text.y.right = element_text(margin = margin(l = 0.8 *
-                                                         half_line /
-                                                         2), hjust = 0),
+      axis.text.x = element_text(margin = margin(t = base_size / 5,
+                                                 unit = "pt"),
+                                 vjust = 1),
+      axis.text.x.top = element_text(margin = margin(b = base_size / 5),
+                                     vjust = 0),
+      axis.text.y = element_text(margin = margin(r = base_size / 5),
+                                 hjust = 1),
+      axis.text.y.right = element_text(margin = margin(l = base_size / 5),
+                                       hjust = 0),
       axis.ticks = element_line(colour = "black"),
       axis.ticks.length = unit(half_line / 2, "pt"),
       axis.ticks.length.x = NULL,
@@ -106,7 +100,7 @@ theme_grattan_base <- function(base_size = 18,
       legend.box.margin = margin(0, 0,
                                  0, 0, "cm"),
       legend.box.background = element_blank(),
-      legend.box.spacing = unit(2 * half_line, "pt"),
+      legend.box.spacing = unit( half_line, "pt"),
       panel.background = element_rect(fill = "white",
                                       colour = NA),
       panel.border = element_blank(),
@@ -155,9 +149,10 @@ theme_grattan_base <- function(base_size = 18,
         family = base_family,
         size = rel(0.555),
         hjust = 0,
+        vjust = 1,
         colour = "black",
         face = "italic",
-        margin = ggplot2::margin(t = half_line)
+        margin = ggplot2::margin(t = 15)
       ),
       plot.tag = element_text(
         size = rel(1.2),
@@ -171,14 +166,18 @@ theme_grattan_base <- function(base_size = 18,
 
   # add panel borders if the user requests them
   if (panel_borders) {
-    ret <- ret +
-      theme(panel.background = element_rect(linetype = 1,
-                                            colour = "black"))
+    ret <- ret %+replace%
+      theme(panel.border = element_rect(
+        linetype = 1,
+        size = points_to_mm(2),
+        colour = "black",
+        fill = NA
+      ))
   }
 
 
   if (background == "orange" |  background == "box") {
-    ret <- ret +
+    ret <- ret %+replace%
       ggplot2::theme(rect = ggplot2::element_rect(fill = grattantheme::grattan_orange_alpha))
   }
 
