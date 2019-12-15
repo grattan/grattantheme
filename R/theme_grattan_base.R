@@ -2,87 +2,172 @@
 
 theme_grattan_base <- function(base_size = 18,
                                base_family = "sans",
+                               base_line_size = points_to_mm(0.75),
+                               base_rect_size = points_to_mm(1),
                                background = "white",
                                legend = "none",
                                panel_borders = FALSE) {
 
+  half_line <- base_size / 2
+
   ret <-
-    theme_foundation(base_size = base_size, base_family = base_family) +
-    ggplot2::theme(line = ggplot2::element_line(colour = grattantheme::grattan_gridlinegrey,
-           # style guide says axis line = 0.75 points, need to convert to mm
-                                                size = 0.75 / ( .pt * 72.27 / 96 ) ),
-                   rect = ggplot2::element_rect(fill = "white",
-                                                colour = NA,
-                                                linetype = 0),
-                   text = ggplot2::element_text(colour = "black",
-                                                size = base_size),
-                   ## Axis
-                   axis.line = ggplot2::element_line(size = ggplot2::rel(1),
-                                                     colour = "black"),
-                   # moved to theme_grattan()
-                   # axis.line.y = ggplot2::element_blank(),
-                   axis.text = ggplot2::element_text(size = ggplot2::rel(1)),
-                   axis.ticks = ggplot2::element_line(colour = "black"),
-                   # moved to theme_grattan()
-                   # axis.ticks.y = ggplot2::element_blank(),
-                   axis.title = ggplot2::element_text(size = ggplot2::rel(1)),
-                   # style guide:
-                   # "there is no need to label the x-axis
-                   # unless the units are not obvious"
-                   axis.title.x = ggplot2::element_text(),
-                   # moved to theme_grattan()
-                   # axis.title.y = ggplot2::element_blank(),
-                   #axis.ticks.length = unit( -base_size * 0.5, "points"),
-                   legend.background = ggplot2::element_rect(),
-                   #legend.key = element_rect(linetype = 0),
-                   #legend.key.size = unit(1.2, "lines"),
-                   legend.key.width = NULL,
-                   legend.text = ggplot2::element_text(size = ggplot2::rel(1),
-                                                       margin = ggplot2::margin(l = base_size / 4,
-                                                                                r = base_size, unit = "pt")),
-                   legend.text.align = 0,
-                   legend.title.align = NULL,
-                   legend.position = legend,
-                   legend.direction = "horizontal",
-                   legend.box = "vertical",
-                   legend.spacing = ggplot2::unit(base_size / 18, "cm"),
-                   legend.justification = "center",
-                   legend.key.height = ggplot2::unit(1, "line"),
-                   legend.margin = ggplot2::margin(t = 0,
-                                                   r = 0,
-                                                   b = 0,
-                                                   l = 0,
-                                                   unit = "cm"),
-                   legend.title = ggplot2::element_blank(),
-                   panel.border = ggplot2::element_blank(),
-                   panel.grid.major = ggplot2::element_line(),
-                   # moved to theme_grattan()
-                   # panel.grid.major.x = ggplot2::element_blank(),
-                   panel.grid.minor = ggplot2::element_blank(),
-                   panel.spacing = ggplot2::unit(0.25, "lines"),
-                   strip.background = ggplot2::element_rect(),
-                   strip.text = ggplot2::element_text(size = ggplot2::rel(1)),
-                   plot.background = ggplot2::element_rect(),
-                   plot.title = ggplot2::element_text(size = ggplot2::rel(1),
-                                                      hjust = 0,
-                                                      colour = grattantheme::grattan_grey_title,
-                                                      face = "bold"),
-                   plot.subtitle = element_text(colour = grattantheme::grattan_grey_title,
-                                                vjust = 1,
-                                                margin = margin(t = 0,
-                                                                r = 0,
-                                                                b = base_size * .75,
-                                                                l = 0,
-                                                                unit = "pt"),
-                                                hjust = 0),
-                   plot.caption = element_text(family = base_family,
-                                               size = rel(0.555),
-                                               hjust = 0,
-                                               colour = "black",
-                                               face = "italic",
-                                               margin = ggplot2::margin(t = 15)),
-                   plot.margin = unit(c(0.5, 0.6, 0.1, 0.01), "lines"),
-                   complete = TRUE)
+    theme(
+      line = element_line(
+        colour = grattan_gridlinegrey,
+        size = base_line_size,
+        linetype = 1,
+        lineend = "butt"
+      ),
+      rect = element_rect(
+        fill = "white",
+        colour = grattan_gridlinegrey,
+        size = base_rect_size,
+        linetype = 0
+      ),
+      text = element_text(
+        colour = "black",
+        family = base_family,
+        face = "plain",
+        hjust = 0.5,
+        vjust = 0.5,
+        angle = 0,
+        lineheight = 0.9,
+        debug = FALSE,
+        margin = margin(),
+        size = base_size
+      ),
+      axis.line = element_line(
+        size = base_line_size * (1/0.75),
+        colour = "black"
+      ),
+      axis.line.x = NULL,
+      axis.line.y = NULL,
+      axis.text = element_text(size = rel(1)),
+      axis.text.x = element_text(margin = margin(t = 0.8 *
+                                                   half_line /
+                                                   2,
+                                                 b = 0),
+                                 vjust = 1,
+                                 lineheight = 0.7),
+      axis.text.x.top = element_text(margin = margin(b = 0.8 *
+                                                       half_line /
+                                                       2), vjust = 0),
+      axis.text.y = element_text(margin = margin(r = 0.8 *
+                                                   half_line /
+                                                   2), hjust = 1),
+      axis.text.y.right = element_text(margin = margin(l = 0.8 *
+                                                         half_line /
+                                                         2), hjust = 0),
+      axis.ticks = element_line(colour = "black"),
+      axis.ticks.length = unit(half_line / 2, "pt"),
+      axis.ticks.length.x = NULL,
+      axis.ticks.length.x.top = NULL,
+      axis.ticks.length.x.bottom = NULL,
+      axis.ticks.length.y = NULL,
+      axis.ticks.length.y.left = NULL,
+      axis.ticks.length.y.right = NULL,
+      axis.title = element_text(size = rel(1)),
+      axis.title.x = element_text(margin = margin(t = half_line / 2),
+                                  vjust = 1),
+      axis.title.x.top = element_text(margin = margin(b = half_line / 2),
+                                      vjust = 0),
+      axis.title.y = element_text(
+        angle = 90,
+        margin = margin(r = half_line /
+                          2),
+        vjust = 1
+      ),
+      axis.title.y.right = element_text(
+        angle = -90,
+        margin = margin(l = half_line /
+                          2),
+        vjust = 0
+      ),
+      legend.background = element_rect(colour = NA),
+      legend.spacing = unit(2 * half_line, "pt"),
+      legend.spacing.x = NULL,
+      legend.spacing.y = NULL,
+      legend.margin = margin(),
+      legend.key = element_rect(fill = "white",
+                                colour = "white"),
+      legend.key.size = unit(1, "lines"),
+      legend.key.height = NULL,
+      legend.key.width = unit(0.25, "lines"),
+      legend.text = element_text(size = rel(1),
+                                 margin = margin(l = 0,
+                                                 r = base_size / 4, unit = "pt")),
+      legend.text.align = 0,
+      legend.title = element_blank(),
+      legend.title.align = NULL,
+      legend.position = legend,
+      legend.direction = "horizontal",
+      legend.justification = "center",
+      legend.box = "vertical",
+      legend.box.margin = margin(0, 0,
+                                 0, 0, "cm"),
+      legend.box.background = element_blank(),
+      legend.box.spacing = unit(2 * half_line, "pt"),
+      panel.background = element_rect(fill = "white",
+                                      colour = NA),
+      panel.border = element_blank(),
+      panel.grid = element_line(colour = grattan_gridlinegrey),
+      panel.grid.minor = element_blank(),
+      panel.spacing = unit(0.5,
+                           "lines"),
+      panel.spacing.x = NULL,
+      panel.spacing.y = NULL,
+      panel.ontop = FALSE,
+      strip.background = element_rect(),
+      strip.text = element_text(
+        size = rel(1),
+        margin = margin(0.8 * half_line,
+                        0.8 * half_line, 0.8 * half_line, 0.8 * half_line)
+      ),
+      strip.text.x = NULL,
+      strip.text.y = element_text(angle = -90),
+      strip.placement = "inside",
+      strip.placement.x = NULL,
+      strip.placement.y = NULL,
+      strip.switch.pad.grid = unit(half_line / 2,
+                                   "pt"),
+      strip.switch.pad.wrap = unit(half_line / 2,
+                                   "pt"),
+      plot.background = element_rect(),
+      plot.title = element_text(
+        size = rel(1),
+        hjust = 0,
+        vjust = 1,
+        colour = grattan_grey_title,
+        face = "bold",
+        margin = margin(b = half_line)
+      ),
+      plot.subtitle = element_text(
+        colour = grattan_grey_title,
+        hjust = 0,
+        vjust = 1,
+        margin = margin(t = 0,
+                        r = 0,
+                        b = base_size * .75,
+                        l = 0,
+                        unit = "pt")
+      ),
+      plot.caption = element_text(
+        family = base_family,
+        size = rel(0.555),
+        hjust = 0,
+        colour = "black",
+        face = "italic",
+        margin = ggplot2::margin(t = half_line)
+      ),
+      plot.tag = element_text(
+        size = rel(1.2),
+        hjust = 0.5,
+        vjust = 0.5
+      ),
+      plot.tag.position = "topleft",
+      plot.margin = unit(c(0.5, 0.6, 0.1, 0.01), "lines"),
+      complete = TRUE
+    )
 
   # add panel borders if the user requests them
   if (panel_borders) {
