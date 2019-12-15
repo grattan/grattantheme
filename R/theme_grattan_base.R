@@ -13,14 +13,14 @@ theme_grattan_base <- function(base_size = 18,
   ret <-
     theme(
       line = element_line(
-        colour = grattan_gridlinegrey,
+        colour = grattantheme::grattan_gridlinegrey,
         size = base_line_size,
         linetype = 1,
         lineend = "butt"
       ),
       rect = element_rect(
         fill = "white",
-        colour = grattan_gridlinegrey,
+        colour = grattantheme::grattan_gridlinegrey,
         size = base_rect_size,
         linetype = 0
       ),
@@ -104,7 +104,7 @@ theme_grattan_base <- function(base_size = 18,
       panel.background = element_rect(fill = "white",
                                       colour = NA),
       panel.border = element_blank(),
-      panel.grid = element_line(colour = grattan_gridlinegrey),
+      panel.grid = element_line(colour = grattantheme::grattan_gridlinegrey),
       panel.grid.minor = element_blank(),
       panel.spacing = unit(0.5,
                            "lines"),
@@ -131,12 +131,12 @@ theme_grattan_base <- function(base_size = 18,
         size = rel(1),
         hjust = 0,
         vjust = 1,
-        colour = grattan_grey_title,
+        colour = grattantheme::grattan_grey_title,
         face = "bold",
         margin = margin(b = half_line)
       ),
       plot.subtitle = element_text(
-        colour = grattan_grey_title,
+        colour = grattantheme::grattan_grey_title,
         hjust = 0,
         vjust = 1,
         margin = margin(t = 0,
@@ -177,8 +177,9 @@ theme_grattan_base <- function(base_size = 18,
 
 
   if (background == "orange" |  background == "box") {
-    ret <- ret %+replace%
-      ggplot2::theme(rect = ggplot2::element_rect(fill = grattantheme::grattan_orange_alpha))
+    ret <- ret +
+      ggplot2::theme(rect = element_rect(
+        fill = grattantheme::grattan_orange_alpha))
   }
 
   ret
