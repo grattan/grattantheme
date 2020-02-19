@@ -127,7 +127,7 @@ test_that("grattan_save() saves a plot with a watermark", {
   expect_true(file.exists("test_plot_watermark.png"))
 
   expect_gt(file.size("test_plot_watermark.png"),
-            150000)
+            50000)
 
   unlink("test_plot_watermark.png")
 })
