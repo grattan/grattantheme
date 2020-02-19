@@ -116,3 +116,18 @@ test_that("grattan_save() sends the right messages",{
   )
 
 })
+
+test_that("grattan_save() saves a plot with a watermark", {
+
+  grattan_save(filename = "test_plot_watermark.png",
+               object = test_plot,
+               watermark = "DRAFT",
+               warn_labs = FALSE)
+
+  expect_true(file.exists("test_plot_watermark.png"))
+
+  expect_gt(file.size("test_plot_watermark.png"),
+            190000)
+
+  unlink("test_plot_watermark.png")
+})
