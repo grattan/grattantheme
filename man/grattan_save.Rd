@@ -13,6 +13,7 @@ grattan_save(
   save_data = FALSE,
   force_labs = FALSE,
   warn_labs = TRUE,
+  watermark = NULL,
   ...
 )
 }
@@ -70,6 +71,11 @@ title/subtitle/caption will be retained regardless of `type`.}
 `grattan_save()` will warn you if you try to save a normal chart with
 labels, or a fullslide chart without labels. Suppress these warnings by
 setting `warn_labels` to FALSE.}
+
+\item{watermark}{Character. NULL by default. If a string, like `DRAFT`,
+is supplied, this string will be added to your plot as a watermark.
+See `?watermark` for options - to use these, call `watermark()` directly
+before saving your plot.}
 
 \item{...}{arguments passed to `ggsave()`. For example, use `device =
 cairo_pdf` to use the Cairo PDF rendering engine.}
