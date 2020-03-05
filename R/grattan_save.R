@@ -139,7 +139,7 @@ grattan_save <- function(filename,
 
   if (type != "all") {
 
-    if (save_data == TRUE) {
+    if (isTRUE(save_data)) {
       if (inherits(object, "gg")) {
 
         save_chartdata(filename = paste0(sub("\\..*", "", filename), ".xlsx"),
@@ -247,7 +247,7 @@ grattan_save_ <- function(filename,
 
   } else { # following code only applies if type != "fullslide"
 
-    if (!force_labs) {
+    if (isFALSE(force_labs)) {
       # Unless force_labs == TRUE (indicating the user wishes
       # to retain their labels)
       # Remove title, subtitle and caption for type != "fullslide"
@@ -257,7 +257,7 @@ grattan_save_ <- function(filename,
          "subtitle" %in% names(object$labels) |
          "caption"  %in% names(object$labels)) {
 
-        if (warn_labs) {
+        if (isTRUE(warn_labs)) {
           message(paste0("Note: ", type,
                          " charts remove titles, subtitles, or captions by",
                          " default.\nSet `force_labs` to TRUE to retain them,",
@@ -279,12 +279,6 @@ grattan_save_ <- function(filename,
         }
 
         object <- wrap_labs(object, type)
-
-        object <- ggplotGrob(object)
-
-        object$layout$l[object$layout$name %in% c("title",
-                                                  "subtitle",
-                                                  "caption")] <- 1
 
     }
 
