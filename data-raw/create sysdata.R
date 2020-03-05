@@ -1,6 +1,8 @@
 library(devtools)
 
-load("data-raw/logogrob.Rda")
+logo <- magick::image_read_pdf("data-raw/GrattanSVGLogo.pdf")
+
+logogrob <- grid::rasterGrob(logo)
 
 chart_types <- tibble::tribble(
                          ~type, ~width, ~height, ~caption, ~title,  ~subtitle, ~class,
