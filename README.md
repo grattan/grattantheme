@@ -23,7 +23,7 @@ don’t have the devtools package, install it:
 Once devtools is installed, you can download and install grattantheme as
 follows:
 
-`devtools::install_github("mattcowgill/grattantheme", dependencies =
+`devtools::install_github("grattan/grattantheme", dependencies =
 TRUE, upgrade = "always")`
 
 Once grattantheme is installed, you can load it the same way you
