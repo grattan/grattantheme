@@ -31,7 +31,7 @@ test_that("two line title wraps", {
 test_that("caption wraps onto two lines", {
 
   p <- base_plot +
-    labs(caption = "Notes: notes go here. Source: source goes here.")
+    labs(caption = "Notes: Some extremely long notes go here, because sometimes (often!) Grattan people like to append extremely long notes to the bottom of their charts, you have probably noticed this already huh. Source: source goes here.")
 
   p <- wrap_labs(p, type = "fullslide")
 
