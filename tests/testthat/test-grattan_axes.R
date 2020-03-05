@@ -38,26 +38,28 @@ test_that("axis on plot with grattan scale is equal to the dataminimum", {
 
 })
 
-expand_amount <- 0.2
-plot_with_expansion <- base_x_plot +
-  grattan_x_continuous(expand_left = expand_amount, expand_right = expand_amount) +
-  grattan_y_continuous(expand_top = expand_amount, expand_bottom = expand_amount)
 
-mtcars_x_range <- max(mtcars$wt) - min(mtcars$wt)
-mtcars_y_range <- max(mtcars$mpg) - min(mtcars$mpg)
-
-built_plot_with_expansion <- ggplot_build(plot_with_expansion)
-
-x_limits <- built_plot_with_expansion$layout$panel_params[[1]]$x.range
-x_min <- x_limits[[1]]
-x_max <- x_limits[[2]]
-
-y_limits <- built_plot_with_expansion$layout$panel_params[[1]]$y.range
-y_min <- y_limits[[1]]
-y_max <- y_limits[[2]]
 
 
 test_that("manual expansion works", {
+
+  expand_amount <- 0.2
+  plot_with_expansion <- base_x_plot +
+    scale_x_continuous_grattan(expand_left = expand_amount, expand_right = expand_amount) +
+    scale_y_continuous_grattan(expand_top = expand_amount, expand_bottom = expand_amount)
+
+  mtcars_x_range <- max(mtcars$wt) - min(mtcars$wt)
+  mtcars_y_range <- max(mtcars$mpg) - min(mtcars$mpg)
+
+  built_plot_with_expansion <- ggplot_build(plot_with_expansion)
+
+  x_limits <- built_plot_with_expansion$layout$panel_params[[1]]$x.range
+  x_min <- x_limits[[1]]
+  x_max <- x_limits[[2]]
+
+  y_limits <- built_plot_with_expansion$layout$panel_params[[1]]$y.range
+  y_min <- y_limits[[1]]
+  y_max <- y_limits[[2]]
 
   expect_equal(x_min, min(mtcars$wt) - (mtcars_x_range * expand_amount))
   expect_equal(x_max, max(mtcars$wt) + (mtcars_x_range * expand_amount))
