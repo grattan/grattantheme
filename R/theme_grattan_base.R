@@ -127,6 +127,8 @@ theme_grattan_base <- function(base_size = 18,
       strip.switch.pad.wrap = unit(half_line / 2,
                                    "pt"),
       plot.background = element_rect(),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
       plot.title = element_text(
         size = rel(1),
         hjust = 0,
