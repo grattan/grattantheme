@@ -19,9 +19,9 @@ test_that("animation works", {
 
   types <- c("blog", "normal", "fullslide_169")
 
-  blog_file <- paste(tempfile(), "blog", sep = "_")
-  normal_file <- paste(tempfile(), "normal", sep = "_")
-  fullslide_169_file <- paste(tempfile(), "fullslide_169", sep = "_")
+  blog_file <- "anim_blog.gif"
+  normal_file <- "anim_normal.gif"
+  fullslide_169_file <- "anim_fullslide_169.gif"
 
   on.exit(unlink(c(blog_file, normal_file, fullslide_169_file)))
 
