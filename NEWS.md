@@ -1,3 +1,6 @@
+# grattantheme 0.6.2
+* fullslide_169 animations now possible
+
 # grattantheme 0.6.1
 * Title and caption now aligned with left of plot
 * ggplot 3.3.0 now required

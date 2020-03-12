@@ -63,7 +63,7 @@ grattan_anim_save <- function(filename,
 
   # To add more types in the future, add more options here and create a new
   # 'Scene'
-  anim_chart_types <- c("blog", "normal")
+  anim_chart_types <- c("blog", "normal", "fullslide_169")
 
   if (!type %in% anim_chart_types) {
     stop(paste0(type,
@@ -109,6 +109,38 @@ SceneBlog <- ggproto(
 
     plot <- create_fullslide(plot,
                              type = "blog",
+                             height = NULL,
+                             warn_labs = FALSE,
+                             print_object = FALSE)
+
+    plot$layout$l[plot$layout$name %in% c("title", "subtitle", "caption")] <- 1
+
+    if (newpage) grid::grid.newpage()
+    grDevices::recordGraphics(
+      requireNamespace("gganimate", quietly = TRUE),
+      list(),
+      getNamespace("gganimate")
+    )
+    if (is.null(vp)) {
+      grid::grid.draw(plot)
+    } else {
+      if (is.character(vp)) seekViewport(vp)
+      else pushViewport(vp)
+      grid::grid.draw(plot)
+      upViewport()
+    }
+    invisible(NULL)
+  })
+
+SceneFullslide169 <- ggproto(
+  "SceneFullslide169",
+  getFromNamespace("Scene", "gganimate"),
+  plot_frame = function(self, plot, i, newpage = is.null(vp),
+                        vp = NULL, widths = NULL, heights = NULL, ...) {
+    plot <- self$get_frame(plot, i)
+
+    plot <- create_fullslide(plot,
+                             type = "fullslide_169",
                              height = NULL,
                              warn_labs = FALSE,
                              print_object = FALSE)
@@ -183,6 +215,13 @@ create_scene_grattan <- function(type,
 
   if (type == "normal") {
     scene <- ggproto(NULL, SceneNormal, transition = transition,
+                     view = view, shadow = shadow, ease = ease,
+                     transmuters = transmuters, nframes = nframes)
+
+  }
+
+  if (type == "fullslide_169") {
+    scene <- ggproto(NULL, SceneFullslide169, transition = transition,
                      view = view, shadow = shadow, ease = ease,
                      transmuters = transmuters, nframes = nframes)
 
