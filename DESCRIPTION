@@ -22,7 +22,9 @@ Imports:
     zip (>= 2.0.0),
     gganimate (>= 1.0.0),
     patchwork (>= 1.0.0),
-    openxlsx (>= 4.1.0.1)
+    openxlsx (>= 4.1.0.1),
+    stringr,
+    clipr
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true

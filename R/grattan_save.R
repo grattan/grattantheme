@@ -52,6 +52,8 @@
 #' is supplied, this string will be added to your plot as a watermark.
 #' See `?watermark` for options - to use these, call `watermark()` directly
 #' before saving your plot.
+#' @param latex Logical. FALSE by default. If TRUE, exports figure environment
+#' LaTeX code to clipboard and console.
 #' @param ... arguments passed to `ggsave()`. For example, use `device =
 #'   cairo_pdf` to use the Cairo PDF rendering engine.
 #'
@@ -129,6 +131,7 @@ grattan_save <- function(filename,
                          force_labs = FALSE,
                          warn_labs = TRUE,
                          watermark = NULL,
+                         latex = FALSE,
                          ...) {
 
   if (!type %in% c("all", chart_types$type)) {
@@ -136,6 +139,8 @@ grattan_save <- function(filename,
                    "See ?grattan_save for valid types."))
     type <- "normal"
   }
+
+  if (isTRUE(latex)) export_latex_code(object)
 
   if (type != "all") {
 
@@ -290,8 +295,13 @@ grattan_save_ <- function(filename,
     height <- chart_types$height[chart_types$type == type]
   }
 
+
   ggplot2::ggsave(filename, object,
                   width = width, height = height, units = "cm",
                   dpi = "retina", ...)
 
 }
+
+
+
+
