@@ -12,8 +12,7 @@ chart_types <- tibble::tribble(
                    "fullslide",   25.4,   19.05,      140,     55,         70, "fullslide",
                "fullslide_169",   33.87, 19.05,       175,     55,         95, "fullslide",
                 "fullslide_44",   25.4,  25.4,        140,     50,         95, "fullslide",
-                        "blog",   25.4,   19.05,      150,     62,         85, "fullslide",
-                     "website",   13.23,   9.9225,    80,     32,          45, "fullslide")
+                        "blog",   25.4,   19.05,      155,     62,         85, "fullslide")
 
 
 use_data(logogrob, chart_types, internal = TRUE, overwrite = TRUE)
