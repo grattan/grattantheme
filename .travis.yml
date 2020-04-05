@@ -12,6 +12,32 @@ matrix:
   - r: devel
   - r: release
   - r: 3.5
+  - r: release
+    env: TRAVIS_CLIP=xsel CLIPR_ALLOW=TRUE
+    addons: {apt: {packages: [xsel]}}
+    services: [xvfb]
+  - r: devel
+    env: TRAVIS_CLIP=xsel CLIPR_ALLOW=TRUE
+    addons: {apt: {packages: [xsel]}}
+    services: [xvfb]
+  - r: release
+    env: TRAVIS_CLIP=xclip CLIPR_ALLOW=TRUE
+    addons: {apt: {packages: [xclip]}}
+    services: [xvfb]
+  - r: release
+    env: TRAVIS_CLIP=xclip
+    addons: {apt: {packages: [xclip]}}
+    services: [xvfb]
+  - r: devel
+    env: TRAVIS_CLIP=xclip CLIPR_ALLOW=TRUE
+    addons: {apt: {packages: [xclip]}}
+    services: [xvfb]
+  - r: release
+    env: TRAVIS_CLIP=none CLIPR_ALLOW=TRUE
+    services: [xvfb]
+  - r: release
+    env: TRAVIS_CLIP=nodisplay CLIPR_ALLOW=TRUE
+    addons: {apt: {packages: [xclip]}}
     after_success:
     - Rscript -e 'covr::codecov()'
 
@@ -32,3 +58,6 @@ before_install:
   - sudo apt-get --yes --force-yes update -qq
   - sudo apt-get install --yes libudunits2-dev libproj-dev libgeos-dev libgdal-dev
   - Rscript -e 'update.packages(ask = FALSE)'
+
+before_script:
+  - if [ "$TRAVIS_CLIP" == "xclip" ]; then uptime | xclip -i -sel p -f | xclip -i -sel c; xclip -o -sel clipboard; fi
