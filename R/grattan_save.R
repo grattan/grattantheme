@@ -140,7 +140,7 @@ grattan_save <- function(filename,
     type <- "normal"
   }
 
-  if (isTRUE(latex)) export_latex_code(object)
+  if (isTRUE(latex)) export_latex_code(object, filename)
 
   if (type != "all") {
 

@@ -3,13 +3,17 @@
 #' @param p The ggplot2 graph object to be saved. Defaults to
 #'   \code{last_plot()}, which will save the last plot that was displayed in
 #'   your session.
-#'
+#' @param chart_path The save path of the chart. The filename will be extracted
+#' and used in the \code{\\includegraphics} call.
 #' @import stringr
 #' @importFrom clipr write_clip
 #'
 
 
-export_latex_code <- function(p = ggplot2::last_plot()) {
+export_latex_code <- function(p = ggplot2::last_plot(),
+                              chart_path = "atlas/chart.pdf") {
+
+  file_name <- chart_path %>% str_remove_all(".*/")
 
   # title
   title <- p$labels$title
@@ -25,7 +29,10 @@ export_latex_code <- function(p = ggplot2::last_plot()) {
 
   # note(s) (and) source(s)
   caption <- p$labels$caption
-  if (is.null(caption)) message("No notes or source provided.")
+  if (is.null(caption)) {
+    message("No notes or source provided.")
+    caption_code <- "\\noteswithsource{}{}"
+  }
 
   if (!is.null(caption)) {
 
@@ -73,7 +80,7 @@ export_latex_code <- function(p = ggplot2::last_plot()) {
   paste0("\\begin{figure}\n",
          "\t\\caption{", title, "\\label{fig:", title_lab,"}}\n",
          "\t\\units{", units, "}\n",
-         "\t\\includegraphics[page= 1, width=1\\columnwidth]{atlas/charts.pdf}\n",
+         "\t\\includegraphics[page= 1, width=1\\columnwidth]{atlas/", file_name, "}\n",
          "\t", caption_code, "\n",
          "\\end{figure}")
 
