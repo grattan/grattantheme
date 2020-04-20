@@ -4,7 +4,9 @@
 \name{grattan_grey_title}
 \alias{grattan_grey_title}
 \title{Hex code for the colour: Grattan title grey}
-\format{An object of class \code{character} of length 1.}
+\format{
+An object of class \code{character} of length 1.
+}
 \usage{
 grattan_grey_title
 }

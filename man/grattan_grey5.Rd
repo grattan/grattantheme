@@ -4,7 +4,9 @@
 \name{grattan_grey5}
 \alias{grattan_grey5}
 \title{Hex code for the colour: Grattan grey 5 (blackbean soup)}
-\format{An object of class \code{character} of length 1.}
+\format{
+An object of class \code{character} of length 1.
+}
 \usage{
 grattan_grey5
 }

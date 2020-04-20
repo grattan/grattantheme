@@ -9,12 +9,10 @@ r_packages:
 
 matrix:
   include:
-  - r: oldrel
   - r: release
+  - r: oldrel
   - r: 3.5
-
-
-after_success:
+    after_success:
     - Rscript -e 'covr::codecov()'
 
 addons:
@@ -34,6 +32,3 @@ before_install:
   - sudo apt-get --yes --force-yes update -qq
   - sudo apt-get install --yes libudunits2-dev libproj-dev libgeos-dev libgdal-dev
   - Rscript -e 'update.packages(ask = FALSE)'
-
-before_script:
-  - if [ "$TRAVIS_CLIP" == "xclip" ]; then uptime | xclip -i -sel p -f | xclip -i -sel c; xclip -o -sel clipboard; fi

@@ -4,7 +4,9 @@
 \name{grattan_orange_alpha}
 \alias{grattan_orange_alpha}
 \title{Hex code for the colour used for Grattan box backgrounds (orange alpha)}
-\format{An object of class \code{character} of length 1.}
+\format{
+An object of class \code{character} of length 1.
+}
 \usage{
 grattan_orange_alpha
 }
