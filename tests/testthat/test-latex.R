@@ -7,6 +7,8 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 
 test_that("export_latex_code exports the right latex code", {
 
+  skip_on_travis()
+
   export_latex_code(p)
 
   co <- clipr::read_clip(allow_non_interactive = TRUE)
