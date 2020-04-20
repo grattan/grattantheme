@@ -4,7 +4,9 @@
 \name{grattan_palette_set}
 \alias{grattan_palette_set}
 \title{A list of Grattan colour sets}
-\format{An object of class \code{list} of length 6.}
+\format{
+An object of class \code{list} of length 6.
+}
 \usage{
 grattan_palette_set
 }

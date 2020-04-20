@@ -22,11 +22,13 @@ Imports:
     zip (>= 2.0.0),
     gganimate (>= 1.0.0),
     patchwork (>= 1.0.0),
-    openxlsx (>= 4.1.0.1)
+    openxlsx (>= 4.1.0.1),
+    stringr,
+    clipr
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Suggests: 
     testthat (>= 2.1.0),
     covr,

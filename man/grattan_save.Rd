@@ -14,6 +14,7 @@ grattan_save(
   force_labs = FALSE,
   warn_labs = TRUE,
   watermark = NULL,
+  latex = FALSE,
   ...
 )
 }
@@ -76,6 +77,9 @@ setting `warn_labels` to FALSE.}
 is supplied, this string will be added to your plot as a watermark.
 See `?watermark` for options - to use these, call `watermark()` directly
 before saving your plot.}
+
+\item{latex}{Logical. FALSE by default. If TRUE, exports figure environment
+LaTeX code to clipboard and console.}
 
 \item{...}{arguments passed to `ggsave()`. For example, use `device =
 cairo_pdf` to use the Cairo PDF rendering engine.}
