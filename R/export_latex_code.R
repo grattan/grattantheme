@@ -5,13 +5,17 @@
 #'   your session.
 #' @param chart_path The save path of the chart. The filename will be extracted
 #' and used in the \code{\\includegraphics} call.
+#' @param code_to_clipboard Logical, \code{TRUE} by default. If \code{TRUE}, the LaTeX code
+#' to create the figure environment will be copied to your clipboard.
+#' @return LaTeX code to create a figure environment
 #' @import stringr
 #' @importFrom clipr write_clip
 #'
 
 
 export_latex_code <- function(p = ggplot2::last_plot(),
-                              chart_path = "atlas/chart.pdf") {
+                              chart_path = "atlas/chart.pdf",
+                              code_to_clipboard = TRUE) {
 
   file_name <- chart_path %>% str_remove_all(".*/")
 
@@ -84,9 +88,12 @@ export_latex_code <- function(p = ggplot2::last_plot(),
          "\t", caption_code, "\n",
          "\\end{figure}")
 
-  message(paste0("Copied to clipboard:\n\n", code_to_export, "\n\n"))
-  clipr::write_clip(code_to_export, allow_non_interactive = TRUE)
+  if (isTRUE(code_to_clipboard)) {
+    message(paste0("Copied to clipboard:\n\n", code_to_export, "\n\n"))
+    clipr::write_clip(code_to_export, allow_non_interactive = TRUE)
+  }
 
+  return(code_to_export)
 
 } # end function
 
