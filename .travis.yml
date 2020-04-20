@@ -9,14 +9,10 @@ r_packages:
 
 matrix:
   include:
-  - r: devel
+  - r: oldrel
   - r: release
   - r: 3.5
   - r: release
-    env: TRAVIS_CLIP=xsel CLIPR_ALLOW=TRUE
-    addons: {apt: {packages: [xsel]}}
-    services: [xvfb]
-  - r: devel
     env: TRAVIS_CLIP=xsel CLIPR_ALLOW=TRUE
     addons: {apt: {packages: [xsel]}}
     services: [xvfb]
@@ -26,10 +22,6 @@ matrix:
     services: [xvfb]
   - r: release
     env: TRAVIS_CLIP=xclip
-    addons: {apt: {packages: [xclip]}}
-    services: [xvfb]
-  - r: devel
-    env: TRAVIS_CLIP=xclip CLIPR_ALLOW=TRUE
     addons: {apt: {packages: [xclip]}}
     services: [xvfb]
   - r: release
