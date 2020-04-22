@@ -41,13 +41,25 @@
 save_chartdata <- function(filename, object = ggplot2::last_plot(),
                            type = "normal", height = NULL) {
 
-  # check inputs
-
   if (tools::file_ext(filename) != "xlsx") {
-    stop(paste0(filename,
-                " is not a valid filename; filename must end in .xlsx"))
+    stop(filename, " is not a valid filename; filename must end in .xlsx")
   }
 
+  wb <- grattan_workbook_create(object = object,
+                                type = type,
+                                height = height)
+
+  grattan_workbook_save(wb = wb,
+                        file = filename)
+
+}
+
+#' Internal function to create a formatted Excel workbook with Grattan stylings
+#' @keywords internal
+#' @noRd
+
+grattan_workbook_create <- function(object, type, height) {
+  # check inputs
   if (!"ggplot" %in% class(object)) {
     stop("`object` is not a ggplot2 object")
   }
@@ -76,12 +88,11 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
     if (isTRUE(labels_present)) {
       height <- chart_types$height[chart_types$type == type] + 3
+    } else {
+      height <- chart_types$height[chart_types$type == type]
     }
   }
 
-  if (is.null(height)) {
-    height <- chart_types$height[chart_types$type == type]
-  }
 
   # Save graph
   temp_image_location <- file.path(tempdir(), "chart_data_image.png")
@@ -90,6 +101,7 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
                object = object,
                type = type,
                height = height,
+               dpi = 72,
                force_labs = TRUE,
                warn_labs = FALSE)
 
@@ -250,9 +262,26 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
                          cols = 1,
                          widths = 0.45)
 
-  suppressMessages(openxlsx::saveWorkbook(wb = wb,
-                                          file = filename,
-                                          overwrite = TRUE))
+  wb
+}
 
+#' Internal function to save an Openxlsx workbook
+#' This function is faster than openxlsx::saveWorkbook() mostly
+#' because it has fewer checks
+#' @keywords internal
+#' @noRd
 
+grattan_workbook_save <- function(wb, file) {
+
+  user_option <- getOption("openxlsx.compressionlevel")
+
+  options("openxlsx.compressionlevel" = 1)
+
+  tempfile <- wb$saveWorkbook()
+
+  file.copy(from = tempfile, to = file, overwrite = TRUE)
+
+  unlink(tempfile)
+
+  options("openxlsx.compressionlevel" = user_option)
 }
