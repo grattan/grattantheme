@@ -1,4 +1,5 @@
 library(ggplot2)
+library(openxlsx)
 
 test_plot <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
   geom_point() +
@@ -35,6 +36,33 @@ test_that("grattan_save() saves charts", {
 
   unlink("../figs/grattan_save", recursive = TRUE)
   unlink("../testthat/Rplots.pdf")
+})
+
+test_that("grattan_save() saves chart data when requested",{
+  grattan_save(filename = "test.pdf",
+               object = test_plot,
+               force_labs = FALSE,
+               type = "normal",
+               save_data = TRUE)
+
+  expect_true(file.exists("test.pdf"))
+  expect_true(file.exists("test.xlsx"))
+
+  saved_data <- openxlsx::read.xlsx("test.xlsx",
+                                    rows = c(3:35),
+                                    cols = c(2:12))
+
+  names(saved_data) <- tolower(names(saved_data))
+
+  mtcars_no_rownames <- mtcars
+  rownames(mtcars_no_rownames) <- NULL
+
+  expect_is(saved_data, "data.frame")
+  expect_identical(saved_data, mtcars_no_rownames)
+
+  unlink("test.pdf")
+  unlink("test.xlsx")
+
 })
 
 test_that("grattan_save() shows or hides messages about labels as appropriate", {

@@ -2,14 +2,16 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![Travis-CI Build
-Status](https://travis-ci.org/MattCowgill/grattantheme.svg?branch=master)](https://travis-ci.org/MattCowgill/grattantheme)
+Status](https://travis-ci.org/grattan/grattantheme.svg?branch=master)](https://travis-ci.org/grattan/grattantheme)
+[![Codecov test
+coverage](https://codecov.io/gh/grattan/grattantheme/branch/master/graph/badge.svg)](https://codecov.io/gh/grattan/grattantheme?branch=master)
 
 # grattantheme
 
 Create ggplot2 charts in the Grattan Institute style.
 
 See the [grattantheme
-vignette](https://github.com/MattCowgill/grattantheme/blob/master/vignettes/using_grattantheme.pdf)
+vignette](https://github.com/grattan/grattantheme/blob/master/vignettes/using_grattantheme.pdf)
 to learn how to make your ggplot2 charts Grattan-y.
 
 ## Install grattantheme
@@ -23,8 +25,8 @@ don’t have the devtools package, install it:
 Once devtools is installed, you can download and install grattantheme as
 follows:
 
-`devtools::install_github("mattcowgill/grattantheme", dependencies =
-TRUE, upgrade = "always")`
+`devtools::install_github("grattan/grattantheme", dependencies = TRUE,
+upgrade = "always")`
 
 Once grattantheme is installed, you can load it the same way you
 normally load an R package:
@@ -34,7 +36,7 @@ normally load an R package:
 ## Make your charts look nice
 
 See the [grattantheme
-vignette](https://github.com/MattCowgill/grattantheme/blob/master/vignettes/using_grattantheme.pdf)
+vignette](https://github.com/grattan/grattantheme/blob/master/vignettes/using_grattantheme.pdf)
 for a more complete guide.
 
 Use `theme_grattan()` to format your ggplot2 charts in a style

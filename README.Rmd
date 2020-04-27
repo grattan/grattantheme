@@ -15,13 +15,14 @@ knitr::opts_chunk$set(
 library(grattantheme)
 library(tidyverse)
 ```
-[![Travis-CI Build Status](https://travis-ci.org/MattCowgill/grattantheme.svg?branch=master)](https://travis-ci.org/MattCowgill/grattantheme)
+[![Travis-CI Build Status](https://travis-ci.org/grattan/grattantheme.svg?branch=master)](https://travis-ci.org/grattan/grattantheme)
+[![Codecov test coverage](https://codecov.io/gh/grattan/grattantheme/branch/master/graph/badge.svg)](https://codecov.io/gh/grattan/grattantheme?branch=master)
 
 
 # grattantheme
 Create ggplot2 charts in the Grattan Institute style.
 
-See the [grattantheme vignette](https://github.com/MattCowgill/grattantheme/blob/master/vignettes/using_grattantheme.pdf) to learn how to make your ggplot2 charts Grattan-y.
+See the [grattantheme vignette](https://github.com/grattan/grattantheme/blob/master/vignettes/using_grattantheme.pdf) to learn how to make your ggplot2 charts Grattan-y.
 
 ## Install grattantheme
 
@@ -31,7 +32,7 @@ The grattantheme package needs to be downloaded and installed from Github. The e
 
 Once devtools is installed, you can download and install grattantheme as follows:
 
-`devtools::install_github("mattcowgill/grattantheme", dependencies = TRUE, upgrade = "always")`
+`devtools::install_github("grattan/grattantheme", dependencies = TRUE, upgrade = "always")`
 
 Once grattantheme is installed, you can load it the same way you normally load an R package:
 
@@ -39,7 +40,7 @@ Once grattantheme is installed, you can load it the same way you normally load a
 
 ## Make your charts look nice
 
-See the [grattantheme vignette](https://github.com/MattCowgill/grattantheme/blob/master/vignettes/using_grattantheme.pdf) for a more complete guide.
+See the [grattantheme vignette](https://github.com/grattan/grattantheme/blob/master/vignettes/using_grattantheme.pdf) for a more complete guide.
 
 Use `theme_grattan()` to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots,  `theme_grattan(chart_type = "scatter")` provides a black y-axis. 
 

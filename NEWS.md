@@ -1,3 +1,11 @@
+# grattantheme 0.6.2
+* fullslide_169 animations now possible
+
+# grattantheme 0.6.1
+* Title and caption now aligned with left of plot
+* ggplot 3.3.0 now required
+* Default panel spacing expanded
+
 # grattantheme 0.6.0
 * theme_grattan() has been rewritten and is now a complete theme
 * theme_grattan() has gained a new chart_type argument; can be set to "scatter" to format scatterplots nicely.

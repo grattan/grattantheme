@@ -52,6 +52,8 @@
 #' is supplied, this string will be added to your plot as a watermark.
 #' See `?watermark` for options - to use these, call `watermark()` directly
 #' before saving your plot.
+#' @param latex Logical. FALSE by default. If TRUE, exports figure environment
+#' LaTeX code to clipboard and console.
 #' @param ... arguments passed to `ggsave()`. For example, use `device =
 #'   cairo_pdf` to use the Cairo PDF rendering engine.
 #'
@@ -129,6 +131,7 @@ grattan_save <- function(filename,
                          force_labs = FALSE,
                          warn_labs = TRUE,
                          watermark = NULL,
+                         latex = FALSE,
                          ...) {
 
   if (!type %in% c("all", chart_types$type)) {
@@ -137,9 +140,11 @@ grattan_save <- function(filename,
     type <- "normal"
   }
 
+  if (isTRUE(latex)) export_latex_code(object, filename)
+
   if (type != "all") {
 
-    if (save_data == TRUE) {
+    if (isTRUE(save_data)) {
       if (inherits(object, "gg")) {
 
         save_chartdata(filename = paste0(sub("\\..*", "", filename), ".xlsx"),
@@ -247,7 +252,7 @@ grattan_save_ <- function(filename,
 
   } else { # following code only applies if type != "fullslide"
 
-    if (!force_labs) {
+    if (isFALSE(force_labs)) {
       # Unless force_labs == TRUE (indicating the user wishes
       # to retain their labels)
       # Remove title, subtitle and caption for type != "fullslide"
@@ -257,7 +262,7 @@ grattan_save_ <- function(filename,
          "subtitle" %in% names(object$labels) |
          "caption"  %in% names(object$labels)) {
 
-        if (warn_labs) {
+        if (isTRUE(warn_labs)) {
           message(paste0("Note: ", type,
                          " charts remove titles, subtitles, or captions by",
                          " default.\nSet `force_labs` to TRUE to retain them,",
@@ -280,12 +285,6 @@ grattan_save_ <- function(filename,
 
         object <- wrap_labs(object, type)
 
-        object <- ggplotGrob(object)
-
-        object$layout$l[object$layout$name %in% c("title",
-                                                  "subtitle",
-                                                  "caption")] <- 1
-
     }
 
   } # end of section that only apples to type != "fullslide
@@ -296,8 +295,13 @@ grattan_save_ <- function(filename,
     height <- chart_types$height[chart_types$type == type]
   }
 
+
   ggplot2::ggsave(filename, object,
                   width = width, height = height, units = "cm",
                   dpi = "retina", ...)
 
 }
+
+
+
+
