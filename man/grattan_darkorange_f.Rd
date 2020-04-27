@@ -4,7 +4,9 @@
 \name{grattan_darkorange_f}
 \alias{grattan_darkorange_f}
 \title{Hex code for the faded colour: Grattan dark orange (faded)}
-\format{An object of class \code{character} of length 1.}
+\format{
+An object of class \code{character} of length 1.
+}
 \usage{
 grattan_darkorange_f
 }

@@ -4,7 +4,9 @@
 \name{grattan_gridlinegrey}
 \alias{grattan_gridlinegrey}
 \title{Hex code for the grey used for gridlines in Grattan charts}
-\format{An object of class \code{character} of length 1.}
+\format{
+An object of class \code{character} of length 1.
+}
 \usage{
 grattan_gridlinegrey
 }
