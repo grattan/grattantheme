@@ -18,31 +18,28 @@ assemble_fullslide <- function(plot = last_plot(),
     p$labels$title <- NULL
     p$labels$subtitle <- NULL
 
-    toptitle <- ggplot2::ggplot() +
-      ggplot2::geom_blank() +
-      ggplot2::labs(title = stored_title) +
-      theme_grey(base_family = "sans",
-                 base_size = title_font_size) +
-      ggplot2::theme(rect = ggplot2::element_blank(),
-                     plot.title = ggplot2::element_text(colour = "black",
-                                                        hjust = 0,
-                                                        vjust = 1,
-                                                        face = "bold",
-                                                        size = ggplot2::rel(1)),
-                     plot.margin = ggplot2::unit(c(0, 0, 0, 0),
-                                                 units = "cm"),
-                     plot.title.position = "plot")
+    toptitle <- grid::grid.text(label = stored_title,
+                               x = unit(0, "npc"),
+                               y = unit(0.15, "npc"),
+                               just = c("left", "bottom"),
+                               draw = FALSE,
+                               gp = gpar(col = "black",
+                                         fontsize = title_font_size,
+                                         fontface = "bold",
+                                         lineheight = 0.9,
+                                         fontfamily = "sans"))
 
-    topsubtitle <- ggplot2::ggplot() +
-      ggplot2::geom_blank() +
-      ggplot2::labs(subtitle = stored_subtitle) +
-      theme_grey(base_family = "sans", base_size = 18) +
-      ggplot2::theme(rect = ggplot2::element_blank(),
-                     plot.subtitle = ggplot2::element_text(colour = "black",
-                                                           hjust = 0,
-                                                           vjust = 0),
-                     plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"),
-                     plot.title.position = "plot")
+    topsubtitle <- grid::grid.text(label = stored_subtitle,
+                                   x = unit(0, "npc"),
+                                   y = unit(1, "npc"),
+                                   draw = F,
+                                   just = c("left", "top"),
+                                   gp = gpar(col = "black",
+                                             fontsize = 18,
+                                             lineheight = 0.9,
+                                             fontfamily = "sans"))
+
+
 
     blank_grob <- rectGrob(gp = gpar(lwd = 0))
 
@@ -63,50 +60,89 @@ assemble_fullslide <- function(plot = last_plot(),
 
     logo_horizontal_padding <- (standard_plot_width - logo_width - standard_title_width)
 
+    # layout <- "
+    # ####B
+    # #T###
+    # #T#L#
+    # #T###
+    # #OOO#
+    # #SSS#
+    # #PPP#
+    # #####
+    # "
+    #
+    # wrap_plots(B = blank_grob,
+    #            T = toptitle,
+    #            L = wrap_elements(full = logogrob),
+    #            O = wrap_elements(full = orange_line),
+    #            S = topsubtitle,
+    #            P = p,
+    #            design = layout,
+    #            widths = unit(c(left_border,
+    #                            1,
+    #                            logo_horizontal_padding,
+    #                            logo_width,
+    #                            right_border),
+    #                          c("cm",
+    #                            "null",
+    #                            "cm",
+    #                            "cm",
+    #                            "cm")),
+    #            heights = unit(c(top_border,
+    #                             logo_vertical_padding,
+    #                             logo_height,
+    #                             logo_vertical_padding,
+    #                             orange_line_height,
+    #                             title_height,
+    #                             1,
+    #                             bottom_border),
+    #                           c("cm",
+    #                             "cm",
+    #                             "cm",
+    #                             "cm",
+    #                             "cm",
+    #                             "cm",
+    #                             "null",
+    #                             "cm")))
+
+
+
     layout <- "
-    ####B
-    #T###
-    #T#L#
-    #T###
-    #OOO#
-    #SSS#
-    #PPP#
-    #####
+    TL
+    OO
+    SS
+    PP
+    #B
     "
 
-    wrap_plots(B = blank_grob,
-               T = toptitle,
+    wrap_plots(T = wrap_elements(full = toptitle),
                L = wrap_elements(full = logogrob),
+               B = blank_grob,
                O = wrap_elements(full = orange_line),
-               S = topsubtitle,
-               P = p,
+               S = wrap_elements(full = topsubtitle),
+               P = wrap_elements(full = p),
                design = layout,
-               widths = unit(c(left_border,
-                               1,
-                               logo_horizontal_padding,
-                               logo_width,
-                               right_border),
-                             c("cm",
-                               "null",
-                               "cm",
-                               "cm",
-                               "cm")),
-               heights = unit(c(top_border,
-                                logo_vertical_padding,
+               heights = unit(c(logo_height,
+                                0.01,
                                 logo_height,
-                                logo_vertical_padding,
-                                orange_line_height,
-                                title_height,
                                 1,
                                 bottom_border),
                               c("cm",
                                 "cm",
                                 "cm",
-                                "cm",
-                                "cm",
-                                "cm",
                                 "null",
-                                "cm")))
+                                "cm")),
+               widths = unit(c(1,
+                               logo_width),
+                             c("null",
+                               "cm"))
+               ) +
+      patchwork::plot_annotation(theme = theme(plot.margin = margin(0, 0.5, 0, 0.01,
+                                                                    "lines"))) +
+      theme(plot.margin = margin())
+
+    #ggsave("test.png", last_plot(), dpi = "retina", width = 25.4, height = 19, units = "cm")
+
 
 
     # logo_with_spacing <- wrap_plots(
