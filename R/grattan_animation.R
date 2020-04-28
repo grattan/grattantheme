@@ -107,13 +107,8 @@ SceneBlog <- ggproto(
                         vp = NULL, widths = NULL, heights = NULL, ...) {
     plot <- self$get_frame(plot, i)
 
-    plot <- create_fullslide(plot,
-                             type = "blog",
-                             height = NULL,
-                             warn_labs = FALSE,
-                             print_object = FALSE)
-
-    plot$layout$l[plot$layout$name %in% c("title", "subtitle", "caption")] <- 1
+    plot <- gridextra_fullslide(plot,
+                             type = "blog")
 
     if (newpage) grid::grid.newpage()
     grDevices::recordGraphics(
@@ -139,13 +134,8 @@ SceneFullslide169 <- ggproto(
                         vp = NULL, widths = NULL, heights = NULL, ...) {
     plot <- self$get_frame(plot, i)
 
-    plot <- create_fullslide(plot,
-                             type = "fullslide_169",
-                             height = NULL,
-                             warn_labs = FALSE,
-                             print_object = FALSE)
-
-    plot$layout$l[plot$layout$name %in% c("title", "subtitle", "caption")] <- 1
+    plot <- gridextra_fullslide(plot,
+                             type = "fullslide_169")
 
     if (newpage) grid::grid.newpage()
     grDevices::recordGraphics(
@@ -174,8 +164,6 @@ SceneNormal <- ggproto(
     plot$plot <- wrap_labs(plot$plot, type = "normal")
 
     plot <- ggplot_gtable(plot)
-
-    plot$layout$l[plot$layout$name %in% c("title", "subtitle", "caption")] <- 1
 
     if (newpage) grid::grid.newpage()
     grDevices::recordGraphics(

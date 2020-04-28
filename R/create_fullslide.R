@@ -31,9 +31,10 @@
 #'
 #' @export
 #' @importFrom patchwork wrap_plots wrap_elements plot_spacer plot_annotation
+#' @import grid
 
 create_fullslide <- function(plot = last_plot(),
-                               type) {
+                             type) {
 
     # Check inputs and define plot borders ----
 

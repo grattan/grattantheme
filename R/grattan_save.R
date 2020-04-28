@@ -55,9 +55,7 @@
 #'   cairo_pdf` to use the Cairo PDF rendering engine.
 #'
 #' @import ggplot2
-#' @import grid
 #' @importFrom utils tail
-#' @importFrom gridExtra grid.arrange
 #' @importFrom purrr walk2
 #'
 #' @examples
