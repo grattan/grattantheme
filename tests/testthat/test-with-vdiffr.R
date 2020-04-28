@@ -35,12 +35,9 @@ short_subtitle_plot <- base_plot +
   theme_grattan() +
   labs(subtitle = "This is a short subtitle")
 
-# fullslide_plot <- grattantheme:::create_fullslide(normal_plot,
-#                                                   type = "fullslide",
-#                                                   height = NULL,
-#                                                   warn_labs = FALSE) %>%
-#   gridExtra::grid.arrange() %>%
-#   ggplotify::as.ggplot()
+fullslide_plot <- normal_plot %>%
+  wrap_labs("fullslide") %>%
+  create_fullslide("fullslide")
 
 test_that("normal plot looks correct", {
 
@@ -82,8 +79,8 @@ test_that("plot with short subtitle fills the blank space", {
 })
 
 
-# test_that("fullslide plot looks correct", {
-#
-#   vdiffr::expect_doppelganger("fullslide plot", fullslide_plot)
-# })
+test_that("fullslide plot looks correct", {
+
+  vdiffr::expect_doppelganger("fullslide plot", fullslide_plot)
+})
 
