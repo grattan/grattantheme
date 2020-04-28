@@ -114,10 +114,6 @@ create_fullslide <- function(object,
   p <- p_built
   p <- ggplot2::ggplot_gtable(p)
 
-  # left align caption
-  p$layout[which(p$layout$name == "caption"),
-           c("l", "r")] <- c(2, max(p$layout$r))
-
   # create new ggplot object with just the title
   toptitle <- ggplot2::ggplot() +
     ggplot2::geom_blank() +
