@@ -141,6 +141,8 @@ grattan_save <- function(filename,
     stop("`object` is not a ggplot2 object.")
   }
 
+  original_object <- object
+
   if (isTRUE(latex)) export_latex_code(object, filename)
 
   if (!is.null(watermark)) {
@@ -148,7 +150,6 @@ grattan_save <- function(filename,
   }
 
   if (type != "all") {
-
     if (isTRUE(save_data)) {
         save_chartdata(filename = paste0(sub("\\..*", "", filename), ".xlsx"),
                        object = object,
@@ -174,17 +175,15 @@ grattan_save <- function(filename,
       dir.create(dir, recursive = TRUE)
     }
 
-    types <- all_chart_types
-
-    filenames <- file.path(dir, paste0(file_name, "_", types, ".", filetype))
+    filenames <- file.path(dir, paste0(file_name, "_", all_chart_types, ".", filetype))
 
     save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
-                       object = object,
-                       type = "normal",
-                       height = height)
+                   object = object,
+                   type = "normal",
+                   height = height)
 
     purrr::walk2(.x = filenames,
-                 .y = types,
+                 .y = all_chart_types,
                  .f = grattan_save_,
                  object = object,
                  height = height,
@@ -194,7 +193,7 @@ grattan_save <- function(filename,
 
   }
 
-  ggplot2::set_last_plot(object)
+  ggplot2::set_last_plot(original_object)
 
 }
 
@@ -245,7 +244,7 @@ grattan_save_ <- function(filename,
         object <- wrap_labs(object, type)
     }
 
-  } # end of section that only apples to type != "fullslide
+  }
 
   width <- chart_types$width[chart_types$type == type]
 
