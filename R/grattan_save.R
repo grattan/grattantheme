@@ -129,34 +129,30 @@ grattan_save <- function(filename,
                          latex = FALSE,
                          ...) {
 
-  if (!type %in% c("all", chart_types$type)) {
-    warning(paste0("`type` not valid, reverting to 'normal'. ",
-                   "See ?grattan_save for valid types."))
-    type <- "normal"
+  if (!type %in% c("all", all_chart_types)) {
+    stop(type,
+         "is not a valid chart type.\n",
+         "See ?grattan_save for valid types.")
+  }
+
+  if (isFALSE(inherits(object, "gg"))) {
+    stop("`object` is not a ggplot2 object.")
   }
 
   if (isTRUE(latex)) export_latex_code(object, filename)
 
+  if (!is.null(watermark)) {
+    object <- object + watermark(watermark)
+  }
+
   if (type != "all") {
 
     if (isTRUE(save_data)) {
-      if (inherits(object, "gg")) {
-
         save_chartdata(filename = paste0(sub("\\..*", "", filename), ".xlsx"),
                        object = object,
                        type = type,
                        height = height)
-
-      } else {
-        warning("save_data only works with ggplot graph objects.",
-                " Your data has not been saved.")
       }
-    }
-
-    if (!is.null(watermark)) {
-      object <- object +
-        watermark(watermark)
-    }
 
     grattan_save_(filename = filename,
                   object = object,
@@ -175,22 +171,14 @@ grattan_save <- function(filename,
       dir.create(dir, recursive = TRUE)
     }
 
-    types <- chart_types$type
+    types <- all_chart_types
 
     filenames <- file.path(dir, paste0(file_name, "_", types, ".", filetype))
 
-      if (inherits(object, "gg")) {
-
-        save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
+    save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
                        object = object,
                        type = "normal",
                        height = height)
-
-      } else {
-        warning("save_data only works with ggplot graph objects.",
-                " Your data has not been saved.")
-      }
-
 
     purrr::walk2(.x = filenames,
                  .y = types,
@@ -230,16 +218,10 @@ grattan_save_ <- function(filename,
   # logo
   if (plot_class == "fullslide") {
 
-    if (inherits(object, "ggassemble")) {
-      stop(paste0("Charts assembled with the patchwork package",
-                  "cannot be assembled as ",
-                  type, " charts."))
-    }
+    object <- wrap_labs(object, type)
 
-    # calls another function to do the work of assembling a full slide
-    object <- create_fullslide(object = object,
-                               type = type,
-                               height = height)
+    object <- create_fullslide(plot = object,
+                               type = type)
 
   } else { # following code only applies if type != "fullslide"
 
@@ -247,35 +229,15 @@ grattan_save_ <- function(filename,
       # Unless force_labs == TRUE (indicating the user wishes
       # to retain their labels)
       # Remove title, subtitle and caption for type != "fullslide"
-      # Politely give warning before removal
 
-      if ("title"    %in% names(object$labels) |
-         "subtitle" %in% names(object$labels) |
-         "caption"  %in% names(object$labels)) {
-
-        if (isTRUE(warn_labs)) {
-          message(paste0("Note: ", type,
-                         " charts remove titles, subtitles, or captions by",
-                         " default.\nSet `force_labs` to TRUE to retain them,",
-                         " or use type = 'fullslide'"))
-        }
-
-        object <- object +
-          theme(plot.title = element_blank(),
+      object <- object +
+        theme(plot.title = element_blank(),
                 plot.subtitle = element_blank(),
                 plot.caption = element_blank())
-      }
+
     } else {
     # non-fullslide, force_labs = TRUE
-
-        if (inherits(object, "ggassemble")) {
-          stop("Charts assembled with the patchwork package cannot be",
-               " saved using the `force_labs = TRUE`",
-               " argument of `grattan_save()`")
-        }
-
         object <- wrap_labs(object, type)
-
     }
 
   } # end of section that only apples to type != "fullslide

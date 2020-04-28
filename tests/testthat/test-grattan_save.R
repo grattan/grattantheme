@@ -65,32 +65,6 @@ test_that("grattan_save() saves chart data when requested",{
 
 })
 
-test_that("grattan_save() shows or hides messages about labels as appropriate", {
-
-  expect_message(grattan_save(filename = "test_plot.png",
-                              object = test_plot,
-                              type = "normal"))
-
-  expect_message(grattan_save(filename = "test_plot.png",
-                              object = test_plot,
-                              type = "fullslide"),
-                 NA)
-
-  expect_message(grattan_save(filename = "test_plot.png",
-                              object = test_plot_nolabs,
-                              type = "fullslide"))
-
-  expect_message(grattan_save(filename = "test_plot.png",
-                              object = test_plot_nolabs,
-                              type = "fullslide",
-                              warn_labs = FALSE),
-                 NA)
-
-
-  unlink("test_plot.png")
-
-})
-
 test_that("grattan_save() height behaviour works as expected with normal charts", {
 
   grattan_save(filename = "test_plot_normal_default_height.png",
@@ -137,7 +111,7 @@ test_that("grattan_save() height behaviour works as expected with fullslide char
 
 
 test_that("grattan_save() sends the right messages",{
-  expect_warning(
+  expect_error(
   grattan_save(filename = "test_plot_normal_default_height.png",
                object = test_plot,
                type = "nahhhh mate")
@@ -149,8 +123,7 @@ test_that("grattan_save() saves a plot with a watermark", {
 
   grattan_save(filename = "test_plot_watermark.png",
                object = test_plot,
-               watermark = "DRAFT",
-               warn_labs = FALSE)
+               watermark = "DRAFT")
 
   expect_true(file.exists("test_plot_watermark.png"))
 

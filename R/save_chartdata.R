@@ -90,8 +90,7 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
                object = object,
                type = type,
                height = height,
-               force_labs = TRUE,
-               warn_labs = FALSE)
+               force_labs = TRUE)
 
   # Get chart data
   chart_data <- object$data

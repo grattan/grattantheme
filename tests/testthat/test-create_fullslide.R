@@ -10,7 +10,8 @@ test_that("create_fullslide works", {
 
   full_p <- create_fullslide(p, "fullslide")
 
-  expect_is(full_p, "gtable")
-  expect_length(full_p, 3)
+  expect_is(full_p, "patchwork")
+  expect_length(full_p, 10)
+  expect_false(is.null(full_p$patches))
 
 })

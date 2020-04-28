@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 0.6.1.900
+Version: 0.7.0.0
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
                 role = c("aut", "cre")),
@@ -15,7 +15,6 @@ Imports:
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.3.0),
     purrr (>= 0.3.0),
-    gridExtra,
     knitr (>= 1.22),
     rmarkdown (>= 1.12),
     xml2 (>= 1.2.0),
