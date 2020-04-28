@@ -19,7 +19,7 @@ theme_grattan_base <- function(base_size = 18,
         lineend = "butt"
       ),
       rect = element_rect(
-        fill = "white",
+        fill = background,
         colour = grattantheme::grattan_gridlinegrey,
         size = base_rect_size,
         linetype = 0
@@ -101,8 +101,7 @@ theme_grattan_base <- function(base_size = 18,
                                  0, 0, "cm"),
       legend.box.background = element_blank(),
       legend.box.spacing = unit( half_line, "pt"),
-      panel.background = element_rect(fill = "white",
-                                      colour = NA),
+      panel.background = element_rect(colour = NA),
       panel.border = element_blank(),
       panel.grid = element_line(colour = grattantheme::grattan_gridlinegrey),
       panel.grid.minor = element_blank(),
