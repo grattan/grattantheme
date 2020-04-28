@@ -1,5 +1,4 @@
 #' Legacy function, used for animation, because you can't animate patchwork plots
-#' @noRd
 #' @keywords internal
 #' @import gridExtra
 
@@ -36,29 +35,14 @@ gridextra_fullslide <- function(object,
   stored_caption <- p$labels$caption
 
   if (stored_title == "\n") {
-    if (warn_labs) {
-      message("Your plot has no title, which is weird for a fullslide.",
-              "\nAdd a title using +labs(title = 'Title')")
-    }
     stored_title <- ""
   }
 
   if (is.null(stored_subtitle) | stored_subtitle == "") {
-    if (warn_labs) {
-      message(paste0("Your plot has no subtitle, which is weird for type = ",
-                     type,
-                     "\nConsider adding a subtitle using",
-                     "labs(subtitle = 'Text')"))
-    }
-
     stored_subtitle <- NULL
   }
 
   if (stored_caption == "") {
-    if (warn_labs) {
-      message("Your plot has no caption, which is weird for full slide charts.",
-              "\nConsider adding a caption using labs(caption = 'Text')")
-    }
     stored_caption <- ""
   }
 
