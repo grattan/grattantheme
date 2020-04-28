@@ -43,8 +43,6 @@ fullslide_plot <- normal_plot %>%
 orange_plot <- base_plot +
   theme_grattan(background = "orange")
 
-box_plot <- base_plot +
-  theme_grattan(background = "box")
 
 test_that("normal plot looks correct", {
   vdiffr::expect_doppelganger("normal plot", normal_plot)
@@ -83,9 +81,5 @@ test_that("fullslide plot looks correct", {
 })
 
 test_that("orange background returned when requested", {
-
-  expect_identical(box_plot, orange_plot)
-  expect_identical(box_plot$theme$rect$fill, grattan_orange_alpha)
-
   vdiffr::expect_doppelganger("orange background plot", orange_plot)
 })
