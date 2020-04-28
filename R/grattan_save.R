@@ -44,10 +44,6 @@
 #'   title, subtitle, and caption (if present) from your graph before saving it,
 #'   unless `type` = "fullslide". By setting `force_labs` to TRUE, your
 #'   title/subtitle/caption will be retained regardless of `type`.
-#' @param warn_labs Logical. Default is TRUE, unless type = "all". When TRUE,
-#'   `grattan_save()` will warn you if you try to save a normal chart with
-#'   labels, or a fullslide chart without labels. Suppress these warnings by
-#'   setting `warn_labels` to FALSE.
 #' @param watermark Character. NULL by default. If a string, like `DRAFT`,
 #' is supplied, this string will be added to your plot as a watermark.
 #' See `?watermark` for options - to use these, call `watermark()` directly
@@ -129,7 +125,6 @@ grattan_save <- function(filename,
                          height = NULL,
                          save_data = FALSE,
                          force_labs = FALSE,
-                         warn_labs = TRUE,
                          watermark = NULL,
                          latex = FALSE,
                          ...) {
@@ -168,7 +163,6 @@ grattan_save <- function(filename,
                   type = type,
                   height = height,
                   force_labs = force_labs,
-                  warn_labs = warn_labs,
                   ...)
   }
 
@@ -204,7 +198,6 @@ grattan_save <- function(filename,
                  object = object,
                  height = height,
                  force_labs = force_labs,
-                 warn_labs = FALSE,
                  ...)
 
   }
@@ -222,7 +215,6 @@ grattan_save_ <- function(filename,
                           type,
                           height,
                           force_labs,
-                          warn_labs,
                           ...) {
 
   # at the moment, save_data is inflexible: only saves as .xlsx and
@@ -247,8 +239,7 @@ grattan_save_ <- function(filename,
     # calls another function to do the work of assembling a full slide
     object <- create_fullslide(object = object,
                                type = type,
-                               height = height,
-                               warn_labs = warn_labs)
+                               height = height)
 
   } else { # following code only applies if type != "fullslide"
 
