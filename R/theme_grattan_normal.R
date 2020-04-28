@@ -15,24 +15,22 @@ theme_grattan_normal <- function(base_size = 18,
   )
 
 
-  ret <- ret %+replace%
-    ggplot2::theme(
-      axis.line.y = ggplot2::element_blank(),
-      axis.ticks.y = ggplot2::element_blank(),
-      axis.title.y = ggplot2::element_blank(),
-      panel.grid.major.x = ggplot2::element_blank()
-    )
-
   # reverse when flipped = TRUE; only if type = 'normal'
-  if (flipped) {
+  if (isTRUE(flipped)) {
     ret <- ret %+replace%
       ggplot2::theme(
-        panel.grid.major.x = ggplot2::element_line(),
         panel.grid.major.y = ggplot2::element_blank(),
         axis.line.x = ggplot2::element_blank(),
-        axis.line.y = ggplot2::element_line(),
-        axis.ticks.y = ggplot2::element_line(),
-        axis.ticks.x = ggplot2::element_blank()
+        axis.ticks.x = ggplot2::element_blank(),
+        axis.title.y = ggplot2::element_blank()
+      )
+  } else {
+    ret <- ret %+replace%
+      ggplot2::theme(
+        axis.line.y = ggplot2::element_blank(),
+        axis.ticks.y = ggplot2::element_blank(),
+        axis.title.y = ggplot2::element_blank(),
+        panel.grid.major.x = ggplot2::element_blank()
       )
   }
 
