@@ -38,24 +38,24 @@
 #' \dontrun{save_chartdata("my_chartdata.xlsx", p)}
 #'
 
-save_chartdata <- function(filename, object = ggplot2::last_plot(),
-                           type = "normal", height = NULL) {
-
-  # check inputs
+save_chartdata <- function(filename,
+                           object = ggplot2::last_plot(),
+                           type = "normal",
+                           height = NULL) {
 
   if (tools::file_ext(filename) != "xlsx") {
-    stop(paste0(filename,
-                " is not a valid filename; filename must end in .xlsx"))
+    stop(filename, " is not a valid filename; filename must end in .xlsx")
   }
 
-  if (!"ggplot" %in% class(object)) {
+  # check inputs
+  if (!inherits(object, "ggplot")) {
     stop("`object` is not a ggplot2 object")
   }
 
   if (!type %in% chart_types$type) {
-    stop(paste0(type,
-                " is not a recognised chart type;",
-                " see ?grattan_save for types."))
+    stop(type,
+         " is not a recognised chart type;",
+         " see ?grattan_save for types.")
   }
 
   obj_name <- deparse(substitute(object))
@@ -76,12 +76,11 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
     if (isTRUE(labels_present)) {
       height <- chart_types$height[chart_types$type == type] + 3
+    } else {
+      height <- chart_types$height[chart_types$type == type]
     }
   }
 
-  if (is.null(height)) {
-    height <- chart_types$height[chart_types$type == type]
-  }
 
   # Save graph
   temp_image_location <- file.path(tempdir(), "chart_data_image.png")
@@ -90,7 +89,8 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
                object = object,
                type = type,
                height = height,
-               force_labs = TRUE)
+               force_labs = TRUE,
+               dpi = 72)
 
   # Get chart data
   chart_data <- object$data
@@ -204,41 +204,34 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
 
   # Add borders
 
-  grattan_leftborder <- openxlsx::createStyle(border = "left",
-                                              borderColour = grattantheme::grattan_lightorange,
-                                              borderStyle = "thick")
+  grattan_border <- function(border,
+                             border_colour = grattantheme::grattan_lightorange,
+                             border_style = "thick") {
+    openxlsx::createStyle(border = border,
+                          borderColour = border_colour,
+                          borderStyle = border_style)
+  }
 
-  grattan_rightborder <- openxlsx::createStyle(border = "right",
-                                               borderColour = grattantheme::grattan_lightorange,
-                                               borderStyle = "thick")
-
-  grattan_topborder <- openxlsx::createStyle(border = "top",
-                                             borderColour = grattantheme::grattan_lightorange,
-                                             borderStyle = "thick")
-
-  grattan_bottomborder <- openxlsx::createStyle(border = "bottom",
-                                                borderColour = grattantheme::grattan_lightorange,
-                                                borderStyle = "thick")
 
   openxlsx::addStyle(wb, 1,
-                     grattan_leftborder,
+                     grattan_border("left"),
                      rows = 3:(data_rows + 3),
                      cols = 2,
                      stack = TRUE)
 
   openxlsx::addStyle(wb, 1,
-                     grattan_rightborder,
+                     grattan_border("right"),
                      rows = 3:(data_rows + 3),
                      cols = data_columns + 1,
                      stack = TRUE)
   openxlsx::addStyle(wb, 1,
-                     grattan_topborder,
+                     grattan_border("top"),
                      rows = 3,
                      cols = 2:(data_columns + 1),
                      stack = TRUE)
 
   openxlsx::addStyle(wb, 1,
-                     grattan_bottomborder,
+                     grattan_border("bottom"),
                      rows = data_rows + 3,
                      cols = 2:(data_columns + 1),
                      stack = TRUE)
@@ -249,9 +242,21 @@ save_chartdata <- function(filename, object = ggplot2::last_plot(),
                          cols = 1,
                          widths = 0.45)
 
-  suppressMessages(openxlsx::saveWorkbook(wb = wb,
-                                          file = filename,
-                                          overwrite = TRUE))
+  # Save workbook ----
+  # Use minimal compression, for speed
+  # Only way to modify openxlsx compression level seems to be through an option
+  user_option <- getOption("openxlsx.compressionlevel")
+  options("openxlsx.compressionlevel" = 1)
 
+  tempfile <- wb$saveWorkbook()
+
+  file.copy(from = tempfile, to = filename, overwrite = TRUE)
+
+  unlink(tempfile)
+  unlink(temp_image_location)
+
+  # Restore previous value for compression level
+  options("openxlsx.compressionlevel" = user_option)
 
 }
+

@@ -50,6 +50,7 @@
 #' before saving your plot.
 #' @param latex Logical. FALSE by default. If TRUE, exports figure environment
 #' LaTeX code to clipboard and console.
+#' @param dpi Plot resolution. Default is "retina".
 #' @param ... arguments passed to `ggsave()`. For example, use `device =
 #'   cairo_pdf` to use the Cairo PDF rendering engine.
 #'
@@ -127,6 +128,7 @@ grattan_save <- function(filename,
                          force_labs = FALSE,
                          watermark = NULL,
                          latex = FALSE,
+                         dpi = "retina",
                          ...) {
 
   if (!type %in% c("all", all_chart_types)) {
@@ -159,6 +161,7 @@ grattan_save <- function(filename,
                   type = type,
                   height = height,
                   force_labs = force_labs,
+                  dpi = dpi,
                   ...)
   }
 
@@ -186,6 +189,7 @@ grattan_save <- function(filename,
                  object = object,
                  height = height,
                  force_labs = force_labs,
+                 dpi = dpi,
                  ...)
 
   }
@@ -203,6 +207,7 @@ grattan_save_ <- function(filename,
                           type,
                           height,
                           force_labs,
+                          dpi,
                           ...) {
 
   # at the moment, save_data is inflexible: only saves as .xlsx and
@@ -251,7 +256,7 @@ grattan_save_ <- function(filename,
 
   ggplot2::ggsave(filename, object,
                   width = width, height = height, units = "cm",
-                  dpi = "retina", ...)
+                  dpi = dpi, ...)
 
 }
 

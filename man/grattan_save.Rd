@@ -14,6 +14,7 @@ grattan_save(
   force_labs = FALSE,
   watermark = NULL,
   latex = FALSE,
+  dpi = "retina",
   ...
 )
 }
@@ -74,6 +75,8 @@ before saving your plot.}
 
 \item{latex}{Logical. FALSE by default. If TRUE, exports figure environment
 LaTeX code to clipboard and console.}
+
+\item{dpi}{Plot resolution. Default is "retina".}
 
 \item{...}{arguments passed to `ggsave()`. For example, use `device =
 cairo_pdf` to use the Cairo PDF rendering engine.}
