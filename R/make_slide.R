@@ -74,7 +74,7 @@ make_slide <- function(graph = last_plot(),
   filename <- tools::file_path_sans_ext(filename)
 
   output_file <- paste0(filename, ".pptx")
-  output_dir <- dirname(path)
+  output_dir <- path
 
   if (!dir.exists(output_dir)) {
     dir.create(output_dir)
@@ -97,6 +97,8 @@ make_slide <- function(graph = last_plot(),
   if (!dir.exists(temp_dir)) {
     dir.create(temp_dir)
   }
+
+  on.exit(unlink(temp_dir, recursive = TRUE))
 
   temp_template <- file.path(temp_dir, basename(template_source))
 
@@ -146,12 +148,14 @@ make_slide <- function(graph = last_plot(),
   p$labels$subtitle <- NULL
 
   plot_filename <- file.path(temp_dir, "plot.png")
+  on.exit(unlink(plot_filename))
 
   ggsave(filename = plot_filename,
          plot = p,
          height = 14.5,
          width = ifelse(type == "16:9",
                              30, 22.2),
+         dpi = "retina",
          units = "cm")
 
 
@@ -175,14 +179,15 @@ make_slide <- function(graph = last_plot(),
                    plot_area,
                    sep = "\n")
 
-  writeLines(fulldoc, file.path(temp_dir, "temp_rmd.Rmd"))
+  temp_rmd_file <- file.path(temp_dir, "temp_rmd.Rmd")
+  writeLines(fulldoc, temp_rmd_file)
+  on.exit(unlink(temp_rmd_file))
 
-  rmarkdown::render(file.path(temp_dir, "temp_rmd.Rmd"),
+  rmarkdown::render(temp_rmd_file,
                     output_file = output_file,
                     output_dir = output_dir,
                     quiet = TRUE)
 
-  result_of_file_remove <- file.remove(file.path(temp_dir, "temp_rmd.Rmd"))
 
 }
 
@@ -260,7 +265,7 @@ make_presentation <- function(graphs,
   filename <- tools::file_path_sans_ext(filename)
 
   output_file <- paste0(filename, ".pptx")
-  output_dir <- file.path(path)
+  output_dir <- path
 
   if (!dir.exists(output_dir)) {
     dir.create(output_dir)
@@ -284,13 +289,15 @@ make_presentation <- function(graphs,
     dir.create(temp_dir)
   }
 
+  on.exit(unlink(temp_dir, recursive = TRUE))
+
   temp_template <- file.path(temp_dir, basename(template_source))
 
   result_of_copy <- file.copy(from = template_source,
                               to = temp_template,
                               overwrite = TRUE)
 
-  if (!result_of_copy) {
+  if (!isTRUE(result_of_copy)) {
     stop("make_presentation() encountered a problem copying the Powerpoint",
          " template to a temporary directory.")
   }
@@ -400,7 +407,7 @@ make_presentation <- function(graphs,
                     output_dir = output_dir,
                     quiet = TRUE)
 
-  remove_pptx_error(output_file)
+  remove_pptx_error(file.path(output_dir, output_file))
 
   result_of_file_remove <- file.remove(file.path(temp_dir, "temp_rmd.Rmd"))
 
@@ -419,5 +426,7 @@ pandoc_test <- function() {
          " function. Install a newer version from pandoc.org.",
          " See the grattantheme administrators if you need help.")
   }
+
+  invisible(TRUE)
 
 }
