@@ -2,6 +2,7 @@
 
 export(create_fullslide)
 export(grattan_anim_save)
+export(grattan_animate)
 export(grattan_colour_manual)
 export(grattan_fill_manual)
 export(grattan_pal)

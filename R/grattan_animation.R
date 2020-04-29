@@ -9,7 +9,8 @@
 #' @param animation The animation objkect to save. Defaults to last rendered
 #'   animation using `gganimate::last_animation()`
 #' @param type Either "blog" (to save using the Grattan Blog template) or
-#' "normal" (to save as a Grattan chart as in a report).
+#' "normal" (to save as a Grattan chart as in a report), or
+#' "fullslide_169" (to save as a 16:9 orientation Grattan-branded image).
 #' @param path Path to save plot to (combined with filename)
 #' @param ... arguments passed on to animate
 #'
@@ -75,7 +76,7 @@ grattan_anim_save <- function(filename,
   anim_height <- chart_types$height[chart_types$type == type]
 
   # create animation
-  anim_plot <- animate_grattan(animation,
+  anim_plot <- grattan_animate(animation,
                                width = anim_width,
                                height = anim_height,
                                res = 320,
@@ -368,14 +369,42 @@ prerender_grattan <- function(plot, nframes, type) {
 
 
 
-# animate_grattan -----
+# grattan_animate -----
+#' See \code{?gganimate::animate}.
+#' This function is a replica of \code{gganimate::animate}, except for
+#' the addition of a 'type' argument that allows the creation of
+#' Grattan-styled charts.
+#' @param plot A gganim object
+#' @param nframes The number of frames to render (default 100)
+#' @param fps The framerate of the animation in frames/sec (default 10)
+#' @param duration	The length of the animation in seconds (unset by default)
+#' @param detail The number of additional frames to calculate,
+#' per frame (default 1)
+#' @param renderer	The function used to render the generated frames into
+#' an animation. Gets a vector of paths to images along with the framerate.
+#' (default gifski_renderer())
+#' @param device The device to use for rendering the single frames. Possible
+#' values are 'png', 'jpeg', 'tiff', 'bmp', 'svg', and 'svglite'
+#' (requires the svglite package). (default 'png')
+#' @param ref_frame The frame to use for fixing dimensions of the plot,
+#' e.g. the space available for axis text. Defaults to the first frame.
+#' Negative values counts backwards (-1 is the last frame) (default 1)
+#' @param start_pause,end_pause Number of times to repeat the first and
+#' last frame in the animation (default is 0 for both)
+#' @param rewind Should the animation roll back in the end (default FALSE)
+#' @param type Either "blog" (to save using the Grattan Blog template) or
+#' "normal" (to save as a Grattan chart as in a report), or
+#' "fullslide_169" (to save as a 16:9 orientation Grattan-branded image).
+#' @param ... Arguments passed on to the device
 
+#'
+#' @export
 # Note that this function is copied from gganimate::animate by
 # Thomas Lin Pedersen
 # The original calls gganimate::prerender()
 # while this calls grattantheme::prerender_grattan()
 
-animate_grattan <- function(plot,
+grattan_animate <- function(plot,
                             nframes,
                             fps,
                             duration,
