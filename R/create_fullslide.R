@@ -100,7 +100,7 @@ create_fullslide <- function(plot = last_plot(),
 
     orange_line <- grid.lines(y = c(0.5, 0.5),
                               draw = FALSE,
-                              gp = gpar(col = grattan_lightorange,
+                              gp = gpar(col = grattantheme::grattan_lightorange,
                                        lwd = 2))
 
     orange_line_height <- 0.08

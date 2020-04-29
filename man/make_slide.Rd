@@ -63,7 +63,7 @@ ggplot(mtcars, aes(x = mpg, y = hp)) +
 # By default, make_slide() will use the last plot you generated;
 # you can specify a different object to use with the `graph` argument.
 
-\donttest{make_slide(filename = "test.pptx")}
+\dontrun{make_slide(filename = "test.pptx")}
 
 
 # To take multiple ggplot2 graphs and turn them into slides in a single
@@ -95,6 +95,6 @@ graphs <- list(graph1, graph2)
 # Now, create a Powerpoint presentation with one
 # slide per graph in your list:
 
-\donttest{make_presentation(graphs, filename = "test.pptx")}
+\dontrun{make_presentation(graphs, filename = "test.pptx")}
 
 }

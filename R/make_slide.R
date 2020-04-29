@@ -37,7 +37,7 @@
 #' # By default, make_slide() will use the last plot you generated;
 #' # you can specify a different object to use with the `graph` argument.
 #'
-#' \donttest{make_slide(filename = "test.pptx")}
+#' \dontrun{make_slide(filename = "test.pptx")}
 #'
 #' @export
 
@@ -224,7 +224,7 @@ make_slide <- function(graph = last_plot(),
 #' # Now, create a Powerpoint presentation with one
 #' # slide per graph in your list:
 #'
-#' \donttest{make_presentation(graphs, filename = "test.pptx")}
+#' \dontrun{make_presentation(graphs, filename = "test.pptx")}
 #'
 #' @export
 
