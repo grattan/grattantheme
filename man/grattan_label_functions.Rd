@@ -41,6 +41,7 @@ mt$car <- rownames(mt)
 
 # Create a plot without labels
 p <- ggplot(mt, aes(x = mpg, y = wt, label = car)) +
+     geom_point() +
      theme_grattan()
 
 # A chart with Grattan labels
@@ -50,5 +51,6 @@ p +
 # A chart with Grattan labels that are repelled from each other
 p +
     grattan_label_repel()
+
 
 }
