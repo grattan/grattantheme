@@ -44,7 +44,8 @@ grattanify_geom_defaults <- function() {
 
     update_geom_defaults("label",
                          list(size = 18 / .pt,
-                              fill = "white"))
+                              fill = "white",
+                              colour = grattantheme::grattan_lightorange))
 
     update_geom_defaults("area",
                          list(fill = grattantheme::grattan_lightorange,
