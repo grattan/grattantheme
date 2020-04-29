@@ -1,6 +1,8 @@
 library(devtools)
 
-load("data-raw/logogrob.Rda")
+logo <- magick::image_read_pdf("data-raw/GrattanSVGLogo.pdf")
+
+logogrob <- grid::rasterGrob(logo)
 
 chart_types <- tibble::tribble(
                          ~type, ~width, ~height, ~caption, ~title,  ~subtitle, ~class,
@@ -15,4 +17,31 @@ chart_types <- tibble::tribble(
                         "blog",   25.4,   19.05,      155,     62,         85, "fullslide")
 
 
-use_data(logogrob, chart_types, internal = TRUE, overwrite = TRUE)
+blog_border <- 0.15
+
+chart_types <- chart_types %>%
+  mutate(top_border = case_when(class == "normal" ~ NA_real_,
+                                type == "blog" ~ blog_border,
+                                TRUE ~ 0.7),
+         bottom_border = case_when(class == "normal" ~ NA_real_,
+                                   type == "blog" ~ 0.05,
+                                   type %in% c("fullslide_169",
+                                               "fullslide_44") ~ 0.24,
+                                   TRUE ~ 0.05),
+         left_border = case_when(class == "normal" ~ NA_real_,
+                                 type %in% c("fullslide",
+                                             "fullslide_44") ~ (width - 22.16) / 2,
+                                 type == "fullslide_169" ~ (width - 30) / 2,
+                                 type == "blog" ~ blog_border),
+         right_border = left_border)
+
+all_chart_types <- chart_types$type
+
+fullslide_chart_types <- chart_types$type[chart_types$class == "fullslide"]
+
+use_data(logogrob,
+         all_chart_types,
+         fullslide_chart_types,
+         chart_types,
+         internal = TRUE,
+         overwrite = TRUE)

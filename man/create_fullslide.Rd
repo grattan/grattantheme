@@ -2,57 +2,41 @@
 % Please edit documentation in R/create_fullslide.R
 \name{create_fullslide}
 \alias{create_fullslide}
-\title{Assemble an image resembling a full PPT slide containing a Grattan chart}
+\title{Assemble a chart featuring the Grattan logo and orange line}
 \usage{
-create_fullslide(
-  object,
-  type = "fullslide",
-  height = NULL,
-  warn_labs = TRUE,
-  print_object = FALSE
-)
+create_fullslide(plot = last_plot(), type)
 }
 \arguments{
-\item{object}{A ggplot2 object.}
+\item{plot}{A ggplot2 plot}
 
-\item{type}{One of "fullslide", "fullslide_169", "fullslide_44", "blog". See
-`?grattan_save` for more information about these types.}
-
-\item{height}{NULL by default.}
-
-\item{warn_labs}{TRUE by default. If set to FALSE, you will not be warned
-about missing labels, such as an absent title or subtitle.}
-
-\item{print_object}{FALSE by default. Set to TRUE if you want to print
-to the console the original object that you supplied to the function.}
+\item{type}{Optional. If specified, must be one of "fullslide", "fullslide_169", "fullslide_44", or "blog".
+This is used to define the size of the white border around the image.}
 }
 \value{
-An object of class gtable
+An object of class "patchwork".
 }
 \description{
-`create_fullslide()` takes a ggplot2 object and formats it to look like a
+Takes a ggplot2 object and formats it to look like a
 Grattan Powerpoint slide. You will rarely need to call this function
 directly - use `grattan_save()` to save a ggplot2 object as a 'slide'-like
 image.
 }
 \examples{
 
-library(grattantheme)
 library(ggplot2)
-library(gridExtra)
-
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-geom_point() +
-theme_grattan() +
-labs(title = "Title goes here", subtitle = "Subtitle here", caption = "Notes:
-some notes. Source: source information")
+    geom_point() +
+    labs(title = "My title",
+         subtitle = "My subtitle",
+         caption = "My caption") +
+    theme_grattan()
 
-fullslide_p <- create_fullslide(p, "fullslide")
+# Create an image that includes the Grattan logo
 
-# If you want to display your fullslide plot in RStudio, you can use
-# `gridExtra::grid.arrange()`
+p_logo <- create_fullslide(p)
 
-gridExtra::grid.arrange(fullslide_p)
+# Create an image that's ready for the blog
 
+p_blog <- create_fullslide(p, "blog")
 
 }

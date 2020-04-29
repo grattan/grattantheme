@@ -67,6 +67,9 @@ test_that("grattan colour functions work as expected", {
   expect_equal(plot_w_col_built$data[[2]]$colour[1], "#F68B33")
 
   expect_equal(length(unique(plot_w_col_built$data[[2]]$colour)), 3)
+
+  vdiffr::expect_doppelganger("plot with three colours",
+                              plot_w_col)
 })
 
 
@@ -84,6 +87,8 @@ test_that("grattan continuous palette functions work as expected (colour)", {
 
   expect_equal(plot_cont_built$data[[1]]$colour[1], "#CA4E29")
 
+  vdiffr::expect_doppelganger("plot with continuous palette",
+                              plot_cont)
 
 })
 
@@ -103,5 +108,8 @@ test_that("grattan continuous palette functions work as expected (fill)", {
   expect_equal(length(unique(plot_fill_built$data[[1]]$fill)), 35)
 
   expect_equal(plot_fill_built$data[[1]]$fill[150], "#F29F64")
+
+  vdiffr::expect_doppelganger("plot with fill palette",
+                              plot_fill)
 
 })

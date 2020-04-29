@@ -1,3 +1,7 @@
+# grattantheme 0.7.0
+* `create_fullslide()` completely rewritten; now much more flexible + faster
+* `warn_labs` argument to `grattan_save()` has been removed
+
 # grattantheme 0.6.2
 * fullslide_169 animations now possible
 

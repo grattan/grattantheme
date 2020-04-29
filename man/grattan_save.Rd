@@ -12,7 +12,6 @@ grattan_save(
   height = NULL,
   save_data = FALSE,
   force_labs = FALSE,
-  warn_labs = TRUE,
   watermark = NULL,
   latex = FALSE,
   dpi = "retina",
@@ -68,11 +67,6 @@ your image, but with a .xlsx extension. Data will always be saved if type =
 title, subtitle, and caption (if present) from your graph before saving it,
 unless `type` = "fullslide". By setting `force_labs` to TRUE, your
 title/subtitle/caption will be retained regardless of `type`.}
-
-\item{warn_labs}{Logical. Default is TRUE, unless type = "all". When TRUE,
-`grattan_save()` will warn you if you try to save a normal chart with
-labels, or a fullslide chart without labels. Suppress these warnings by
-setting `warn_labels` to FALSE.}
 
 \item{watermark}{Character. NULL by default. If a string, like `DRAFT`,
 is supplied, this string will be added to your plot as a watermark.

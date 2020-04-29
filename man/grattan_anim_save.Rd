@@ -19,7 +19,8 @@ grattan_anim_save(
 animation using `gganimate::last_animation()`}
 
 \item{type}{Either "blog" (to save using the Grattan Blog template) or
-"normal" (to save as a Grattan chart as in a report).}
+"normal" (to save as a Grattan chart as in a report), or
+"fullslide_169" (to save as a 16:9 orientation Grattan-branded image).}
 
 \item{path}{Path to save plot to (combined with filename)}
 

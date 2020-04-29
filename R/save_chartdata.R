@@ -89,9 +89,8 @@ save_chartdata <- function(filename,
                object = object,
                type = type,
                height = height,
-               dpi = 72,
                force_labs = TRUE,
-               warn_labs = FALSE)
+               dpi = 72)
 
   # Get chart data
   chart_data <- object$data

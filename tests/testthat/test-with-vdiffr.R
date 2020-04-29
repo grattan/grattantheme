@@ -1,4 +1,5 @@
 
+
 context("vdiffr-tests")
 
 base_plot <- mtcars %>%
@@ -18,7 +19,7 @@ scatter_plot <- base_plot +
 
 
 border_plot <- base_plot +
-  facet_wrap(~cyl) +
+  facet_wrap( ~ cyl) +
   theme_grattan(panel_borders = TRUE) +
   labs(subtitle = "Either put units here or jam an elaborate thing here that describes both axes, whatevs")
 
@@ -35,55 +36,55 @@ short_subtitle_plot <- base_plot +
   theme_grattan() +
   labs(subtitle = "This is a short subtitle")
 
-# fullslide_plot <- grattantheme:::create_fullslide(normal_plot,
-#                                                   type = "fullslide",
-#                                                   height = NULL,
-#                                                   warn_labs = FALSE) %>%
-#   gridExtra::grid.arrange() %>%
-#   ggplotify::as.ggplot()
+fullslide_plot <- normal_plot %>%
+  wrap_labs("fullslide") %>%
+  create_fullslide("fullslide")
+
+blog_plot <- normal_plot %>%
+  wrap_labs("blog") %>%
+  create_fullslide("blog")
+
+orange_plot <- base_plot +
+  theme_grattan(background = "orange")
+
 
 test_that("normal plot looks correct", {
-
   vdiffr::expect_doppelganger("normal plot", normal_plot)
 
 })
 
 test_that("scatter plot looks correct", {
-
   vdiffr::expect_doppelganger("scatter plot", scatter_plot)
 
 })
 
 
-
-
 test_that("faceted plot with borders looks correct", {
-
   vdiffr::expect_doppelganger("border plot", border_plot)
 
 })
 
 test_that("plot with discrete colours looks correct", {
-
   vdiffr::expect_doppelganger("coloured plot", coloured_plot)
 
 })
 
 test_that("plot with no subtitle fills the blank space", {
-
   vdiffr::expect_doppelganger("no subtitle plot", no_subtitle_plot)
 
 })
 
 test_that("plot with short subtitle fills the blank space", {
-
   vdiffr::expect_doppelganger("short subtitle plot", short_subtitle_plot)
 
 })
 
 
-# test_that("fullslide plot looks correct", {
-#
-#   vdiffr::expect_doppelganger("fullslide plot", fullslide_plot)
-# })
+test_that("fullslide plot looks correct", {
+  vdiffr::expect_doppelganger("fullslide plot", fullslide_plot)
+  vdiffr::expect_doppelganger("blog plot", blog_plot)
+})
 
+test_that("orange background returned when requested", {
+  vdiffr::expect_doppelganger("orange background plot", orange_plot)
+})

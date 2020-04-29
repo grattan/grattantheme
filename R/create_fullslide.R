@@ -1,240 +1,145 @@
-#' Assemble an image resembling a full PPT slide containing a Grattan chart
+#' Assemble a chart featuring the Grattan logo and orange line
 #'
-#' `create_fullslide()` takes a ggplot2 object and formats it to look like a
+#' Takes a ggplot2 object and formats it to look like a
 #' Grattan Powerpoint slide. You will rarely need to call this function
 #' directly - use `grattan_save()` to save a ggplot2 object as a 'slide'-like
 #' image.
 #'
-#' @param object A ggplot2 object.
-#' @param type One of "fullslide", "fullslide_169", "fullslide_44", "blog". See
-#' `?grattan_save` for more information about these types.
-#' @param height NULL by default.
-#' @param warn_labs TRUE by default. If set to FALSE, you will not be warned
-#' about missing labels, such as an absent title or subtitle.
-#' @param print_object FALSE by default. Set to TRUE if you want to print
-#' to the console the original object that you supplied to the function.
+#' @param plot A ggplot2 plot
+#' @param type Optional. If specified, must be one of "fullslide", "fullslide_169", "fullslide_44", or "blog".
+#' This is used to define the size of the white border around the image.
 #'
-#' @return An object of class gtable
+#' @return An object of class "patchwork".
 #'
 #' @examples
 #'
-#' library(grattantheme)
 #' library(ggplot2)
-#' library(gridExtra)
-#'
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-#' geom_point() +
-#' theme_grattan() +
-#' labs(title = "Title goes here", subtitle = "Subtitle here", caption = "Notes:
-#' some notes. Source: source information")
+#'     geom_point() +
+#'     labs(title = "My title",
+#'          subtitle = "My subtitle",
+#'          caption = "My caption") +
+#'     theme_grattan()
 #'
-#' fullslide_p <- create_fullslide(p, "fullslide")
+#' # Create an image that includes the Grattan logo
 #'
-#' # If you want to display your fullslide plot in RStudio, you can use
-#' # `gridExtra::grid.arrange()`
+#' p_logo <- create_fullslide(p)
 #'
-#' gridExtra::grid.arrange(fullslide_p)
+#' # Create an image that's ready for the blog
 #'
+#' p_blog <- create_fullslide(p, "blog")
 #'
 #' @export
-#' @import ggplot2
-#' @import gridExtra
+#' @importFrom patchwork wrap_plots wrap_elements plot_spacer plot_annotation
+#' @import grid
 
-create_fullslide <- function(object,
-                             type = "fullslide",
-                             height = NULL,
-                             warn_labs = TRUE,
-                             print_object = FALSE) {
+create_fullslide <- function(plot = last_plot(),
+                             type) {
 
-  fullslide_types <- chart_types$type[chart_types$class == "fullslide"]
+    # Check inputs and define plot borders ----
 
-  if (!type %in% fullslide_types) {
-    stop("create_fullslide() does not work with type '",
-         type,
-         "'.\ntype must be one of: ",
-         paste0(fullslide_types, collapse = ", "),
-         "."
-         )
-  }
-
-  p <- object
-
-  if (isFALSE(inherits(p, "ggplot_built"))) {
-    p_built <- ggplot_build(p)
-
-  } else {
-    p_built <- p
-  }
-
-  p <- p_built$plot
-  p <- wrap_labs(p, type)
-
-  stored_title <- p$labels$title
-  stored_subtitle <- p$labels$subtitle
-  stored_caption <- p$labels$caption
-
-  if (stored_title == "\n") {
-    if (warn_labs) {
-      message("Your plot has no title, which is weird for a fullslide.",
-              "\nAdd a title using +labs(title = 'Title')")
-    }
-    stored_title <- ""
-  }
-
-  if (is.null(stored_subtitle) | stored_subtitle == "") {
-    if (warn_labs) {
-      message(paste0("Your plot has no subtitle, which is weird for type = ",
-                     type,
-                     "\nConsider adding a subtitle using",
-                     "labs(subtitle = 'Text')"))
+    if (!inherits(plot, "ggplot")) {
+      stop(deparse(substitute(plot)), " is not a ggplot2 object.")
     }
 
-    stored_subtitle <- NULL
-  }
+    if (missing(type)) {
+      top_border <- 0.15
+      right_border <- 0.15
+      bottom_border <- 0.05
+      left_border = 0.15
 
-  if (stored_caption == "") {
-    if (warn_labs) {
-      message("Your plot has no caption, which is weird for full slide charts.",
-              "\nConsider adding a caption using labs(caption = 'Text')")
+    } else {
+      if (!type %in% fullslide_chart_types) {
+        stop(type,
+             " is not a valid chart type.\nMust be one of: ",
+             paste(fullslide_chart_types, collapse = ", "))
+      }
+
+      chosen_chart_type <- chart_types[chart_types$type == type, ]
+      top_border <- chosen_chart_type$top_border
+      right_border <- chosen_chart_type$right_border
+      bottom_border <- chosen_chart_type$bottom_border
+      left_border <- chosen_chart_type$left_border
     }
-    stored_caption <- ""
-  }
 
-  # remove title and subtitle on chart
-  p$labels$title <- NULL
-  p$labels$subtitle <- NULL
+    # Create title and subtitle -----
+    p <- plot
 
-  # how many lines in the subtitle?
+    stored_title <- p$labels$title
+    stored_subtitle <- p$labels$subtitle
 
-  subtitle_lines <- ceiling(nchar(stored_subtitle) /
-                              chart_types$subtitle[chart_types$type == type])
+    p$labels$title <- NULL
+    p$labels$subtitle <- NULL
 
-  # convert to gtable
-  p_built$plot <- p
-  p <- p_built
-  p <- ggplot2::ggplot_gtable(p)
+    title_font_size <- 18
 
-  # left align caption
-  p$layout[which(p$layout$name == "caption"),
-           c("l", "r")] <- c(2, max(p$layout$r))
+    toptitle <- grid::grid.text(label = stored_title,
+                               x = unit(0, "npc"),
+                               y = unit(0.1, "npc"),
+                               just = c("left", "bottom"),
+                               draw = FALSE,
+                               gp = gpar(col = "black",
+                                         fontsize = title_font_size,
+                                         fontface = "bold",
+                                         lineheight = 0.9,
+                                         fontfamily = "sans"))
 
-  # create new ggplot object with just the title
-  toptitle <- ggplot2::ggplot() +
-    ggplot2::geom_blank() +
-    ggplot2::labs(title = stored_title) +
-    theme_grey(base_family = "sans",
-               base_size = ifelse(type == "fullslide_169",
-                                     24, 18)) +
-    ggplot2::theme(rect = ggplot2::element_blank(),
-                   plot.title = ggplot2::element_text(colour = "black",
-                                                      hjust = 0,
-                                                      vjust = 0,
-                                                      face = "bold",
-                                                      size = ggplot2::rel(1)),
-                   plot.margin = ggplot2::unit(c(0, 0, 0, 0),
-                                               units = "cm"))
+    topsubtitle <- grid::grid.text(label = stored_subtitle,
+                                   x = unit(0, "npc"),
+                                   y = unit(0.925, "npc"),
+                                   draw = F,
+                                   just = c("left", "top"),
+                                   gp = gpar(col = "black",
+                                             fontsize = 18,
+                                             lineheight = 0.9,
+                                             fontfamily = "sans"))
 
-  # create new ggplot object with just the subtitle
-  topsubtitle <- ggplot2::ggplot() +
-    ggplot2::geom_blank() +
-    ggplot2::labs(subtitle = stored_subtitle) +
-    theme_grey(base_family = "sans", base_size = 18) +
-    ggplot2::theme(rect = ggplot2::element_blank(),
-                   plot.subtitle = ggplot2::element_text(colour = "black",
-                                                         hjust = 0,
-                                                         vjust = 0),
-                   plot.margin = ggplot2::unit(c(0, 0, 0, 0), units = "cm"))
 
-  # create new grob of whitespace to be the border
-  border <- grid::rectGrob(gp = grid::gpar(fill = "white", col = "white"))
+    # Define additional grobs -----
+    blank_grob <- rectGrob(gp = gpar(lwd = 0))
 
-  # create new grob of solid orange to be the horizontal line
-  linegrob <- grid::rectGrob(gp = grid::gpar(fill = "#F3901D", col = "white"))
+    orange_line <- grid.lines(y = c(0.5, 0.5),
+                              draw = FALSE,
+                              gp = gpar(col = grattantheme::grattan_lightorange,
+                                       lwd = 2))
 
-  # define heights of elements
-  if (is.null(height)) {
-    height <- chart_types$height[chart_types$type == type]
-  }
+    orange_line_height <- 0.08
 
-  blog_border <- 0.15
+    logo_height <- 1.1
+    logo_width <- 4
+    logo_padding <- 0.1
 
-  top_border_height <- ifelse(type == "blog", blog_border, 0.70)
-  header_height <- 1.75
-  linegrob_height <- 0.1
-  subtitle_height <- ifelse(is.null(stored_subtitle), 0.21,
-                            ifelse(subtitle_lines == 1, 1.76 / 2, 1.76))
-  bottom_border_height <- ifelse(type == "blog", blog_border, 0.24)
+    layout <- "
+    T#L
+    OOO
+    SSS
+    PPP
+    "
 
-  non_plot_height <- sum(top_border_height, header_height, linegrob_height,
-                         subtitle_height, bottom_border_height)
-
-  plot_height <- height - non_plot_height
-
-  # define widths of elements
-  width <- chart_types$width[chart_types$type == type]
-
-  plot_width <- if (type %in% c("fullslide", "fullslide_44")) {
-    22.16
-  } else if (type == "fullslide_169") {
-    30
-  } else if (type == "blog") {
-    width - (blog_border * 2)
-  }
-
-  width_leftborder <- ifelse(grepl("fullslide", type),
-                             (width - plot_width) / 2,
-                             blog_border)
-
-  width_rightborder <- width_leftborder
-
-  # create header (= title + logo side by side)
-
-  width_logo <- 4.57
-
-  width_title <- plot_width - width_logo
-
-  header <- gridExtra::arrangeGrob(grobs = list(toptitle, logogrob),
-                                   ncol = 2,
-                                   widths = unit(c(width_title, width_logo),
-                                                 "cm"),
-                                   heights = unit(1.48,
-                                                  "cm"),
-                                   padding = unit(0,
-                                                  "line"))
-
-  # create main plotting area
-  mainarea <- gridExtra::arrangeGrob(grobs = list(border,
-                                                  header,
-                                                  linegrob,
-                                                  topsubtitle,
-                                                  p,
-                                                  border),
-                                      ncol = 1,
-                                      heights = unit(c(top_border_height,
-                                                       header_height,
-                                                       linegrob_height,
-                                                       subtitle_height,
-                                                       plot_height,
-                                                       bottom_border_height),
-                                                     "cm"),
-                                      widths = unit(plot_width, "cm"))
-
-  # create total plot
-
-  total <- gridExtra::arrangeGrob(grobs = list(border, mainarea, border),
-                                  ncol = 3,
-                                  widths = unit(c(width_leftborder,
-                                                  plot_width,
-                                                  width_rightborder),
-                                                 "cm"))
-
-  # plot original chart again if requested
-  if (print_object) {
-    print(object)
-  }
-
-  ggplot2::set_last_plot(object)
-
-  total
-
+    wrap_plots(T = wrap_elements(full = toptitle),
+               L = wrap_elements(full = logogrob),
+               O = wrap_elements(full = orange_line),
+               S = wrap_elements(full = topsubtitle),
+               P = wrap_elements(full = p),
+               design = layout,
+               heights = unit(c(logo_height,
+                                0.001,
+                                logo_height,
+                                1),
+                              c("cm",
+                                "cm",
+                                "cm",
+                                "null")),
+               widths = unit(c(1,
+                               logo_padding,
+                               logo_width),
+                             c("null",
+                               "cm",
+                               "cm"))
+               ) +
+      plot_annotation(theme = theme(plot.margin = margin(top_border,
+                                                         right_border,
+                                                         bottom_border,
+                                                         left_border,
+                                                         "cm")))
 }

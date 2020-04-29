@@ -28,7 +28,8 @@ test_that("theme conforms with style guide in key ways",{
 test_that("theme_grattan() arguments work",{
   p_flipped <- base_plot + theme_grattan(flipped = TRUE)
 
-  expect_equal(attr(p_flipped$theme$panel.grid.major.x, "class")[1], "element_line")
+  expect_null(p_flipped$theme$panel.grid.major.x)
+  expect_is(p_flipped$theme$panel.grid.major.y, "element_blank")
 
   p_orange <- base_plot + theme_grattan(background = "orange")
 

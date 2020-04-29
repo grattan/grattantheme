@@ -44,10 +44,6 @@
 #'   title, subtitle, and caption (if present) from your graph before saving it,
 #'   unless `type` = "fullslide". By setting `force_labs` to TRUE, your
 #'   title/subtitle/caption will be retained regardless of `type`.
-#' @param warn_labs Logical. Default is TRUE, unless type = "all". When TRUE,
-#'   `grattan_save()` will warn you if you try to save a normal chart with
-#'   labels, or a fullslide chart without labels. Suppress these warnings by
-#'   setting `warn_labels` to FALSE.
 #' @param watermark Character. NULL by default. If a string, like `DRAFT`,
 #' is supplied, this string will be added to your plot as a watermark.
 #' See `?watermark` for options - to use these, call `watermark()` directly
@@ -59,9 +55,7 @@
 #'   cairo_pdf` to use the Cairo PDF rendering engine.
 #'
 #' @import ggplot2
-#' @import grid
 #' @importFrom utils tail
-#' @importFrom gridExtra grid.arrange
 #' @importFrom purrr walk2
 #'
 #' @examples
@@ -130,47 +124,42 @@ grattan_save <- function(filename,
                          height = NULL,
                          save_data = FALSE,
                          force_labs = FALSE,
-                         warn_labs = TRUE,
                          watermark = NULL,
                          latex = FALSE,
                          dpi = "retina",
                          ...) {
 
-  if (!type %in% c("all", chart_types$type)) {
-    warning(paste0("`type` not valid, reverting to 'normal'. ",
-                   "See ?grattan_save for valid types."))
-    type <- "normal"
+  if (!type %in% c("all", all_chart_types)) {
+    stop(type,
+         "is not a valid chart type.\n",
+         "See ?grattan_save for valid types.")
   }
+
+  if (isFALSE(inherits(object, "gg"))) {
+    stop("`object` is not a ggplot2 object.")
+  }
+
+  original_object <- object
 
   if (isTRUE(latex)) export_latex_code(object, filename)
 
+  if (!is.null(watermark)) {
+    object <- object + watermark(watermark)
+  }
+
   if (type != "all") {
-
     if (isTRUE(save_data)) {
-      if (inherits(object, "gg")) {
-
         save_chartdata(filename = paste0(sub("\\..*", "", filename), ".xlsx"),
                        object = object,
                        type = type,
                        height = height)
-
-      } else {
-        warning("save_data only works with ggplot graph objects.",
-                " Your data has not been saved.")
       }
-    }
-
-    if (!is.null(watermark)) {
-      object <- object +
-        watermark(watermark)
-    }
 
     grattan_save_(filename = filename,
                   object = object,
                   type = type,
                   height = height,
                   force_labs = force_labs,
-                  warn_labs = warn_labs,
                   dpi = dpi,
                   ...)
   }
@@ -184,36 +173,25 @@ grattan_save <- function(filename,
       dir.create(dir, recursive = TRUE)
     }
 
-    types <- chart_types$type
+    filenames <- file.path(dir, paste0(file_name, "_", all_chart_types, ".", filetype))
 
-    filenames <- file.path(dir, paste0(file_name, "_", types, ".", filetype))
-
-      if (inherits(object, "gg")) {
-
-        save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
-                       object = object,
-                       type = "normal",
-                       height = height)
-
-      } else {
-        warning("save_data only works with ggplot graph objects.",
-                " Your data has not been saved.")
-      }
-
+    save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
+                   object = object,
+                   type = "normal",
+                   height = height)
 
     purrr::walk2(.x = filenames,
-                 .y = types,
+                 .y = all_chart_types,
                  .f = grattan_save_,
                  object = object,
                  height = height,
                  force_labs = force_labs,
-                 warn_labs = FALSE,
                  dpi = dpi,
                  ...)
 
   }
 
-  ggplot2::set_last_plot(object)
+  ggplot2::set_last_plot(original_object)
 
 }
 
@@ -226,7 +204,6 @@ grattan_save_ <- function(filename,
                           type,
                           height,
                           force_labs,
-                          warn_labs,
                           dpi,
                           ...) {
 
@@ -243,17 +220,10 @@ grattan_save_ <- function(filename,
   # logo
   if (plot_class == "fullslide") {
 
-    if (inherits(object, "ggassemble")) {
-      stop(paste0("Charts assembled with the patchwork package",
-                  "cannot be assembled as ",
-                  type, " charts."))
-    }
+    object <- wrap_labs(object, type)
 
-    # calls another function to do the work of assembling a full slide
-    object <- create_fullslide(object = object,
-                               type = type,
-                               height = height,
-                               warn_labs = warn_labs)
+    object <- create_fullslide(plot = object,
+                               type = type)
 
   } else { # following code only applies if type != "fullslide"
 
@@ -261,38 +231,18 @@ grattan_save_ <- function(filename,
       # Unless force_labs == TRUE (indicating the user wishes
       # to retain their labels)
       # Remove title, subtitle and caption for type != "fullslide"
-      # Politely give warning before removal
 
-      if ("title"    %in% names(object$labels) |
-         "subtitle" %in% names(object$labels) |
-         "caption"  %in% names(object$labels)) {
-
-        if (isTRUE(warn_labs)) {
-          message(paste0("Note: ", type,
-                         " charts remove titles, subtitles, or captions by",
-                         " default.\nSet `force_labs` to TRUE to retain them,",
-                         " or use type = 'fullslide'"))
-        }
-
-        object <- object +
-          theme(plot.title = element_blank(),
+      object <- object +
+        theme(plot.title = element_blank(),
                 plot.subtitle = element_blank(),
                 plot.caption = element_blank())
-      }
+
     } else {
     # non-fullslide, force_labs = TRUE
-
-        if (inherits(object, "ggassemble")) {
-          stop("Charts assembled with the patchwork package cannot be",
-               " saved using the `force_labs = TRUE`",
-               " argument of `grattan_save()`")
-        }
-
         object <- wrap_labs(object, type)
-
     }
 
-  } # end of section that only apples to type != "fullslide
+  }
 
   width <- chart_types$width[chart_types$type == type]
 
