@@ -40,6 +40,10 @@ fullslide_plot <- normal_plot %>%
   wrap_labs("fullslide") %>%
   create_fullslide("fullslide")
 
+blog_plot <- normal_plot %>%
+  wrap_labs("blog") %>%
+  create_fullslide("blog")
+
 orange_plot <- base_plot +
   theme_grattan(background = "orange")
 
@@ -78,6 +82,7 @@ test_that("plot with short subtitle fills the blank space", {
 
 test_that("fullslide plot looks correct", {
   vdiffr::expect_doppelganger("fullslide plot", fullslide_plot)
+  vdiffr::expect_doppelganger("blog plot", blog_plot)
 })
 
 test_that("orange background returned when requested", {
