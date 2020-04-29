@@ -70,7 +70,7 @@ gridextra_fullslide <- function(object,
     ggplot2::labs(title = stored_title) +
     theme_grey(base_family = "sans",
                base_size = ifelse(type == "fullslide_169",
-                                  24, 18)) +
+                                  18, 18)) +
     ggplot2::theme(rect = ggplot2::element_blank(),
                    plot.title = ggplot2::element_text(colour = "black",
                                                       hjust = 0,
