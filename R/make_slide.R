@@ -15,6 +15,7 @@
 #' @importFrom knitr opts_chunk
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rmarkdown pandoc_version pandoc_available
+#' @importFrom rstudioapi getActiveDocumentContext
 #'
 #' @examples
 #'
@@ -352,9 +353,8 @@ make_presentation <- function(graphs,
 
 #' Create the RMd for a single-page Powerpoint slide with a graph, title,
 #' and subtitle. Does not include YAML header or title page.
-#' @params p ggplot2 plot to add to a Powerpoint slide
-#' @params type chart type
-#' @keywords internal
+#' @param p ggplot2 plot to add to a Powerpoint slide
+#' @param type chart type
 #' @noRd
 #'
 generate_slide_rmd <- function(p, type, temp_dir) {
@@ -390,6 +390,14 @@ generate_slide_rmd <- function(p, type, temp_dir) {
          dpi = "retina",
          units = "cm")
 
+  if (isTRUE(require(rstudioapi))) {
+    script_location <- rstudioapi::getActiveDocumentContext()$path
+  } else {
+    script_location <- ""
+    warning("Could not establish the path to your script.")
+  }
+
+
   plot_area <- paste(graph_title,
                      ":::::::::::::: {.columns}",
                      "::: {.column}",
@@ -411,6 +419,8 @@ generate_slide_rmd <- function(p, type, temp_dir) {
                            "\n"),
                      paste(split_caption,
                            "\n"),
+                     paste0("R script location: ",
+                            script_location),
                      ":::",
                      sep = "\n")
 

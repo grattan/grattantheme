@@ -24,6 +24,7 @@ Imports:
     patchwork (>= 1.0.0),
     openxlsx (>= 4.1.0.1),
     stringr,
+    rstudioapi,
     clipr
 VignetteBuilder: knitr
 Encoding: UTF-8
