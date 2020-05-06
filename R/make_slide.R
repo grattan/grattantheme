@@ -81,8 +81,6 @@ make_slide <- function(graph = last_plot(),
   }
 
   # copy template to temporary directory
-
-
   if (type == "16:9") {
     template_source <- system.file(file.path("extdata", "template_169.pptx"),
                                    package = "grattantheme")
@@ -143,7 +141,6 @@ make_slide <- function(graph = last_plot(),
   plot_area <- slide_rmd$plot_area
   plot_filename <- slide_rmd$plot_filename
   on.exit(unlink(plot_filename))
-
 
   fulldoc <- paste(yaml_header,
                    knitr_setup,
@@ -321,47 +318,6 @@ make_presentation <- function(graphs,
 
       p <- graphs[[i]]
 
-      # graph_title <- paste0("## ", p$labels$title)
-      # graph_subtitle <- p$labels$subtitle
-      #
-      #
-      # p <- wrap_labs(p,
-      #                type = ifelse(type == "16:9",
-      #                              "normal_169",
-      #                              "normal"))
-      #
-      # p$labels$title <- NULL
-      # p$labels$subtitle <- NULL
-      #
-      # plot_filename <- file.path(temp_dir, paste0("plot", i, ".png"))
-      #
-      # ggsave(filename = plot_filename,
-      #        plot = p,
-      #        height = 14.5,
-      #        width = ifelse(type == "16:9",
-      #                       30, 22.2),
-      #        units = "cm")
-      #
-      #
-      # plot_area <- paste(graph_title,
-      #                    ":::::::::::::: {.columns}",
-      #                    "::: {.column}",
-      #                    graph_subtitle,
-      #                    ":::",
-      #                    "::: {.column}",
-      #                    paste0("![](",
-      #                           #plot_filename,
-      #                           basename(plot_filename),
-      #                           ")"),
-      #                    ":::",
-      #                    "::: notes",
-      #                    paste0("Title: ", gsub("## ", "", graph_title), "\n"),
-      #                    paste0("Subtitle: ", graph_subtitle, "\n"),
-      #                    p$labels$caption,
-      #                    ":::",
-      #                    "::::::::::::::",
-      #                    sep = "\n")
-
       slide_rmd <- generate_slide_rmd(p = p,
                                       type = type,
                                       temp_dir = temp_dir)
@@ -402,8 +358,14 @@ make_presentation <- function(graphs,
 #' @noRd
 #'
 generate_slide_rmd <- function(p, type, temp_dir) {
-  graph_title <- paste0("## ", p$labels$title)
-  graph_subtitle <- p$labels$subtitle
+  raw_title <- p$labels$title
+  raw_subtitle <- p$labels$subtitle
+
+  graph_title <- paste0("## ", raw_title)
+  graph_subtitle <- raw_subtitle
+
+  split_caption <- gsub(" source", " \n\nSource", p$labels$caption,
+                        ignore.case = TRUE)
 
   p <- wrap_labs(p,
                  type = ifelse(type == "16:9",
@@ -440,6 +402,16 @@ generate_slide_rmd <- function(p, type, temp_dir) {
                             ")"),
                      ":::",
                      "::::::::::::::",
+                     "::: notes",
+                     paste("Title:",
+                            raw_title,
+                           "\n"),
+                     paste("Subtitle:",
+                           raw_subtitle,
+                           "\n"),
+                     paste(split_caption,
+                           "\n"),
+                     ":::",
                      sep = "\n")
 
   list(plot_filename = plot_filename,
