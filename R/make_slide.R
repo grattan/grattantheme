@@ -136,42 +136,13 @@ make_slide <- function(graph = last_plot(),
                         backticks,
                         "\n")
 
-  graph_title <- paste0("## ", p$labels$title)
-  graph_subtitle <- p$labels$subtitle
+  slide_rmd <- generate_slide_rmd(p = p,
+                                 type = type,
+                                 temp_dir = temp_dir)
 
-  p <- wrap_labs(p,
-                 type = ifelse(type == "16:9",
-                               "normal_169",
-                               "normal"))
-
-  p$labels$title <- NULL
-  p$labels$subtitle <- NULL
-
-  plot_filename <- file.path(temp_dir, "plot.png")
+  plot_area <- slide_rmd$plot_area
+  plot_filename <- slide_rmd$plot_filename
   on.exit(unlink(plot_filename))
-
-  ggsave(filename = plot_filename,
-         plot = p,
-         height = 14.5,
-         width = ifelse(type == "16:9",
-                             30, 22.2),
-         dpi = "retina",
-         units = "cm")
-
-
-  plot_area <- paste(graph_title,
-                     ":::::::::::::: {.columns}",
-                     "::: {.column}",
-                     graph_subtitle,
-                     ":::",
-                     "::: {.column}",
-                     paste0("![](",
-                            #plot_filename,
-                            basename(plot_filename),
-                            ")"),
-                     ":::",
-                     "::::::::::::::",
-                     sep = "\n")
 
 
   fulldoc <- paste(yaml_header,
@@ -345,51 +316,61 @@ make_presentation <- function(graphs,
 
 
   plot_areas <- list()
+  plot_filenames <- list()
   for (i in seq_along(graphs)) {
 
       p <- graphs[[i]]
 
-      graph_title <- paste0("## ", p$labels$title)
-      graph_subtitle <- p$labels$subtitle
+      # graph_title <- paste0("## ", p$labels$title)
+      # graph_subtitle <- p$labels$subtitle
+      #
+      #
+      # p <- wrap_labs(p,
+      #                type = ifelse(type == "16:9",
+      #                              "normal_169",
+      #                              "normal"))
+      #
+      # p$labels$title <- NULL
+      # p$labels$subtitle <- NULL
+      #
+      # plot_filename <- file.path(temp_dir, paste0("plot", i, ".png"))
+      #
+      # ggsave(filename = plot_filename,
+      #        plot = p,
+      #        height = 14.5,
+      #        width = ifelse(type == "16:9",
+      #                       30, 22.2),
+      #        units = "cm")
+      #
+      #
+      # plot_area <- paste(graph_title,
+      #                    ":::::::::::::: {.columns}",
+      #                    "::: {.column}",
+      #                    graph_subtitle,
+      #                    ":::",
+      #                    "::: {.column}",
+      #                    paste0("![](",
+      #                           #plot_filename,
+      #                           basename(plot_filename),
+      #                           ")"),
+      #                    ":::",
+      #                    "::: notes",
+      #                    paste0("Title: ", gsub("## ", "", graph_title), "\n"),
+      #                    paste0("Subtitle: ", graph_subtitle, "\n"),
+      #                    p$labels$caption,
+      #                    ":::",
+      #                    "::::::::::::::",
+      #                    sep = "\n")
 
+      slide_rmd <- generate_slide_rmd(p = p,
+                                      type = type,
+                                      temp_dir = temp_dir)
 
-      p <- wrap_labs(p,
-                     type = ifelse(type == "16:9",
-                                   "normal_169",
-                                   "normal"))
+      plot_area <- slide_rmd$plot_area
+      plot_filename <- slide_rmd$plot_filename
+      on.exit(unlink(plot_filename))
 
-      p$labels$title <- NULL
-      p$labels$subtitle <- NULL
-
-      plot_filename <- file.path(temp_dir, paste0("plot", i, ".png"))
-
-      ggsave(filename = plot_filename,
-             plot = p,
-             height = 14.5,
-             width = ifelse(type == "16:9",
-                            30, 22.2),
-             units = "cm")
-
-
-      plot_area <- paste(graph_title,
-                         ":::::::::::::: {.columns}",
-                         "::: {.column}",
-                         graph_subtitle,
-                         ":::",
-                         "::: {.column}",
-                         paste0("![](",
-                                #plot_filename,
-                                basename(plot_filename),
-                                ")"),
-                         ":::",
-                         "::: notes",
-                         paste0("Title: ", gsub("## ", "", graph_title), "\n"),
-                         paste0("Subtitle: ", graph_subtitle, "\n"),
-                         p$labels$caption,
-                         ":::",
-                         "::::::::::::::",
-                         sep = "\n")
-
+      plot_filenames[[i]] <- plot_filename
       plot_areas[[i]] <- plot_area
   }
 
@@ -412,6 +393,59 @@ make_presentation <- function(graphs,
   result_of_file_remove <- file.remove(file.path(temp_dir, "temp_rmd.Rmd"))
 
 }
+
+#' Create the RMd for a single-page Powerpoint slide with a graph, title,
+#' and subtitle. Does not include YAML header or title page.
+#' @params p ggplot2 plot to add to a Powerpoint slide
+#' @params type chart type
+#' @keywords internal
+#' @noRd
+#'
+generate_slide_rmd <- function(p, type, temp_dir) {
+  graph_title <- paste0("## ", p$labels$title)
+  graph_subtitle <- p$labels$subtitle
+
+  p <- wrap_labs(p,
+                 type = ifelse(type == "16:9",
+                               "normal_169",
+                               "normal"))
+
+  p$labels$title <- NULL
+  p$labels$subtitle <- NULL
+
+  plot_basename <- paste0(sample(letters, 12, replace = TRUE),
+                     collapse = "")
+
+  plot_filename <- file.path(temp_dir,
+                             paste0(plot_basename,
+                                    ".png"))
+
+  ggsave(filename = plot_filename,
+         plot = p,
+         height = 14.5,
+         width = ifelse(type == "16:9",
+                        30, 22.2),
+         dpi = "retina",
+         units = "cm")
+
+  plot_area <- paste(graph_title,
+                     ":::::::::::::: {.columns}",
+                     "::: {.column}",
+                     graph_subtitle,
+                     ":::",
+                     "::: {.column}",
+                     paste0("![](",
+                            #plot_filename,
+                            basename(plot_filename),
+                            ")"),
+                     ":::",
+                     "::::::::::::::",
+                     sep = "\n")
+
+  list(plot_filename = plot_filename,
+       plot_area = plot_area)
+}
+
 
 pandoc_test <- function() {
 
