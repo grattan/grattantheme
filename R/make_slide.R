@@ -1,9 +1,13 @@
-#' Create a Powerpoint slide(s) that contains a Grattan graph and editable title
-#' and subtitle.
+#' Create Powerpoint slides
 #'
 #' @description Use `make_slide()` to create a Powerpoint presentation
-#'   containing a single slide, or `make_presentation()` for a presentation with
-#'   multiple slides.
+#'   from a Grattan graph, or list of graphs.
+#'
+#'   The slide will contain a Grattan graph and editable title
+#'   and subtitle. The title, subtitle and caption will be added to speaker notes
+#'   in the PPT slide. The path to your R script will also be added, if
+#'   `make_slide()` is called from a script and the `rstudioapi` is present.
+#'
 #' @param graph The graph you want to include on your slide. Defaults to the
 #'   last plot (ggplot2::last_plot())
 #' @param filename The filename for your Powerpoint slide.
@@ -212,6 +216,9 @@ make_presentation <- function(graphs,
 
   pandoc_test()
 
+  .Deprecated("make_slide()",
+              msg = "make_presentation() is deprecated and will be removed. make_slide() can save a list of graphs as a multi-slide Powerpoint deck.")
+
   if (is.null(filename)) {
     stop("You must specify a filename (such as 'my_presentation') for",
          " the Powerpoint presentation you wish to create.")
@@ -390,11 +397,11 @@ generate_slide_rmd <- function(p, type, temp_dir) {
          dpi = "retina",
          units = "cm")
 
-  if (isTRUE(require(rstudioapi))) {
+  if (isTRUE(requireNamespace("rstudioapi")) &&
+      isTRUE(rstudioapi::isAvailable())) {
     script_location <- rstudioapi::getActiveDocumentContext()$path
   } else {
     script_location <- ""
-    warning("Could not establish the path to your script.")
   }
 
 

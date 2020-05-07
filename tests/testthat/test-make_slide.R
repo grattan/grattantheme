@@ -1,4 +1,4 @@
-context("Powerpoint slide creation")
+ context("Powerpoint slide creation")
 
 # Create base object to use for test
 base_plot <- ggplot(mtcars, aes(x = mpg, y = hp)) +
