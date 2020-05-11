@@ -19,10 +19,12 @@ grattan_save(
 )
 }
 \arguments{
-\item{filename}{Required. This parameter sets the filename (including path
-where necessary) where you want to save your image. The extension defines
-the file type. Suggested filetypes are "pdf" or "png", but others are
-available (see \code{?ggsave} for the full list).}
+\item{filename}{Required. The filename (including path
+where necessary) where you want to save your image. The filename
+should usually end in ".pdf" or ".png" (see \code{?ggsave}
+for the full list of allowed extensions/types). Note that if
+\code{type = ALL} a subdirectory will be created based on your filename;
+the files will go in that subdirectory.}
 
 \item{object}{The ggplot2 graph object to be saved. Defaults to
 \code{last_plot()}, which will save the last plot that was displayed in

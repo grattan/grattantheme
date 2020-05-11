@@ -1,23 +1,54 @@
 
 grattan_save_pptx <- function(plot,
                               filename,
-                              type = c("fullslide",
-                                       "fullslide_169",
-                                       "normal",
-                                       "wholecolumn")) {
+                              type = "fullslide") {
 
-  allowed_types <-  c("fullslide",
+  pptx_types <-  c("fullslide",
                       "fullslide_169",
                       "normal",
                       "wholecolumn")
 
-  if (!type %in% allowed_types) {
-    stop("type '", type, "' is not one of the allowed types: ",
-         paste(allowed_types, collapse = ", "), ".")
+  allowed_types <- c(pptx_types, "all")
+
+  for (i in seq_along(type)) {
+    if (!type[[i]] %in% allowed_types) {
+      stop("type '", type[[i]], "' is not one of the allowed types: ",
+           paste(allowed_types, collapse = ", "), ".")
+    }
   }
 
+  multiple_types <- ifelse(type == "all" || length(type) > 1,
+                           TRUE,
+                           FALSE)
 
+  if (length(type) == 1) {
+    if (type == "all") {
+      type <- pptx_types
+    }
+  }
 
+  if (isTRUE(multiple_types)) {
+    output_dir <- tools::file_path_sans_ext(filename)
+
+    if (!dir.exists(output_dir)) {
+      dir.create(output_dir, recursive = TRUE)
+    }
+
+    base_filename <- tools::file_path_sans_ext(basename(filename))
+    filetype <- tools::file_ext(filename)
+
+    filenames <- file.path(output_dir,
+                           paste0(base_filename, "_", type, ".", filetype))
+  } else {
+    filenames <- filename
+  }
+
+  walk2(.x = filenames,
+        .y = type,
+        .f = grattan_save_pptx_onetype,
+        p = plot)
+
+  invisible(TRUE)
 
 }
 
