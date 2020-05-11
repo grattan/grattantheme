@@ -17,8 +17,6 @@ Imports:
     purrr (>= 0.3.0),
     knitr (>= 1.22),
     rmarkdown (>= 1.12),
-    xml2 (>= 1.2.0),
-    zip (>= 2.0.0),
     gridExtra,
     gganimate (>= 1.0.0),
     patchwork (>= 1.0.0),

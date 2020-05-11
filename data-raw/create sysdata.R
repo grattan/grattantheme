@@ -20,15 +20,15 @@ chart_types <- tibble::tribble(
 blog_border <- 0.15
 
 chart_types <- chart_types %>%
-  mutate(top_border = case_when(class == "normal" ~ NA_real_,
+  mutate(top_border = case_when(class == "normal" ~ 0,
                                 type == "blog" ~ blog_border,
                                 TRUE ~ 0.7),
-         bottom_border = case_when(class == "normal" ~ NA_real_,
+         bottom_border = case_when(class == "normal" ~ 0,
                                    type == "blog" ~ 0.05,
                                    type %in% c("fullslide_169",
                                                "fullslide_44") ~ 0.24,
                                    TRUE ~ 0.05),
-         left_border = case_when(class == "normal" ~ NA_real_,
+         left_border = case_when(class == "normal" ~ 0,
                                  type %in% c("fullslide",
                                              "fullslide_44") ~ (width - 22.16) / 2,
                                  type == "fullslide_169" ~ (width - 30) / 2,

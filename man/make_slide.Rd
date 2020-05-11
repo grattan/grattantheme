@@ -3,7 +3,7 @@
 \name{make_slide}
 \alias{make_slide}
 \alias{make_presentation}
-\title{Create Powerpoint slides}
+\title{Create Powerpoint slides (deprecated)}
 \usage{
 make_slide(graph = last_plot(), filename = NULL, path = ".", type = "16:9")
 
@@ -37,13 +37,8 @@ slide.}
 title slide.}
 }
 \description{
-Use `make_slide()` to create a Powerpoint presentation
-  from a Grattan graph, or list of graphs.
-
-  The slide will contain a Grattan graph and editable title
-  and subtitle. The title, subtitle and caption will be added to speaker notes
-  in the PPT slide. The path to your R script will also be added, if
-  `make_slide()` is called from a script and the `rstudioapi` is present.
+These functions have been deprecated (removed) from the grattantheme
+  package. Use the new function `grattan_save_pptx()` instead.
 }
 \examples{
 
