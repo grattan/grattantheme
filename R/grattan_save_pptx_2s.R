@@ -1,5 +1,6 @@
 
-grattan_save_pptx <- function(plot,
+#' @importFrom purrr walk walk2
+grattan_save_pptx_2s <- function(plot,
                               filename,
                               type = "fullslide") {
 
@@ -60,21 +61,31 @@ grattan_save_pptx <- function(plot,
 
   walk2(.x = filenames,
         .y = type,
-        .f = grattan_save_pptx_onetype,
+        .f = create_pptx_shell,
         p = plot)
+
+  plot <- map(.x = plot,
+              .f = wrap_labs,
+              type = type,
+              labs_to_wrap = "caption")
+
+  walk(.x = filenames,
+       .f = add_graph_to_pptx,
+       p = plot)
 
   invisible(TRUE)
 }
 
-#' Internal function to create a Grattan-branded PPTX slide using RMd
-#' Called by grattan_save_pptx(). This function saves slide(s) in a single
-#' format.
-#' @param p ggplot2 plot or list of plots
-#' @param filename filename (incl. path where necessary) to save file
-#' @param type type of slide; see \code{?grattan_save_pptx()} for types
-grattan_save_pptx_onetype <- function(p,
-                                      filename,
-                                      type) {
+
+#' Create a Powerpoint document containing no content other than the
+#' template + slide-specific speaker notes (extracted from a ggplot2 object)
+#' @param p list containing ggplot2 object(s)
+#' @param filename filename (incl. path if needed) to save a .pptx file
+#' @param type graph type
+#' @importFrom purrr map
+create_pptx_shell <- function(p,
+                              filename,
+                              type) {
   pandoc_test()
 
   backticks <- paste0((rep("\x60", 3)), collapse = "")
@@ -111,21 +122,9 @@ grattan_save_pptx_onetype <- function(p,
     on.exit(unlink(temp_dir, recursive = TRUE))
   }
 
-  plot_areas <- list()
-  plot_filenames <- list()
-
-  for(i in seq_along(p)) {
-    slide_rmd <- generate_slide_rmd(p = p[[i]],
-                                    type = type,
-                                    temp_dir = temp_dir)
-
-    plot_areas[[i]] <- slide_rmd$plot_area
-    plot_filenames[[i]] <- slide_rmd$plot_filename
-
-  }
+  plot_areas <- purrr::map(p, create_slide_shell)
 
   plot_areas <- paste0(plot_areas, collapse = "")
-  on.exit(unlink(plot_filenames))
 
   fulldoc <- paste(yaml_header,
                    knitr_setup,
@@ -144,43 +143,8 @@ grattan_save_pptx_onetype <- function(p,
   invisible(TRUE)
 }
 
+create_slide_shell <- function(p, type, temp_dir) {
 
-
-#' Create the RMd for a single-page Powerpoint slide with a graph, title,
-#' and subtitle. Does not include YAML header or title page.
-#' @param p ggplot2 plot to add to a Powerpoint slide
-#' @param type chart type
-#' @noRd
-#'
-generate_slide_rmd <- function(p, type, temp_dir) {
-  raw_title <- p$labels$title
-  raw_subtitle <- p$labels$subtitle
-
-  graph_title <- paste0("## ", raw_title)
-  graph_subtitle <- raw_subtitle
-
-  split_caption <- gsub(" source", " \n\nSource", p$labels$caption,
-                        ignore.case = TRUE)
-
-  p <- wrap_labs(p, type = type)
-
-  p$labels$title <- NULL
-  p$labels$subtitle <- NULL
-
-  plot_basename <- paste0(sample(letters, 12, replace = TRUE),
-                          collapse = "")
-
-  plot_filename <- file.path(temp_dir,
-                             paste0(plot_basename,
-                                    ".png"))
-
-  ggsave(filename = plot_filename,
-         plot = p,
-         height = 14.5,
-         width = ifelse(type %in% c("16:9", "fullslide_169"),
-                        30, 22.2),
-         dpi = "retina",
-         units = "cm")
 
   if (isTRUE(requireNamespace("rstudioapi")) &&
       isTRUE(rstudioapi::isAvailable())) {
@@ -190,38 +154,34 @@ generate_slide_rmd <- function(p, type, temp_dir) {
   }
 
   script_loc_note <- ifelse(script_location == "",
-                             "",
-                             paste0("R script location: ",
-                                    script_location))
+                            "",
+                            paste0("R script location: ",
+                                   script_location))
 
 
-  plot_area <- paste(graph_title,
+  plot_area <- paste("",
                      ":::::::::::::: {.columns}",
                      "::: {.column}",
-                     graph_subtitle,
+                     "",
                      ":::",
                      "::: {.column}",
-                     paste0("![](",
-                            #plot_filename,
-                            basename(plot_filename),
-                            ")"),
+                     "",
                      ":::",
                      "::::::::::::::",
                      "::: notes",
                      paste("Title:",
-                           raw_title,
+                           p$labels$title,
                            "\n"),
                      paste("Subtitle:",
-                           raw_subtitle,
+                           p$labels$subtitle,
                            "\n"),
-                     paste(split_caption,
+                     paste(p$labels$caption,
                            "\n"),
                      script_loc_note,
                      ":::\n",
                      sep = "\n")
 
-  list(plot_filename = plot_filename,
-       plot_area = plot_area)
+  plot_area
 }
 
 
@@ -243,3 +203,46 @@ pandoc_test <- function() {
 
 }
 
+#' @importFrom officer read_pptx on_slide ph_with ph_location_label
+#' @importFrom rvg dml
+add_graph_to_pptx <- function(p,
+                              filename) {
+  x <- read_pptx(filename)
+  num_slides <- length(x)
+
+  if (length(p) != num_slides) {
+    stop("Number of slides in shell must match number of plots in list")
+  }
+
+  for (slide in seq_len(num_slides)) {
+
+    plot <- p[[slide]]
+
+    x <- on_slide(x, index = slide)
+
+    x <- ph_with(x,
+                 plot$labels$title,
+                 location = ph_location_label("Title 1"))
+
+    plot$labels$title <- NULL
+
+    x <- ph_with(x,
+                 plot$labels$subtitle,
+                 location = ph_location_label("Content Placeholder 2"))
+
+    plot$labels$subtitle <- NULL
+
+    # pptx <- pptx %>%
+    #   ph_with(p$labels$caption,
+    #           location = ph_location_label("Footer Placeholder 5"))
+    #
+
+    # Add graph as SVG object
+    x <- ph_with(x,
+                 rvg::dml(ggobj = plot),
+                 location = ph_location_label("Content Placeholder 3"))
+  }
+
+  print(x, filename)
+
+}

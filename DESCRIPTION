@@ -23,6 +23,8 @@ Imports:
     openxlsx (>= 4.1.0.1),
     stringr,
     rstudioapi,
+    officer,
+    rvg,
     clipr
 VignetteBuilder: knitr
 Encoding: UTF-8

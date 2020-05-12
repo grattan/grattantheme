@@ -19,7 +19,7 @@ p2 <- mtcars %>%
 test_that("grattan_save_pptx_onetype() fails with inappropriate input", {
   temp <- tempfile(fileext = ".pptx")
 
-  expect_true(grattan_save_pptx_onetype(p1, temp, type = "fullslide"))
+  expect_true(grattan_save_pptx_onetype(list(p1), temp, type = "fullslide"))
   expect_true(file.exists(temp))
   unlink(temp)
 
@@ -34,7 +34,7 @@ test_that("grattan_save_pptx_onetype() works with patchwork objects", {
   p <- patchwork::wrap_plots(p1, p2)
 
   temp <- tempfile(fileext = ".pptx")
-  expect_true(grattan_save_pptx_onetype(p, temp, type = "fullslide"))
+  expect_true(grattan_save_pptx_onetype(list(p), temp, type = "fullslide"))
   expect_true(file.exists(temp))
   unlink(temp)
 
