@@ -4,16 +4,21 @@ grattan_save_pptx <- function(plot,
                               type = "fullslide") {
 
   pptx_types <-  c("fullslide",
-                      "fullslide_169",
-                      "normal",
-                      "wholecolumn")
+                   "fullslide_169",
+                   "normal",
+                   "wholecolumn")
 
   allowed_types <- c(pptx_types, "all")
 
   for (i in seq_along(type)) {
     if (!type[[i]] %in% allowed_types) {
-      stop("type '", type[[i]], "' is not one of the allowed types: ",
-           paste(allowed_types, collapse = ", "), ".")
+      stop(
+        "type '",
+        type[[i]],
+        "' is not one of the allowed types: ",
+        paste(allowed_types, collapse = ", "),
+        "."
+      )
     }
   }
 
@@ -21,22 +26,19 @@ grattan_save_pptx <- function(plot,
                            TRUE,
                            FALSE)
 
-  if (length(type) == 1) {
-    if (type == "all") {
-      type <- pptx_types
-    }
+  if (length(type) == 1 && type == "all") {
+    type <- pptx_types
   }
 
   if (isTRUE(multiple_types)) {
     output_dir <- tools::file_path_sans_ext(filename)
 
-    if (!dir.exists(output_dir)) {
+    if (isFALSE(dir.exists(output_dir))) {
       dir.create(output_dir, recursive = TRUE)
     }
 
     base_filename <- tools::file_path_sans_ext(basename(filename))
     filetype <- tools::file_ext(filename)
-
     filenames <- file.path(output_dir,
                            paste0(base_filename, "_", type, ".", filetype))
   } else {
@@ -49,7 +51,6 @@ grattan_save_pptx <- function(plot,
         p = plot)
 
   invisible(TRUE)
-
 }
 
 #' Internal function to create a Grattan-branded PPTX slide using RMd
@@ -61,7 +62,6 @@ grattan_save_pptx <- function(plot,
 grattan_save_pptx_onetype <- function(p,
                                       filename,
                                       type) {
-
   pandoc_test()
 
   # p must be either a single ggplot2 plot OR a list of ggplot2 plots
@@ -83,7 +83,8 @@ grattan_save_pptx_onetype <- function(p,
   template_filename <- switch (type,
                                "fullslide" = "template_43.pptx",
                                "fullslide_169" = "template_169.pptx",
-                               "4:3" = "template_43.pptx")
+                               "4:3" = "template_43.pptx",
+                               "16:9" = "template_169.pptx")
 
   ref_doc <- paste0('    reference_doc: "',
                     system.file("extdata",
