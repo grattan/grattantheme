@@ -3,8 +3,7 @@
 \name{make_slide}
 \alias{make_slide}
 \alias{make_presentation}
-\title{Create a Powerpoint slide(s) that contains a Grattan graph and editable title
-and subtitle.}
+\title{Create Powerpoint slides (deprecated)}
 \usage{
 make_slide(graph = last_plot(), filename = NULL, path = ".", type = "16:9")
 
@@ -38,9 +37,8 @@ slide.}
 title slide.}
 }
 \description{
-Use `make_slide()` to create a Powerpoint presentation
-  containing a single slide, or `make_presentation()` for a presentation with
-  multiple slides.
+These functions have been deprecated (removed) from the grattantheme
+  package. Use the new function `grattan_save_pptx()` instead.
 }
 \examples{
 

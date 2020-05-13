@@ -223,17 +223,21 @@ gridExtra::grid.arrange(p_full, p_full_f,
 ## Saving plots with `grattan_save`
 
 
-The `grattan_save()` function implements `ggsave()` with Grattan defaults for different occasions. We specify the occasion with the `type` argument that can take the arguments:
+The `grattan_save()` function saves your chart in a variety of types. We specify the type with the `type` argument that can take the arguments:
 
 * `"normal"`: a standard report chart size, and the default. [**height** = 14.5cm x **width** = 22.16cm]
 * `"wholecolumn`: a taller whole-column chart for reports. [22.16 x 22.16]
 * `"fullpage"`: a full-page chart for reports. [22.16 x 44.32]
 * `"tiny"`: a rarely-used short chart for reports. [11.08 x 22.16]
-* `"fullslide"` : to produce charts on a full slide with the Grattan logo---to be used in articles or blogposts---use `"type = fullslide"`. This option allows notes and sources to accompany the saved figure. 
+* `"fullslide"` : to produce charts that look like a full slide with the Grattan logo. This option allows notes and sources to accompany the saved figure. 
+* `"fullslide_169"` : as with "fullslide", but in 16:9 orientation.
+* `"blog"` : Like "fullslide" plots, but with narrower borders -- use this type for the Grattan Blog or other online outlets like The Conversation.
+
+You can specify `type = "all"` to save in all formats.
 
 The argument `filename` is required. You must include an extension; `.pdf` is standard for Grattan charts for reports; `.png` is standard for the Grattan Blog. 
 
-Like `ggsave`, the `ggplot2` object to be saved will default to the last plot, but you can specify something else with `object`.
+`grattan_save()` uses the ggplot2 function `ggsave()` to save your chart. Like `ggsave()`, `grattan_save()` will use the last plot you displayed by default, but you can specify something else with `object`.
 
 Now we can save our Grattan-formatted graph as a normally-formatted report chart:
 
@@ -282,8 +286,40 @@ grattan_save(filename = "iris_fullslide.pdf",
 knitr::include_graphics("iris_fullslide.pdf")
 ```
 
+### Saving Powerpoint files
 
+It's convenient to also save your files in Powerpoint format. This allows PDs to easily use your graphs in their presentations. Saving in this format also means you can include speaker notes -- such as information about the script used to create the file -- which can help us to keep track of things.
 
+You can save a Powerpoint file, with appropriate speaker notes included, like this:
 
+```{r, eval = FALSE}
+grattan_save_pptx(plot_final,
+                  "iris_fullslide.pptx",
+                  type = "fullslide")
+```
 
+Or, you can just use the `save_pptx` argument to `grattan_save()`, like this:
 
+```{r, eval = FALSE}
+grattan_save("iris_fullslide.pdf",
+             plot_final,
+             type = "fullslide",
+             save_pptx = TRUE)
+```
+
+### Saving chart data
+
+When we release reports or working papers, we typically upload an Excel file including 'chart data' for most of our charts. The process for making and properly formatting these files can be a bit laborious. `grattantheme` helps streamline that process, using the `save_chartdata()` function. 
+
+You can use it like this:
+
+```{r, eval = FALSE}
+save_chartdata("plot_final.xlsx", object = plot_final)
+```
+
+Or, just use the `save_data` argument to `grattan_save()` when you save your plot:
+```{r, eval = FALSE}
+grattan_save("plot_final.png",
+             type = "fullslide",
+             save_data = TRUE)
+```

@@ -4,7 +4,7 @@
 \alias{wrap_labs}
 \title{Format title, subtitle, and caption of a ggplot2 chart in the Grattan style.}
 \usage{
-wrap_labs(object, type)
+wrap_labs(object, type, labs_to_wrap = c("title", "subtitle", "caption"))
 }
 \arguments{
 \item{object}{Name of the ggplot2 chart object with the labels you wish to
@@ -14,6 +14,9 @@ modify.}
 different numbers of characters on each line). `type` can be 'normal',
 'fullslide', 'blog', etc. For a full list of possible types, see
 \code{?grattan_save()}.}
+
+\item{labs_to_wrap}{Default is c("title", "subtitle", "caption"), which
+wraps all three labels. Choose one or two if you only want to wrap those.}
 }
 \description{
 Use `wrap_labs()` to wrap the title, subtitle, and caption of a ggplot2 chart

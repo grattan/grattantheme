@@ -67,12 +67,13 @@ Grattan Blog, with the size and resolution set to style guide-consistent
 values. You can save your charts in a variety of sizes and styles (see
 `?grattan_save()` for a list).
 
-Use `make_slide()` and `make_presentation()` to create Powerpoint
-presentations from your chart(s), including editable titles and
-subtitles.
+Want to save your chart as a Powerpoint file? Use
+`grattan_save(save_pptx = TRUE)` or the standalone `grattan_save_pptx()`
+function.
 
-Use `save_chartdata()` to save your chart and accompanying data as a
-properly-formatted .xlsx workbook.
+Want to save your chart and accompanying data as a properly-formatted
+.xlsx workbook? Use `grattan_save(save_data = TRUE)` or the standalone
+`save_chartdata()` function.
 
 ## Save animated charts
 
@@ -84,6 +85,6 @@ Grattan style.
 Some graph defaults (such as colour) will be modified during your R
 session; restart R to restore all defaults.
 
-Please note that some manual modification to your chart will most likely
-be required in order to make it fully consistent with the style guide,
-just as it would in other visualisation software or Excel/Powerpoint.
+Some manual modification to your chart will most likely be required in
+order to make it fully consistent with the style guide, just as it would
+in other visualisation software or Excel/Powerpoint.

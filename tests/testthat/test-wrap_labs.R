@@ -39,3 +39,26 @@ test_that("caption wraps onto two lines", {
 
 })
 
+test_that("wrap_labs() only wraps the label you want it to", {
+  p <- base_plot +
+    labs(title = "This is a slightly long title that should wrap onto two lines but work blah blah blah",
+         subtitle = "This is a slightly long title that should wrap onto two lines but work blah blah blah blah blah",
+         caption = "Notes: these are some notes. Source: this is the source.")
+
+  title_only <- wrap_labs(p, "fullslide", "title")
+  subtitle_only <- wrap_labs(p, "fullslide", "subtitle")
+  caption_only <- wrap_labs(p, "fullslide", "caption")
+
+  expect_true(grepl("\n", title_only$labels$title))
+  expect_false(grepl("\n", title_only$labels$subtitle))
+  expect_false(grepl("\n", title_only$labels$caption))
+
+  expect_true(grepl("\n", subtitle_only$labels$subtitle))
+  expect_false(grepl("\n", subtitle_only$labels$title))
+  expect_false(grepl("\n", subtitle_only$labels$caption))
+
+  expect_true(grepl("\n", caption_only$labels$caption))
+  expect_false(grepl("\n", caption_only$labels$title))
+  expect_false(grepl("\n", caption_only$labels$subtitle))
+
+})

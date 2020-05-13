@@ -10,6 +10,7 @@ grattan_save(
   object = ggplot2::last_plot(),
   type = "normal",
   height = NULL,
+  save_pptx = FALSE,
   save_data = FALSE,
   force_labs = FALSE,
   watermark = NULL,
@@ -19,10 +20,12 @@ grattan_save(
 )
 }
 \arguments{
-\item{filename}{Required. This parameter sets the filename (including path
-where necessary) where you want to save your image. The extension defines
-the file type. Suggested filetypes are "pdf" or "png", but others are
-available (see \code{?ggsave} for the full list).}
+\item{filename}{Required. The filename (including path
+where necessary) where you want to save your image. The filename
+should usually end in ".pdf" or ".png" (see \code{?ggsave}
+for the full list of allowed extensions/types). Note that if
+\code{type = ALL} a subdirectory will be created based on your filename;
+the files will go in that subdirectory.}
 
 \item{object}{The ggplot2 graph object to be saved. Defaults to
 \code{last_plot()}, which will save the last plot that was displayed in
@@ -50,18 +53,22 @@ looks like a 4:4 Grattan Powerpoint slide. This may be useful for taller
 charts for the Grattan blog; not useful for any other purpose. Width: 25.4cm,
 height: 25.4cm.}
 }
-
 Set type = "all" to save your chart in all available sizes.}
 
 \item{height}{Numeric, optional. NULL by default. Controls the height (in cm)
 of the image you wish to save. If specified, `height` will override the
 default height for your chosen chart type.}
 
-\item{save_data}{Logical. Default is FALSE, unless type = "all". If set to
+\item{save_pptx}{`FALSE` by default. If `TRUE`, a Powerpoint presentation
+containing your graph will be created. Note that Powerpoint templates are
+not available for all chart types; see \code{?grattan_save_pptx()} for
+available types. If `type = "all"`, Powerpoint presentations will be created
+for each type for which a Powerpoint template exists.}
+
+\item{save_data}{Logical. Default is FALSE. If set to
 TRUE, a properly-formatted .xlsx file will be created containing the
 dataframe you passed to ggplot(). The filename and path will be the same as
-your image, but with a .xlsx extension. Data will always be saved if type =
-"all".}
+your image, but with a .xlsx extension.}
 
 \item{force_labs}{Logical. By default, `grattan_save()` will remove your
 title, subtitle, and caption (if present) from your graph before saving it,
