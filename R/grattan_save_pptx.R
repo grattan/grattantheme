@@ -16,6 +16,7 @@
 #' in `type = c("fullslide_169", "fullslide")` or `type = "all"`, multiple
 #' files will be created, with the type added to the filename.
 #'
+#' @export
 #' @importFrom purrr walk walk2
 grattan_save_pptx <- function(p,
                               filename,
