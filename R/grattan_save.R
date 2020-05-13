@@ -174,7 +174,7 @@ grattan_save <- function(filename,
       } else {
         pptx_filename <- paste0(tools::file_path_sans_ext(filename), ".pptx")
 
-        grattan_save_pptx(plot = object,
+        grattan_save_pptx(p = object,
                           type = type,
                           filename = pptx_filename)
       }
@@ -220,7 +220,7 @@ grattan_save <- function(filename,
 
       walk2(.x = pptx_filenames,
             .y = valid_pptx_types,
-            .f = ~grattan_save_pptx(plot = object,
+            .f = ~grattan_save_pptx(p = object,
                                     filename = .x,
                                     type = .y))
 
