@@ -21,6 +21,8 @@ test_that("grattan_save() saves charts", {
 
   grattan_save(filename = "../figs/grattan_save/test_plot.png",
                object = test_plot,
+               save_pptx = TRUE,
+               save_data = TRUE,
                type = "all")
 
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
@@ -33,6 +35,31 @@ test_that("grattan_save() saves charts", {
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot.xlsx"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.pptx"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_169.pptx"))
+
+  unlink("../figs/grattan_save", recursive = TRUE)
+  unlink("../testthat/Rplots.pdf")
+})
+
+test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
+
+  grattan_save(filename = "../figs/grattan_save/test_plot.png",
+               object = test_plot,
+               type = "all")
+
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_169.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullpage.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal_169.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
+  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot.xlsx"))
+  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.pptx"))
+  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_169.pptx"))
 
   unlink("../figs/grattan_save", recursive = TRUE)
   unlink("../testthat/Rplots.pdf")

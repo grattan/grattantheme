@@ -18,3 +18,4 @@ create_pptx_shell(p, filename, type)
 Create a Powerpoint document containing no content other than the
 template + slide-specific speaker notes (extracted from a ggplot2 object)
 }
+\keyword{internal}

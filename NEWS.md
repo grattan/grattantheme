@@ -1,3 +1,9 @@
+# grattantheme 0.8.0
+* New function `grattan_save_pptx()` saves a ggplot2 plot, or a list of plots, as a Powerpoint document with vector graphics and editable labels.
+* `grattan_save()` gains an argument: `save_pptx`. When `TRUE`, it will use `grattan_save_pptx()` to also save your image as a Powerpoint document.
+* Functions `make_slide()` and `make_presentation()` have been deprecated.
+* In `grattan_save()`, `save_data` no longer automatically `TRUE` if `type = "all"`
+
 # grattantheme 0.7.0
 * `create_fullslide()` completely rewritten; now much more flexible + faster
 * `warn_labs` argument to `grattan_save()` has been removed

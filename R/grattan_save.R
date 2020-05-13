@@ -32,16 +32,19 @@
 #' charts for the Grattan blog; not useful for any other purpose. Width: 25.4cm,
 #' height: 25.4cm.}
 #' }
-#'
 #' Set type = "all" to save your chart in all available sizes.
 #' @param height Numeric, optional. NULL by default. Controls the height (in cm)
 #'   of the image you wish to save. If specified, `height` will override the
 #'   default height for your chosen chart type.
-#' @param save_data Logical. Default is FALSE, unless type = "all". If set to
+#' @param save_pptx `FALSE` by default. If `TRUE`, a Powerpoint presentation
+#' containing your graph will be created. Note that Powerpoint templates are
+#' not available for all chart types; see \code{?grattan_save_pptx()} for
+#' available types. If `type = "all"`, Powerpoint presentations will be created
+#' for each type for which a Powerpoint template exists.
+#' @param save_data Logical. Default is FALSE. If set to
 #'   TRUE, a properly-formatted .xlsx file will be created containing the
 #'   dataframe you passed to ggplot(). The filename and path will be the same as
-#'   your image, but with a .xlsx extension. Data will always be saved if type =
-#'   "all".
+#'   your image, but with a .xlsx extension.
 #' @param force_labs Logical. By default, `grattan_save()` will remove your
 #'   title, subtitle, and caption (if present) from your graph before saving it,
 #'   unless `type` = "fullslide". By setting `force_labs` to TRUE, your
@@ -124,6 +127,7 @@ grattan_save <- function(filename,
                          object = ggplot2::last_plot(),
                          type = "normal",
                          height = NULL,
+                         save_pptx = FALSE,
                          save_data = FALSE,
                          force_labs = FALSE,
                          watermark = NULL,
@@ -149,13 +153,32 @@ grattan_save <- function(filename,
     object <- object + watermark(watermark)
   }
 
+  if (!is.logical(save_pptx)) {
+    stop("save_pptx must be either TRUE or FALSE.")
+  }
+
   if (type != "all") {
     if (isTRUE(save_data)) {
         save_chartdata(filename = paste0(sub("\\..*", "", filename), ".xlsx"),
                        object = object,
                        type = type,
                        height = height)
+    }
+
+    if (isTRUE(save_pptx)) {
+      template <- chart_types$pptx_template[chart_types$type == type]
+      template_exists <- ifelse(is.na(template), FALSE, TRUE)
+
+      if (isFALSE(template_exists)) {
+        warning("Cannot save Powerpoint for type '", type, "'.")
+      } else {
+        pptx_filename <- paste0(tools::file_path_sans_ext(filename), ".pptx")
+
+        grattan_save_pptx(plot = object,
+                          type = type,
+                          filename = pptx_filename)
       }
+    }
 
     grattan_save_(filename = filename,
                   object = object,
@@ -163,6 +186,7 @@ grattan_save <- function(filename,
                   height = height,
                   force_labs = force_labs,
                   dpi = dpi,
+                  save_pptx = save_pptx,
                   ...)
   }
 
@@ -177,10 +201,30 @@ grattan_save <- function(filename,
 
     filenames <- file.path(dir, paste0(file_name, "_", all_chart_types, ".", filetype))
 
-    save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
-                   object = object,
-                   type = "normal",
-                   height = height)
+    if (isTRUE(save_data)) {
+      save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
+                     object = object,
+                     type = "normal",
+                     height = height)
+    }
+
+    if (isTRUE(save_pptx)) {
+      template <- chart_types$pptx_template[chart_types$type == all_chart_types]
+      template_exists <- !is.na(template)
+      valid_pptx_types <- all_chart_types[template_exists]
+      pptx_filenames <- file.path(dir,
+                                  paste0(file_name, "_",
+                                         valid_pptx_types,
+                                         ".pptx"))
+
+
+      walk2(.x = pptx_filenames,
+            .y = valid_pptx_types,
+            .f = ~grattan_save_pptx(plot = object,
+                                    filename = .x,
+                                    type = .y))
+
+    }
 
     purrr::walk2(.x = filenames,
                  .y = all_chart_types,
@@ -189,6 +233,7 @@ grattan_save <- function(filename,
                  height = height,
                  force_labs = force_labs,
                  dpi = dpi,
+                 save_pptx = save_pptx,
                  ...)
 
   }
@@ -207,14 +252,8 @@ grattan_save_ <- function(filename,
                           height,
                           force_labs,
                           dpi,
+                          save_pptx,
                           ...) {
-
-  # at the moment, save_data is inflexible: only saves as .xlsx and
-  # with the same filename (except extension) as the plot.
-  # It saves the whole dataframe passed to ggplot(), not limited to the
-  # column(s)/row(s) used in the plot.
-  # Users can call save_chartdata() directly for
-  # more control over the filename, etc.
 
   plot_class <- chart_types$class[chart_types$type == type]
 

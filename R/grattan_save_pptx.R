@@ -1,9 +1,27 @@
-
+#' Save a ggplot2 chart, or list of charts, as a Powerpoint presentation
+#'
+#' @description `grattan_save_pptx()` creates a Grattan-style Powerpoint
+#' presentation with editable vector graphics and editable text. The title,
+#' subtitle, and caption of your graph are placed in the appropriate places.
+#' Speaker notes are included, which include the file path to the R script
+#' from which you called `grattan_save_pptx()`. If you supply a list of plots,
+#' your Powerpoint presentation will include multiple slides -- one per plot.
+#' If you specify multiple types, multiple PPTX files will be created.
+#'
+#' @param p ggplot2 plot, or a list of ggplot2 plots
+#' @param filename Filename (including path where necessary) to save your
+#' Powerpoint presentation.
+#' @param type Chart type. Currently supported types are \code{"fullslide"},
+#' \code{"fullslide_169"}, and \code{"all"}. If you specify multiple types, as
+#' in `type = c("fullslide_169", "fullslide")` or `type = "all"`, multiple
+#' files will be created, with the type added to the filename.
+#'
 #' @importFrom purrr walk walk2
-grattan_save_pptx <- function(plot,
-                                 filename,
-                                 type = "fullslide") {
+grattan_save_pptx <- function(p,
+                              filename,
+                              type = "fullslide") {
 
+  plot <- p
   pptx_types <-  c("fullslide",
                    "fullslide_169")
 
@@ -84,6 +102,7 @@ grattan_save_pptx <- function(plot,
 #' @param filename filename (incl. path if needed) to save a .pptx file
 #' @param type graph type
 #' @importFrom purrr map
+#' @keywords internal
 create_pptx_shell <- function(p,
                               filename,
                               type) {
@@ -92,16 +111,16 @@ create_pptx_shell <- function(p,
   backticks <- paste0((rep("\x60", 3)), collapse = "")
 
   # Get path to appropriate PPTX template from `grattantheme`
-  template_filename <- switch (type,
-                               "fullslide" = "template_43.pptx",
-                               "fullslide_169" = "template_169.pptx",
-                               "4:3" = "template_43.pptx",
-                               "16:9" = "template_169.pptx")
+  template_filename <- system.file("extdata",
+                                   chart_types$pptx_template[chart_types$type == type],
+                                   package = "grattantheme")
+
+  if (isFALSE(file.exists(template_filename))) {
+    stop("Could not find template for type ", type)
+  }
 
   ref_doc <- paste0('    reference_doc: "',
-                    system.file("extdata",
-                                template_filename,
-                                package = "grattantheme"),
+                    template_filename,
                     '"')
 
   yaml_header <- paste("---",
@@ -144,6 +163,8 @@ create_pptx_shell <- function(p,
   invisible(TRUE)
 }
 
+#' @importFrom rstudioapi getActiveDocumentContext
+#' @keywords internal
 create_slide_shell <- function(p, type, temp_dir) {
 
 
@@ -185,7 +206,8 @@ create_slide_shell <- function(p, type, temp_dir) {
   plot_area
 }
 
-
+#' Check that pandoc is available and is an appropriate version
+#' @keywords internal
 pandoc_test <- function() {
 
   if (!rmarkdown::pandoc_available()) {
@@ -204,6 +226,9 @@ pandoc_test <- function() {
 
 }
 
+#' Take a pre-existing PPTX document with n slides and a list of n ggplot2
+#' objects; add one object to each slide using officer
+#' @keywords internal
 #' @importFrom officer read_pptx on_slide ph_with ph_location_label
 #' @importFrom rvg dml
 add_graph_to_pptx <- function(p,
@@ -241,11 +266,6 @@ add_graph_to_pptx <- function(p,
                  location = ph_location_label("Content Placeholder 2"))
 
     plot$labels$subtitle <- NULL
-
-    # pptx <- pptx %>%
-    #   ph_with(p$labels$caption,
-    #           location = ph_location_label("Footer Placeholder 5"))
-    #
 
     # Add graph as SVG object
     x <- ph_with(x,
