@@ -1,3 +1,7 @@
+# grattantheme 0.8.0.1
+* Error fixed with new `grattan_save_pptx()` function - it would previously fail when title and/or subtitle was blank.
+* Default lineheight for `grattan_label()` reduced to 0.8
+
 # grattantheme 0.8.0
 * New function `grattan_save_pptx()` saves a ggplot2 plot, or a list of plots, as a Powerpoint document with vector graphics and editable labels.
 * `grattan_save()` gains an argument: `save_pptx`. When `TRUE`, it will use `grattan_save_pptx()` to also save your image as a Powerpoint document.

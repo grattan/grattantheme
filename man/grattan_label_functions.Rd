@@ -6,7 +6,7 @@
 \alias{grattan_label_repel}
 \title{Create labels in the Grattan style - no border, minimal padding}
 \usage{
-grattan_label(..., size = 18, padding = 0.1)
+grattan_label(..., size = 18, padding = 0.1, lineheight = 0.8)
 
 grattan_label_repel(..., size = 18, padding = 0.1)
 }
@@ -19,6 +19,9 @@ case of `grattan_label()`) or `ggrepel::geom_label_repel()` (in the case of
 
 \item{padding}{Amount of white padding around label, measured in "lines"
 (see \code{?unit::grid}). Default is 0.1.}
+
+\item{lineheight}{Height of lines of text - smaller means the lines
+of text are closer together. Default is `0.8`.}
 }
 \description{
 `grattan_label()` and `grattan_label_repel()` create labels using

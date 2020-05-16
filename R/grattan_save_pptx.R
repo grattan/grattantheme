@@ -164,6 +164,7 @@ create_pptx_shell <- function(p,
   invisible(TRUE)
 }
 
+#' Generate the R Markdown code for an individual slide in a PPTX shell
 #' @importFrom rstudioapi getActiveDocumentContext
 #' @keywords internal
 create_slide_shell <- function(p, type, temp_dir) {
@@ -256,16 +257,19 @@ add_graph_to_pptx <- function(p,
 
     x <- on_slide(x, index = slide)
 
+    replace_null <- function(string) {
+      ifelse(is.null(string), "", string)
+    }
+
     x <- ph_with(x,
-                 plot$labels$title,
+                 replace_null(plot$labels$title),
                  location = ph_location_label("Title 1"))
 
-    plot$labels$title <- NULL
-
     x <- ph_with(x,
-                 plot$labels$subtitle,
+                 replace_null(plot$labels$subtitle),
                  location = ph_location_label("Content Placeholder 2"))
 
+    plot$labels$title <- NULL
     plot$labels$subtitle <- NULL
 
     # Add graph as SVG object

@@ -1,8 +1,10 @@
 library(ggplot2)
 
-p1 <- mtcars %>%
+base_p1 <- mtcars %>%
   ggplot(aes(x = wt, y = mpg)) +
-  geom_point() +
+  geom_point()
+
+p1 <-  base_p1 +
   labs(title = "My title",
        subtitle = "My subtitle")
 
@@ -99,4 +101,28 @@ test_that("grattan_save_pptx works in various configurations", {
   expect_true(is_valid_pptx("multi_slide/multi_slide_fullslide.pptx"))
   expect_true(is_valid_pptx("multi_slide/multi_slide_fullslide_169.pptx"))
   unlink("multi_slide", recursive = T)
+})
+
+test_that("grattan_save_pptx works when labels are present / absent", {
+
+  # No labels
+  grattan_save_pptx(base_p1, "temp.pptx")
+  expect_true(is_valid_pptx("temp.pptx"))
+  expect_equal(no_slides("temp.pptx"), 1)
+  unlink("temp.pptx", recursive = T, force = T)
+
+  # Just title
+  grattan_save_pptx(base_p1 + labs(title = "Some text"),
+                    "temp.pptx")
+  expect_true(is_valid_pptx("temp.pptx"))
+  expect_equal(no_slides("temp.pptx"), 1)
+  unlink("temp.pptx", recursive = T, force = T)
+
+  # Just subtitle
+  grattan_save_pptx(base_p1 + labs(subtitle = "Some text"),
+                    "temp.pptx")
+  expect_true(is_valid_pptx("temp.pptx"))
+  expect_equal(no_slides("temp.pptx"), 1)
+  unlink("temp.pptx", recursive = T, force = T)
+
 })

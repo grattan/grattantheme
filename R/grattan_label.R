@@ -16,6 +16,8 @@
 #' @param size Font size for label. Default is 18.
 #' @param padding Amount of white padding around label, measured in "lines"
 #' (see \code{?unit::grid}). Default is 0.1.
+#' @param lineheight Height of lines of text - smaller means the lines
+#' of text are closer together. Default is `0.8`.
 #'
 #' @examples
 #' library(ggplot2)
@@ -45,7 +47,7 @@
 
 #' @rdname grattan_label_functions
 #' @export
-grattan_label <- function(..., size = 18, padding = 0.1) {
+grattan_label <- function(..., size = 18, padding = 0.1, lineheight = 0.8) {
   .size = size / ggplot2::.pt
 
   ggplot2::geom_label(
