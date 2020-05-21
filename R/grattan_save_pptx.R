@@ -258,7 +258,7 @@ add_graph_to_pptx <- function(p,
     x <- on_slide(x, index = slide)
 
     replace_null <- function(string) {
-      ifelse(is.null(string), "", string)
+      ifelse(is.null(string), " ", string)
     }
 
     x <- ph_with(x,
