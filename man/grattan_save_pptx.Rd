@@ -4,7 +4,7 @@
 \alias{grattan_save_pptx}
 \title{Save a ggplot2 chart, or list of charts, as a Powerpoint presentation}
 \usage{
-grattan_save_pptx(p, filename, type = "fullslide")
+grattan_save_pptx(p = ggplot2::last_plot(), filename, type = "fullslide")
 }
 \arguments{
 \item{p}{ggplot2 plot, or a list of ggplot2 plots}

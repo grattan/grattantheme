@@ -10,8 +10,6 @@ r_packages:
 matrix:
   include:
   - r: release
-  - r: oldrel
-  - r: 3.5
     after_success:
     - Rscript -e 'covr::codecov()'
 

@@ -1,4 +1,5 @@
 library(devtools)
+library(dplyr)
 
 logo <- magick::image_read_pdf("data-raw/GrattanSVGLogo.pdf")
 
@@ -6,11 +7,11 @@ logogrob <- grid::rasterGrob(logo)
 
 chart_types <- tibble::tribble(
                          ~type, ~width, ~height, ~caption, ~title,  ~subtitle, ~class, ~pptx_template,
-                      "normal",  22.16,    14.5,      120,     70,         75, "normal", NA_character_,
+                      "normal",  22.16,    14.5,      120,     70,         75, "normal", "template_normal.pptx",
                   "normal_169",  30.00,    14.5,      180,     95,        100, "normal", NA_character_,
                         "tiny",  22.16,   11.08,      120,     70,         75, "normal", NA_character_,
-                 "wholecolumn",  22.16,   22.16,      120,     70,         75, "normal", NA_character_,
-                    "fullpage",  44.32,   22.16,      240,    140,        150, "normal", NA_character_,
+                 "wholecolumn",  22.16,   22.16,      120,     70,         75, "normal", "template_wholecolumn.pptx",
+                    "fullpage",  44.32,   22.16,      240,    140,        150, "normal", "template_fullpage.pptx",
                    "fullslide",   25.4,   19.05,      140,     55,         70, "fullslide", "template_43.pptx",
                "fullslide_169",   33.87, 19.05,       175,     55,         95, "fullslide", "template_169.pptx",
                 "fullslide_44",   25.4,  25.4,        140,     50,         95, "fullslide", NA_character_,
