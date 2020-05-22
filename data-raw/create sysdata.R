@@ -1,4 +1,5 @@
 library(devtools)
+library(dplyr)
 
 logo <- magick::image_read_pdf("data-raw/GrattanSVGLogo.pdf")
 
