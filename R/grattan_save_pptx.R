@@ -18,13 +18,12 @@
 #'
 #' @export
 #' @importFrom purrr walk walk2
-grattan_save_pptx <- function(p,
+grattan_save_pptx <- function(p = ggplot2::last_plot(),
                               filename,
                               type = "fullslide") {
 
   plot <- p
-  pptx_types <-  c("fullslide",
-                   "fullslide_169")
+  pptx_types <-  chart_types$type[!is.na(chart_types$pptx_template)]
 
   allowed_types <- c(pptx_types, "all")
 
@@ -271,6 +270,12 @@ add_graph_to_pptx <- function(p,
 
     plot$labels$title <- NULL
     plot$labels$subtitle <- NULL
+
+    # Remove caption for report-bound chart types
+    chart_class <- chart_types$class[chart_types$type == type]
+    if (chart_class == "normal") {
+      plot$labels$caption <- NULL
+    }
 
     # Add graph as SVG object
     x <- ph_with(x,
