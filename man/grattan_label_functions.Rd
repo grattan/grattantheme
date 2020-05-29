@@ -8,7 +8,7 @@
 \usage{
 grattan_label(..., size = 18, padding = 0.1, lineheight = 0.8)
 
-grattan_label_repel(..., size = 18, padding = 0.1)
+grattan_label_repel(..., size = 18, padding = 0.1, lineheight = 0.8)
 }
 \arguments{
 \item{...}{Arguments passed on to either `ggplot2::geom_label()` (in the
