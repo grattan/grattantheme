@@ -12,8 +12,7 @@ grattan_save_pptx(p = ggplot2::last_plot(), filename, type = "fullslide")
 \item{filename}{Filename (including path where necessary) to save your
 Powerpoint presentation.}
 
-\item{type}{Chart type. Currently supported types are \code{"fullslide"},
-\code{"fullslide_169"}, and \code{"all"}. If you specify multiple types, as
+\item{type}{Chart type. If you specify multiple types, as
 in `type = c("fullslide_169", "fullslide")` or `type = "all"`, multiple
 files will be created, with the type added to the filename.}
 }

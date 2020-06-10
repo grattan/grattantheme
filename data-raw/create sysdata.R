@@ -15,7 +15,7 @@ chart_types <- tibble::tribble(
                    "fullslide",   25.4,   19.05,      140,     55,         70, "fullslide", "template_43.pptx",
                "fullslide_169",   33.87, 19.05,       175,     55,         95, "fullslide", "template_169.pptx",
                 "fullslide_44",   25.4,  25.4,        140,     55,         95, "fullslide", NA_character_,
-                        "blog",   25.4,   19.05,      155,     62,         85, "fullslide", NA_character_)
+                        "blog",   25.4,   19.05,      155,     62,         85, "fullslide", "template_blog.pptx")
 
 
 blog_border <- 0.15
