@@ -11,8 +11,7 @@
 #' @param p ggplot2 plot, or a list of ggplot2 plots
 #' @param filename Filename (including path where necessary) to save your
 #' Powerpoint presentation.
-#' @param type Chart type. Currently supported types are \code{"fullslide"},
-#' \code{"fullslide_169"}, and \code{"all"}. If you specify multiple types, as
+#' @param type Chart type. If you specify multiple types, as
 #' in `type = c("fullslide_169", "fullslide")` or `type = "all"`, multiple
 #' files will be created, with the type added to the filename.
 #'
