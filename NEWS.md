@@ -1,3 +1,6 @@
+# grattantheme 0.8.0.2
+* A range of additional chart types are now able to be saved as Powerpoint files with `grattan_save_pptx()`, including 'blog', 'fullpage', 'normal', 'wholecolumn'.
+
 # grattantheme 0.8.0.1
 * Error fixed with new `grattan_save_pptx()` function - it would previously fail when title and/or subtitle was blank.
 * Default lineheight for `grattan_label()` reduced to 0.8
