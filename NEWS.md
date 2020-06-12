@@ -1,3 +1,6 @@
+# grattantheme 0.8.0.3
+* Error in 'blog' PPTX template fixed.
+
 # grattantheme 0.8.0.2
 * A range of additional chart types are now able to be saved as Powerpoint files with `grattan_save_pptx()`, including 'blog', 'fullpage', 'normal', 'wholecolumn'.
 
