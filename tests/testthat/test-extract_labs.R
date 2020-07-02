@@ -5,8 +5,11 @@ p1 <- ggplot(mtcars,
              aes(x = wt, y = mpg)) +
   geom_point()
 
-p2 <- mtcars %>%
-  rownames_to_column("car") %>%
+mtcars_norownames <- mtcars
+mtcars_norownames$car <- rownames(mtcars)
+rownames(mtcars_norownames) <- NULL
+
+p2 <- mtcars_norownames %>%
   ggplot(aes(x = reorder(car, mpg),
              y = mpg)) +
   geom_col() +
