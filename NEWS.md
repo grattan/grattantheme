@@ -1,3 +1,6 @@
+# grattantheme 0.8.1
+* Title and subtitle in patchwork plots now recognised by `create_fullslide()` and related functions.
+
 # grattantheme 0.8.0.3
 * Error in 'blog' PPTX template fixed.
 

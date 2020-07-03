@@ -180,6 +180,7 @@ create_slide_shell <- function(p, type, temp_dir) {
                             paste0("R script location: ",
                                    script_location))
 
+  plot_labels <- extract_labs(p)
 
   plot_area <- paste("",
                      ":::::::::::::: {.columns}",
@@ -192,12 +193,12 @@ create_slide_shell <- function(p, type, temp_dir) {
                      "::::::::::::::",
                      "::: notes",
                      paste("Title:",
-                           p$labels$title,
+                           plot_labels$title,
                            "\n"),
                      paste("Subtitle:",
-                           p$labels$subtitle,
+                           plot_labels$subtitle,
                            "\n"),
-                     paste(p$labels$caption,
+                     paste(plot_labels$caption,
                            "\n"),
                      script_loc_note,
                      ":::\n",
@@ -259,21 +260,26 @@ add_graph_to_pptx <- function(p,
       ifelse(is.null(string), " ", string)
     }
 
+    labs <- extract_labs(plot)
+
     x <- ph_with(x,
-                 replace_null(plot$labels$title),
+                 replace_null(labs$title),
                  location = ph_location_label("Title 1"))
 
     x <- ph_with(x,
-                 replace_null(plot$labels$subtitle),
+                 replace_null(labs$subtitle),
                  location = ph_location_label("Content Placeholder 2"))
 
-    plot$labels$title <- NULL
-    plot$labels$subtitle <- NULL
 
-    # Remove caption for report-bound chart types
+    plot <- replace_labs(plot)
+
+
+    # Add caption back in for non-report-bound chart types
     chart_class <- chart_types$class[chart_types$type == type]
-    if (chart_class == "normal") {
-      plot$labels$caption <- NULL
+    if (chart_class != "normal") {
+      plot <- replace_labs(plot, list(title = NULL,
+                                      subtitle = NULL,
+                                      caption = labs$caption))
     }
 
     # Add graph as SVG object
