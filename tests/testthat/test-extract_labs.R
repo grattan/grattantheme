@@ -46,3 +46,8 @@ test_that("labels in regular ggplot2 plot extracted", {
   expect_equal(extract_labs(p_regular)$title, "A title goes here")
 
 })
+
+test_that("non-ggplot2 object gives an error with extract_labs()", {
+  expect_error(extract_labs(LETTERS))
+
+})

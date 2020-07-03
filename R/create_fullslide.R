@@ -65,11 +65,16 @@ create_fullslide <- function(plot = last_plot(),
     # Create title and subtitle -----
     p <- plot
 
-    stored_title <- p$labels$title
-    stored_subtitle <- p$labels$subtitle
+    labs <- extract_labs(p)
 
-    p$labels$title <- NULL
-    p$labels$subtitle <- NULL
+    p <- replace_labs(p,
+                      labs = list(title = NULL,
+                                  subtitle = NULL,
+                                  caption = labs$caption))
+
+
+    stored_title <- labs$title
+    stored_subtitle <- labs$subtitle
 
     title_font_size <- 18
 

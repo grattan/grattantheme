@@ -20,14 +20,14 @@ extract_labs <- function(p) {
     # Warn user if labels added with +labs() to a Patchwork plot
     if (isTRUE(is.null(c(title,
                          subtitle,
-                         caption))) &&
-        isFALSE(is.null(c(p$labels$title,
+                         caption)))) {
+      if (isFALSE(is.null(c(p$labels$title,
                           p$labels$subtitle,
                           p$labels$caption)))) {
       warning("Add title, subtitle, and/or caption to a Patchwork plot using",
               " `patchwork::plot_annotation()`, not `labs()`.")
+      }
     }
-
   } else {
     title <- p$labels$title
     subtitle <- p$labels$subtitle
