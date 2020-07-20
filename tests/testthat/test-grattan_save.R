@@ -42,6 +42,21 @@ test_that("grattan_save() saves charts", {
   unlink("../testthat/Rplots.pdf")
 })
 
+test_that("grattan_save() saves last_plot() and works with repeated calls", {
+  ggplot(mtcars, aes(x = wt, y = mpg)) +
+    geom_point()
+
+  grattan_save("../figs/grattan_save/test.png", type = "all", save_pptx = TRUE)
+  # Test that a repeated save causes no problems
+  grattan_save("../figs/grattan_save/test.png", type = "all", save_pptx = TRUE)
+
+  expect_true(file.exists("../figs/grattan_save/test/test_fullslide_44.png"))
+
+  unlink("../figs/grattan_save", recursive = TRUE)
+  unlink("../testthat/Rplots.pdf")
+})
+
+
 test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
 
   grattan_save(filename = "../figs/grattan_save/test_plot.png",
