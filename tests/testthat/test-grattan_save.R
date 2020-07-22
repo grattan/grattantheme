@@ -17,7 +17,31 @@ test_plot_nolabs <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
   grattan_colour_manual(n = 3) +
   grattan_y_continuous(limits = c(0, 40))
 
-test_that("grattan_save() saves charts", {
+test_that("grattan_save() saves charts (no powerpoint)", {
+
+  grattan_save(filename = "../figs/grattan_save/test_plot.png",
+               object = test_plot,
+               save_pptx = F,
+               save_data = F,
+               type = "all")
+
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_169.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullpage.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal_169.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
+
+  unlink("../figs/grattan_save", recursive = TRUE)
+  unlink("../testthat/Rplots.pdf")
+})
+
+test_that("grattan_save() saves charts (with powerpoint)", {
+
+  skip_on_cran()
 
   grattan_save(filename = "../figs/grattan_save/test_plot.png",
                object = test_plot,
@@ -46,6 +70,8 @@ test_that("grattan_save() saves last_plot() and works with repeated calls", {
   ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point()
 
+  skip_on_cran()
+
   grattan_save("../figs/grattan_save/test.png", type = "all", save_pptx = TRUE)
   # Test that a repeated save causes no problems
   grattan_save("../figs/grattan_save/test.png", type = "all", save_pptx = TRUE)
@@ -58,6 +84,10 @@ test_that("grattan_save() saves last_plot() and works with repeated calls", {
 
 
 test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
+
+  skip_on_cran()
+
+  unlink("../figs/grattan_save", recursive = TRUE)
 
   grattan_save(filename = "../figs/grattan_save/test_plot.png",
                object = test_plot,
@@ -169,8 +199,6 @@ test_that("grattan_save() saves a plot with a watermark", {
 
   expect_true(file.exists("test_plot_watermark.png"))
 
-  expect_gt(file.size("test_plot_watermark.png"),
-            50000)
 
   unlink("test_plot_watermark.png")
 })

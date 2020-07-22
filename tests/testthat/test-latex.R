@@ -22,6 +22,7 @@ test_that("export_latex_code exports the right latex code to clipboard", {
 
 test_that("export_latex_code returns the right latex code", {
 
+  skip_on_cran()
   x <- export_latex_code(p, code_to_clipboard = FALSE)
 
   expect_identical(x,

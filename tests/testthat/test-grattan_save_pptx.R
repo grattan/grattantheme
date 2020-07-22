@@ -48,6 +48,8 @@ test_that("create_slide_shell generates RMd",{
 })
 
 test_that("create_pptx_shell creates an empty pptx document with the appropriate number of slides", {
+  skip_on_cran()
+
   # Plot argument to create_pptx_shell() must be a list of ggplot2 object(s)
   expect_error(create_pptx_shell(p1,
                                  "test.pptx",
@@ -69,6 +71,8 @@ test_that("create_pptx_shell creates an empty pptx document with the appropriate
 
 test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 
+  skip_on_cran()
+
   create_pptx_shell(list(p1), "temp.pptx", "fullslide")
   on.exit(unlink("temp.pptx"))
 
@@ -84,6 +88,8 @@ test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 })
 
 test_that("grattan_save_pptx works in various configurations", {
+
+  skip_on_cran()
   grattan_save_pptx(p1, "temp.pptx", type = "fullslide")
   expect_true(is_valid_pptx("temp.pptx"))
   expect_equal(no_slides("temp.pptx"), 1)
@@ -105,6 +111,7 @@ test_that("grattan_save_pptx works in various configurations", {
 
 test_that("grattan_save_pptx works when labels are present / absent", {
 
+  skip_on_cran()
   # No labels
   grattan_save_pptx(base_p1, "temp.pptx")
   expect_true(is_valid_pptx("temp.pptx"))
