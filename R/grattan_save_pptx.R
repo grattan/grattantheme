@@ -14,7 +14,19 @@
 #' @param type Chart type. If you specify multiple types, as
 #' in `type = c("fullslide_169", "fullslide")` or `type = "all"`, multiple
 #' files will be created, with the type added to the filename.
+#' @examples
+#' \dontrun{
+#' library(ggplot2)
 #'
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'        geom_point() +
+#'        theme_grattan() +
+#'        labs(title = "My title",
+#'             subtitle = "My subtitle",
+#'             caption = "Notes: notes go here. Source: source goes here.")
+#'
+#' grattan_save_pptx(p, "test.pptx")
+#' }
 #' @export
 #' @importFrom purrr walk walk2
 grattan_save_pptx <- function(p = ggplot2::last_plot(),
@@ -151,7 +163,7 @@ create_pptx_shell <- function(p,
                    sep = "\n")
 
   temp_rmd_file <- file.path(temp_dir, "temp_rmd.Rmd")
-  writeLines(fulldoc, temp_rmd_file)
+  writeLines(fulldoc, temp_rmd_file, useBytes = TRUE)
   on.exit(unlink(temp_rmd_file))
 
   rmarkdown::render(temp_rmd_file,

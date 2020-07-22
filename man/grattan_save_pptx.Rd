@@ -25,3 +25,17 @@ from which you called `grattan_save_pptx()`. If you supply a list of plots,
 your Powerpoint presentation will include multiple slides -- one per plot.
 If you specify multiple types, multiple PPTX files will be created.
 }
+\examples{
+\dontrun{
+library(ggplot2)
+
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+       geom_point() +
+       theme_grattan() +
+       labs(title = "My title",
+            subtitle = "My subtitle",
+            caption = "Notes: notes go here. Source: source goes here.")
+
+grattan_save_pptx(p, "test.pptx")
+}
+}
