@@ -103,6 +103,7 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
                             p = plot)
   )
 
+  ggplot2::set_last_plot(p)
   invisible(TRUE)
 }
 
