@@ -1,3 +1,6 @@
+# grattantheme 0.8.2
+* "blog_half" chart type now available. Main use is Powerpoint slides where you want the chart to take up half the slide.
+
 # grattantheme 0.8.1
 * Title and subtitle in patchwork plots now recognised by `create_fullslide()` and related functions.
 
