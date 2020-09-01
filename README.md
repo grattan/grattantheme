@@ -1,10 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Travis-CI Build
-Status](https://travis-ci.org/grattan/grattantheme.svg?branch=master)](https://travis-ci.org/grattan/grattantheme)
+<!-- badges: start --> [![Travis-CI Build
+Status](https://travis-ci.com/grattan/grattantheme.svg?branch=master)](https://travis-ci.com/grattan/grattantheme)
+
 [![Codecov test
 coverage](https://codecov.io/gh/grattan/grattantheme/branch/master/graph/badge.svg)](https://codecov.io/gh/grattan/grattantheme?branch=master)
+
+[![R build
+status](https://github.com/grattan/grattantheme/workflows/R-CMD-check/badge.svg)](https://github.com/grattan/grattantheme/actions)
+
+<!-- badges: end -->
 
 # grattantheme
 

@@ -8,3 +8,4 @@ atlas
 ^Meta$
 ^\.httr-oauth$
 ^README\.Rmd$
+^\.github$
