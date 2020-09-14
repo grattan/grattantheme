@@ -1,3 +1,7 @@
+# grattantheme 0.8.2.1
+* `chart_types` data frame is now exported, for contexts where it is useful to have
+information about the chart types in the grattantheme package.
+
 # grattantheme 0.8.2
 * "blog_half" chart type now available. Main use is Powerpoint slides where you want the chart to take up half the slide.
 

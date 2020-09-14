@@ -44,6 +44,9 @@ fullslide_chart_types <- chart_types$type[chart_types$class == "fullslide"]
 use_data(logogrob,
          all_chart_types,
          fullslide_chart_types,
-         chart_types,
          internal = TRUE,
          overwrite = TRUE)
+
+use_data(chart_types,
+         internal = FALSE,
+         overwrite = FALSE)
