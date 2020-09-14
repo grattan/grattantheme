@@ -3,7 +3,7 @@
 
 language: R
 sudo: true
-cache: packages
+#cache: packages
 r_packages:
   - covr
 
