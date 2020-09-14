@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 0.8.2
+Version: 0.8.2.1
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
                 role = c("aut", "cre")),
@@ -25,7 +25,8 @@ Imports:
     rstudioapi,
     officer,
     rvg,
-    clipr
+    clipr,
+    utils
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
