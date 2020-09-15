@@ -19,4 +19,4 @@
 #'
 #' }
 
-"chart_types"
+"chart_types_ext"
