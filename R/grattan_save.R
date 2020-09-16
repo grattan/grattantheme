@@ -1,12 +1,18 @@
+#' Save plots in Grattan-approved sizes and shapes
+#'
 #' Save ggplot2 object as an image in the correct size and resolution for
 #' Grattan charts. Wrapper around ggsave().
+#' `grattan_save_all()` is a wrapper around `grattan_save()` with `type = "all"`,
+#' `save_pptx = TRUE`, `save_data = TRUE`.
+#'
 #' @name grattan_save
 #' @param filename Required. The filename (including path
 #'   where necessary) where you want to save your image. The filename
 #'   should usually end in ".pdf" or ".png" (see \code{?ggsave}
 #'   for the full list of allowed extensions/types). Note that if
-#'   \code{type = ALL} a subdirectory will be created based on your filename;
+#'   \code{type = "all"}, a subdirectory will be created based on your filename;
 #'   the files will go in that subdirectory.
+#'   This is the case for `grattan_save_all()`.
 #' @param object The ggplot2 graph object to be saved. Defaults to
 #'   \code{last_plot()}, which will save the last plot that was displayed in
 #'   your session.
@@ -56,8 +62,9 @@
 #' @param latex Logical. FALSE by default. If TRUE, exports figure environment
 #' LaTeX code to clipboard and console.
 #' @param dpi Plot resolution. Default is "retina".
-#' @param ... arguments passed to `ggsave()`. For example, use `device =
-#'   cairo_pdf` to use the Cairo PDF rendering engine.
+#' @param ... arguments passed to `ggsave()`. For example, use
+#' `device = cairo_pdf` to use the Cairo PDF rendering engine.
+#' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
 #'
 #' @import ggplot2
 #' @importFrom utils tail
@@ -298,6 +305,16 @@ grattan_save_ <- function(filename,
 
 }
 
+#' @name grattan_save_all
+#' @rdname grattan_save
 
-
-
+grattan_save_all <- function(filename,
+                             object = ggplot2::last_plot(),
+                             ...) {
+  grattan_save(filename = filename,
+               object = object,
+               type = "all",
+               save_pptx = TRUE,
+               save_data = TRUE,
+               ...)
+}

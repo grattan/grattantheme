@@ -2,8 +2,8 @@
 % Please edit documentation in R/grattan_save.R
 \name{grattan_save}
 \alias{grattan_save}
-\title{Save ggplot2 object as an image in the correct size and resolution for
-Grattan charts. Wrapper around ggsave().}
+\alias{grattan_save_all}
+\title{Save plots in Grattan-approved sizes and shapes}
 \usage{
 grattan_save(
   filename,
@@ -18,14 +18,17 @@ grattan_save(
   dpi = "retina",
   ...
 )
+
+grattan_save_all(filename, object = ggplot2::last_plot(), ...)
 }
 \arguments{
 \item{filename}{Required. The filename (including path
 where necessary) where you want to save your image. The filename
 should usually end in ".pdf" or ".png" (see \code{?ggsave}
 for the full list of allowed extensions/types). Note that if
-\code{type = ALL} a subdirectory will be created based on your filename;
-the files will go in that subdirectory.}
+\code{type = "all"}, a subdirectory will be created based on your filename;
+the files will go in that subdirectory.
+This is the case for `grattan_save_all()`.}
 
 \item{object}{The ggplot2 graph object to be saved. Defaults to
 \code{last_plot()}, which will save the last plot that was displayed in
@@ -85,12 +88,15 @@ LaTeX code to clipboard and console.}
 
 \item{dpi}{Plot resolution. Default is "retina".}
 
-\item{...}{arguments passed to `ggsave()`. For example, use `device =
-cairo_pdf` to use the Cairo PDF rendering engine.}
+\item{...}{arguments passed to `ggsave()`. For example, use
+`device = cairo_pdf` to use the Cairo PDF rendering engine.
+For `grattan_save_all()`, the `...` are passed to `grattan_save()`.}
 }
 \description{
 Save ggplot2 object as an image in the correct size and resolution for
 Grattan charts. Wrapper around ggsave().
+`grattan_save_all()` is a wrapper around `grattan_save()` with `type = "all"`,
+`save_pptx = TRUE`, `save_data = TRUE`.
 }
 \examples{
 library(ggplot2)

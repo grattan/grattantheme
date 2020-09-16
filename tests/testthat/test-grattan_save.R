@@ -202,3 +202,28 @@ test_that("grattan_save() saves a plot with a watermark", {
 
   unlink("test_plot_watermark.png")
 })
+
+
+test_that("grattan_save_all() works", {
+
+  skip_on_cran()
+
+  grattan_save_all(filename = "../figs/grattan_save_all/test_plot.png",
+                   object = test_plot)
+
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide_44.png"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide_169.png"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide.png"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullpage.png"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_normal_169.png"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_normal.png"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_tiny.png"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_wholecolumn.png"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_blog.png"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot.xlsx"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide.pptx"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide_169.pptx"))
+
+  unlink("../figs/grattan_save_all", recursive = TRUE)
+  unlink("../testthat/Rplots.pdf")
+})
