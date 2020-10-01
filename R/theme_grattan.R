@@ -101,9 +101,7 @@
 #'          subtitle = "Subtitle goes here",
 #'          caption = "Notes: Notes go here\nSource: Source goes here")
 #'
-#'  # The plot above won't look right in RStudio's viewer - the text is
-#'  # aligned to the left of the plot area, not the image. Once you save it,
-#'  # the file should have properly-aligned text:
+#'  # Save the plot with:
 #'
 #'  \dontrun{grattan_save("your_file.png")}
 #'

@@ -307,6 +307,7 @@ grattan_save_ <- function(filename,
 
 #' @name grattan_save_all
 #' @rdname grattan_save
+#' @export
 
 grattan_save_all <- function(filename,
                              object = ggplot2::last_plot(),
