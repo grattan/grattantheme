@@ -9,3 +9,4 @@ atlas
 ^\.httr-oauth$
 ^README\.Rmd$
 ^\.github$
+^LICENSE\.md$
