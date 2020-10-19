@@ -10,6 +10,7 @@
 #' @return LaTeX code to create a figure environment
 #' @import stringr
 #' @importFrom clipr write_clip
+#' @export
 #'
 
 
