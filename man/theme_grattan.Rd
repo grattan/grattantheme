@@ -18,8 +18,7 @@ theme_grattan(
 \item{base_size}{Size for text elements. Defaults to 18, as per the Grattan
 style guide.}
 
-\item{base_family}{Font family for text elements. Defaults to "sans",
-indistinguishable from Arial.}
+\item{base_family}{Font family for text elements. Defaults to "sans".}
 
 \item{chart_type}{"normal" by detault. Set to "scatter" for scatter plots.}
 

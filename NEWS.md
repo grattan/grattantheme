@@ -1,5 +1,5 @@
-# grattantheme 0.8.3
-* `grattan_save_all()` now included as a wrapper around `grattan_save(type = "all")`
+# grattantheme 0.8.2.2
+* Explicit checking of font types when constructing Powerpoint slides
 
 # grattantheme 0.8.2.1
 * `chart_types` data frame is now exported, for contexts where it is useful to have

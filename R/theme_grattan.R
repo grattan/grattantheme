@@ -2,8 +2,7 @@
 #' @name theme_grattan
 #' @param base_size Size for text elements. Defaults to 18, as per the Grattan
 #'   style guide.
-#' @param base_family Font family for text elements. Defaults to "sans",
-#'   indistinguishable from Arial.
+#' @param base_family Font family for text elements. Defaults to "sans".
 #' @param chart_type "normal" by detault. Set to "scatter" for scatter plots.
 #' @param flipped FALSE by default. Set to TRUE if using coord_flip(). If set to
 #'   TRUE, the theme will show a vertical axis line, ticks & panel grid, while

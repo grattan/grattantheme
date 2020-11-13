@@ -295,9 +295,18 @@ add_graph_to_pptx <- function(p,
                                       caption = labs$caption))
     }
 
+    if (isTRUE(gdtools::font_family_exists("Helvetica"))) {
+      sans_font <- "Helvetica"
+    } else if (isTRUE(gdtools::font_family_exists("Arial"))) {
+      sans_font <- "Arial"
+    } else {
+      sans_font <- gdtools::match_family("sans")
+    }
+
     # Add graph as SVG object
     x <- ph_with(x,
-                 rvg::dml(ggobj = plot),
+                 rvg::dml(ggobj = plot,
+                          fonts = list("sans" = sans_font)),
                  location = ph_location_label("Content Placeholder 3"))
   }
 
