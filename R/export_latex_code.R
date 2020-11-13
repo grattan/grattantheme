@@ -89,6 +89,11 @@ export_latex_code <- function(p = ggplot2::last_plot(),
          "\t", caption_code, "\n",
          "\\end{figure}")
 
+  code_to_export <- gsub("\\end{figure}\r",
+                         "\\end{figure}",
+                         code_to_export,
+                         fixed = TRUE)
+
   if (isTRUE(code_to_clipboard)) {
     message(paste0("Copied to clipboard:\n\n", code_to_export, "\n\n"))
     clipr::write_clip(code_to_export, allow_non_interactive = TRUE)

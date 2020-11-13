@@ -15,8 +15,6 @@ test_that("export_latex_code exports the right latex code to clipboard", {
 
   expect_equal(co[1], "\\begin{figure}")
   expect_equal(co[5], "\t\\noteswithsource{Say something.}{This citation.}")
-  expect_equal(co[6], "\\end{figure}")
-
 })
 
 
@@ -25,7 +23,8 @@ test_that("export_latex_code returns the right latex code", {
   skip_on_cran()
   x <- export_latex_code(p, code_to_clipboard = FALSE)
 
-  expect_identical(x,
-                   "\\begin{figure}\n\t\\caption{Title\\label{fig:title}}\n\t\\units{Subtitle}\n\t\\includegraphics[page= 1, width=1\\columnwidth]{atlas/chart.pdf}\n\t\\noteswithsource{Say something.}{This citation.}\n\\end{figure}")
+  expect_true(grepl("\\begin{figure}\n\t\\caption{Title\\label{fig:title}}\n\t\\units{Subtitle}\n\t\\includegraphics[page= 1, width=1\\columnwidth]{atlas/chart.pdf}\n\t\\noteswithsource{Say something.}{This citation.}\n\\end{figure}",
+                    x,
+                    fixed = T))
 
 })

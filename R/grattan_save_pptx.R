@@ -306,7 +306,10 @@ add_graph_to_pptx <- function(p,
     # Add graph as SVG object
     x <- ph_with(x,
                  rvg::dml(ggobj = plot,
-                          fonts = list("sans" = sans_font)),
+                          fonts = list(sans = sans_font,
+                                       `DejaVu Sans` = sans_font,
+                                       Arial = sans_font,
+                                       Helvetica = sans_font)),
                  location = ph_location_label("Content Placeholder 3"))
   }
 
