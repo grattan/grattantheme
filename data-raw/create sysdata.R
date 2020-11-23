@@ -36,7 +36,7 @@ chart_types <- chart_types %>%
                                  type %in% c("fullslide",
                                              "fullslide_44") ~ (width - 22.16) / 2,
                                  type == "fullslide_169" ~ (width - 30) / 2,
-                                 type == "fullslide_old169" ~ (width - 22.64) / 2,
+                                 type == "fullslide_old169" ~ (width - 22.64) /
                                  grepl("blog", type) ~ blog_border),
          right_border = left_border)
 
