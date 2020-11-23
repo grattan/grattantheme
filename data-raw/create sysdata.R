@@ -14,6 +14,7 @@ chart_types <- tibble::tribble(
                     "fullpage",  44.32,   22.16,      240,    140,        150, "normal", "template_fullpage.pptx",
                    "fullslide",   25.4,   19.05,      140,     55,         70, "fullslide", "template_43.pptx",
                "fullslide_169",   33.87, 19.05,       175,     55,         95, "fullslide", "template_169.pptx",
+            "fullslide_old169",   25.4,  14.29,       140,     55,         70, "fullslide", "template_old_169.pptx",
                 "fullslide_44",   25.4,  25.4,        140,     55,         95, "fullslide", NA_character_,
                         "blog",   25.4,   19.05,      155,     62,         85, "fullslide", "template_blog.pptx",
                    "blog_half", 25.4/2,  19.05,       155,     62,         85, "fullslide", "template_blog_half.pptx")
@@ -24,6 +25,7 @@ blog_border <- 0.15
 chart_types <- chart_types %>%
   mutate(top_border = case_when(class == "normal" ~ 0,
                                 grepl("blog", type) ~ blog_border,
+                                type == "fullslide_old169" ~ 0.5,
                                 TRUE ~ 0.7),
          bottom_border = case_when(class == "normal" ~ 0,
                                    grepl("blog", type) ~ 0.05,
@@ -34,6 +36,7 @@ chart_types <- chart_types %>%
                                  type %in% c("fullslide",
                                              "fullslide_44") ~ (width - 22.16) / 2,
                                  type == "fullslide_169" ~ (width - 30) / 2,
+                                 type == "fullslide_old169" ~ (width - 22.64) / 2,
                                  grepl("blog", type) ~ blog_border),
          right_border = left_border)
 

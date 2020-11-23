@@ -19,33 +19,40 @@
 #' @param type Sets height and width to Grattan defaults. The following chart
 #'   types are available:
 #'
-#' \itemize{ \item{"normal"}{ The default. Use for normal Grattan report charts,
-#' or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.}
-#' \item{"normal_169"}{ Only useful for pasting into a 16:9 format Grattan
-#' Powerpoint slide. Width: 30cm, height: 14.5cm.} \item{"tiny"}{ Fills the
-#' width of a column in a Grattan report, but is shorter than usual. Width:
-#' 22.2cm, height: 11.1cm.} \item{"wholecolumn"}{ Takes up a whole column in a
-#' Grattan report. Width: 22.2cm, height: 22.2cm.} \item{"fullpage"}{ Fills a
-#' whole page of a Grattan report. Width: 44.3cm, height: 22.2cm.}
-#' \item{"fullslide}{ Creates an image that looks like a 4:3 Grattan Powerpoint
-#' slide, complete with logo.  Width: 25.4cm, height: 19.0cm.}
-#' \item{"fullslide_169}{ Creates an image that looks like a 16:9 Grattan
-#' Powerpoint slide, complete with logo. Use this to drop into standard
-#' presentations. Width: 33.9cm, height: 19.0cm} \item{"blog"}{"Creates a 4:3
-#' image that looks like a Grattan Powerpoint slide, but with less border
-#' whitespace than `fullslide`."} \item{"fullslide_44"}{Creates an image that
-#' looks like a 4:4 Grattan Powerpoint slide. This may be useful for taller
-#' charts for the Grattan blog; not useful for any other purpose. Width: 25.4cm,
-#' height: 25.4cm.}
+#' \itemize{
+#'   \item{"normal"}{ The default. Use for normal Grattan report charts,
+#'    or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.}
+#'   \item{"normal_169"}{ Useful for pasting into a 16:9 format Grattan
+#'   Powerpoint slide. Width: 30cm, height: 14.5cm.}
+#'   \item{"tiny"}{ Fills the width of a column in a Grattan report,
+#'   but is shorter than usual. Width: 22.2cm, height: 11.1cm.}
+#'   \item{"wholecolumn"}{ Takes up a whole column in a Grattan report.
+#'   Width: 22.2cm, height: 22.2cm.}
+#'   \item{"fullpage"}{ Fills a whole page of a Grattan report.
+#'   Width: 44.3cm, height: 22.2cm.}
+#'   \item{"fullslide}{ A 4:3 Grattan
+#'   Powerpoint slide, complete with logo.  Width: 25.4cm, height: 19.0cm.}
+#'   \item{"fullslide_169}{ A 16:9 Grattan
+#'   Powerpoint slide, complete with logo. Use this to drop into standard
+#'   presentations. Width: 33.9cm, height: 19.0cm}
+#'   \item{"blog"}{"Creates a 4:3 image that looks like a Grattan Powerpoint
+#'   slide, but with less border whitespace than `fullslide`."}
+#'   \item{"fullslide_44"}{Creates an image that looks like a 4:4 Grattan
+#'   Powerpoint slide. This may be useful for taller charts for the Grattan
+#'   blog; not useful for any other purpose. Width: 25.4cm, height: 25.4cm.}
+#'   \item{"fullslide_old169"}{ An old-style 16:9 format included here for
+#'   compatibilty with old slide decks. Do not use if you can help it.
+#'   Width: 25.4cm, height: 14.29cm."}
 #' }
-#' Set type = "all" to save your chart in all available sizes.
+#' Set type = "all" to save your chart in all available sizes or use
+#' `grattan_save_all()`.
 #' @param height Numeric, optional. NULL by default. Controls the height (in cm)
 #'   of the image you wish to save. If specified, `height` will override the
 #'   default height for your chosen chart type.
 #' @param save_pptx `FALSE` by default. If `TRUE`, a Powerpoint presentation
 #' containing your graph will be created. Note that Powerpoint templates are
-#' not available for all chart types; see \code{?grattan_save_pptx()} for
-#' available types. If `type = "all"`, Powerpoint presentations will be created
+#' not available for all chart types. If `type = "all"`,
+#' Powerpoint presentations will be created
 #' for each type for which a Powerpoint template exists.
 #' @param save_data Logical. Default is FALSE. If set to
 #'   TRUE, a properly-formatted .xlsx file will be created containing the
