@@ -133,9 +133,23 @@ labels will have no border and minimal padding, in keeping with Grattan
 Institute's visual style.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>grattan_label</span><span class='op'>(</span><span class='va'>...</span>, size <span class='op'>=</span> <span class='fl'>18</span>, padding <span class='op'>=</span> <span class='fl'>0.1</span>, lineheight <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>grattan_label</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  size <span class='op'>=</span> <span class='fl'>18</span>,
+  padding <span class='op'>=</span> <span class='fl'>0.1</span>,
+  lineheight <span class='op'>=</span> <span class='fl'>0.8</span>,
+  label.size <span class='op'>=</span> <span class='fl'>0</span>,
+  fill <span class='op'>=</span> <span class='st'>"white"</span>
+<span class='op'>)</span>
 
-<span class='fu'>grattan_label_repel</span><span class='op'>(</span><span class='va'>...</span>, size <span class='op'>=</span> <span class='fl'>18</span>, padding <span class='op'>=</span> <span class='fl'>0.1</span>, lineheight <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span></pre>
+<span class='fu'>grattan_label_repel</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  size <span class='op'>=</span> <span class='fl'>18</span>,
+  padding <span class='op'>=</span> <span class='fl'>0.1</span>,
+  lineheight <span class='op'>=</span> <span class='fl'>0.8</span>,
+  label.size <span class='op'>=</span> <span class='fl'>0</span>,
+  fill <span class='op'>=</span> <span class='st'>"white"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,6 +173,14 @@ case of `grattan_label()`) or `ggrepel::geom_label_repel()` (in the case of
       <th>lineheight</th>
       <td><p>Height of lines of text - smaller means the lines
 of text are closer together. Default is `0.8`.</p></td>
+    </tr>
+    <tr>
+      <th>label.size</th>
+      <td><p>Default is `0`.</p></td>
+    </tr>
+    <tr>
+      <th>fill</th>
+      <td><p>Colour of label background; default is `"white"`.</p></td>
     </tr>
     </table>
 
