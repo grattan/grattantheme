@@ -47,14 +47,15 @@
 
 #' @rdname grattan_label_functions
 #' @export
-grattan_label <- function(..., size = 18, padding = 0.1, lineheight = 0.8) {
+grattan_label <- function(..., size = 18, padding = 0.1, lineheight = 0.8,
+                          label.size = 0, fill = "white") {
   .size = size / ggplot2::.pt
 
   ggplot2::geom_label(
     ...,
-    fill = "white",
+    fill = fill,
     label.padding = unit(padding, "lines"),
-    label.size = 0,
+    label.size = label.size,
     size = .size,
     lineheight = lineheight
   )
@@ -62,14 +63,15 @@ grattan_label <- function(..., size = 18, padding = 0.1, lineheight = 0.8) {
 
 #' @rdname grattan_label_functions
 #' @export
-grattan_label_repel <- function(..., size = 18, padding = 0.1, lineheight = 0.8) {
+grattan_label_repel <- function(..., size = 18, padding = 0.1, lineheight = 0.8,
+                                label.size = 0, fill = "white") {
   .size = size / ggplot2::.pt
 
   ggrepel::geom_label_repel(
     ...,
-    fill = "white",
+    fill = fill,
     label.padding = unit(padding, "lines"),
-    label.size = 0,
+    label.size = label.size,
     size = .size,
     lineheight = lineheight
   )
