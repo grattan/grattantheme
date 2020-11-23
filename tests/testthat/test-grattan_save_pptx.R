@@ -36,17 +36,6 @@ no_slides <- function(filename) {
   length(x)
 }
 
-test_that("create_slide_shell generates RMd",{
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
-
-  # Note that path to R script will not be generated within test
-  expected_rmd <- "\n:::::::::::::: {.columns}\n::: {.column}\n\n:::\n::: {.column}\n\n:::\n::::::::::::::\n::: notes\nTitle: My title \n\nSubtitle: My subtitle \n\n \n\n\n:::\n"
-
-  expect_identical(create_slide_shell(p1, "fullslide", temp_dir),
-                   expected_rmd)
-})
-
 test_that("create_pptx_shell creates an empty pptx document with the appropriate number of slides", {
   skip_on_cran()
 

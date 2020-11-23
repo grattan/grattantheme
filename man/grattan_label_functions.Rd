@@ -6,9 +6,23 @@
 \alias{grattan_label_repel}
 \title{Create labels in the Grattan style - no border, minimal padding}
 \usage{
-grattan_label(..., size = 18, padding = 0.1, lineheight = 0.8)
+grattan_label(
+  ...,
+  size = 18,
+  padding = 0.1,
+  lineheight = 0.8,
+  label.size = 0,
+  fill = "white"
+)
 
-grattan_label_repel(..., size = 18, padding = 0.1, lineheight = 0.8)
+grattan_label_repel(
+  ...,
+  size = 18,
+  padding = 0.1,
+  lineheight = 0.8,
+  label.size = 0,
+  fill = "white"
+)
 }
 \arguments{
 \item{...}{Arguments passed on to either `ggplot2::geom_label()` (in the
@@ -22,6 +36,10 @@ case of `grattan_label()`) or `ggrepel::geom_label_repel()` (in the case of
 
 \item{lineheight}{Height of lines of text - smaller means the lines
 of text are closer together. Default is `0.8`.}
+
+\item{label.size}{Default is `0`.}
+
+\item{fill}{Colour of label background; default is `"white"`.}
 }
 \description{
 `grattan_label()` and `grattan_label_repel()` create labels using

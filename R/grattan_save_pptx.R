@@ -154,7 +154,7 @@ create_pptx_shell <- function(p,
     on.exit(unlink(temp_dir, recursive = TRUE))
   }
 
-  plot_areas <- purrr::map(p, create_slide_shell)
+  plot_areas <- purrr::map2(p, filename, create_slide_shell)
 
   plot_areas <- paste0(plot_areas, collapse = "")
 
@@ -178,8 +178,7 @@ create_pptx_shell <- function(p,
 #' Generate the R Markdown code for an individual slide in a PPTX shell
 #' @importFrom rstudioapi getActiveDocumentContext
 #' @keywords internal
-create_slide_shell <- function(p, type, temp_dir) {
-
+create_slide_shell <- function(p, filename) {
 
   if (isTRUE(requireNamespace("rstudioapi")) &&
       isTRUE(rstudioapi::isAvailable())) {
@@ -188,10 +187,18 @@ create_slide_shell <- function(p, type, temp_dir) {
     script_location <- ""
   }
 
+  graph_location <- normalizePath(filename, mustWork = FALSE)
+
+  script_location <- gsub("^.*(?=(Dropbox))", "", script_location, perl = TRUE)
+  graph_location <- gsub("^.*(?=(Dropbox))", "", graph_location, perl = TRUE)
+
   script_loc_note <- ifelse(script_location == "",
                             "",
                             paste0("R script location: ",
                                    script_location))
+
+  graph_loc_note <- paste0("Powerpoint file location: ",
+                           graph_location)
 
   plot_labels <- extract_labs(p)
 
@@ -214,6 +221,7 @@ create_slide_shell <- function(p, type, temp_dir) {
                      paste(plot_labels$caption,
                            "\n"),
                      script_loc_note,
+                     graph_loc_note,
                      ":::\n",
                      sep = "\n")
 

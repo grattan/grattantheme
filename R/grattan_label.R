@@ -18,6 +18,8 @@
 #' (see \code{?unit::grid}). Default is 0.1.
 #' @param lineheight Height of lines of text - smaller means the lines
 #' of text are closer together. Default is `0.8`.
+#' @param label.size Default is `0`.
+#' @param fill Colour of label background; default is `"white"`.
 #'
 #' @examples
 #' library(ggplot2)

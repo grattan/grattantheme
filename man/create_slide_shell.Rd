@@ -4,7 +4,7 @@
 \alias{create_slide_shell}
 \title{Generate the R Markdown code for an individual slide in a PPTX shell}
 \usage{
-create_slide_shell(p, type, temp_dir)
+create_slide_shell(p, filename)
 }
 \description{
 Generate the R Markdown code for an individual slide in a PPTX shell
