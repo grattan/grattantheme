@@ -84,6 +84,9 @@ Want to save your chart and accompanying data as a properly-formatted
 .xlsx workbook? Use `grattan_save(save_data = TRUE)` or the standalone
 `save_chartdata()` function.
 
+Save your chart in all Grattan formats - along with chart data - using
+`grattan_save_all()`.
+
 ## Save animated charts
 
 Use `grattan_anim_save()` to save gganimate animations formatted in the

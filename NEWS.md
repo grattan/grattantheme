@@ -1,3 +1,6 @@
+# grattantheme 0.8.3
+* Old-style ('Frankenstein') 16:9 chart now available
+
 # grattantheme 0.8.2.2
 * Explicit checking of font types when constructing Powerpoint slides
 
