@@ -3,8 +3,6 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/grattan/grattantheme/workflows/R-CMD-check/badge.svg)](https://github.com/grattan/grattantheme/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/grattan/grattantheme/branch/master/graph/badge.svg)](https://codecov.io/gh/grattan/grattantheme?branch=master)
 [![Travis build
@@ -17,8 +15,13 @@ status](https://travis-ci.com/grattan/grattantheme.svg?branch=master)](https://t
 Create ggplot2 charts in the Grattan Institute style.
 
 See the [grattantheme
-vignette](https://github.com/grattan/grattantheme/blob/master/vignettes/using_grattantheme.pdf)
-to learn how to make your ggplot2 charts Grattan-y.
+vignette](https://grattan.github.io/grattantheme/articles/using_grattantheme.html)
+to learn how to make your ggplot2 charts Grattan-y with `grattantheme`.
+
+See the [Data
+Visualisation](https://grattan.github.io/R_at_Grattan/data-visualisation.html)
+chapter of `Using R at Grattan Institute` for more about how to make
+great charts.
 
 ## Install grattantheme
 
@@ -42,7 +45,7 @@ normally load an R package:
 ## Make your charts look nice
 
 See the [grattantheme
-vignette](https://github.com/grattan/grattantheme/blob/master/vignettes/using_grattantheme.pdf)
+vignette](https://grattan.github.io/grattantheme/articles/using_grattantheme.html)
 for a more complete guide.
 
 Use `theme_grattan()` to format your ggplot2 charts in a style
