@@ -121,6 +121,12 @@ create_fullslide <- function(plot = last_plot(),
     PPP
     "
 
+    subtitle_present <- !is.null(stored_subtitle)
+
+    subtitle_height <- ifelse(subtitle_present,
+                              logo_height,
+                              0)
+
     wrap_plots(T = wrap_elements(full = toptitle),
                L = wrap_elements(full = logogrob),
                O = wrap_elements(full = orange_line),
@@ -129,7 +135,7 @@ create_fullslide <- function(plot = last_plot(),
                design = layout,
                heights = unit(c(logo_height,
                                 0.001,
-                                logo_height,
+                                subtitle_height,
                                 1),
                               c("cm",
                                 "cm",

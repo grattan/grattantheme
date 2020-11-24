@@ -7,7 +7,12 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 
 test_that("export_latex_code exports the right latex code to clipboard", {
 
+  skip_on_ci()
   skip_on_travis()
+
+  if (!clipr::clipr_available()) {
+    skip("clipr not available")
+  }
 
   export_latex_code(p)
 
@@ -21,7 +26,7 @@ test_that("export_latex_code exports the right latex code to clipboard", {
 test_that("export_latex_code returns the right latex code", {
 
   skip_on_cran()
-  x <- export_latex_code(p, code_to_clipboard = FALSE)
+  x <- export_latex_code(p)
 
   expect_true(grepl("\\begin{figure}\n\t\\caption{Title\\label{fig:title}}\n\t\\units{Subtitle}\n\t\\includegraphics[page= 1, width=1\\columnwidth]{atlas/chart.pdf}\n\t\\noteswithsource{Say something.}{This citation.}\n\\end{figure}",
                     x,

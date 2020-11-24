@@ -38,16 +38,12 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
 
   allowed_types <- c(pptx_types, "all")
 
-  for (i in seq_along(type)) {
-    if (!type[[i]] %in% allowed_types) {
-      stop(
-        "type '",
-        type[[i]],
-        "' is not one of the allowed types: ",
-        paste(allowed_types, collapse = ", "),
-        "."
-      )
-    }
+  non_conforming_types <- type[!type %in% allowed_types]
+
+  if (length(non_conforming_types) > 0) {
+    stop("Type ", paste(non_conforming_types, collapse = ", "),
+         " is not one of the allowed types: ",
+         paste(allowed_types, collapse = ", "), ".")
   }
 
   multiple_types <- if (length(type) > 1) {
@@ -250,6 +246,9 @@ pandoc_test <- function() {
 
 #' Take a pre-existing PPTX document with n slides and a list of n ggplot2
 #' objects; add one object to each slide using officer
+#' @param p list of plot(s)
+#' @param filename filename incl. path to an existing PPTX file
+#' @param type a grattantheme chart type with a PPTX template
 #' @keywords internal
 #' @importFrom officer read_pptx on_slide ph_with ph_location_label
 #' @importFrom rvg dml
@@ -311,6 +310,24 @@ add_graph_to_pptx <- function(p,
       sans_font <- gdtools::match_family("sans")
     }
 
+    # Define the graph location; if no subtitle exists we want to fill
+    # the subtitle space with the graph
+    if (!is.null(labs$subtitle)) {
+      graph_location <- ph_location_label("Content Placeholder 3")
+    } else {
+      slide_summ <- officer::slide_summary(x)
+      v_offset <- 0.12
+      graph_location <- officer::ph_location(
+        left = slide_summ$offx[slide_summ$ph_label == "Content Placeholder 2"],
+        top = slide_summ$offy[slide_summ$ph_label == "Content Placeholder 2"] +
+          v_offset,
+        width = slide_summ$cx[slide_summ$ph_label == "Content Placeholder 2"],
+        height = officer::slide_size(x)$height -
+          slide_summ$offy[slide_summ$ph_label == "Content Placeholder 2"] -
+          v_offset
+        )
+    }
+
     # Add graph as SVG object
     x <- ph_with(x,
                  rvg::dml(ggobj = plot,
@@ -318,7 +335,12 @@ add_graph_to_pptx <- function(p,
                                        `DejaVu Sans` = sans_font,
                                        Arial = sans_font,
                                        Helvetica = sans_font)),
-                 location = ph_location_label("Content Placeholder 3"))
+                 location = graph_location)
+
+    if (is.null(labs$subtitle)) {
+      x <- officer::ph_remove(x, ph_label = "Content Placeholder 2")
+
+    }
   }
 
   print(x, filename)
