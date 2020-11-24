@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3.3.900</span>
       </span>
     </div>
 
@@ -127,11 +127,7 @@
     <p>Export the figure environment LaTeX code for a ggplot2 graph object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>export_latex_code</span><span class='op'>(</span>
-  p <span class='op'>=</span> <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/last_plot.html'>last_plot</a></span><span class='op'>(</span><span class='op'>)</span>,
-  chart_path <span class='op'>=</span> <span class='st'>"atlas/chart.pdf"</span>,
-  code_to_clipboard <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>export_latex_code</span><span class='op'>(</span>p <span class='op'>=</span> <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/last_plot.html'>last_plot</a></span><span class='op'>(</span><span class='op'>)</span>, chart_path <span class='op'>=</span> <span class='st'>"atlas/chart.pdf"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,11 +142,6 @@ your session.</p></td>
       <th>chart_path</th>
       <td><p>The save path of the chart. The filename will be extracted
 and used in the <code>\includegraphics</code> call.</p></td>
-    </tr>
-    <tr>
-      <th>code_to_clipboard</th>
-      <td><p>Logical, <code>TRUE</code> by default. If <code>TRUE</code>, the LaTeX code
-to create the figure environment will be copied to your clipboard.</p></td>
     </tr>
     </table>
 
