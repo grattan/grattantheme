@@ -37,6 +37,5 @@ Suggests:
     covr,
     vdiffr,
     magick,
-    av,
     png,
     gifski
