@@ -19,6 +19,8 @@ p_label_repel <- p +
     grattan_label_repel()
 
 test_that("grattan_label plots appear correct", {
+  skip_on_os("linux")
+
   vdiffr::expect_doppelganger("labelled plot",
                               p_label)
 
