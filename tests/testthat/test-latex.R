@@ -21,7 +21,7 @@ test_that("export_latex_code exports the right latex code to clipboard", {
 test_that("export_latex_code returns the right latex code", {
 
   skip_on_cran()
-  x <- export_latex_code(p, code_to_clipboard = FALSE)
+  x <- export_latex_code(p)
 
   expect_true(grepl("\\begin{figure}\n\t\\caption{Title\\label{fig:title}}\n\t\\units{Subtitle}\n\t\\includegraphics[page= 1, width=1\\columnwidth]{atlas/chart.pdf}\n\t\\noteswithsource{Say something.}{This citation.}\n\\end{figure}",
                     x,
