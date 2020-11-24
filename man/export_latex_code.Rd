@@ -4,11 +4,7 @@
 \alias{export_latex_code}
 \title{Export the figure environment LaTeX code for a ggplot2 graph object.}
 \usage{
-export_latex_code(
-  p = ggplot2::last_plot(),
-  chart_path = "atlas/chart.pdf",
-  code_to_clipboard = TRUE
-)
+export_latex_code(p = ggplot2::last_plot(), chart_path = "atlas/chart.pdf")
 }
 \arguments{
 \item{p}{The ggplot2 graph object to be saved. Defaults to
@@ -17,9 +13,6 @@ your session.}
 
 \item{chart_path}{The save path of the chart. The filename will be extracted
 and used in the \code{\\includegraphics} call.}
-
-\item{code_to_clipboard}{Logical, \code{TRUE} by default. If \code{TRUE}, the LaTeX code
-to create the figure environment will be copied to your clipboard.}
 }
 \value{
 LaTeX code to create a figure environment
