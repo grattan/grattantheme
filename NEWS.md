@@ -1,3 +1,6 @@
+# grattantheme 0.8.3.900
+* When your chart has no subtitle, the chart will not leave space for it
+
 # grattantheme 0.8.3
 * Old-style ('Frankenstein') 16:9 chart now available
 
