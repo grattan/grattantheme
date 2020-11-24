@@ -7,7 +7,12 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 
 test_that("export_latex_code exports the right latex code to clipboard", {
 
+  skip_on_ci()
   skip_on_travis()
+
+  if (!clipr::clipr_available()) {
+    skip("clipr not available")
+  }
 
   export_latex_code(p)
 
