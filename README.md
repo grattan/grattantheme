@@ -5,8 +5,10 @@
 
 [![Codecov test
 coverage](https://codecov.io/gh/grattan/grattantheme/branch/master/graph/badge.svg)](https://codecov.io/gh/grattan/grattantheme?branch=master)
-[![Travis build
-status](https://travis-ci.com/grattan/grattantheme.svg?branch=master)](https://travis-ci.com/grattan/grattantheme)
+[![R build
+status](https://github.com/grattan/grattantheme/workflows/R-CMD-check/badge.svg)](https://github.com/grattan/grattantheme/actions)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
 <!-- badges: end -->
 
@@ -34,8 +36,7 @@ don’t have the devtools package, install it:
 Once devtools is installed, you can download and install grattantheme as
 follows:
 
-`devtools::install_github("grattan/grattantheme", dependencies = TRUE,
-upgrade = "always")`
+`devtools::install_github("grattan/grattantheme", dependencies = TRUE, upgrade = "always")`
 
 Once grattantheme is installed, you can load it the same way you
 normally load an R package:

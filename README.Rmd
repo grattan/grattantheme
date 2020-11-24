@@ -19,7 +19,8 @@ library(tidyverse)
   <!-- badges: start -->
   
 [![Codecov test coverage](https://codecov.io/gh/grattan/grattantheme/branch/master/graph/badge.svg)](https://codecov.io/gh/grattan/grattantheme?branch=master)
-[![Travis build status](https://travis-ci.com/grattan/grattantheme.svg?branch=master)](https://travis-ci.com/grattan/grattantheme)
+[![R build status](https://github.com/grattan/grattantheme/workflows/R-CMD-check/badge.svg)](https://github.com/grattan/grattantheme/actions)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
   
   <!-- badges: end -->
 
