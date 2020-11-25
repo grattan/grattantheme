@@ -308,7 +308,11 @@ add_graph_to_pptx <- function(p,
     } else if (isTRUE(gdtools::font_family_exists("Arial"))) {
       sans_font <- "Arial"
     } else {
-      sans_font <- gdtools::match_family("sans")
+      if (gdtools::match_family("sans") == "DejaVu Sans") {
+        sans_font <- "Arial"
+      } else {
+        sans_font <- gdtools::match_family("sans")
+      }
     }
 
     # Add graph as SVG object
