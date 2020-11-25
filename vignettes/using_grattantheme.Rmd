@@ -1,10 +1,6 @@
 ---
 title: "Using grattantheme"
-output:
-  pdf_document:
-    toc: TRUE
-    fig_width: 4
-    fig_height: 3
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using grattantheme}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,8 +12,10 @@ vignette: >
 height <- 4
 width <- 6
 
-knitr::opts_chunk$set(collapse = T, comment = "#>", fig.align='center',
+knitr::opts_chunk$set(collapse = T, comment = "#>", 
+                      fig.align='center',
                       fig.height = height,
+                      fig.retina = 2,
                       fig.width = width)
 library(ggplot2)
 library(grattantheme)
