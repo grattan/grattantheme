@@ -296,7 +296,10 @@ add_graph_to_pptx <- function(p,
 
     # Add caption back in for non-report-bound chart types
     chart_class <- chart_types$class[chart_types$type == type]
-    if (chart_class != "normal") {
+    # Is the chart bound for a report?
+    report_bound <- chart_class == "normal"
+
+    if (!report_bound) {
       plot <- replace_labs(plot, list(title = NULL,
                                       subtitle = NULL,
                                       caption = labs$caption))
@@ -314,9 +317,9 @@ add_graph_to_pptx <- function(p,
       }
     }
 
-    # Define the graph location; if no subtitle exists we want to fill
-    # the subtitle space with the graph
-    if (!is.null(labs$subtitle)) {
+    # Define the graph location; if no subtitle exists OR the chart is
+    # report bound, we want to fill the subtitle space with the graph
+    if (!is.null(labs$subtitle) | report_bound) {
       graph_location <- ph_location_label("Content Placeholder 3")
     } else {
       slide_summ <- officer::slide_summary(x)
@@ -330,6 +333,7 @@ add_graph_to_pptx <- function(p,
           slide_summ$offy[slide_summ$ph_label == "Content Placeholder 2"] -
           v_offset
         )
+
     }
 
     # Add graph as SVG object

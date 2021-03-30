@@ -9,6 +9,7 @@ grattan_anim_save(
   animation = gganimate::last_animation(),
   type,
   path = NULL,
+  nframes = 100,
   ...
 )
 }
@@ -23,6 +24,8 @@ animation using `gganimate::last_animation()`}
 "fullslide_169" (to save as a 16:9 orientation Grattan-branded image).}
 
 \item{path}{Path to save plot to (combined with filename)}
+
+\item{nframes}{Number of frames to include in the saved animation}
 
 \item{...}{arguments passed on to animate}
 }
@@ -53,7 +56,8 @@ anim_plot <- static_plot +
  transition_states(cyl)
 
 # Then save it. Note that you must specify the chart type. You can optionally
-# specify # nframes, fps, and other arguments to gganimate::animate()
+# specify nframes. Other arguments such as
+# fps will be passed to gganimate::animate()
 
 \dontrun{grattan_anim_save("test.gif", anim_plot, type = "blog",
 fps = 5, nframes = 20)}
