@@ -12,6 +12,7 @@
 #' "normal" (to save as a Grattan chart as in a report), or
 #' "fullslide_169" (to save as a 16:9 orientation Grattan-branded image).
 #' @param path Path to save plot to (combined with filename)
+#' @param nframes Number of frames to include in the saved animation
 #' @param ... arguments passed on to animate
 #'
 #' @import gganimate
@@ -40,7 +41,8 @@
 #'  transition_states(cyl)
 #'
 #' # Then save it. Note that you must specify the chart type. You can optionally
-#' # specify # nframes, fps, and other arguments to gganimate::animate()
+#' # specify nframes. Other arguments such as
+#' # fps will be passed to gganimate::animate()
 #'
 #' \dontrun{grattan_anim_save("test.gif", anim_plot, type = "blog",
 #' fps = 5, nframes = 20)}
@@ -55,6 +57,7 @@ grattan_anim_save <- function(filename,
                               animation = gganimate::last_animation(),
                               type,
                               path = NULL,
+                              nframes = 100,
                               ...) {
 
   if (type == "fullslide") {
@@ -82,6 +85,10 @@ grattan_anim_save <- function(filename,
                                res = 320,
                                units = "cm",
                                type = type,
+                               # Doubled nframes because some upstream change
+                               # in gganimate circa March 2021 seems to have
+                               # halved the number of frames required?!
+                               nframes = nframes * 2,
                                ...)
 
   # save animation
