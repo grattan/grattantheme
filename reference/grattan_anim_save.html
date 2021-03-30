@@ -82,7 +82,7 @@ for static plots, then saves the animation to disk." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -136,6 +136,7 @@ for static plots, then saves the animation to disk.</p>
   animation <span class='op'>=</span> <span class='fu'>gganimate</span><span class='fu'>::</span><span class='fu'><a href='https://gganimate.com/reference/last_animation.html'>last_animation</a></span><span class='op'>(</span><span class='op'>)</span>,
   <span class='va'>type</span>,
   path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nframes <span class='op'>=</span> <span class='fl'>100</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -162,6 +163,10 @@ animation using `gganimate::last_animation()`</p></td>
       <td><p>Path to save plot to (combined with filename)</p></td>
     </tr>
     <tr>
+      <th>nframes</th>
+      <td><p>Number of frames to include in the saved animation</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>arguments passed on to animate</p></td>
     </tr>
@@ -170,7 +175,7 @@ animation using `gganimate::last_animation()`</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://gganimate.com'>gganimate</a></span><span class='op'>)</span>
 
 <span class='co'># First, create a static plot:</span>
@@ -190,7 +195,8 @@ animation using `gganimate::last_animation()`</p></td>
  <span class='fu'><a href='https://gganimate.com/reference/transition_states.html'>transition_states</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span>
 
 <span class='co'># Then save it. Note that you must specify the chart type. You can optionally</span>
-<span class='co'># specify # nframes, fps, and other arguments to gganimate::animate()</span>
+<span class='co'># specify nframes. Other arguments such as</span>
+<span class='co'># fps will be passed to gganimate::animate()</span>
 
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>grattan_anim_save</span><span class='op'>(</span><span class='st'>"test.gif"</span>, <span class='va'>anim_plot</span>, type <span class='op'>=</span> <span class='st'>"blog"</span>,
 fps <span class='op'>=</span> <span class='fl'>5</span>, nframes <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
