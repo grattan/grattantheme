@@ -4,7 +4,12 @@
 \alias{wrap_labs}
 \title{Format title, subtitle, and caption of a ggplot2 chart in the Grattan style.}
 \usage{
-wrap_labs(object, type, labs_to_wrap = c("title", "subtitle", "caption"))
+wrap_labs(
+  object,
+  type,
+  labs_to_wrap = c("title", "subtitle", "caption"),
+  ignore_long_title = FALSE
+)
 }
 \arguments{
 \item{object}{Name of the ggplot2 chart object with the labels you wish to
@@ -17,6 +22,9 @@ different numbers of characters on each line). `type` can be 'normal',
 
 \item{labs_to_wrap}{Default is c("title", "subtitle", "caption"), which
 wraps all three labels. Choose one or two if you only want to wrap those.}
+
+\item{ignore_long_title}{Default is FALSE. If TRUE, the check on a long title
+won't be performed. This is useful if using ggtext syntax within titles.}
 }
 \description{
 Use `wrap_labs()` to wrap the title, subtitle, and caption of a ggplot2 chart

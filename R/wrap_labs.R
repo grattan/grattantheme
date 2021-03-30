@@ -15,6 +15,8 @@
 #'   \code{?grattan_save()}.
 #' @param labs_to_wrap Default is c("title", "subtitle", "caption"), which
 #' wraps all three labels. Choose one or two if you only want to wrap those.
+#' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
+#' won't be performed. This is useful if using ggtext syntax within titles.
 #'
 #' @examples
 #'
@@ -36,7 +38,8 @@
 
 wrap_labs <- function(object,
                       type,
-                      labs_to_wrap = c("title", "subtitle", "caption")) {
+                      labs_to_wrap = c("title", "subtitle", "caption"),
+                      ignore_long_title = FALSE) {
 
   p <- object
 
@@ -66,7 +69,8 @@ wrap_labs <- function(object,
         stored_title <- paste0("\n", stored_title)
       }
 
-      if (nchar(stored_title) > 2 * char_width_grattan_title) {
+
+      if (!ignore_long_title & (nchar(stored_title) > 2 * char_width_grattan_title)) {
         # if title > 2 lines, return an informative error that tells users
         # where they need to trim their title to
 
@@ -83,7 +87,8 @@ wrap_labs <- function(object,
       }
 
       if (nchar(stored_title) <= 2 * char_width_grattan_title &
-          nchar(stored_title) > char_width_grattan_title) {
+          nchar(stored_title) > char_width_grattan_title &
+          !ignore_long_title) {
 
         stored_title <- paste0(strwrap(stored_title, char_width_grattan_title)[1],
                                "\n",
@@ -103,7 +108,7 @@ wrap_labs <- function(object,
 
       char_width_grattan_subtitle <- chart_types$subtitle[chart_types$type == type]
 
-      if (nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
+      if (nchar(stored_subtitle) > 2 * char_width_grattan_subtitle & !ignore_long_title) {
         # code to figure out the final 2 chunks of text before the title limit
         trimmed_subtitle <- strtrim(stored_subtitle, 2 * char_width_grattan_subtitle)
         trimmed_subtitle_final_words <- paste0(utils::tail(strsplit(trimmed_subtitle, split = " ")[[1]],2), collapse = " ")
@@ -118,7 +123,8 @@ wrap_labs <- function(object,
       }
 
       if (nchar(stored_subtitle) <= 2 * char_width_grattan_subtitle &
-          nchar(stored_subtitle) > char_width_grattan_subtitle) {
+          nchar(stored_subtitle) > char_width_grattan_subtitle &
+          !ignore_long_title) {
 
         stored_subtitle <- paste0(strwrap(stored_subtitle, char_width_grattan_subtitle)[1],
                                   "\n",
