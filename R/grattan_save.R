@@ -69,6 +69,8 @@
 #' @param latex Logical. FALSE by default. If TRUE, exports figure environment
 #' LaTeX code to clipboard and console.
 #' @param dpi Plot resolution. Default is "retina".
+#' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
+#' won't be performed. This is useful if using ggtext syntax within titles.
 #' @param ... arguments passed to `ggsave()`. For example, use
 #' `device = cairo_pdf` to use the Cairo PDF rendering engine.
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
@@ -147,6 +149,7 @@ grattan_save <- function(filename,
                          watermark = NULL,
                          latex = FALSE,
                          dpi = "retina",
+                         ignore_long_title = FALSE,
                          ...) {
 
   if (!type %in% c("all", all_chart_types)) {
@@ -201,6 +204,7 @@ grattan_save <- function(filename,
                   force_labs = force_labs,
                   dpi = dpi,
                   save_pptx = save_pptx,
+                  ignore_long_title = ignore_long_title,
                   ...)
   }
 
@@ -248,6 +252,7 @@ grattan_save <- function(filename,
                  force_labs = force_labs,
                  dpi = dpi,
                  save_pptx = save_pptx,
+                 ignore_long_title = ignore_long_title,
                  ...)
 
   }
@@ -267,6 +272,7 @@ grattan_save_ <- function(filename,
                           force_labs,
                           dpi,
                           save_pptx,
+                          ignore_long_title,
                           ...) {
 
   plot_class <- chart_types$class[chart_types$type == type]
@@ -275,7 +281,7 @@ grattan_save_ <- function(filename,
   # logo
   if (plot_class == "fullslide") {
 
-    object <- wrap_labs(object, type)
+    object <- wrap_labs(object, type, ignore_long_title = ignore_long_title)
 
     object <- create_fullslide(plot = object,
                                type = type)

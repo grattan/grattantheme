@@ -16,6 +16,7 @@ grattan_save(
   watermark = NULL,
   latex = FALSE,
   dpi = "retina",
+  ignore_long_title = FALSE,
   ...
 )
 
@@ -94,6 +95,9 @@ before saving your plot.}
 LaTeX code to clipboard and console.}
 
 \item{dpi}{Plot resolution. Default is "retina".}
+
+\item{ignore_long_title}{Default is FALSE. If TRUE, the check on a long title
+won't be performed. This is useful if using ggtext syntax within titles.}
 
 \item{...}{arguments passed to `ggsave()`. For example, use
 `device = cairo_pdf` to use the Cairo PDF rendering engine.

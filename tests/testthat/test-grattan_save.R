@@ -17,6 +17,17 @@ test_plot_nolabs <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
   grattan_colour_manual(n = 3) +
   grattan_y_continuous(limits = c(0, 40))
 
+test_plot_longlabs <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+  geom_point() +
+  theme_grattan() +
+  grattan_colour_manual(n = 3) +
+  grattan_y_continuous(limits = c(0, 40)) +
+  labs(x = "Weight",
+       title = "Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage",
+       subtitle = "Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage",
+       caption = "Source: mtcars dataset")
+
+
 test_that("grattan_save() saves charts (no powerpoint)", {
 
   grattan_save(filename = "../figs/grattan_save/test_plot.png",
@@ -226,4 +237,19 @@ test_that("grattan_save_all() works", {
 
   unlink("../figs/grattan_save_all", recursive = TRUE)
   unlink("../testthat/Rplots.pdf")
+})
+
+
+test_that("grattan_save(ignore_long_titles = TRUE) successfully ignores long titles", {
+
+  expect_error(
+    grattan_save(filename = "test_plot_fullslide_default_height.png",
+               object = test_plot_longlabs,
+               type = "fullslide")
+  )
+
+  grattan_save(filename = "test_plot_fullslide_default_height.png",
+               object = test_plot_longlabs,
+               type = "fullslide",
+               ignore_long_title = TRUE)
 })
