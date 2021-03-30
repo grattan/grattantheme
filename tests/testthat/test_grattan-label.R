@@ -16,7 +16,7 @@ p_label <- p +
 
 # A chart with Grattan labels that are repelled from each other
 p_label_repel <- p +
-    grattan_label_repel()
+    grattan_label_repel(max.overlaps = 10000)
 
 test_that("grattan_label plots appear correct", {
   skip_on_os("linux")
