@@ -45,13 +45,15 @@ export_latex_code <- function(p = ggplot2::last_plot(),
     if (has_note & has_source) {
       caption_text <- str_split(caption, " ?Sources? ?:? ?", simplify = TRUE) %>%
         str_remove("(N|n)otes? ?:? ?")
+
     } else {
       caption_text <- caption %>%
         str_remove("(N|n)otes? ?:? ?") %>%
         str_remove("(S|s)ources? ?:? ?")
     }
 
-    caption_text <- str_to_sentence(caption_text)
+    substr(caption_text, 1, 1) <- toupper(substr(caption_text, 1, 1))
+
 
     note_or_notes <- caption %>%
       str_detect("(N|n)otes") %>%
