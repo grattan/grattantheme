@@ -27,9 +27,8 @@ test_that("export_latex_code returns the right latex code", {
 
   skip_on_cran()
   x <- export_latex_code(p)
+  text <- "\\begin{figure}\n\t\\caption{Title\\label{fig:chart}}\n\t\\units{Subtitle}\n\t\\includegraphics[page= 1, width=1\\columnwidth]{atlas/chart/chart_wholecolumn.pdf}\n\t\\noteswithsource{Say something.}{This citation.}\n\\end{figure}"
 
-  expect_true(grepl("\\begin{figure}\n\t\\caption{Title\\label{fig:title}}\n\t\\units{Subtitle}\n\t\\includegraphics[page= 1, width=1\\columnwidth]{atlas/chart.pdf}\n\t\\noteswithsource{Say something.}{This citation.}\n\\end{figure}",
-                    x,
-                    fixed = T))
+  expect_identical(x, text)
 
 })

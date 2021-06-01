@@ -1,3 +1,7 @@
+# grattantheme 0.8.4
+* path behaviour of export_latex_code() changed
+* 
+
 # grattantheme 0.8.3.900
 * When your chart has no subtitle, the chart will not leave space for it
 * grattan_point_filled() added

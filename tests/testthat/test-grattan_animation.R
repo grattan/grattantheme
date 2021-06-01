@@ -39,9 +39,9 @@ test_that("animation works", {
   frames_in_file_normal <- length(magick::image_read(normal_file))
   #frames_in_file_fullslide_169 <- length(magick::image_read(fullslide_169_file))
 
-  expect_equal(frames_in_file_blog, 6)
-  expect_equal(frames_in_file_normal, 6)
-  #expect_equal(frames_in_file_fullslide_169, 6)
+  expect_equal(frames_in_file_blog, 12)
+  expect_equal(frames_in_file_normal, 12)
+  #expect_equal(frames_in_file_fullslide_169, 12)
 
 })
 
