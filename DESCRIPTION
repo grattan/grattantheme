@@ -1,12 +1,12 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 0.8.3.3.900
+Version: 0.8.3.4
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
-                role = c("aut", "cre")),
-    person(given = "Will 'TeX'", family = "Mackey", email = "william.mackey@grattaninstitute.edu.au",
-                role = "aut"))
+                role = c("aut")),
+    person(given = "Will", family = "Mackey", email = "william.mackey@grattaninstitute.edu.au",
+                role = c("aut", "cre")))
 Description: Enables the user to create ggplot2 charts that conform 
     to the Grattan Institute style guide. 
 License: MIT + file LICENSE
@@ -18,7 +18,6 @@ Imports:
     knitr (>= 1.22),
     rmarkdown (>= 1.12),
     gridExtra,
-    gganimate (>= 1.0.0),
     patchwork (>= 1.0.0),
     openxlsx (>= 4.1.0.1),
     stringr,
@@ -37,5 +36,4 @@ Suggests:
     covr,
     vdiffr,
     magick,
-    png,
-    gifski
+    png

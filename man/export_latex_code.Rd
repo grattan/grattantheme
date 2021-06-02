@@ -4,14 +4,21 @@
 \alias{export_latex_code}
 \title{Export the figure environment LaTeX code for a ggplot2 graph object.}
 \usage{
-export_latex_code(p = ggplot2::last_plot(), chart_path = "atlas/chart.pdf")
+export_latex_code(
+  p = ggplot2::last_plot(),
+  chart_path = "atlas/chart.pdf",
+  export_type = "wholecolumn"
+)
 }
 \arguments{
 \item{p}{The ggplot2 graph object to be saved. Defaults to
 \code{last_plot()}, which will save the last plot that was displayed in
 your session.}
 
-\item{chart_path}{The save path of the chart. The filename will be extracted
+\item{chart_path}{The chart_path and export_type will be extracted
+and used in the \code{\\includegraphics} call.}
+
+\item{export_type}{The chart_path and export_type will be extracted
 and used in the \code{\\includegraphics} call.}
 }
 \value{
