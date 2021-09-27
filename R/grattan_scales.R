@@ -7,8 +7,10 @@
 #' @param reverse Logical. FALSE by default. Setting to TRUE reverses the
 #'   standard colour order.
 #'
-#' @param faded Logical. FALSE by default. Setting to TRUE returns faded
-#'   variations of the standard colours.
+#' @param faded Depreciated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
+#'   variations of the standard colours. If TRUE and \code{faded_level = 0}, sets \code{faded_level} to 5.
+#'
+#' @param faded_level Integer between 0 (no fade; the default) and 8 (most faded).
 #'
 #' @param discrete Logical. TRUE by default. Setting to FALSE generates a
 #'   continuous colour scale.
@@ -50,6 +52,7 @@ NULL
 grattan_colour_manual <- function(n = 0,
                                   reverse = FALSE,
                                   discrete = TRUE,
+                                  faded_level = 0,
                                   faded = FALSE,
                                   palette = "full", ...) {
   if (discrete) {
@@ -57,6 +60,7 @@ grattan_colour_manual <- function(n = 0,
   ggplot2::scale_colour_manual(...,
                       values = grattantheme::grattan_pal(n = n,
                                                          reverse = reverse,
+                                                         faded_level = faded_level,
                                                          faded = faded))
     )
   }
@@ -75,6 +79,7 @@ grattan_colour_manual <- function(n = 0,
 
 grattan_fill_manual <- function(n = 0, reverse = FALSE,
                                 discrete = TRUE,
+                                faded_level = 0,
                                 faded = FALSE,
                                 palette = "full", ...) {
   if (discrete) {
@@ -82,6 +87,7 @@ grattan_fill_manual <- function(n = 0, reverse = FALSE,
       ggplot2::scale_fill_manual(...,
                                  values = grattan_pal(n = n,
                                                       reverse = reverse,
+                                                      faded_level = faded_level,
                                                       faded = faded))
     )
   }

@@ -10,8 +10,11 @@
 #' @param reverse Logical. FALSE by default. Setting to TRUE reverses the
 #'   standard colour order. Standard colour order runs from light to dark. If
 #'   you set reverse to TRUE, colours will run from dark to light.
-#' @param faded Logical. FALSE by default. Setting to TRUE returns the faded
-#'   variations of the standard colours.
+#'
+#' @param faded Depreciated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
+#'   variations of the standard colours. If TRUE and \code{faded_level = 0}, sets \code{faded_level} to 5.
+#'
+#' @param faded_level Integer between 0 (no fade; the default) and 8 (most faded).
 #'
 #' @examples
 #' library(ggplot2)
@@ -35,15 +38,21 @@
 #'
 #' @export
 
-grattan_pal <- function(n = 0, reverse = FALSE, faded = FALSE) {
+grattan_pal <- function(n = 0, reverse = FALSE,
+                        faded_level = 0,
+                        faded = FALSE) {
+
+  if (isTRUE(faded) & faded_level == 0) {
+    faded_level <- 4
+    warning("faded argument is depreciated. Please use faded_level instead.",
+            "Setting faded_level to 4.")
+  }
+
+  if (!faded_level %in% c(0:8)) stop("faded_level must be an integer between 0 and 8.")
 
   if (n == 0) {
     n <- 5
     "Your chart will probably look better if you specify n in grattan_pal()."
-  }
-
-  if (n > 6 & n <= 10) {
-    warning("Using more than six colours is not recommended.")
   }
 
   if (n > 10 & n != "2a") {
@@ -51,13 +60,7 @@ grattan_pal <- function(n = 0, reverse = FALSE, faded = FALSE) {
                 " colours; grattan_pal() only supports up to 10."))
   }
 
-  if (isFALSE(faded)) {
-    palette <- regular_palette(n)
-  }
-
-  if (isTRUE(faded)) {
-    palette <- faded_palette(n)
-  }
+  palette <- get_palette(n, faded_level)
 
   if (isTRUE(reverse)) {
     palette <- rev(palette)
@@ -66,149 +69,85 @@ grattan_pal <- function(n = 0, reverse = FALSE, faded = FALSE) {
   palette
 }
 
-regular_palette <- function(n) {
+get_palette <- function(n, f) {
 
   if (n == 1) {
-    palette <- grattantheme::grattan_lightorange
+    palette <- "orange"
   } else if (n == "2a") {
-    palette <- c(grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange)
+    palette <- c("orange",
+                 "darkorange")
   } else if (n == 2) {
-    palette <- c(grattantheme::grattan_lightorange,
-                 grattantheme::grattan_red)
+    palette <- c("orange",
+                 "red")
   } else if (n == 3) {
-    palette <- c(grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange)
+    palette <- c("yellow",
+                 "orange",
+                 "red")
   } else if (n == 4) {
-    palette <- c(grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red)
+    palette <- c("yellow",
+                 "orange",
+                 "darkorange",
+                 "red")
   } else if (n == 5) {
-    palette <- c(grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red,
-                 grattantheme::grattan_darkred)
+    palette <- c("yellow",
+                 "orange",
+                 "darkorange",
+                 "red",
+                 "darkred")
   } else if (n == 6) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red,
-                 grattantheme::grattan_darkred)
+    palette <- c("lightyellow",
+                 "yellow",
+                 "orange",
+                 "darkorange",
+                 "red",
+                 "darkred")
   } else if (n == 7) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red,
-                 grattantheme::grattan_darkred,
-                 "black")
+    palette <- c("lightyellow",
+                 "yellow",
+                 "lightorange",
+                 "darkorange",
+                 "red",
+                 "darkred",
+                 "blue")
   } else if (n == 8) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red,
-                 grattantheme::grattan_darkred, "black",
-                 grattantheme::grattan_grey4)
+    palette <- c("lightyellow",
+                 "yellow",
+                 "lightorange",
+                 "darkorange",
+                 "red",
+                 "darkred",
+                 "blue",
+                 "darkblue")
   } else if (n == 9) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red,
-                 grattantheme::grattan_darkred,
-                 "black",
-                 grattantheme::grattan_grey4,
-                 grattantheme::grattan_grey3)
+    palette <- c("lightyellow",
+                 "yellow",
+                 "lightorange",
+                 "darkorange",
+                 "red",
+                 "darkred",
+                 "blue",
+                 "darkblue",
+                 "lightgrey")
   } else if (n == 10) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow,
-                 grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange,
-                 grattantheme::grattan_red,
-                 grattantheme::grattan_darkred,
-                 "black",
-                 grattantheme::grattan_grey4,
-                 grattantheme::grattan_grey3,
-                 grattantheme::grattan_grey2)
-  }
-  palette
-}
-
-faded_palette <- function(n) {
-  if (n == 1) {
-    palette <- grattantheme::grattan_lightorange_f
-  } else if (n == "2a") {
-    palette <- c(grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f)
-  } else if (n == 2) {
-    palette <- c(grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_red_f)
-  } else if (n == 3) {
-    palette <- c(grattantheme::grattan_yellow_f,
-                 grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f)
-  } else if (n == 4) {
-    palette <- c(grattantheme::grattan_yellow_f,
-                 grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f,
-                 grattantheme::grattan_red_f)
-  } else if (n == 5) {
-    palette <- c(grattantheme::grattan_yellow_f,
-                 grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f,
-                 grattantheme::grattan_red_f,
-                 grattantheme::grattan_darkred_f)
-  } else if (n == 6) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow_f,
-                 grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f,
-                 grattantheme::grattan_red_f,
-                 grattantheme::grattan_darkred_f)
-  } else if (n == 7) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow_f,
-                 grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f,
-                 grattantheme::grattan_red_f,
-                 grattantheme::grattan_darkred_f,
-                 "black")
-  } else if (n == 8) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow_f,
-                 grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f,
-                 grattantheme::grattan_red_f,
-                 grattantheme::grattan_darkred_f,
-                 "black",
-                 grattantheme::grattan_grey3)
-  } else if (n == 9) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow_f,
-                 grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f,
-                 grattantheme::grattan_red_f,
-                 grattantheme::grattan_darkred_f,
-                 "black",
-                 grattantheme::grattan_grey3,
-                 grattantheme::grattan_grey2)
-  } else if (n == 10) {
-    palette <- c(grattantheme::grattan_lightyellow,
-                 grattantheme::grattan_yellow_f,
-                 grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f,
-                 grattantheme::grattan_red_f,
-                 grattantheme::grattan_darkred_f,
-                 "black",
-                 grattantheme::grattan_grey3,
-                 grattantheme::grattan_grey2,
-                 grattantheme::grattan_grey1)
+    palette <- c("lightyellow",
+                 "yellow",
+                 "lightorange",
+                 "darkorange",
+                 "red",
+                 "darkred",
+                 "blue",
+                 "darkblue",
+                 "lightgrey",
+                 "darkgrey")
   }
 
-  palette
+  if (f == 0) f <- ""
+
+  palette <- purrr::map_chr(
+      paste0("grattan_", palette, f),
+      get
+    )
+
+  return(palette)
+
 }

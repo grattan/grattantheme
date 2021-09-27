@@ -755,6 +755,14 @@
 #'
 "grattan_blue8"
 
+
+#' Hex code for the colour: Grattan Black (normal black)
+#'
+#' #000000
+#'
+"grattan_black"
+
+
 #' Hex code for the colour: Grattan grey 1 (truffle soup)
 #'
 #' #D9D9D9

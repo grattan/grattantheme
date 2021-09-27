@@ -4,7 +4,7 @@
 \alias{grattan_pal}
 \title{Create a Grattan-appropriate palette for your chart.}
 \usage{
-grattan_pal(n = 0, reverse = FALSE, faded = FALSE)
+grattan_pal(n = 0, reverse = FALSE, faded_level = 0, faded = FALSE)
 }
 \arguments{
 \item{n}{Numeric. The number of levels in your colour scale. Minimum value is
@@ -19,8 +19,10 @@ grattan_pal(n = 0, reverse = FALSE, faded = FALSE)
 standard colour order. Standard colour order runs from light to dark. If
 you set reverse to TRUE, colours will run from dark to light.}
 
-\item{faded}{Logical. FALSE by default. Setting to TRUE returns the faded
-variations of the standard colours.}
+\item{faded_level}{Integer between 0 (no fade; the default) and 8 (most faded).}
+
+\item{faded}{Depreciated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
+variations of the standard colours. If TRUE and \code{faded_level = 0}, sets \code{faded_level} to 5.}
 }
 \description{
 Create a Grattan-appropriate palette for your chart.

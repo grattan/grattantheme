@@ -9,6 +9,7 @@ grattan_colour_manual(
   n = 0,
   reverse = FALSE,
   discrete = TRUE,
+  faded_level = 0,
   faded = FALSE,
   palette = "full",
   ...
@@ -18,6 +19,7 @@ grattan_fill_manual(
   n = 0,
   reverse = FALSE,
   discrete = TRUE,
+  faded_level = 0,
   faded = FALSE,
   palette = "full",
   ...
@@ -34,8 +36,10 @@ standard colour order.}
 \item{discrete}{Logical. TRUE by default. Setting to FALSE generates a
 continuous colour scale.}
 
-\item{faded}{Logical. FALSE by default. Setting to TRUE returns faded
-variations of the standard colours.}
+\item{faded_level}{Integer between 0 (no fade; the default) and 8 (most faded).}
+
+\item{faded}{Depreciated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
+variations of the standard colours. If TRUE and \code{faded_level = 0}, sets \code{faded_level} to 5.}
 
 \item{palette}{Sets the colours that will form the continuous palette when
   discrete = FALSE. One of:

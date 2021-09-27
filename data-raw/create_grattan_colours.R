@@ -243,6 +243,10 @@ usethis::use_data(grattan_darkblue7, overwrite = TRUE)
 grattan_darkblue8 <- "#EAF1FA"
 usethis::use_data(grattan_darkblue8, overwrite = TRUE)
 
+# black ----
+grattan_black <- "#000000"
+usethis::use_data(grattan_black, overwrite = TRUE)
+
 
 # grey ------
 
