@@ -42,18 +42,18 @@ test_that("create_pptx_shell creates an empty pptx document with the appropriate
   # Plot argument to create_pptx_shell() must be a list of ggplot2 object(s)
   expect_error(create_pptx_shell(p1,
                                  "test.pptx",
-                                 type = "fullslide"))
+                                 type = "fullslide_43"))
 
-  create_pptx_shell(list(p1, p2), "temp.pptx", "fullslide")
+  create_pptx_shell(list(p1, p2), "temp.pptx", "fullslide_43")
   on.exit(unlink("temp.pptx"))
   expect_true(is_valid_pptx("temp.pptx"))
   expect_equal(no_slides("temp.pptx"), 2)
 
-  create_pptx_shell(list(p1, p2), "temp.pptx", "fullslide_169")
+  create_pptx_shell(list(p1, p2), "temp.pptx", "fullslide")
   expect_true(is_valid_pptx("temp.pptx"))
   expect_equal(no_slides("temp.pptx"), 2)
 
-  create_pptx_shell(list(p1), "temp.pptx", "fullslide_169")
+  create_pptx_shell(list(p1), "temp.pptx", "fullslide")
   expect_true(is_valid_pptx("temp.pptx"))
   expect_equal(no_slides("temp.pptx"), 1)
 })
@@ -62,10 +62,10 @@ test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 
   skip_on_cran()
 
-  create_pptx_shell(list(p1), "temp.pptx", "fullslide")
+  create_pptx_shell(list(p1), "temp.pptx", "fullslide_43")
   on.exit(unlink("temp.pptx"))
 
-  add_graph_to_pptx(list(p1), "temp.pptx", "fullslide")
+  add_graph_to_pptx(list(p1), "temp.pptx", "fullslide_43")
   expect_true(is_valid_pptx("temp.pptx"))
 
   x <- officer::read_pptx("temp.pptx")
@@ -79,22 +79,22 @@ test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 test_that("grattan_save_pptx works in various configurations", {
 
   skip_on_cran()
-  grattan_save_pptx(p1, "temp.pptx", type = "fullslide")
+  grattan_save_pptx(p1, "temp.pptx", type = "fullslide_43")
   expect_true(is_valid_pptx("temp.pptx"))
   expect_equal(no_slides("temp.pptx"), 1)
   unlink("temp.pptx", recursive = T, force = T)
 
-  grattan_save_pptx(list(p1, p2), "temp.pptx", type = "fullslide")
+  grattan_save_pptx(list(p1, p2), "temp.pptx", type = "fullslide_43")
   expect_true(is_valid_pptx("temp.pptx"))
   expect_equal(no_slides("temp.pptx"), 2)
   unlink("temp.pptx", recursive = T, force = T)
 
 
   grattan_save_pptx(list(p1, p2), "multi_slide.pptx",
-                    type = c("fullslide", "fullslide_169"))
+                    type = c("fullslide_43", "fullslide"))
   expect_false(file.exists("multi_slide.pptx"))
   expect_true(is_valid_pptx("multi_slide/multi_slide_fullslide.pptx"))
-  expect_true(is_valid_pptx("multi_slide/multi_slide_fullslide_169.pptx"))
+  expect_true(is_valid_pptx("multi_slide/multi_slide_fullslide.pptx"))
   unlink("multi_slide", recursive = T)
 })
 

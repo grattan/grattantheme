@@ -4,13 +4,13 @@ base_plot <- ggplot(mtcars, aes(x = mpg, y = wt)) +
 
 test_that("long title fails", {
   p <-  base_plot +
-    labs(title = "This is a really long title that should fail wrap_labs with an error because it flows onto more than two lines, so it should definitely fail blah blah blah")
+    labs(title = "This is a really long title that should fail wrap_labs with an error because it flows onto more than two lines, so it should definitely fail blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah")
 
   expect_error(wrap_labs(p, type = "fullslide"))
 
   p <- base_plot +
     labs(title = "Regular title",
-         subtitle = "Extremely long subtitle that should fail wrap_labs with an error, it'll take up too many lines even for a monster chart etc etc etc etc lorem ipsum lorem ipsum")
+         subtitle = "Extremely long subtitle that should fail wrap_labs with an error, it'll take up too many lines even for a monster chart etc etc etc etc lorem ipsum lorem ipsum blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah")
 
   expect_error(wrap_labs(p, type = "fullslide"))
 
@@ -18,14 +18,14 @@ test_that("long title fails", {
 
 test_that("long title doesn't fail when ignored", {
   p <-  base_plot +
-    labs(title = "This is a really long title that should fail wrap_labs with an error because it flows onto more than two lines, so it should definitely fail blah blah blah")
+    labs(title = "This is a really long title that should fail wrap_labs with an error because it flows onto more than two lines, so it should definitely fail blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah")
 
   expect_type(wrap_labs(p, type = "fullslide", ignore_long_title = TRUE), "list")
 
 
   p <- base_plot +
     labs(title = "Regular title",
-         subtitle = "Extremely long subtitle that should fail wrap_labs with an error, it'll take up too many lines even for a monster chart etc etc etc etc lorem ipsum lorem ipsum")
+         subtitle = "Extremely long subtitle that should fail wrap_labs with an error, it'll take up too many lines even for a monster chart etc etc etc etc lorem ipsum lorem ipsum blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah")
 
   expect_type(wrap_labs(p, type = "fullslide", ignore_long_title = TRUE), "list")
 
@@ -56,9 +56,10 @@ test_that("caption wraps onto two lines", {
 })
 
 test_that("wrap_labs() only wraps the label you want it to", {
+
   p <- base_plot +
     labs(title = "This is a slightly long title that should wrap onto two lines but work blah blah blah",
-         subtitle = "This is a slightly long title that should wrap onto two lines but work blah blah blah blah blah",
+         subtitle = "This is a slightly long title that should wrap onto two lines but work blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah",
          caption = "Notes: these are some notes. Source: this is the source.")
 
   title_only <- wrap_labs(p, "fullslide", "title")
