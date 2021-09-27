@@ -80,21 +80,21 @@ test_that("grattan_save_pptx works in various configurations", {
 
   skip_on_cran()
   grattan_save_pptx(p1, "temp.pptx", type = "fullslide_43")
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 1)
-  unlink("temp.pptx", recursive = T, force = T)
+  expect_true(is_valid_pptx("temp/temp_fullslide_43.pptx"))
+  expect_equal(no_slides("temp/temp_fullslide_43.pptx"), 1)
+  unlink("temp", recursive = T, force = T)
 
-  grattan_save_pptx(list(p1, p2), "temp.pptx", type = "fullslide_43")
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 2)
-  unlink("temp.pptx", recursive = T, force = T)
+  grattan_save_pptx(list(p1, p2), "temp.pptx", type = "fullslide")
+  expect_true(is_valid_pptx("temp/temp_fullslide.pptx"))
+  expect_equal(no_slides("temp/temp_fullslide.pptx"), 2)
+  unlink("temp", recursive = T, force = T)
 
 
   grattan_save_pptx(list(p1, p2), "multi_slide.pptx",
                     type = c("fullslide_43", "fullslide"))
   expect_false(file.exists("multi_slide.pptx"))
   expect_true(is_valid_pptx("multi_slide/multi_slide_fullslide.pptx"))
-  expect_true(is_valid_pptx("multi_slide/multi_slide_fullslide.pptx"))
+  expect_true(is_valid_pptx("multi_slide/multi_slide_fullslide_43.pptx"))
   unlink("multi_slide", recursive = T)
 })
 
@@ -103,22 +103,22 @@ test_that("grattan_save_pptx works when labels are present / absent", {
   skip_on_cran()
   # No labels
   grattan_save_pptx(base_p1, "temp.pptx")
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 1)
-  unlink("temp.pptx", recursive = T, force = T)
+  expect_true(is_valid_pptx("temp/temp_fullslide.pptx"))
+  expect_equal(no_slides("temp/temp_fullslide.pptx"), 1)
+  unlink("temp", recursive = T, force = T)
 
   # Just title
   grattan_save_pptx(base_p1 + labs(title = "Some text"),
                     "temp.pptx")
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 1)
-  unlink("temp.pptx", recursive = T, force = T)
+  expect_true(is_valid_pptx("temp/temp_fullslide.pptx"))
+  expect_equal(no_slides("temp/temp_fullslide.pptx"), 1)
+  unlink("temp", recursive = T, force = T)
 
   # Just subtitle
   grattan_save_pptx(base_p1 + labs(subtitle = "Some text"),
                     "temp.pptx")
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 1)
-  unlink("temp.pptx", recursive = T, force = T)
+  expect_true(is_valid_pptx("temp/temp_fullslide.pptx"))
+  expect_equal(no_slides("temp/temp_fullslide.pptx"), 1)
+  unlink("temp", recursive = T, force = T)
 
 })

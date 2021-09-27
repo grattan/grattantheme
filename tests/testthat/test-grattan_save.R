@@ -134,10 +134,10 @@ test_that("grattan_save() saves chart data when requested",{
                type = "normal",
                save_data = TRUE)
 
-  expect_true(file.exists("test.pdf"))
-  expect_true(file.exists("test.xlsx"))
+  expect_true(file.exists("test/test_normal.pdf"))
+  expect_true(file.exists("test/test.xlsx"))
 
-  saved_data <- openxlsx::read.xlsx("test.xlsx",
+  saved_data <- openxlsx::read.xlsx("test/test.xlsx",
                                     rows = c(3:35),
                                     cols = c(2:12))
 
@@ -165,36 +165,36 @@ test_that("grattan_save() height behaviour works as expected with normal charts"
                type = "normal",
                height = 20)
 
-  expect_true(file.exists("test_plot_normal_default_height.png"))
-  expect_true(file.exists("test_plot_normal_manual_height.png"))
+  expect_true(file.exists("test_plot_normal_default_height/test_plot_normal_default_height_normal.png"))
+  expect_true(file.exists("test_plot_normal_manual_height/test_plot_normal_manual_height_normal.png"))
 
-  expect_gt(file.size("test_plot_normal_manual_height.png"),
-            file.size("test_plot_normal_default_height.png"))
+  expect_gt(file.size("test_plot_normal_manual_height/test_plot_normal_manual_height_normal.png"),
+            file.size("test_plot_normal_default_height/test_plot_normal_default_height_normal.png"))
 
-  unlink("test_plot_normal_default_height.png")
-  unlink("test_plot_normal_manual_height.png")
+  unlink("test_plot_normal_default_height", recursive = TRUE)
+  unlink("test_plot_normal_manual_height", recursive = TRUE)
 
 })
 
 test_that("grattan_save() height behaviour works as expected with fullslide charts", {
 
-  grattan_save(filename = "test_plot_fullslide_default_height.png",
+  grattan_save(filename = "default_height.png",
                object = test_plot,
                type = "fullslide")
 
-  grattan_save(filename = "test_plot_fullslide_manual_height.png",
+  grattan_save(filename = "manual_height.png",
                object = test_plot,
                type = "fullslide",
                height = 40)
 
-  expect_true(file.exists("test_plot_fullslide_default_height.png"))
-  expect_true(file.exists("test_plot_fullslide_manual_height.png"))
+  expect_true(file.exists("default_height/default_height_fullslide.png"))
+  expect_true(file.exists("manual_height/manual_height_fullslide.png"))
 
-  expect_gt(file.size("test_plot_fullslide_manual_height.png"),
-            file.size("test_plot_fullslide_default_height.png"))
+  expect_gt(file.size("manual_height/manual_height_fullslide.png"),
+            file.size("default_height/default_height_fullslide.png"))
 
-  unlink("test_plot_fullslide_default_height.png")
-  unlink("test_plot_fullslide_manual_height.png")
+  unlink("default_height", recursive = TRUE)
+  unlink("manual_height", recursive = TRUE)
 
 })
 
@@ -214,10 +214,10 @@ test_that("grattan_save() saves a plot with a watermark", {
                object = test_plot,
                watermark = "DRAFT")
 
-  expect_true(file.exists("test_plot_watermark.png"))
+  expect_true(file.exists("test_plot_watermark/test_plot_watermark_normal.png"))
 
 
-  unlink("test_plot_watermark.png")
+  unlink("test_plot_watermark", recursive = TRUE)
 })
 
 
@@ -251,12 +251,12 @@ test_that("grattan_save_all() works", {
 test_that("grattan_save(ignore_long_titles = TRUE) successfully ignores long titles", {
 
   expect_error(
-    grattan_save(filename = "test_plot_fullslide_default_height.png",
+    grattan_save(filename = "default_height.png",
                object = test_plot_longlabs,
                type = "fullslide")
   )
 
-  grattan_save(filename = "test_plot_fullslide_default_height.png",
+  grattan_save(filename = "default_height.png",
                object = test_plot_longlabs,
                type = "fullslide",
                ignore_long_title = TRUE)

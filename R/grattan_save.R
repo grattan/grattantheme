@@ -144,6 +144,7 @@ grattan_save <- function(filename,
                          ignore_long_title = FALSE,
                          ...) {
 
+  # param checks
   if (!type %in% c("all", all_chart_types_inc_depreciated)) {
     stop(type,
          "is not a valid chart type.\n",
@@ -154,6 +155,7 @@ grattan_save <- function(filename,
     stop("`object` is not a ggplot2 object.")
   }
 
+  # set up
   original_object <- object
 
   if (isTRUE(latex)) export_latex_code(object, filename)
@@ -166,14 +168,29 @@ grattan_save <- function(filename,
     stop("save_pptx must be either TRUE or FALSE.")
   }
 
+
+  # create subdirectory
+  dir <- tools::file_path_sans_ext(filename)
+  filetype <- tools::file_ext(filename)
+  file_name <- tools::file_path_sans_ext(basename(filename))
+
+  if (!dir.exists(dir)) {
+    dir.create(dir, recursive = TRUE)
+  }
+
+  # if single chart
   if (type != "all") {
+
+    filename <- file.path(dir, paste0(file_name, "_", type, ".", filetype))
+
+    ## export chart data
     if (isTRUE(save_data)) {
-        save_chartdata(filename = paste0(sub("\\..*", "", filename), ".xlsx"),
+        save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
                        object = object,
                        type = type,
                        height = height)
     }
-
+    ## export single pptx
     if (isTRUE(save_pptx)) {
       template <- chart_types_inc_depreciated$pptx_template[chart_types_inc_depreciated$type == type]
       template_exists <- ifelse(is.na(template), FALSE, TRUE)
@@ -188,7 +205,7 @@ grattan_save <- function(filename,
                           filename = pptx_filename)
       }
     }
-
+    ## export single image
     grattan_save_(filename = filename,
                   object = object,
                   type = type,
@@ -200,17 +217,12 @@ grattan_save <- function(filename,
                   ...)
   }
 
+  # if all charts
   if (type == "all") {
-    dir <- tools::file_path_sans_ext(filename)
-    filetype <- tools::file_ext(filename)
-    file_name <- tools::file_path_sans_ext(basename(filename))
-
-    if (!dir.exists(dir)) {
-      dir.create(dir, recursive = TRUE)
-    }
 
     filenames <- file.path(dir, paste0(file_name, "_", all_chart_types, ".", filetype))
 
+    ## export chart data
     if (isTRUE(save_data)) {
       save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
                      object = object,
@@ -218,24 +230,19 @@ grattan_save <- function(filename,
                      height = height)
     }
 
+    ## export pptx
     if (isTRUE(save_pptx)) {
       template <- chart_types$pptx_template[chart_types$type == all_chart_types]
       template_exists <- !is.na(template)
       valid_pptx_types <- all_chart_types[template_exists]
-      pptx_filenames <- file.path(dir,
-                                  paste0(file_name, "_",
-                                         valid_pptx_types,
-                                         ".pptx"))
 
-
-      walk2(.x = pptx_filenames,
-            .y = valid_pptx_types,
-            .f = ~grattan_save_pptx(p = object,
-                                    filename = .x,
-                                    type = .y))
+      grattan_save_pptx(p = object,
+                        filename = paste0(dir, ".pptx"),
+                        type = valid_pptx_types)
 
     }
 
+    ## export image
     purrr::walk2(.x = filenames,
                  .y = all_chart_types,
                  .f = grattan_save_,

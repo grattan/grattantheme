@@ -58,20 +58,17 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
     type <- chart_types$type[!is.na(chart_types$pptx_template)]
   }
 
-  if (isTRUE(multiple_types)) {
-    output_dir <- tools::file_path_sans_ext(filename)
 
-    if (isFALSE(dir.exists(output_dir))) {
-      dir.create(output_dir, recursive = TRUE)
-    }
+  output_dir <- tools::file_path_sans_ext(filename)
 
-    base_filename <- tools::file_path_sans_ext(basename(filename))
-    filetype <- tools::file_ext(filename)
-    filenames <- file.path(output_dir,
-                           paste0(base_filename, "_", type, ".", filetype))
-  } else {
-    filenames <- filename
+  if (isFALSE(dir.exists(output_dir))) {
+    dir.create(output_dir, recursive = TRUE)
   }
+
+  base_filename <- tools::file_path_sans_ext(basename(filename))
+  filetype <- tools::file_ext(filename)
+  filenames <- file.path(output_dir,
+                         paste0(base_filename, "_", type, ".", filetype))
 
   # plot must be either a single ggplot2 plot OR a list of ggplot2 plots
   # if a single plot, we want to create a list with the plot as the sole element
