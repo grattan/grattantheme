@@ -3,7 +3,7 @@
 \docType{data}
 \name{grattan_lightyellow}
 \alias{grattan_lightyellow}
-\title{Hex code for the colour: Grattan light yello (corn chowder)}
+\title{Hex code for the colour: Grattan Light Yellow (corn chowder)}
 \format{
 An object of class \code{character} of length 1.
 }
