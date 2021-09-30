@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@
 <p>The grattantheme package needs to be downloaded and installed from Github. The easiest way to do this is with the devtools package. If you don’t have the devtools package, install it:</p>
 <p><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("devtools")</a></code></p>
 <p>Once devtools is installed, you can download and install grattantheme as follows:</p>
-<p><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("grattan/grattantheme", dependencies = TRUE, upgrade = "always")</a></code></p>
+<p><code>devtools::install_github("grattan/grattantheme", dependencies = TRUE, upgrade = "always")</code></p>
 <p>Once grattantheme is installed, you can load it the same way you normally load an R package:</p>
 <p><code><a href="https://rdrr.io/r/base/library.html">library(grattantheme)</a></code></p>
 </div>
@@ -103,7 +103,9 @@
 <p>Use <code><a href="reference/grattan_scale.html">grattan_colour_manual(n)</a></code> or <code><a href="reference/grattan_scale.html">grattan_fill_manual(n)</a></code> to format the <code>n</code> coloured elements of your <code>ggplot2</code> plot. These functions will choose appropriately-spaced Grattan colours, ordered from either light to dark or the reverse.</p>
 <p>The colours that will be used in your plot are:</p>
 <p><img src="reference/figures/README-show-cols-image-1.png" width="75%"></p>
-<p>A range of colours from the style guide (such as <code>grattan_lightorange</code>, <code>grattan_red</code>, and so on) are defined for your convenience.</p>
+<p>A range of colours from the style guide (such as <code>grattan_lightorange</code>, <code>grattan_darkred</code>, and so on) are defined for your convenience. Each colour has eight tints available, e.g. <code>grattan_lightorange</code> has lighter variants <code>grattan_lightorange1</code> through <code>grattan_lightorange8</code> (closest to white). These can be used to allow highlighting or when filling in block colours behind text, such as when designing tables.</p>
+<p>The full set of colour options are:</p>
+<p><img src="reference/figures/grattan-pal.png" width="75%"></p>
 </div>
 <div id="save-your-nice-looking-charts" class="section level2">
 <h2 class="hasAnchor">

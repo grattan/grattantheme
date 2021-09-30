@@ -75,7 +75,7 @@ Grattan charts. Wrapper around ggsave().
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -184,19 +184,11 @@ your session.</p></td>
   Width: 22.2cm, height: 22.2cm.</p></li>
 <li><p>"fullpage" Fills a whole page of a Grattan report.
   Width: 44.3cm, height: 22.2cm.</p></li>
-<li><p>"fullslide A 4:3 Grattan
-  Powerpoint slide, complete with logo.  Width: 25.4cm, height: 19.0cm.</p></li>
-<li><p>"fullslide_169 A 16:9 Grattan
+<li><p>"fullslide A 16:9 Grattan
   Powerpoint slide, complete with logo. Use this to drop into standard
   presentations. Width: 33.9cm, height: 19.0cm</p></li>
 <li><p>"blog""Creates a 4:3 image that looks like a Grattan Powerpoint
   slide, but with less border whitespace than `fullslide`."</p></li>
-<li><p>"fullslide_44"Creates an image that looks like a 4:4 Grattan
-  Powerpoint slide. This may be useful for taller charts for the Grattan
-  blog; not useful for any other purpose. Width: 25.4cm, height: 25.4cm.</p></li>
-<li><p>"fullslide_old169" An old-style 16:9 format included here for
-  compatibilty with old slide decks. Do not use if you can help it.
-  Width: 25.4cm, height: 14.29cm."</p></li>
 </ul><p>Set type = "all" to save your chart in all available sizes or use
 `grattan_save_all()`.</p></td>
     </tr>
@@ -313,7 +305,7 @@ For `grattan_save_all()`, the `...` are passed to `grattan_save()`.</p></td>
          subtitle <span class='op'>=</span> <span class='st'>"Subtitle goes here"</span>,
          caption <span class='op'>=</span> <span class='st'>"Notes: Notes go here. Source: Source goes here"</span><span class='op'>)</span>
 </div><div class='img'><img src='grattan_save-3.png' alt='' width='700' height='433' /></div><div class='input'>
- <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>grattan_save</span><span class='op'>(</span><span class='st'>"your_file.png"</span>, type <span class='op'>=</span> <span class='st'>"normal"</span><span class='op'>)</span>
+ <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>grattan_save</span><span class='op'>(</span><span class='st'>"your_file.pdf"</span>, type <span class='op'>=</span> <span class='st'>"normal"</span><span class='op'>)</span>
 
 
 </div></pre>

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -131,6 +131,7 @@
   n <span class='op'>=</span> <span class='fl'>0</span>,
   reverse <span class='op'>=</span> <span class='cn'>FALSE</span>,
   discrete <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  faded_level <span class='op'>=</span> <span class='fl'>0</span>,
   faded <span class='op'>=</span> <span class='cn'>FALSE</span>,
   palette <span class='op'>=</span> <span class='st'>"full"</span>,
   <span class='va'>...</span>
@@ -140,6 +141,7 @@
   n <span class='op'>=</span> <span class='fl'>0</span>,
   reverse <span class='op'>=</span> <span class='cn'>FALSE</span>,
   discrete <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  faded_level <span class='op'>=</span> <span class='fl'>0</span>,
   faded <span class='op'>=</span> <span class='cn'>FALSE</span>,
   palette <span class='op'>=</span> <span class='st'>"full"</span>,
   <span class='va'>...</span>
@@ -165,9 +167,13 @@ standard colour order.</p></td>
 continuous colour scale.</p></td>
     </tr>
     <tr>
+      <th>faded_level</th>
+      <td><p>Integer between 0 (no fade; the default) and 8 (most faded).</p></td>
+    </tr>
+    <tr>
       <th>faded</th>
-      <td><p>Logical. FALSE by default. Setting to TRUE returns faded
-variations of the standard colours.</p></td>
+      <td><p>Depreciated - use <code>faded_level</code>. Logical. FALSE by default. Setting to TRUE returns the faded
+variations of the standard colours. If TRUE and <code>faded_level = 0</code>, sets <code>faded_level</code> to 5.</p></td>
     </tr>
     <tr>
       <th>palette</th>
