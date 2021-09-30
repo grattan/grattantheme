@@ -9,9 +9,17 @@ p <- base_plot + theme_grattan()
 test_that("grattan colour functions work as expected", {
 
   expect_length(grattan_pal(), 5)
-  expect_length(grattan_pal(faded = TRUE), 5)
+  expect_length(grattan_pal(faded_level = 1), 5)
+  expect_length(grattan_pal(faded_level = 2), 5)
+  expect_length(grattan_pal(faded_level = 3), 5)
+  expect_length(grattan_pal(faded_level = 4), 5)
+  expect_length(grattan_pal(faded_level = 5), 5)
+  expect_length(grattan_pal(faded_level = 6), 5)
+  expect_length(grattan_pal(faded_level = 7), 5)
+  expect_length(grattan_pal(faded_level = 8), 5)
 
-  expect_false(identical(grattan_pal(), grattan_pal(faded = TRUE)))
+  expect_identical(grattan_pal(), grattan_pal(faded_level = 0))
+  expect_false(identical(grattan_pal(), grattan_pal(faded_level = 1)))
 
   expect_length(grattan_pal(n = 1), 1)
   expect_length(grattan_pal(n = 2), 2)
@@ -26,35 +34,39 @@ test_that("grattan colour functions work as expected", {
   expect_length(suppressWarnings(grattan_pal(n = 10)), 10)
   expect_length(grattan_pal(n = 3, reverse = TRUE), 3)
 
-  expect_length(grattan_pal(n = 1, faded = TRUE), 1)
-  expect_length(grattan_pal(n = 2, faded = TRUE), 2)
-  expect_length(grattan_pal(n = "2a", faded = TRUE), 2)
-  expect_length(grattan_pal(n = 3, faded = TRUE), 3)
-  expect_length(grattan_pal(n = 4, faded = TRUE), 4)
-  expect_length(grattan_pal(n = 5, faded = TRUE), 5)
-  expect_length(grattan_pal(n = 6, faded = TRUE), 6)
-  expect_length(suppressWarnings(grattan_pal(n = 7, faded = TRUE)), 7)
-  expect_length(suppressWarnings(grattan_pal(n = 8, faded = TRUE)), 8)
-  expect_length(suppressWarnings(grattan_pal(n = 9, faded = TRUE)), 9)
-  expect_length(suppressWarnings(grattan_pal(n = 10, faded = TRUE)), 10)
+  expect_length(grattan_pal(n = 1, faded_level = 1), 1)
+  expect_length(grattan_pal(n = 2, faded_level = 1), 2)
+  expect_length(grattan_pal(n = "2a", faded_level = 1), 2)
+  expect_length(grattan_pal(n = 3, faded_level = 1), 3)
+  expect_length(grattan_pal(n = 4, faded_level = 1), 4)
+  expect_length(grattan_pal(n = 5, faded_level = 1), 5)
+  expect_length(grattan_pal(n = 6, faded_level = 1), 6)
+  expect_length(suppressWarnings(grattan_pal(n = 7, faded_level = 1)), 7)
+  expect_length(suppressWarnings(grattan_pal(n = 8, faded_level = 1)), 8)
+  expect_length(suppressWarnings(grattan_pal(n = 9, faded_level = 1)), 9)
+  expect_length(suppressWarnings(grattan_pal(n = 10, faded_level = 1)), 10)
 
-  expect_warning(grattan_pal(n = 10))
   expect_warning(grattan_pal(n = 10, faded = TRUE))
 
   expect_error(grattan_pal(n = 11))
-  expect_error(grattan_pal(n = 11, faded = TRUE))
+  expect_error(grattan_pal(n = 11, faded_level = 6))
 
   expect_equal(grattan_pal(n = 5),
-               c(grattantheme::grattan_yellow, grattantheme::grattan_lightorange,
-                 grattantheme::grattan_darkorange, grattantheme::grattan_red,
+               c(grattantheme::grattan_darkyellow,
+                 grattantheme::grattan_lightorange,
+                 grattantheme::grattan_darkorange,
+                 grattantheme::grattan_lightred,
                  grattantheme::grattan_darkred))
 
-  expect_equal(grattan_pal(n = 5, faded = TRUE),
-               c(grattantheme::grattan_yellow_f, grattantheme::grattan_lightorange_f,
-                 grattantheme::grattan_darkorange_f, grattantheme::grattan_red_f,
-                 grattantheme::grattan_darkred_f))
+  expect_equal(grattan_pal(n = 5, faded_level = 4),
+               c(grattantheme::grattan_darkyellow4,
+                 grattantheme::grattan_lightorange4,
+                 grattantheme::grattan_darkorange4,
+                 grattantheme::grattan_lightred4,
+                 grattantheme::grattan_darkred4))
 
-  expect_s3_class(grattan_colour_manual(faded = TRUE), "ScaleDiscrete")
+  expect_s3_class(grattan_colour_manual(faded_level = 2), "ScaleDiscrete")
+  expect_s3_class(grattan_colour_manual(discrete = FALSE), "ScaleContinuous")
 
   plot_w_col <- base_plot +
     geom_point(aes(col = factor(cyl))) +

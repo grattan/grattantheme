@@ -3,7 +3,8 @@
 \docType{data}
 \name{grattan_darkorange_f}
 \alias{grattan_darkorange_f}
-\title{Hex code for the faded colour: Grattan dark orange (faded)}
+\title{!Legacy, depreciated!
+Hex code for the faded colour: Grattan dark orange (faded)}
 \format{
 An object of class \code{character} of length 1.
 }

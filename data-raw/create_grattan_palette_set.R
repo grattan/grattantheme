@@ -34,4 +34,4 @@ grattan_palette_set <- list(
 )
 
 
-save(grattan_palette_set, file = "data/grattan_palette_set.rda")
+usethis::use_data(grattan_palette_set, overwrite = TRUE)

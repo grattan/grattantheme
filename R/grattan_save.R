@@ -30,19 +30,11 @@
 #'   Width: 22.2cm, height: 22.2cm.}
 #'   \item{"fullpage"}{ Fills a whole page of a Grattan report.
 #'   Width: 44.3cm, height: 22.2cm.}
-#'   \item{"fullslide}{ A 4:3 Grattan
-#'   Powerpoint slide, complete with logo.  Width: 25.4cm, height: 19.0cm.}
-#'   \item{"fullslide_169}{ A 16:9 Grattan
+#'   \item{"fullslide}{ A 16:9 Grattan
 #'   Powerpoint slide, complete with logo. Use this to drop into standard
 #'   presentations. Width: 33.9cm, height: 19.0cm}
 #'   \item{"blog"}{"Creates a 4:3 image that looks like a Grattan Powerpoint
 #'   slide, but with less border whitespace than `fullslide`."}
-#'   \item{"fullslide_44"}{Creates an image that looks like a 4:4 Grattan
-#'   Powerpoint slide. This may be useful for taller charts for the Grattan
-#'   blog; not useful for any other purpose. Width: 25.4cm, height: 25.4cm.}
-#'   \item{"fullslide_old169"}{ An old-style 16:9 format included here for
-#'   compatibilty with old slide decks. Do not use if you can help it.
-#'   Width: 25.4cm, height: 14.29cm."}
 #' }
 #' Set type = "all" to save your chart in all available sizes or use
 #' `grattan_save_all()`.
@@ -134,7 +126,7 @@
 #'          subtitle = "Subtitle goes here",
 #'          caption = "Notes: Notes go here. Source: Source goes here")
 #'
-#'  \dontrun{grattan_save("your_file.png", type = "normal")}
+#'  \dontrun{grattan_save("your_file.pdf", type = "normal")}
 #'
 #'
 #' @export
@@ -152,7 +144,8 @@ grattan_save <- function(filename,
                          ignore_long_title = FALSE,
                          ...) {
 
-  if (!type %in% c("all", all_chart_types)) {
+  # param checks
+  if (!type %in% c("all", all_chart_types_inc_depreciated)) {
     stop(type,
          "is not a valid chart type.\n",
          "See ?grattan_save for valid types.")
@@ -162,6 +155,7 @@ grattan_save <- function(filename,
     stop("`object` is not a ggplot2 object.")
   }
 
+  # set up
   original_object <- object
 
   if (isTRUE(latex)) export_latex_code(object, filename)
@@ -174,16 +168,31 @@ grattan_save <- function(filename,
     stop("save_pptx must be either TRUE or FALSE.")
   }
 
+
+  # create subdirectory
+  dir <- tools::file_path_sans_ext(filename)
+  filetype <- tools::file_ext(filename)
+  file_name <- tools::file_path_sans_ext(basename(filename))
+
+  if (!dir.exists(dir)) {
+    dir.create(dir, recursive = TRUE)
+  }
+
+  # if single chart
   if (type != "all") {
+
+    filename <- file.path(dir, paste0(file_name, "_", type, ".", filetype))
+
+    ## export chart data
     if (isTRUE(save_data)) {
-        save_chartdata(filename = paste0(sub("\\..*", "", filename), ".xlsx"),
+        save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
                        object = object,
                        type = type,
                        height = height)
     }
-
+    ## export single pptx
     if (isTRUE(save_pptx)) {
-      template <- chart_types$pptx_template[chart_types$type == type]
+      template <- chart_types_inc_depreciated$pptx_template[chart_types_inc_depreciated$type == type]
       template_exists <- ifelse(is.na(template), FALSE, TRUE)
 
       if (isFALSE(template_exists)) {
@@ -196,7 +205,7 @@ grattan_save <- function(filename,
                           filename = pptx_filename)
       }
     }
-
+    ## export single image
     grattan_save_(filename = filename,
                   object = object,
                   type = type,
@@ -208,17 +217,12 @@ grattan_save <- function(filename,
                   ...)
   }
 
+  # if all charts
   if (type == "all") {
-    dir <- tools::file_path_sans_ext(filename)
-    filetype <- tools::file_ext(filename)
-    file_name <- tools::file_path_sans_ext(basename(filename))
-
-    if (!dir.exists(dir)) {
-      dir.create(dir, recursive = TRUE)
-    }
 
     filenames <- file.path(dir, paste0(file_name, "_", all_chart_types, ".", filetype))
 
+    ## export chart data
     if (isTRUE(save_data)) {
       save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
                      object = object,
@@ -226,24 +230,19 @@ grattan_save <- function(filename,
                      height = height)
     }
 
+    ## export pptx
     if (isTRUE(save_pptx)) {
       template <- chart_types$pptx_template[chart_types$type == all_chart_types]
       template_exists <- !is.na(template)
       valid_pptx_types <- all_chart_types[template_exists]
-      pptx_filenames <- file.path(dir,
-                                  paste0(file_name, "_",
-                                         valid_pptx_types,
-                                         ".pptx"))
 
-
-      walk2(.x = pptx_filenames,
-            .y = valid_pptx_types,
-            .f = ~grattan_save_pptx(p = object,
-                                    filename = .x,
-                                    type = .y))
+      grattan_save_pptx(p = object,
+                        filename = paste0(dir, ".pptx"),
+                        type = valid_pptx_types)
 
     }
 
+    ## export image
     purrr::walk2(.x = filenames,
                  .y = all_chart_types,
                  .f = grattan_save_,

@@ -3,7 +3,7 @@
 \docType{data}
 \name{grattan_yellow}
 \alias{grattan_yellow}
-\title{Hex code for the colour: Grattan yellow (butternut pumpkin soup)}
+\title{Hex code for the colour: Grattan Yellow (alias for Grattan Dark Yellow)}
 \format{
 An object of class \code{character} of length 1.
 }

@@ -12,7 +12,7 @@
 #' @param filename Filename (including path where necessary) to save your
 #' Powerpoint presentation.
 #' @param type Chart type. If you specify multiple types, as
-#' in `type = c("fullslide_169", "fullslide")` or `type = "all"`, multiple
+#' in `type = c("fullslide", "wholecolumn")` or `type = "all"`, multiple
 #' files will be created, with the type added to the filename.
 #' @examples
 #' \dontrun{
@@ -34,9 +34,9 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
                               type = "fullslide") {
 
   plot <- p
-  pptx_types <-  chart_types$type[!is.na(chart_types$pptx_template)]
+  pptx_types_inc_depreciated <- chart_types_inc_depreciated$type[!is.na(chart_types_inc_depreciated$pptx_template)]
 
-  allowed_types <- c(pptx_types, "all")
+  allowed_types <- c(pptx_types_inc_depreciated, "all")
 
   non_conforming_types <- type[!type %in% allowed_types]
 
@@ -55,23 +55,20 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
   }
 
   if (length(type) == 1 && type == "all") {
-    type <- pptx_types
+    type <- chart_types$type[!is.na(chart_types$pptx_template)]
   }
 
-  if (isTRUE(multiple_types)) {
-    output_dir <- tools::file_path_sans_ext(filename)
 
-    if (isFALSE(dir.exists(output_dir))) {
-      dir.create(output_dir, recursive = TRUE)
-    }
+  output_dir <- tools::file_path_sans_ext(filename)
 
-    base_filename <- tools::file_path_sans_ext(basename(filename))
-    filetype <- tools::file_ext(filename)
-    filenames <- file.path(output_dir,
-                           paste0(base_filename, "_", type, ".", filetype))
-  } else {
-    filenames <- filename
+  if (isFALSE(dir.exists(output_dir))) {
+    dir.create(output_dir, recursive = TRUE)
   }
+
+  base_filename <- tools::file_path_sans_ext(basename(filename))
+  filetype <- tools::file_ext(filename)
+  filenames <- file.path(output_dir,
+                         paste0(base_filename, "_", type, ".", filetype))
 
   # plot must be either a single ggplot2 plot OR a list of ggplot2 plots
   # if a single plot, we want to create a list with the plot as the sole element
@@ -120,7 +117,7 @@ create_pptx_shell <- function(p,
 
   # Get path to appropriate PPTX template from `grattantheme`
   template_filename <- system.file("extdata",
-                                   chart_types$pptx_template[chart_types$type == type],
+                                   chart_types_inc_depreciated$pptx_template[chart_types_inc_depreciated$type == type],
                                    package = "grattantheme")
 
   if (isFALSE(file.exists(template_filename))) {
@@ -295,7 +292,7 @@ add_graph_to_pptx <- function(p,
 
 
     # Add caption back in for non-report-bound chart types
-    chart_class <- chart_types$class[chart_types$type == type]
+    chart_class <- chart_types_inc_depreciated$class[chart_types_inc_depreciated$type == type]
     # Is the chart bound for a report?
     report_bound <- chart_class == "normal"
 

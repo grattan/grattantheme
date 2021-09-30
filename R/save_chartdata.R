@@ -83,7 +83,10 @@ save_chartdata <- function(filename,
 
 
   # Save graph
-  temp_image_location <- file.path(tempdir(), "chart_data_image.png")
+  image_name <- "chart_data_image"
+  temp_path <- tempdir()
+  temp_image_location <- file.path(temp_path, paste0(image_name, ".png"))
+  temp_image_end_location <- file.path(temp_path, image_name, paste0(image_name, "_", type, ".png"))
 
   grattan_save(temp_image_location,
                object = object,
@@ -141,7 +144,7 @@ save_chartdata <- function(filename,
                         sheet = 1,
                         startRow = 3,
                         startCol = data_columns + 3,
-                        file = temp_image_location,
+                        file = temp_image_end_location,
                         width = chart_types$width[chart_types$type == type] / 1.5,
                         height = height / 1.5,
                         units = "cm",

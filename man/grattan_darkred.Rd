@@ -3,7 +3,7 @@
 \docType{data}
 \name{grattan_darkred}
 \alias{grattan_darkred}
-\title{Hex code for the colour: Grattan dark red (kidney bean soup)}
+\title{Hex code for the colour: Grattan Dark Red (kidney bean soup)}
 \format{
 An object of class \code{character} of length 1.
 }

@@ -67,7 +67,15 @@ The colours that will be used in your plot are:
 <img src="man/figures/README-show-cols-image-1.png" width="75%" />
 
 A range of colours from the style guide (such as `grattan_lightorange`,
-`grattan_red`, and so on) are defined for your convenience.
+`grattan_darkred`, and so on) are defined for your convenience. Each
+colour has eight tints available, e.g. `grattan_lightorange` has lighter
+variants `grattan_lightorange1` through `grattan_lightorange8` (closest
+to white). These can be used to allow highlighting or when filling in
+block colours behind text, such as when designing tables.
+
+The full set of colour options are:
+
+<img src="man/figures/grattan-pal.png" width="75%" />
 
 ## Save your nice looking charts
 
