@@ -4,7 +4,7 @@
 # grattantheme 0.9.0
 * blue added to palette
 * 8 tint (fade) options added to palette
-* depreciated some export formats
+* deprecated some export formats
 
 # grattantheme 0.8.4
 * path behaviour of export_latex_code() changed

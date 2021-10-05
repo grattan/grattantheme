@@ -17,10 +17,10 @@ chart_types <- tibble::tribble(
                         "blog", "active",        25.40,   19.05,    155,     62,         85, "fullslide", "template_blog.pptx",
                           "a4", "active",        21.00,   29.70,    114,     66,         62, "fullslide", NA_character_,
 
-                "fullslide_44", "depreciated",   25.40,   25.40,    140,     55,         95, "fullslide", NA_character_,
-                "fullslide_43", "depreciated",   25.40,   19.05,    140,     55,         70, "fullslide", "template_43.pptx",
-                   "blog_half", "depreciated",   25.4/2,  19.05,    155,     62,         85, "fullslide", "template_blog_half.pptx",
-            "fullslide_old169", "depreciated",   25.40,   14.29,    140,     55,         70, "fullslide", "template_old_169.pptx",
+                "fullslide_44", "deprecated",   25.40,   25.40,    140,     55,         95, "fullslide", NA_character_,
+                "fullslide_43", "deprecated",   25.40,   19.05,    140,     55,         70, "fullslide", "template_43.pptx",
+                   "blog_half", "deprecated",   25.4/2,  19.05,    155,     62,         85, "fullslide", "template_blog_half.pptx",
+            "fullslide_old169", "deprecated",   25.40,   14.29,    140,     55,         70, "fullslide", "template_old_169.pptx",
 )
 
 
@@ -45,22 +45,22 @@ chart_types <- chart_types %>%
                                  grepl("blog", type) ~ blog_border),
          right_border = left_border)
 
-chart_types_inc_depreciated <- chart_types
+chart_types_inc_deprecated <- chart_types
 chart_types <- chart_types[chart_types$status == "active", ]
 
 all_chart_types <- chart_types$type[chart_types$status == "active"]
-all_chart_types_inc_depreciated <- chart_types$type
+all_chart_types_inc_deprecated <- chart_types$type
 
 fullslide_chart_types <- chart_types$type[chart_types$class == "fullslide" & chart_types$status == "active"]
-fullslide_chart_types_inc_depreciated <- chart_types$type[chart_types$class == "fullslide"]
+fullslide_chart_types_inc_deprecated <- chart_types$type[chart_types$class == "fullslide"]
 
 use_data(logogrob,
          chart_types,
-         chart_types_inc_depreciated,
+         chart_types_inc_deprecated,
          all_chart_types,
-         all_chart_types_inc_depreciated,
+         all_chart_types_inc_deprecated,
          fullslide_chart_types,
-         fullslide_chart_types_inc_depreciated,
+         fullslide_chart_types_inc_deprecated,
          internal = TRUE,
          overwrite = TRUE)
 

@@ -836,28 +836,28 @@
 "grattan_palette_set"
 
 
-#' !Legacy, depreciated!
+#' !Legacy, deprecated!
 #' Hex code for the faded colour: Grattan light yellow (faded)
 #'
 #' #FFE79F
 #'
 "grattan_lightyellow_f"
 
-#' !Legacy, depreciated!
+#' !Legacy, deprecated!
 #' Hex code for the faded colour: Grattan yellow (faded)
 #'
 #' #FFD283
 #'
 "grattan_yellow_f"
 
-#' !Legacy, depreciated!
+#' !Legacy, deprecated!
 #' Hex code for the faded colour: Grattan light orange (faded)
 #'
 #' #F8A866
 #'
 "grattan_lightorange_f"
 
-#' !Legacy, depreciated!
+#' !Legacy, deprecated!
 #' Hex code for the faded colour: Grattan light orange (faded)
 #'
 #' #F8A866
@@ -865,7 +865,7 @@
 "grattan_orange_f"
 
 
-#' !Legacy, depreciated!
+#' !Legacy, deprecated!
 #' Hex code for the faded colour: Grattan dark orange (faded)
 #'
 #' #DE815F
@@ -873,7 +873,7 @@
 "grattan_darkorange_f"
 
 
-#' !Legacy, depreciated!
+#' !Legacy, deprecated!
 #' Hex code for the faded colour: Grattan red (faded)
 #'
 #' #B7595C
@@ -881,7 +881,7 @@
 "grattan_red_f"
 
 
-#' !Legacy, depreciated!
+#' !Legacy, deprecated!
 #' Hex code for the faded colour: Grattan dark red (faded)
 #'
 #' #894D4E

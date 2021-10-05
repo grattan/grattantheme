@@ -34,9 +34,9 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
                               type = "fullslide") {
 
   plot <- p
-  pptx_types_inc_depreciated <- chart_types_inc_depreciated$type[!is.na(chart_types_inc_depreciated$pptx_template)]
+  pptx_types_inc_deprecated <- chart_types_inc_deprecated$type[!is.na(chart_types_inc_deprecated$pptx_template)]
 
-  allowed_types <- c(pptx_types_inc_depreciated, "all")
+  allowed_types <- c(pptx_types_inc_deprecated, "all")
 
   non_conforming_types <- type[!type %in% allowed_types]
 
@@ -117,7 +117,7 @@ create_pptx_shell <- function(p,
 
   # Get path to appropriate PPTX template from `grattantheme`
   template_filename <- system.file("extdata",
-                                   chart_types_inc_depreciated$pptx_template[chart_types_inc_depreciated$type == type],
+                                   chart_types_inc_deprecated$pptx_template[chart_types_inc_deprecated$type == type],
                                    package = "grattantheme")
 
   if (isFALSE(file.exists(template_filename))) {
@@ -292,7 +292,7 @@ add_graph_to_pptx <- function(p,
 
 
     # Add caption back in for non-report-bound chart types
-    chart_class <- chart_types_inc_depreciated$class[chart_types_inc_depreciated$type == type]
+    chart_class <- chart_types_inc_deprecated$class[chart_types_inc_deprecated$type == type]
     # Is the chart bound for a report?
     report_bound <- chart_class == "normal"
 

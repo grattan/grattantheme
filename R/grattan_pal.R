@@ -11,7 +11,7 @@
 #'   standard colour order. Standard colour order runs from light to dark. If
 #'   you set reverse to TRUE, colours will run from dark to light.
 #'
-#' @param faded Depreciated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
+#' @param faded Deprecated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
 #'   variations of the standard colours. If TRUE and \code{faded_level = 0}, sets \code{faded_level} to 5.
 #'
 #' @param faded_level Integer between 0 (no fade; the default) and 8 (most faded).
@@ -44,14 +44,14 @@ grattan_pal <- function(n = 0, reverse = FALSE,
 
   if (isTRUE(faded) & faded_level == 0) {
     faded_level <- 4
-    warning("faded argument is depreciated. Please use faded_level instead.",
+    warning("faded argument is deprecated. Please use faded_level instead.",
             "Setting faded_level to 4.")
   }
 
   if (!faded_level %in% c(0:8)) stop("faded_level must be an integer between 0 and 8.")
 
   if (n == 0) {
-    n <- 5
+    n <- 6
     "Your chart will probably look better if you specify n in grattan_pal()."
   }
 

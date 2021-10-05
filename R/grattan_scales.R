@@ -7,7 +7,7 @@
 #' @param reverse Logical. FALSE by default. Setting to TRUE reverses the
 #'   standard colour order.
 #'
-#' @param faded Depreciated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
+#' @param faded Deprecated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
 #'   variations of the standard colours. If TRUE and \code{faded_level = 0}, sets \code{faded_level} to 5.
 #'
 #' @param faded_level Integer between 0 (no fade; the default) and 8 (most faded).

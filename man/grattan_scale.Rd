@@ -38,7 +38,7 @@ continuous colour scale.}
 
 \item{faded_level}{Integer between 0 (no fade; the default) and 8 (most faded).}
 
-\item{faded}{Depreciated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
+\item{faded}{Deprecated - use \code{faded_level}. Logical. FALSE by default. Setting to TRUE returns the faded
 variations of the standard colours. If TRUE and \code{faded_level = 0}, sets \code{faded_level} to 5.}
 
 \item{palette}{Sets the colours that will form the continuous palette when

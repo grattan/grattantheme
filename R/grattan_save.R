@@ -145,7 +145,7 @@ grattan_save <- function(filename,
                          ...) {
 
   # param checks
-  if (!type %in% c("all", all_chart_types_inc_depreciated)) {
+  if (!type %in% c("all", all_chart_types_inc_deprecated)) {
     stop(type,
          "is not a valid chart type.\n",
          "See ?grattan_save for valid types.")
@@ -192,7 +192,7 @@ grattan_save <- function(filename,
     }
     ## export single pptx
     if (isTRUE(save_pptx)) {
-      template <- chart_types_inc_depreciated$pptx_template[chart_types_inc_depreciated$type == type]
+      template <- chart_types_inc_deprecated$pptx_template[chart_types_inc_deprecated$type == type]
       template_exists <- ifelse(is.na(template), FALSE, TRUE)
 
       if (isFALSE(template_exists)) {
