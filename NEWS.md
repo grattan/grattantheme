@@ -1,3 +1,6 @@
+# grattantheme 0.9.1
+* add A4 save option, eg `grattan_save("plot.pdf", type = "a4")`
+
 # grattantheme 0.9.0
 * blue added to palette
 * 8 tint (fade) options added to palette

@@ -43,6 +43,7 @@ test_that("grattan_save() saves charts (no powerpoint)", {
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_a4.png"))
 
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
@@ -114,6 +115,7 @@ test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_a4.png"))
 
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.pptx"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_blog.pptx"))
@@ -197,6 +199,11 @@ test_that("grattan_save() height behaviour works as expected with fullslide char
   unlink("manual_height", recursive = TRUE)
 
 })
+
+
+
+
+
 
 
 test_that("grattan_save() sends the right messages",{
