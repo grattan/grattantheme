@@ -97,6 +97,13 @@ save_chartdata <- function(filename,
 
   # Get chart data
   chart_data <- object$data
+
+  # Remove any `sf` columns
+  chart_data <- as.data.frame(chart_data)
+  chart_data <- subset(chart_data,
+                       select = sapply(chart_data,
+                                       function(x) !inherits(x, "sfc")))
+
   # To ensure that dates are correctly-formatted, save as strings
   for (col in seq_along(chart_data)) {
     if (inherits(chart_data[[col]], "Date")) {
