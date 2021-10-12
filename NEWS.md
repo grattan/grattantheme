@@ -1,3 +1,6 @@
+# grattantheme 0.9.1.900
+* Fixed bug that prevented saving chartdata of maps made with sf
+
 # grattantheme 0.9.1
 * add A4 save option, eg `grattan_save("plot.pdf", type = "a4")`
 
