@@ -44,8 +44,8 @@ test_that("grattan_save() saves charts (no powerpoint)", {
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_a4.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
 
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
 
   unlink("../figs/grattan_save", recursive = TRUE)
@@ -72,8 +72,8 @@ test_that("grattan_save() saves charts (with powerpoint)", {
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot.xlsx"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.pptx"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullpage.pptx"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
 
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_blog_half.png"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
 
@@ -116,11 +116,11 @@ test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_a4.png"))
+  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
 
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.pptx"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_blog.pptx"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot.xlsx"))
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_blog_half.png"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
 
@@ -245,8 +245,8 @@ test_that("grattan_save_all() works", {
   expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot.xlsx"))
   expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide.pptx"))
   expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_blog.pptx"))
+  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide_43.png"))
 
-  expect_false(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide_43.png"))
   expect_false(file.exists("../figs/grattan_save_all/test_plot/test_plot_blog_half.png"))
   expect_false(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide_44.png"))
 
