@@ -7,16 +7,16 @@ mt$car <- rownames(mt)
 
 # Create a plot without labels
 p <- ggplot(mt, aes(x = mpg, y = wt, label = car)) +
-     geom_point() +
-     theme_grattan()
+  geom_point() +
+  theme_grattan()
 
 # A chart with Grattan labels
 p_label <- p +
-    grattan_label()
+  grattan_label()
 
 # A chart with Grattan labels that are repelled from each other
 p_label_repel <- p +
-    grattan_label_repel(max.overlaps = 10000)
+  grattan_label_repel(max.overlaps = 10000)
 
 test_that("grattan_label plots appear correct", {
 
