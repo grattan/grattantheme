@@ -39,7 +39,7 @@
 wrap_labs <- function(object,
                       type,
                       labs_to_wrap = c("title", "subtitle", "caption"),
-                      ignore_long_title = FALSE) {
+                      ignore_long_title = TRUE) {
 
   p <- object
 
@@ -70,7 +70,7 @@ wrap_labs <- function(object,
       }
 
 
-      if (!ignore_long_title & (nchar(stored_title) > 2 * char_width_grattan_title)) {
+      if (isFALSE(ignore_long_title) & (nchar(stored_title) > 2 * char_width_grattan_title)) {
         # if title > 2 lines, return an informative error that tells users
         # where they need to trim their title to
 
@@ -108,7 +108,7 @@ wrap_labs <- function(object,
 
       char_width_grattan_subtitle <- chart_types$subtitle[chart_types$type == type]
 
-      if (!ignore_long_title & nchar(stored_subtitle) > 2 * char_width_grattan_subtitle & !ignore_long_title) {
+      if (isFALSE(ignore_long_title) & nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
         # code to figure out the final 2 chunks of text before the title limit
         trimmed_subtitle <- strtrim(stored_subtitle, 2 * char_width_grattan_subtitle)
         trimmed_subtitle_final_words <- paste0(utils::tail(strsplit(trimmed_subtitle, split = " ")[[1]],2), collapse = " ")
