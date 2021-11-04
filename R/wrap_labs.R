@@ -108,7 +108,7 @@ wrap_labs <- function(object,
 
       char_width_grattan_subtitle <- chart_types$subtitle[chart_types$type == type]
 
-      if (nchar(stored_subtitle) > 2 * char_width_grattan_subtitle & !ignore_long_title) {
+      if (!ignore_long_title & nchar(stored_subtitle) > 2 * char_width_grattan_subtitle & !ignore_long_title) {
         # code to figure out the final 2 chunks of text before the title limit
         trimmed_subtitle <- strtrim(stored_subtitle, 2 * char_width_grattan_subtitle)
         trimmed_subtitle_final_words <- paste0(utils::tail(strsplit(trimmed_subtitle, split = " ")[[1]],2), collapse = " ")
