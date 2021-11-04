@@ -88,7 +88,7 @@
 <h2 class="hasAnchor">
 <a href="#install-grattantheme" class="anchor"></a>Install grattantheme</h2>
 <p>The grattantheme package needs to be downloaded and installed from Github. The easiest way to do this is with the devtools package. If you don’t have the devtools package, install it:</p>
-<p><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("devtools")</a></code></p>
+<p><code>install.packages("devtools")</code></p>
 <p>Once devtools is installed, you can download and install grattantheme as follows:</p>
 <p><code>devtools::install_github("grattan/grattantheme", dependencies = TRUE, upgrade = "always")</code></p>
 <p>Once grattantheme is installed, you can load it the same way you normally load an R package:</p>
@@ -98,9 +98,9 @@
 <h2 class="hasAnchor">
 <a href="#make-your-charts-look-nice" class="anchor"></a>Make your charts look nice</h2>
 <p>See the <a href="https://grattan.github.io/grattantheme/articles/using_grattantheme.html">grattantheme vignette</a> for a more complete guide.</p>
-<p>Use <code><a href="reference/theme_grattan.html">theme_grattan()</a></code> to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots, <code><a href="reference/theme_grattan.html">theme_grattan(chart_type = "scatter")</a></code> provides a black y-axis.</p>
+<p>Use <code><a href="reference/theme_grattan.html">theme_grattan()</a></code> to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots, <code>theme_grattan(chart_type = "scatter")</code> provides a black y-axis.</p>
 <p>Use <code><a href="reference/grattan_axes.html">grattan_y_continuous()</a></code> to set default values for your vertical axis that will work well with most Grattan charts.</p>
-<p>Use <code><a href="reference/grattan_scale.html">grattan_colour_manual(n)</a></code> or <code><a href="reference/grattan_scale.html">grattan_fill_manual(n)</a></code> to format the <code>n</code> coloured elements of your <code>ggplot2</code> plot. These functions will choose appropriately-spaced Grattan colours, ordered from either light to dark or the reverse.</p>
+<p>Use <code>grattan_colour_manual(n)</code> or <code>grattan_fill_manual(n)</code> to format the <code>n</code> coloured elements of your <code>ggplot2</code> plot. These functions will choose appropriately-spaced Grattan colours, ordered from either light to dark or the reverse.</p>
 <p>The colours that will be used in your plot are:</p>
 <p><img src="reference/figures/README-show-cols-image-1.png" width="75%"></p>
 <p>A range of colours from the style guide (such as <code>grattan_lightorange</code>, <code>grattan_darkred</code>, and so on) are defined for your convenience. Each colour has eight tints available, e.g. <code>grattan_lightorange</code> has lighter variants <code>grattan_lightorange1</code> through <code>grattan_lightorange8</code> (closest to white). These can be used to allow highlighting or when filling in block colours behind text, such as when designing tables.</p>
@@ -111,8 +111,8 @@
 <h2 class="hasAnchor">
 <a href="#save-your-nice-looking-charts" class="anchor"></a>Save your nice looking charts</h2>
 <p>Use <code><a href="reference/grattan_save.html">grattan_save()</a></code> to save your ggplot2 charts (eg. as <code>.png</code> or <code>.pdf</code> files) for use elsewhere, such as in Powerpoint, LaTeX, or the Grattan Blog, with the size and resolution set to style guide-consistent values. You can save your charts in a variety of sizes and styles (see <code>?grattan_save()</code> for a list).</p>
-<p>Want to save your chart as a Powerpoint file? Use <code><a href="reference/grattan_save.html">grattan_save(save_pptx = TRUE)</a></code> or the standalone <code><a href="reference/grattan_save_pptx.html">grattan_save_pptx()</a></code> function.</p>
-<p>Want to save your chart and accompanying data as a properly-formatted .xlsx workbook? Use <code><a href="reference/grattan_save.html">grattan_save(save_data = TRUE)</a></code> or the standalone <code><a href="reference/save_chartdata.html">save_chartdata()</a></code> function.</p>
+<p>Want to save your chart as a Powerpoint file? Use <code>grattan_save(save_pptx = TRUE)</code> or the standalone <code><a href="reference/grattan_save_pptx.html">grattan_save_pptx()</a></code> function.</p>
+<p>Want to save your chart and accompanying data as a properly-formatted .xlsx workbook? Use <code>grattan_save(save_data = TRUE)</code> or the standalone <code><a href="reference/save_chartdata.html">save_chartdata()</a></code> function.</p>
 <p>Save your chart in all Grattan formats - along with chart data - using <code><a href="reference/grattan_save.html">grattan_save_all()</a></code>.</p>
 </div>
 <div id="save-animated-charts" class="section level2">

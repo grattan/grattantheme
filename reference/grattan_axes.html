@@ -175,51 +175,55 @@ white space is added to the right of your chart.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># Here's a basic chart in the Grattan style:</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
-
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wt</span>, y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='theme_grattan.html'>theme_grattan</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>p</span>
-</div><div class='img'><img src='grattan_axes-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># In the example above, the top label on the y-axis is hanging off the top.</span>
-<span class='co'># To fix:</span>
-
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wt</span>, y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-     <span class='fu'>grattan_y_continuous</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-     <span class='fu'><a href='theme_grattan.html'>theme_grattan</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='va'>p</span>
-</div><div class='img'><img src='grattan_axes-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Now the top of the chart looks fine, but the bottom has two points</span>
-<span class='co'># (at the lower right) that are partially obscured.</span>
-<span class='co'># We could fix this by doing:</span>
-
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wt</span>, y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-     <span class='fu'>grattan_y_continuous</span><span class='op'>(</span>expand_bottom <span class='op'>=</span> <span class='fl'>0.015</span><span class='op'>)</span> <span class='op'>+</span>
-     <span class='fu'><a href='theme_grattan.html'>theme_grattan</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='va'>p</span>
-</div><div class='img'><img src='grattan_axes-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Alternatively, set the limits of the chart (in this example we'll set</span>
-<span class='co'># the lower limit to 0, but you could use some other value</span>
-<span class='co'># like 10 in this case).Note that by setting the second value of limits</span>
-<span class='co'># to NA, we're telling ggplot2 to calculate theupper limit as usual based</span>
-<span class='co'># on the data. All the usual arguments of `scale_y_continuous()`</span>
-<span class='co'># (limits, breaks, labels, etc.) can be used.</span>
-
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wt</span>, y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-     <span class='fu'>grattan_y_continuous</span><span class='op'>(</span>limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-     <span class='fu'><a href='theme_grattan.html'>theme_grattan</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='va'>p</span>
-</div><div class='img'><img src='grattan_axes-4.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='co'># Here's a basic chart in the Grattan style:</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wt</span>, y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='theme_grattan.html'>theme_grattan</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>p</span></span>
+<span class='r-plt img'><img src='grattan_axes-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># In the example above, the top label on the y-axis is hanging off the top.</span></span>
+<span class='r-in'><span class='co'># To fix:</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wt</span>, y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>     <span class='fu'>grattan_y_continuous</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>     <span class='fu'><a href='theme_grattan.html'>theme_grattan</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>p</span></span>
+<span class='r-plt img'><img src='grattan_axes-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Now the top of the chart looks fine, but the bottom has two points</span></span>
+<span class='r-in'><span class='co'># (at the lower right) that are partially obscured.</span></span>
+<span class='r-in'><span class='co'># We could fix this by doing:</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wt</span>, y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>     <span class='fu'>grattan_y_continuous</span><span class='op'>(</span>expand_bottom <span class='op'>=</span> <span class='fl'>0.015</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>     <span class='fu'><a href='theme_grattan.html'>theme_grattan</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>p</span></span>
+<span class='r-plt img'><img src='grattan_axes-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Alternatively, set the limits of the chart (in this example we'll set</span></span>
+<span class='r-in'><span class='co'># the lower limit to 0, but you could use some other value</span></span>
+<span class='r-in'><span class='co'># like 10 in this case).Note that by setting the second value of limits</span></span>
+<span class='r-in'><span class='co'># to NA, we're telling ggplot2 to calculate theupper limit as usual based</span></span>
+<span class='r-in'><span class='co'># on the data. All the usual arguments of `scale_y_continuous()`</span></span>
+<span class='r-in'><span class='co'># (limits, breaks, labels, etc.) can be used.</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wt</span>, y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>     <span class='fu'>grattan_y_continuous</span><span class='op'>(</span>limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>     <span class='fu'><a href='theme_grattan.html'>theme_grattan</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>p</span></span>
+<span class='r-plt img'><img src='grattan_axes-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
