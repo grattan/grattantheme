@@ -299,7 +299,7 @@ grattan_save_ <- function(filename,
 
     } else {
     # non-fullslide, force_labs = TRUE
-        object <- wrap_labs(object, type)
+        object <- wrap_labs(object, type, ignore_long_title = ignore_long_title)
     }
 
   }

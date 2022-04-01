@@ -8,7 +8,7 @@ wrap_labs(
   object,
   type,
   labs_to_wrap = c("title", "subtitle", "caption"),
-  ignore_long_title = FALSE
+  ignore_long_title = TRUE
 )
 }
 \arguments{
