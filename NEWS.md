@@ -1,3 +1,6 @@
+# grattantheme 0.10.0
+* adds `colour_text` to help with ggtext colouring
+
 # grattantheme 0.9.1.900
 * Fixed bug that prevented saving chartdata of maps made with sf
 
