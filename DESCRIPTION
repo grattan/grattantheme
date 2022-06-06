@@ -14,6 +14,7 @@ Depends: R (>= 3.5.0)
 Imports:
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.3.0),
+    glue, 
     purrr (>= 0.3.0),
     knitr (>= 1.22),
     rmarkdown (>= 1.12),
@@ -30,8 +31,9 @@ Imports:
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Suggests: 
+    assertthat,
     testthat (>= 2.1.0),
     covr,
     vdiffr,

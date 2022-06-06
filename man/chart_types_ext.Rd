@@ -5,7 +5,7 @@
 \alias{chart_types_ext}
 \title{Grattan chart types}
 \format{
-A tibble with 12 varialbes:
+A tibble with 12 variables:
 \describe{
   \item{type}{Chart type, such as "normal" or "fullslide". Supply this to the `type` argument of `grattan_save()`.}
   \item{width}{Default width of the chart type, in cm.}
