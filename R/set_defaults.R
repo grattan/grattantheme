@@ -20,10 +20,10 @@ set_qnd_defaults <- function() {
   qnd_defs <- defs %>%
     purrr::map(prep_aes,
                aes = "colour",
-               setting = grattan_pal(1)) %>%
+               setting = grattan_palette()(1)) %>%
     purrr::map(prep_aes,
                aes = "fill",
-               setting = grattan_pal(1))
+               setting = grattan_palette()(1))
 
   purrr::iwalk(qnd_defs,
                ~set_geom_defaults(geom = .y,
