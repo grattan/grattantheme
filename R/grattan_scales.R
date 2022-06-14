@@ -82,6 +82,8 @@ grattan_fill_manual <- function(n = 0, reverse = FALSE,
                                 faded_level = 0,
                                 faded = FALSE,
                                 palette = "full", ...) {
+
+
   if (discrete) {
     return(
       ggplot2::scale_fill_manual(...,
