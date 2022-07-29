@@ -1,3 +1,92 @@
+#### Load colours and palettes
+
+
+#' The QND colours
+#'
+#' These colours are used in \code{qnd_plot} and form the basis for our
+#' palettes.
+#'
+#' @export
+#'
+qnd_colours <- c(
+  grattan_lightyellow = "#FFE07F",
+  grattan_yellow = "#FFC35A",
+  grattan_orange = "#F68B33",
+  grattan_darkorange = "#D4582A",
+  grattan_red = "#A02226",
+  grattan_darkred = "#621214",
+  grattan_blue = "#A3C7DF",
+  grattan_darkblue = "#3E81CE",
+  grattan_lightgrey = "#828282",
+  grattan_darkgrey <- "#575757"
+)
+
+#' Extract QND colours as hex codes
+#'
+#' This function allows you to get the hex code associated with one or more QND
+#' colours. It's often used inside \code{qnd_plot} to set specific colours for
+#' certain series.
+#'
+#' @param ... The given name/s of a QND colour (eg 'astronaut blue' or 'iron')
+#'
+#' @examples
+#' get_qnd_hex("persian green")
+#' get_qnd_hex("midnight", "mango tango")
+#'
+#' @export
+get_qnd_hex <- function(...) {
+  cols <- c(...)
+
+  if (is.null(cols))
+    return(qnd_colours)
+
+  qnd_colours[cols]
+}
+
+#' Predefined QND colours combined into palettes
+#'
+#' This is a list of QND colours combined into palettes. The palettes are used
+#' for different plots and maps.
+#' @export
+qnd_palettes <- list(
+  `graph`      = get_qnd_hex( "grattan_lightyellow", "grattan_yellow", "grattan_orange",
+                              "grattan_darkorange", "grattan_red",  "grattan_darkred",
+                            "grattan_blue", "grattan_darkblue", "grattan_lightgrey", "grattan_darkgrey"),
+  `sequential` = get_qnd_hex("grattan_darkred", "grattan_orange"),
+  `diverging`  = get_qnd_hex("grattan_darkred", "grattan_lightgrey", "grattan_orange")
+)
+
+
+#' Interpolate a QND colour palette
+#'
+#' This function takes a QND colour palette and generates more colours from it,
+#' so that there are enough to make your chart.
+#'
+#' The interpolation method is set to "spline" (the default is "linear") in an
+#' attempt to reduce the number of vomit colours that get produced when
+#' generating many colours.
+#'
+#' @param palette (character; default = \code{"graph"}) given name of a QND
+#'   palette: \code{\link{qnd_palettes}}
+#' @param reverse (boolean; default = \code{FALSE}) indicating if palette should
+#'   be reverse
+#' @param ... Additional arguments to pass to \code{colorRampPalette} see
+#'   details here \code{\link[grDevices]{colorRamp}}
+#'
+#' @seealso \code{\link{qnd_palettes}}
+#'
+#' @export
+make_qnd_pal <- function(palette = "graph", reverse = FALSE, ...) {
+  pal <- qnd_palettes[[palette]]
+
+  if (reverse) pal <- rev(pal)
+
+  grDevices::colorRampPalette(pal,
+                              ...,
+                              interpolate = "spline")
+}
+
+
 #' Set the default ggplot2 aesthetics to QND's
 #'
 #' A wrapper for a bunch of other functions to set ggplot2 default aesthetics.
@@ -130,14 +219,14 @@ set_plot_colours <- function(type) {
 qnd_plot_opts <- list(
   ggplot2.continuous.colour = grattan_colour_manual,
   ggplot2.continuous.fill   = grattan_fill_manual,
-  ggplot2.discrete.colour   = list(grattan_palette()(10),
-                                   grattan_palette()(16),
-                                   grattan_palette()(24),
-                                   grattan_palette()(32)),
-  ggplot2.discrete.fill     = list(grattan_palette()(10),
-                                   grattan_palette()(16),
-                                   grattan_palette()(24),
-                                   grattan_palette()(32))
+  ggplot2.discrete.colour   = list(unname(qnd_palettes$graph),
+                                   make_qnd_pal()(16),
+                                   make_qnd_pal()(24),
+                                   make_qnd_pal()(32)),
+  ggplot2.discrete.fill     = list(unname(qnd_palettes$graph),
+                                   make_qnd_pal()(16),
+                                   make_qnd_pal()(24),
+                                   make_qnd_pal()(32))
 )
 
 #' Prepare ggplot2 geom_ defaults
@@ -176,4 +265,23 @@ prep_aes <- function(geom,
 
 
   return(geom)
+}
+
+#' Set default geom aesthetics
+#'
+#' All arguments are passed to \code{ggplot2::update_geom_defaults}, but this
+#' function adds a \code{NULL} check.
+#'
+#' @param geom (character) the geom to update
+#' @param new (various) the aesthetics to update
+#'
+set_geom_defaults <- function(geom,
+                              new) {
+  if (is.null(new)) {
+    return(NULL)
+  } else {
+    ggplot2::update_geom_defaults(geom = geom,
+                                  new = new)
+  }
+
 }
