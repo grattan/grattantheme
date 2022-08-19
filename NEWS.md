@@ -1,3 +1,6 @@
+# grattantheme 0.11.0
+* add `ch_add_stacked_labels` 
+
 # grattantheme 0.10.0
 * adds `colour_text` to help with ggtext colouring
 
