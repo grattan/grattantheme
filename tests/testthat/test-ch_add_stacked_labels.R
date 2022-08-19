@@ -1,4 +1,4 @@
-base_plot <- ggplot(ggplot2::txhousing, aes(x = date, y = volume, group = city, label = city)) +
+base_plot <- ggplot(ggplot2::txhousing, aes(x = date, y = volume, colour = city, label = city)) +
   geom_line()
 
 p <- base_plot %>%
