@@ -27,7 +27,9 @@ Imports:
     rvg,
     clipr,
     utils,
-    gdtools
+    gdtools, 
+    magrittr, 
+    rlang
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
