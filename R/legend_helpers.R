@@ -64,6 +64,7 @@ colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
 #' @param pct_extend (numeric, default = \code{1.2}) how much to expand the
 #'   x-axis. The existing x-axis range will be multiplied by this value, so the
 #'   default expands by 20\%.
+#' @param nudge_x (numeric; default = NULL) how much to nudge by
 #' @param segment.colour (character; default = NA) colour of the line segment,
 #'   NA means no line segment
 #' @param segment.alpha (number; default = 0.5) the transparency of the line
@@ -71,8 +72,8 @@ colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
 #' @param segment.size (number; default = 0.1) the size of the line segment
 #' @param hjust (default = "right") the horizontal justification of the label
 #' @param size (number, default = 3) the size of the text in the label
-#' @param ... other arguments passed to \code{geom_label_repel}
-#' @inheritParams ggrepel::geom_label_repel
+#' @param ... other arguments passed to \code{geom_text_repel}
+#' @inheritParams ggrepel::geom_text_repel
 #'
 #' @return a \code{ggplot2} object
 #' @export

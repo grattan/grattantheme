@@ -27,6 +27,8 @@ specified.}
 x-axis. The existing x-axis range will be multiplied by this value, so the
 default expands by 20\%.}
 
+\item{nudge_x}{(numeric; default = NULL) how much to nudge by}
+
 \item{segment.colour}{(character; default = NA) colour of the line segment,
 NA means no line segment}
 
@@ -48,7 +50,7 @@ segment}
 
 \item{size}{(number, default = 3) the size of the text in the label}
 
-\item{...}{other arguments passed to \code{geom_label_repel}}
+\item{...}{other arguments passed to \code{geom_text_repel}}
 }
 \value{
 a \code{ggplot2} object
