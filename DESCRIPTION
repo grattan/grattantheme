@@ -24,6 +24,7 @@ Imports:
     stringr,
     rstudioapi,
     officer,
+    dplyr, 
     rvg,
     clipr,
     utils,

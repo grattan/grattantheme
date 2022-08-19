@@ -54,7 +54,7 @@ segment}
 a \code{ggplot2} object
 }
 \description{
-This function adds \code{\link[ggrepel]{geom_label_repel}} to a chart. It
+This function adds \code{\link[ggrepel]{geom_text_repel}} to a chart. It
 requires you to specify the label aesthetic in the original ggplot. It also
 extends the x-axis by a certain amount (20\% by default) so the labels have
 space. Most of the arguments get passed directly to
