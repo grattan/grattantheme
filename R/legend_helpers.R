@@ -11,7 +11,7 @@
 #' @param is_note (logical; default = FALSE) is it a note?
 #' @param bold_labs (logical; default = TRUE) should the labels be bolded?
 #'
-#' @return
+#' @return (a glue)
 #' @export
 #'
 #' @examples
