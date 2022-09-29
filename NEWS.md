@@ -1,3 +1,6 @@
+# grattantheme 0.11.0
+* add `check_chart_aspect_ratio` to help with checking charts are formatted correctly
+
 # grattantheme 0.10.0
 * adds `colour_text` to help with ggtext colouring
 
