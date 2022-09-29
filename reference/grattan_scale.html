@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
       </span>
     </div>
 
@@ -57,25 +57,25 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">grattan_colour_manual</span><span class="op">(</span>
-  n <span class="op">=</span> <span class="fl">0</span>,
-  reverse <span class="op">=</span> <span class="cn">FALSE</span>,
-  discrete <span class="op">=</span> <span class="cn">TRUE</span>,
-  faded_level <span class="op">=</span> <span class="fl">0</span>,
-  faded <span class="op">=</span> <span class="cn">FALSE</span>,
-  palette <span class="op">=</span> <span class="st">"full"</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">grattan_fill_manual</span><span class="op">(</span>
-  n <span class="op">=</span> <span class="fl">0</span>,
-  reverse <span class="op">=</span> <span class="cn">FALSE</span>,
-  discrete <span class="op">=</span> <span class="cn">TRUE</span>,
-  faded_level <span class="op">=</span> <span class="fl">0</span>,
-  faded <span class="op">=</span> <span class="cn">FALSE</span>,
-  palette <span class="op">=</span> <span class="st">"full"</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">grattan_colour_manual</span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  discrete <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  faded_level <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  faded <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  palette <span class="op">=</span> <span class="st">"full"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">grattan_fill_manual</span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  discrete <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  faded_level <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  faded <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  palette <span class="op">=</span> <span class="st">"full"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -84,17 +84,27 @@
 <dd><p>Numeric. The number of levels in your colour scale. Minimum value is
 1, maximum is 7. Passed to <code>grattan_pal</code>; see ?grattan_pal for more
 information.</p></dd>
+
+
 <dt>reverse</dt>
 <dd><p>Logical. FALSE by default. Setting to TRUE reverses the
 standard colour order.</p></dd>
+
+
 <dt>discrete</dt>
 <dd><p>Logical. TRUE by default. Setting to FALSE generates a
 continuous colour scale.</p></dd>
+
+
 <dt>faded_level</dt>
 <dd><p>Integer between 0 (no fade; the default) and 8 (most faded).</p></dd>
+
+
 <dt>faded</dt>
 <dd><p>Deprecated - use <code>faded_level</code>. Logical. FALSE by default. Setting to TRUE returns the faded
 variations of the standard colours. If TRUE and <code>faded_level = 0</code>, sets <code>faded_level</code> to 5.</p></dd>
+
+
 <dt>palette</dt>
 <dd><p>Sets the colours that will form the continuous palette when
   discrete = FALSE. One of:</p>
@@ -107,21 +117,24 @@ orange, yellow, light yellow</p></li>
 <li><p>"diverging" red, faded red, white, faded light orange, light orange</p></li>
 <li><p>"grey" grey 1, grey 2, grey 3, grey 4, grey 5</p></li>
 </ul></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed to ggplot2 scales</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu">grattan_colour_manual</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu">grattan_colour_manual</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="grattan_scale-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -136,7 +149,7 @@ orange, yellow, light yellow</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

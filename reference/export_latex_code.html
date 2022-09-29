@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
       </span>
     </div>
 
@@ -57,11 +57,11 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">export_latex_code</span><span class="op">(</span>
-  p <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span>,
-  chart_path <span class="op">=</span> <span class="st">"atlas/chart.pdf"</span>,
-  export_type <span class="op">=</span> <span class="st">"wholecolumn"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">export_latex_code</span><span class="op">(</span></span>
+<span>  p <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  chart_path <span class="op">=</span> <span class="st">"atlas/chart.pdf"</span>,</span>
+<span>  export_type <span class="op">=</span> <span class="st">"wholecolumn"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -70,16 +70,23 @@
 <dd><p>The ggplot2 graph object to be saved. Defaults to
 <code><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot()</a></code>, which will save the last plot that was displayed in
 your session.</p></dd>
+
+
 <dt>chart_path</dt>
 <dd><p>The chart_path and export_type will be extracted
 and used in the <code>\includegraphics</code> call.</p></dd>
+
+
 <dt>export_type</dt>
 <dd><p>The chart_path and export_type will be extracted
 and used in the <code>\includegraphics</code> call.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>LaTeX code to create a figure environment</p>
+    
+
+<p>LaTeX code to create a figure environment</p>
     </div>
 
   </div>
@@ -94,7 +101,7 @@ and used in the <code>\includegraphics</code> call.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

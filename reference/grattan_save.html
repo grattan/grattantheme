@@ -20,7 +20,7 @@ Grattan charts. Wrapper around ggsave().
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
       </span>
     </div>
 
@@ -63,22 +63,22 @@ Grattan charts. Wrapper around ggsave().
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">grattan_save</span><span class="op">(</span>
-  <span class="va">filename</span>,
-  object <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span>,
-  type <span class="op">=</span> <span class="st">"normal"</span>,
-  height <span class="op">=</span> <span class="cn">NULL</span>,
-  save_pptx <span class="op">=</span> <span class="cn">FALSE</span>,
-  save_data <span class="op">=</span> <span class="cn">FALSE</span>,
-  force_labs <span class="op">=</span> <span class="cn">FALSE</span>,
-  watermark <span class="op">=</span> <span class="cn">NULL</span>,
-  latex <span class="op">=</span> <span class="cn">FALSE</span>,
-  dpi <span class="op">=</span> <span class="st">"retina"</span>,
-  ignore_long_title <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">grattan_save_all</span><span class="op">(</span><span class="va">filename</span>, object <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">grattan_save</span><span class="op">(</span></span>
+<span>  <span class="va">filename</span>,</span>
+<span>  object <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"normal"</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  save_pptx <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  save_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  force_labs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  watermark <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  latex <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dpi <span class="op">=</span> <span class="st">"retina"</span>,</span>
+<span>  ignore_long_title <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">grattan_save_all</span><span class="op">(</span><span class="va">filename</span>, object <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -91,10 +91,14 @@ for the full list of allowed extensions/types). Note that if
 <code>type = "all"</code>, a subdirectory will be created based on your filename;
 the files will go in that subdirectory.
 This is the case for `grattan_save_all()`.</p></dd>
+
+
 <dt>object</dt>
 <dd><p>The ggplot2 graph object to be saved. Defaults to
 <code><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot()</a></code>, which will save the last plot that was displayed in
 your session.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>Sets height and width to Grattan defaults. The following chart
   types are available:</p>
@@ -115,107 +119,126 @@ your session.</p></dd>
   slide, but with less border whitespace than `fullslide`."</p></li>
 </ul><p>Set type = "all" to save your chart in all available sizes or use
 `grattan_save_all()`.</p></dd>
+
+
 <dt>height</dt>
 <dd><p>Numeric, optional. NULL by default. Controls the height (in cm)
 of the image you wish to save. If specified, `height` will override the
 default height for your chosen chart type.</p></dd>
+
+
 <dt>save_pptx</dt>
 <dd><p>`FALSE` by default. If `TRUE`, a Powerpoint presentation
 containing your graph will be created. Note that Powerpoint templates are
 not available for all chart types. If `type = "all"`,
 Powerpoint presentations will be created
 for each type for which a Powerpoint template exists.</p></dd>
+
+
 <dt>save_data</dt>
 <dd><p>Logical. Default is FALSE. If set to
 TRUE, a properly-formatted .xlsx file will be created containing the
 dataframe you passed to ggplot(). The filename and path will be the same as
 your image, but with a .xlsx extension.</p></dd>
+
+
 <dt>force_labs</dt>
 <dd><p>Logical. By default, `grattan_save()` will remove your
 title, subtitle, and caption (if present) from your graph before saving it,
 unless `type` = "fullslide". By setting `force_labs` to TRUE, your
 title/subtitle/caption will be retained regardless of `type`.</p></dd>
+
+
 <dt>watermark</dt>
 <dd><p>Character. NULL by default. If a string, like `DRAFT`,
 is supplied, this string will be added to your plot as a watermark.
 See `?watermark` for options - to use these, call `watermark()` directly
 before saving your plot.</p></dd>
+
+
 <dt>latex</dt>
 <dd><p>Logical. FALSE by default. If TRUE, exports figure environment
 LaTeX code to clipboard and console.</p></dd>
+
+
 <dt>dpi</dt>
 <dd><p>Plot resolution. Default is "retina".</p></dd>
+
+
 <dt>ignore_long_title</dt>
 <dd><p>Default is FALSE. If TRUE, the check on a long title
 won't be performed. This is useful if using ggtext syntax within titles.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed to `ggsave()`. For example, use
 `device = cairo_pdf` to use the Cairo PDF rendering engine.
 For `grattan_save_all()`, the `...` are passed to `grattan_save()`.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">grattan_save</span><span class="op">(</span><span class="st">"p.png"</span>, <span class="va">p</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># If you don't assign your chart to an object name, that's OK, it will still</span></span>
-<span class="r-in"><span class="co"># save if it was the last plot displayed.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">grattan_save</span><span class="op">(</span><span class="st">"p.png"</span>, <span class="va">p</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># If you don't assign your chart to an object name, that's OK, it will still</span></span></span>
+<span class="r-in"><span><span class="co"># save if it was the last plot displayed.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="grattan_save-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">grattan_save</span><span class="op">(</span><span class="st">"p.png"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Want to make a 'self-contained' chart that includes a</span></span>
-<span class="r-in"><span class="co"># title/subtitle/caption, eg. to go on the Grattan Blog?</span></span>
-<span class="r-in"><span class="co"># If so, just add them - they'll be properly</span></span>
-<span class="r-in"><span class="co"># left-aligned when you save them with grattan_save(), like this:</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="grattan_axes.html">scale_y_continuous_grattan</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="grattan_pal.html">grattan_pal</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title goes here"</span>,</span>
-<span class="r-in">         subtitle <span class="op">=</span> <span class="st">"Subtitle goes here"</span>,</span>
-<span class="r-in">         caption <span class="op">=</span> <span class="st">"Notes: Notes go here\nSource: Source goes here"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">grattan_save</span><span class="op">(</span><span class="st">"p.png"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Want to make a 'self-contained' chart that includes a</span></span></span>
+<span class="r-in"><span><span class="co"># title/subtitle/caption, eg. to go on the Grattan Blog?</span></span></span>
+<span class="r-in"><span><span class="co"># If so, just add them - they'll be properly</span></span></span>
+<span class="r-in"><span><span class="co"># left-aligned when you save them with grattan_save(), like this:</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="grattan_axes.html">scale_y_continuous_grattan</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="grattan_pal.html">grattan_pal</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title goes here"</span>,</span></span>
+<span class="r-in"><span>         subtitle <span class="op">=</span> <span class="st">"Subtitle goes here"</span>,</span></span>
+<span class="r-in"><span>         caption <span class="op">=</span> <span class="st">"Notes: Notes go here\nSource: Source goes here"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="grattan_save-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co"># The plot above won't look right in RStudio's viewer - the text is</span></span>
-<span class="r-in"> <span class="co"># aligned to the left of the plot area, not the image. Once you save it,</span></span>
-<span class="r-in"> <span class="co"># the file should have properly-aligned text:</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">grattan_save</span><span class="op">(</span><span class="st">"your_file.png"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co"># Want to make a full Powerpoint slide? Just use type = "fullslide"</span></span>
-<span class="r-in"> <span class="co"># in grattan_save(), like this.</span></span>
-<span class="r-in"> <span class="co"># If you include 'notes' and 'source' as below, grattan_save() will</span></span>
-<span class="r-in"> <span class="co"># automatically</span></span>
-<span class="r-in"> <span class="co"># split them onto separate rows. It will also wrap your title and subtitle</span></span>
-<span class="r-in"> <span class="co"># automatically over up to 2 rows; and wrap your caption over as many rows</span></span>
-<span class="r-in"> <span class="co"># as necessary.</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="grattan_axes.html">scale_y_continuous_grattan</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="grattan_pal.html">grattan_pal</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title goes here"</span>,</span>
-<span class="r-in">         subtitle <span class="op">=</span> <span class="st">"Subtitle goes here"</span>,</span>
-<span class="r-in">         caption <span class="op">=</span> <span class="st">"Notes: Notes go here. Source: Source goes here"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># The plot above won't look right in RStudio's viewer - the text is</span></span></span>
+<span class="r-in"><span> <span class="co"># aligned to the left of the plot area, not the image. Once you save it,</span></span></span>
+<span class="r-in"><span> <span class="co"># the file should have properly-aligned text:</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">grattan_save</span><span class="op">(</span><span class="st">"your_file.png"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Want to make a full Powerpoint slide? Just use type = "fullslide"</span></span></span>
+<span class="r-in"><span> <span class="co"># in grattan_save(), like this.</span></span></span>
+<span class="r-in"><span> <span class="co"># If you include 'notes' and 'source' as below, grattan_save() will</span></span></span>
+<span class="r-in"><span> <span class="co"># automatically</span></span></span>
+<span class="r-in"><span> <span class="co"># split them onto separate rows. It will also wrap your title and subtitle</span></span></span>
+<span class="r-in"><span> <span class="co"># automatically over up to 2 rows; and wrap your caption over as many rows</span></span></span>
+<span class="r-in"><span> <span class="co"># as necessary.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="grattan_axes.html">scale_y_continuous_grattan</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="grattan_pal.html">grattan_pal</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title goes here"</span>,</span></span>
+<span class="r-in"><span>         subtitle <span class="op">=</span> <span class="st">"Subtitle goes here"</span>,</span></span>
+<span class="r-in"><span>         caption <span class="op">=</span> <span class="st">"Notes: Notes go here. Source: Source goes here"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="grattan_save-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">grattan_save</span><span class="op">(</span><span class="st">"your_file.pdf"</span>, type <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">grattan_save</span><span class="op">(</span><span class="st">"your_file.pdf"</span>, type <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -230,7 +253,7 @@ For `grattan_save_all()`, the `...` are passed to `grattan_save()`.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

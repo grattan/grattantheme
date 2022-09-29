@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
       </span>
     </div>
 
@@ -90,14 +90,14 @@
 </ul>
 <p>For example, using the in-built <code>iris</code> dataset:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>,
-               <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>,
-                   y <span class="op">=</span> <span class="va">Sepal.Width</span>,
-                   colour <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Species"</span>,
-             y <span class="op">=</span> <span class="st">""</span>,
-             colour <span class="op">=</span> <span class="st">"Species"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>,</span>
+<span>               <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>,</span>
+<span>                   y <span class="op">=</span> <span class="va">Sepal.Width</span>,</span>
+<span>                   colour <span class="op">=</span> <span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Species"</span>,</span>
+<span>             y <span class="op">=</span> <span class="st">""</span>,</span>
+<span>             colour <span class="op">=</span> <span class="st">"Species"</span><span class="op">)</span></span></code></pre></div>
 <p>This successfully plots the data we want to plot:</p>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>But it doesn’t yet <em>look</em> like a Grattan chart. To adjust the <em>look</em> we adjust ‘<code>theme</code>’ elements, like <code>axis.ticks.x = element_line(colour = "black")</code> to adjust the axis tickmarks on the x axis; <code>panel.grid.major.x = element_blank()</code> to turn off vertical gridlines; and so on; and on; and on. We also need to adjust aesthetic colours to the Grattan palette; setting, for example, <code>fill = "#F68B33"</code>. The <code>grattantheme</code> package contains tools and shortcuts to simplify this process.</p>
@@ -107,38 +107,38 @@
 </h2>
 <p>The function <code><a href="../reference/theme_grattan.html">theme_grattan()</a></code> contains all of the Grattan <code>theme</code> adjustments in one handy command. Combined with <code>grattan_colour_manual</code>, which easily changes colours of aesthetics, your <code>R</code> chart will be ready for a report or a slide in no time.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>By default, <code><a href="../reference/theme_grattan.html">theme_grattan()</a></code> supresses the legend to allow for clearer on-chart labelling. We can include the legend with the <code>legend</code> argument, which takes <code>"off"</code>, <code>"top"</code>, <code>"bottom"</code>, <code>"left"</code> or <code>"right"</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>legend <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>legend <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>To align the y-axis with zero, change the y scale with <code><a href="../reference/grattan_axes.html">grattan_y_continuous()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Sometimes we’ll want a chart for a box in a report. We can change the background colour with the <code>background</code> argument:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>background <span class="op">=</span> <span class="st">"box"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>background <span class="op">=</span> <span class="st">"box"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>The standard Grattan rules for <code>x</code> and <code>y</code> axes flip if the chart is a horizontal bar chart. The <code>x</code> axis then follows the rules of the <code>y</code> axis, and vice-versa. If we are using a ‘flipped’ chart (imlemented with <code>coord_flipped()</code>), we can tell <code>theme_grattan</code> this is the case using the argument <code>fillped</code> set to <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>flipped <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>flipped <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>The final adjustments we can specify with <code>theme_grattan</code> are the font size and font family. The defaults meet Grattan formatting requirements, but if we do need to change them we can:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">8</span>, base_family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">8</span>, base_family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;"></p>
 <div style="page-break-after: always;"></div>
 </div>
@@ -148,11 +148,11 @@
 <p>Grattan’s colours are loaded with <code>grattantheme</code>. The HEX codes for individual Grattan colours can be called using <code>grattan_[colourname]</code>, eg <code>grattan_lightorange</code>. Colours names are taken from the chart-guide and are:</p>
 <embed src="grattan_pal.pdf" width="250px" style="display: block; margin: auto;" type="application/pdf"></embed><p>We can call single colours:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">3</span>, colour <span class="op">=</span> <span class="va">grattan_lightorange</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">6</span>, colour <span class="op">=</span> <span class="va">grattan_darkorange</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">3</span>, colour <span class="op">=</span> <span class="va">grattan_lightorange</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">6</span>, colour <span class="op">=</span> <span class="va">grattan_darkorange</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>We can also use the <code><a href="../reference/grattan_scale.html">grattan_fill_manual()</a></code> or <code><a href="../reference/grattan_scale.html">grattan_colour_manual()</a></code> functions to change the colours of our fill or colour <em>aesthetics</em>. These can be used for discrete/catagorical data (the default) or continuous data.</p>
 <div class="section level3">
@@ -160,26 +160,26 @@
 </h3>
 <p>In our example, we have five different trees each represented by a colour, so we set the number of colours to five: <code>grattan_fill_manual(n = 5)</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>We can reverse the order of the fill colours using the <code>reverse</code> argument:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span><span class="fl">3</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span><span class="fl">3</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Note that if you do not specify <em>enough</em> colours, will receive an error:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `f()`:</span></span>
-<span class="co">#&gt; <span style="color: #BBBB00;">!</span> Insufficient values in manual scale. 3 needed but only 2 provided.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `f()`:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Insufficient values in manual scale. 3 needed but only 2 provided.</span></span></code></pre></div>
 <p>You won’t receive an error if you specify <em>too many</em> colours. <code>ggplot</code> will choose the first <code>n</code> colours it needs and ignore the rest.</p>
 </div>
 <div class="section level3">
@@ -187,50 +187,50 @@
 </h3>
 <p><code>grattan_(colour|fill)_manual</code> includes an option for continuous colours: <code>discrete = FALSE</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>,
-               <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>,
-                   y <span class="op">=</span> <span class="va">Sepal.Width</span>,
-                   colour <span class="op">=</span> <span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
-
-<span class="va">plot2</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">plot2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iris</span>,</span>
+<span>               <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sepal.Length</span>,</span>
+<span>                   y <span class="op">=</span> <span class="va">Sepal.Width</span>,</span>
+<span>                   colour <span class="op">=</span> <span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-15-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>We can change the set of colours the continuous palette is generated from using the <code>palette</code> argument:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p_full</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"full"</span><span class="op">)</span>
-
-
-<span class="va">p_full_f</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"full_f"</span><span class="op">)</span>
-
-<span class="va">p_dark</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"dark"</span><span class="op">)</span>
-
-
-<span class="va">p_light</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"light"</span><span class="op">)</span>
-
-<span class="va">p_diverging</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"diverging"</span><span class="op">)</span>
-
-<span class="va">p_grey</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span>
-
-
-<span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p_full</span>, <span class="va">p_full_f</span>, 
-                        <span class="va">p_dark</span>, <span class="va">p_light</span>, 
-                        <span class="va">p_diverging</span>, <span class="va">p_grey</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p_full</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"full"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">p_full_f</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"full_f"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p_dark</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"dark"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">p_light</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"light"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p_diverging</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"diverging"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p_grey</span> <span class="op">&lt;-</span> <span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/grattan_scale.html">grattan_colour_manual</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p_full</span>, <span class="va">p_full_f</span>, </span>
+<span>                        <span class="va">p_dark</span>, <span class="va">p_light</span>, </span>
+<span>                        <span class="va">p_diverging</span>, <span class="va">p_grey</span><span class="op">)</span></span></code></pre></div>
 <p><img src="using_grattantheme_files/figure-html/unnamed-chunk-16-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -259,40 +259,40 @@
 <p><code><a href="../reference/grattan_save.html">grattan_save()</a></code> uses the ggplot2 function <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggsave()</a></code> to save your chart. Like <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggsave()</a></code>, <code><a href="../reference/grattan_save.html">grattan_save()</a></code> will use the last plot you displayed by default, but you can specify something else with <code>object</code>.</p>
 <p>Now we can save our Grattan-formatted graph as a normally-formatted report chart:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Create and store the plot:</span>
-<span class="va">plot_final</span> <span class="op">&lt;-</span> <span class="va">p_full_f</span> <span class="op">+</span>
-              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Iris plants are rad!"</span>,
-                 subtitle <span class="op">=</span> <span class="st">"Width of sepal"</span>,
-                 x <span class="op">=</span> <span class="st">"Length of sepal"</span>, 
-                 y <span class="op">=</span> <span class="st">""</span>,
-                 caption <span class="op">=</span> <span class="st">"Notes: A classic dataset. Source: Fisher (1936)"</span><span class="op">)</span>
-
-<span class="co"># Save the plot</span>
-<span class="fu"><a href="../reference/grattan_save.html">grattan_save</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"iris.pdf"</span>,
-             object <span class="op">=</span> <span class="va">plot_final</span>,
-             type <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Create and store the plot:</span></span>
+<span><span class="va">plot_final</span> <span class="op">&lt;-</span> <span class="va">p_full_f</span> <span class="op">+</span></span>
+<span>              <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Iris plants are rad!"</span>,</span>
+<span>                 subtitle <span class="op">=</span> <span class="st">"Width of sepal"</span>,</span>
+<span>                 x <span class="op">=</span> <span class="st">"Length of sepal"</span>, </span>
+<span>                 y <span class="op">=</span> <span class="st">""</span>,</span>
+<span>                 caption <span class="op">=</span> <span class="st">"Notes: A classic dataset. Source: Fisher (1936)"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the plot</span></span>
+<span><span class="fu"><a href="../reference/grattan_save.html">grattan_save</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"iris.pdf"</span>,</span>
+<span>             object <span class="op">=</span> <span class="va">plot_final</span>,</span>
+<span>             type <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span></code></pre></div>
 <p>Which produces a chart that can fit into a report. Note that the title, subtitle and notes/sources have been removed.</p>
 <embed src="iris.pdf" width="300px" style="display: block; margin: auto;" type="application/pdf"></embed><p>If we wanted to save a full-slide chart, complete with a title, subtitle, notes/sources and the Grattan slide format, we specify <code>type = "fullslide"</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Save the plot</span>
-<span class="fu"><a href="../reference/grattan_save.html">grattan_save</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"iris_fullslide.pdf"</span>,
-             object <span class="op">=</span> <span class="va">plot_final</span>,
-             type <span class="op">=</span> <span class="st">"fullslide"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Save the plot</span></span>
+<span><span class="fu"><a href="../reference/grattan_save.html">grattan_save</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"iris_fullslide.pdf"</span>,</span>
+<span>             object <span class="op">=</span> <span class="va">plot_final</span>,</span>
+<span>             type <span class="op">=</span> <span class="st">"fullslide"</span><span class="op">)</span></span></code></pre></div>
 <embed src="iris_fullslide.pdf" width="400px" style="display: block; margin: auto;" type="application/pdf"></embed><div class="section level3">
 <h3 id="saving-powerpoint-files">Saving Powerpoint files<a class="anchor" aria-label="anchor" href="#saving-powerpoint-files"></a>
 </h3>
 <p>It’s convenient to also save your files in Powerpoint format. This allows PDs to easily use your graphs in their presentations. Saving in this format also means you can include speaker notes – such as information about the script used to create the file – which can help us to keep track of things.</p>
 <p>You can save a Powerpoint file, with appropriate speaker notes included, like this:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/grattan_save_pptx.html">grattan_save_pptx</a></span><span class="op">(</span><span class="va">plot_final</span>,
-                  <span class="st">"iris_fullslide.pptx"</span>,
-                  type <span class="op">=</span> <span class="st">"fullslide"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/grattan_save_pptx.html">grattan_save_pptx</a></span><span class="op">(</span><span class="va">plot_final</span>,</span>
+<span>                  <span class="st">"iris_fullslide.pptx"</span>,</span>
+<span>                  type <span class="op">=</span> <span class="st">"fullslide"</span><span class="op">)</span></span></code></pre></div>
 <p>Or, you can just use the <code>save_pptx</code> argument to <code><a href="../reference/grattan_save.html">grattan_save()</a></code>, like this:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/grattan_save.html">grattan_save</a></span><span class="op">(</span><span class="st">"iris_fullslide.pdf"</span>,
-             <span class="va">plot_final</span>,
-             type <span class="op">=</span> <span class="st">"fullslide"</span>,
-             save_pptx <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/grattan_save.html">grattan_save</a></span><span class="op">(</span><span class="st">"iris_fullslide.pdf"</span>,</span>
+<span>             <span class="va">plot_final</span>,</span>
+<span>             type <span class="op">=</span> <span class="st">"fullslide"</span>,</span>
+<span>             save_pptx <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="saving-chart-data">Saving chart data<a class="anchor" aria-label="anchor" href="#saving-chart-data"></a>
@@ -300,12 +300,12 @@
 <p>When we release reports or working papers, we typically upload an Excel file including ‘chart data’ for most of our charts. The process for making and properly formatting these files can be a bit laborious. <code>grattantheme</code> helps streamline that process, using the <code><a href="../reference/save_chartdata.html">save_chartdata()</a></code> function.</p>
 <p>You can use it like this:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/save_chartdata.html">save_chartdata</a></span><span class="op">(</span><span class="st">"plot_final.xlsx"</span>, object <span class="op">=</span> <span class="va">plot_final</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/save_chartdata.html">save_chartdata</a></span><span class="op">(</span><span class="st">"plot_final.xlsx"</span>, object <span class="op">=</span> <span class="va">plot_final</span><span class="op">)</span></span></code></pre></div>
 <p>Or, just use the <code>save_data</code> argument to <code><a href="../reference/grattan_save.html">grattan_save()</a></code> when you save your plot:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/grattan_save.html">grattan_save</a></span><span class="op">(</span><span class="st">"plot_final.png"</span>,
-             type <span class="op">=</span> <span class="st">"fullslide"</span>,
-             save_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/grattan_save.html">grattan_save</a></span><span class="op">(</span><span class="st">"plot_final.png"</span>,</span>
+<span>             type <span class="op">=</span> <span class="st">"fullslide"</span>,</span>
+<span>             save_data <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -327,7 +327,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

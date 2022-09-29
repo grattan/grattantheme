@@ -19,7 +19,7 @@ Institute's visual style."><!-- mathjax --><script src="https://cdnjs.cloudflare
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
       </span>
     </div>
 
@@ -61,7 +61,7 @@ Institute's visual style.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">grattan_arrow</span><span class="op">(</span><span class="va">...</span>, type <span class="op">=</span> <span class="st">"closed"</span>, angle <span class="op">=</span> <span class="fl">20</span>, length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">grattan_arrow</span><span class="op">(</span><span class="va">...</span>, type <span class="op">=</span> <span class="st">"closed"</span>, angle <span class="op">=</span> <span class="fl">20</span>, length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -69,44 +69,51 @@ Institute's visual style.</p>
     <dl><dt>...</dt>
 <dd><p>Arguments passed on to either `grid::arrow()`.
 See <code><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">?arrow</a></code>.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>Arrow head type. Default is "closed".</p></dd>
+
+
 <dt>angle</dt>
 <dd><p>Angle of arrow head. Default is 20.</p></dd>
+
+
 <dt>length</dt>
 <dd><p>A unit specifying the length of the arrow head (from tip to base). Default 0.5.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create a dataset -- mtcars with rownames as column</span></span>
-<span class="r-in"><span class="va">mt</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span>
-<span class="r-in"><span class="va">mt</span><span class="op">$</span><span class="va">car</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mt</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Make a basic chart with the mtcars data</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mt</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">wt</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"> <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add a simple callout arrow to the chart, using geom_segment, with arrow = grattan_arrow()</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html" class="external-link">geom_segment</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">15</span>, y <span class="op">=</span> <span class="fl">2</span>, xend <span class="op">=</span> <span class="fl">19.5</span>, yend <span class="op">=</span> <span class="fl">2.74</span><span class="op">)</span>,</span>
-<span class="r-in"> arrow <span class="op">=</span> <span class="fu">grattan_arrow</span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in"> colour <span class="op">=</span> <span class="va">grattan_red</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create a dataset -- mtcars with rownames as column</span></span></span>
+<span class="r-in"><span><span class="va">mt</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span></span>
+<span class="r-in"><span><span class="va">mt</span><span class="op">$</span><span class="va">car</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mt</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make a basic chart with the mtcars data</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mt</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">wt</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add a simple callout arrow to the chart, using geom_segment, with arrow = grattan_arrow()</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html" class="external-link">geom_segment</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">15</span>, y <span class="op">=</span> <span class="fl">2</span>, xend <span class="op">=</span> <span class="fl">19.5</span>, yend <span class="op">=</span> <span class="fl">2.74</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> arrow <span class="op">=</span> <span class="fu">grattan_arrow</span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> colour <span class="op">=</span> <span class="va">grattan_red</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="grattan_arrow-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Alternatively we could add a curved arrow, using geom_cuve()</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html" class="external-link">geom_curve</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">15</span>, y <span class="op">=</span> <span class="fl">2</span>, xend <span class="op">=</span> <span class="fl">19.5</span>, yend <span class="op">=</span> <span class="fl">2.74</span><span class="op">)</span>,</span>
-<span class="r-in"> arrow <span class="op">=</span> <span class="fu">grattan_arrow</span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in"> curvature <span class="op">=</span> <span class="fl">0.3</span>,</span>
-<span class="r-in"> colour <span class="op">=</span> <span class="va">grattan_red</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Alternatively we could add a curved arrow, using geom_cuve()</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html" class="external-link">geom_curve</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">15</span>, y <span class="op">=</span> <span class="fl">2</span>, xend <span class="op">=</span> <span class="fl">19.5</span>, yend <span class="op">=</span> <span class="fl">2.74</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> arrow <span class="op">=</span> <span class="fu">grattan_arrow</span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> curvature <span class="op">=</span> <span class="fl">0.3</span>,</span></span>
+<span class="r-in"><span> colour <span class="op">=</span> <span class="va">grattan_red</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="grattan_arrow-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -121,7 +128,7 @@ See <code><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">?arr
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

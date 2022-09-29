@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
       </span>
     </div>
 
@@ -59,16 +59,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">make_slide</span><span class="op">(</span>graph <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span>, filename <span class="op">=</span> <span class="cn">NULL</span>, path <span class="op">=</span> <span class="st">"."</span>, type <span class="op">=</span> <span class="st">"16:9"</span><span class="op">)</span>
-
-<span class="fu">make_presentation</span><span class="op">(</span>
-  <span class="va">graphs</span>,
-  filename <span class="op">=</span> <span class="cn">NULL</span>,
-  path <span class="op">=</span> <span class="st">"."</span>,
-  type <span class="op">=</span> <span class="st">"16:9"</span>,
-  title <span class="op">=</span> <span class="st">"Title"</span>,
-  subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_slide</span><span class="op">(</span>graph <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/last_plot.html" class="external-link">last_plot</a></span><span class="op">(</span><span class="op">)</span>, filename <span class="op">=</span> <span class="cn">NULL</span>, path <span class="op">=</span> <span class="st">"."</span>, type <span class="op">=</span> <span class="st">"16:9"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">make_presentation</span><span class="op">(</span></span>
+<span>  <span class="va">graphs</span>,</span>
+<span>  filename <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  path <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"16:9"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Title"</span>,</span>
+<span>  subtitle <span class="op">=</span> <span class="st">"Subtitle"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -76,81 +76,94 @@
     <dl><dt>graph</dt>
 <dd><p>The graph you want to include on your slide. Defaults to the
 last plot (ggplot2::last_plot())</p></dd>
+
+
 <dt>filename</dt>
 <dd><p>The filename for your Powerpoint slide.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Path to the directory you wish to save your slide in. Defaults to
 your working directory.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>The type of Powerpoint slide to create; either "16:9" (the
 default, for a 16:9 orientation slide), or "4:3".</p></dd>
+
+
 <dt>graphs</dt>
 <dd><p>A list of ggplot2 objects</p></dd>
+
+
 <dt>title</dt>
 <dd><p>Optional. The title of your presentation, if you want a title
 slide.</p></dd>
+
+
 <dt>subtitle</dt>
 <dd><p>Optional. The subtitle of your presentation, if you want a
 title slide.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># To take a single ggplot2 graph and turn it into a slide:</span></span>
-<span class="r-in"><span class="co"># First, create your ggplot2 object. Include your subtitle,</span></span>
-<span class="r-in"><span class="co"># title, and caption with +labs()</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">grattantheme</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">hp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Long title goes here with a bunch of text lorem ipsum</span>
-<span class="r-in">   Grattan blah blah sensible orange"</span>,</span>
-<span class="r-in">   subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>,</span>
-<span class="r-in">   caption <span class="op">=</span> <span class="st">"Source: blah"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To take a single ggplot2 graph and turn it into a slide:</span></span></span>
+<span class="r-in"><span><span class="co"># First, create your ggplot2 object. Include your subtitle,</span></span></span>
+<span class="r-in"><span><span class="co"># title, and caption with +labs()</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">grattantheme</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">hp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Long title goes here with a bunch of text lorem ipsum</span></span></span>
+<span class="r-in"><span><span class="st">   Grattan blah blah sensible orange"</span>,</span></span>
+<span class="r-in"><span>   subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>,</span></span>
+<span class="r-in"><span>   caption <span class="op">=</span> <span class="st">"Source: blah"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="make_slide-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Now, create a Powerpoint slide with your graph in your working directory.</span></span>
-<span class="r-in"><span class="co"># By default, make_slide() will use the last plot you generated;</span></span>
-<span class="r-in"><span class="co"># you can specify a different object to use with the `graph` argument.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">make_slide</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"test.pptx"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># To take multiple ggplot2 graphs and turn them into slides in a single</span></span>
-<span class="r-in"><span class="co"># presentation:</span></span>
-<span class="r-in"><span class="co"># First, create multiple ggplot2 objects. Include your subtitle, title,</span></span>
-<span class="r-in"><span class="co"># and caption with +labs()</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">grattantheme</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">graph1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">hp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title goes here with a bunch of text lorem ipsum"</span>,</span>
-<span class="r-in">   subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>,</span>
-<span class="r-in">   caption <span class="op">=</span> <span class="st">"Source: blah"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">graph2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">hp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"This is another graph to go on the second slide"</span>,</span>
-<span class="r-in">   subtitle <span class="op">=</span> <span class="st">"Units go here"</span>,</span>
-<span class="r-in">   caption <span class="op">=</span> <span class="st">"Source: mtcars."</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Now combine your two graphs together in a list:</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">graph1</span>, <span class="va">graph2</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Now, create a Powerpoint presentation with one</span></span>
-<span class="r-in"><span class="co"># slide per graph in your list:</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">make_presentation</span><span class="op">(</span><span class="va">graphs</span>, filename <span class="op">=</span> <span class="st">"test.pptx"</span><span class="op">)</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Now, create a Powerpoint slide with your graph in your working directory.</span></span></span>
+<span class="r-in"><span><span class="co"># By default, make_slide() will use the last plot you generated;</span></span></span>
+<span class="r-in"><span><span class="co"># you can specify a different object to use with the `graph` argument.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">make_slide</span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"test.pptx"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To take multiple ggplot2 graphs and turn them into slides in a single</span></span></span>
+<span class="r-in"><span><span class="co"># presentation:</span></span></span>
+<span class="r-in"><span><span class="co"># First, create multiple ggplot2 objects. Include your subtitle, title,</span></span></span>
+<span class="r-in"><span><span class="co"># and caption with +labs()</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">grattantheme</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">graph1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">hp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title goes here with a bunch of text lorem ipsum"</span>,</span></span>
+<span class="r-in"><span>   subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>,</span></span>
+<span class="r-in"><span>   caption <span class="op">=</span> <span class="st">"Source: blah"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">graph2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">hp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"This is another graph to go on the second slide"</span>,</span></span>
+<span class="r-in"><span>   subtitle <span class="op">=</span> <span class="st">"Units go here"</span>,</span></span>
+<span class="r-in"><span>   caption <span class="op">=</span> <span class="st">"Source: mtcars."</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Now combine your two graphs together in a list:</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">graph1</span>, <span class="va">graph2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Now, create a Powerpoint presentation with one</span></span></span>
+<span class="r-in"><span><span class="co"># slide per graph in your list:</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu">make_presentation</span><span class="op">(</span><span class="va">graphs</span>, filename <span class="op">=</span> <span class="st">"test.pptx"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -165,7 +178,7 @@ title slide.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

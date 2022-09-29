@@ -20,7 +20,7 @@ Institute's visual style."><!-- mathjax --><script src="https://cdnjs.cloudflare
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
       </span>
     </div>
 
@@ -63,23 +63,23 @@ Institute's visual style.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">grattan_label</span><span class="op">(</span>
-  <span class="va">...</span>,
-  size <span class="op">=</span> <span class="fl">18</span>,
-  padding <span class="op">=</span> <span class="fl">0.1</span>,
-  lineheight <span class="op">=</span> <span class="fl">0.8</span>,
-  label.size <span class="op">=</span> <span class="fl">0</span>,
-  fill <span class="op">=</span> <span class="st">"white"</span>
-<span class="op">)</span>
-
-<span class="fu">grattan_label_repel</span><span class="op">(</span>
-  <span class="va">...</span>,
-  size <span class="op">=</span> <span class="fl">18</span>,
-  padding <span class="op">=</span> <span class="fl">0.1</span>,
-  lineheight <span class="op">=</span> <span class="fl">0.8</span>,
-  label.size <span class="op">=</span> <span class="fl">0</span>,
-  fill <span class="op">=</span> <span class="st">"white"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">grattan_label</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">18</span>,</span>
+<span>  padding <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  lineheight <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  label.size <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  fill <span class="op">=</span> <span class="st">"white"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">grattan_label_repel</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">18</span>,</span>
+<span>  padding <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  lineheight <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  label.size <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  fill <span class="op">=</span> <span class="st">"white"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -88,18 +88,29 @@ Institute's visual style.</p>
 <dd><p>Arguments passed on to either `ggplot2::geom_label()` (in the
 case of `grattan_label()`) or `ggrepel::geom_label_repel()` (in the case of
 `grattan_label_repel()`). See <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">?geom_label</a></code> or <code>?geom_label_repel</code>.</p></dd>
+
+
 <dt>size</dt>
 <dd><p>Font size for label. Default is 18.</p></dd>
+
+
 <dt>padding</dt>
 <dd><p>Amount of white padding around label, measured in "lines"
 (see <code>?unit::grid</code>). Default is 0.1.</p></dd>
+
+
 <dt>lineheight</dt>
 <dd><p>Height of lines of text - smaller means the lines
 of text are closer together. Default is `0.8`.</p></dd>
+
+
 <dt>label.size</dt>
 <dd><p>Default is `0`.</p></dd>
+
+
 <dt>fill</dt>
 <dd><p>Colour of label background; default is `"white"`.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -111,29 +122,29 @@ coordinates, but will be places so that the labels don't overlap each other.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create a dataset -- mtcars with rownames as column</span></span>
-<span class="r-in"><span class="va">mt</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span>
-<span class="r-in"><span class="va">mt</span><span class="op">$</span><span class="va">car</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mt</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create a plot without labels</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mt</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">wt</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">     <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># A chart with Grattan labels</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu">grattan_label</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create a dataset -- mtcars with rownames as column</span></span></span>
+<span class="r-in"><span><span class="va">mt</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span></span>
+<span class="r-in"><span><span class="va">mt</span><span class="op">$</span><span class="va">car</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mt</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create a plot without labels</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mt</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">wt</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>     <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># A chart with Grattan labels</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu">grattan_label</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="grattan_label_functions-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># A chart with Grattan labels that are repelled from each other</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu">grattan_label_repel</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># A chart with Grattan labels that are repelled from each other</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu">grattan_label_repel</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>ggrepel: 8 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span>
 <span class="r-plt img"><img src="grattan_label_functions-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -148,7 +159,7 @@ coordinates, but will be places so that the labels don't overlap each other.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

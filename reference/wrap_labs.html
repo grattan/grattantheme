@@ -21,7 +21,7 @@ use `grattan_save()`."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
       </span>
     </div>
 
@@ -65,12 +65,12 @@ use `grattan_save()`.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">wrap_labs</span><span class="op">(</span>
-  <span class="va">object</span>,
-  <span class="va">type</span>,
-  labs_to_wrap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"title"</span>, <span class="st">"subtitle"</span>, <span class="st">"caption"</span><span class="op">)</span>,
-  ignore_long_title <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">wrap_labs</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">type</span>,</span>
+<span>  labs_to_wrap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"title"</span>, <span class="st">"subtitle"</span>, <span class="st">"caption"</span><span class="op">)</span>,</span>
+<span>  ignore_long_title <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,36 +78,43 @@ use `grattan_save()`.</p>
     <dl><dt>object</dt>
 <dd><p>Name of the ggplot2 chart object with the labels you wish to
 modify.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>The type of chart you intend to save (different chart types have
 different numbers of characters on each line). `type` can be 'normal',
 'fullslide', 'blog', etc. For a full list of possible types, see
 <code>?grattan_save()</code>.</p></dd>
+
+
 <dt>labs_to_wrap</dt>
 <dd><p>Default is c("title", "subtitle", "caption"), which
 wraps all three labels. Choose one or two if you only want to wrap those.</p></dd>
+
+
 <dt>ignore_long_title</dt>
 <dd><p>Default is FALSE. If TRUE, the check on a long title
 won't be performed. This is useful if using ggtext syntax within titles.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"My title goes here and is quite long and needs to break</span>
-<span class="r-in">    over two lines, as is common for Grattan charts"</span>,</span>
-<span class="r-in">    subtitle <span class="op">=</span> <span class="st">"Subtitle goes here"</span>,</span>
-<span class="r-in">    caption <span class="op">=</span> <span class="st">"Notes: Put some notes here. Source: Put your source here."</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">p_wrapped</span> <span class="op">&lt;-</span> <span class="fu">wrap_labs</span><span class="op">(</span><span class="va">p</span>, <span class="st">"normal"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">p_wrapped</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"My title goes here and is quite long and needs to break</span></span></span>
+<span class="r-in"><span><span class="st">    over two lines, as is common for Grattan charts"</span>,</span></span>
+<span class="r-in"><span>    subtitle <span class="op">=</span> <span class="st">"Subtitle goes here"</span>,</span></span>
+<span class="r-in"><span>    caption <span class="op">=</span> <span class="st">"Notes: Put some notes here. Source: Put your source here."</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">p_wrapped</span> <span class="op">&lt;-</span> <span class="fu">wrap_labs</span><span class="op">(</span><span class="va">p</span>, <span class="st">"normal"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">p_wrapped</span></span></span>
 <span class="r-plt img"><img src="wrap_labs-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -122,7 +129,7 @@ won't be performed. This is useful if using ggtext syntax within titles.</p></dd
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
