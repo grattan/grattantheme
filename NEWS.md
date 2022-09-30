@@ -1,3 +1,6 @@
+# grattantheme 0.11.1
+* fix the slide template so slide number stops appearing in the top right hand corner when copying slides across decks
+
 # grattantheme 0.11.0
 * add `check_chart_aspect_ratio` to help with checking charts are formatted correctly
 
