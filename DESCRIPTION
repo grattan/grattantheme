@@ -29,7 +29,9 @@ Imports:
     clipr,
     utils,
     gdtools,
-    fs
+    fs, 
+    magrittr, 
+    rlang
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
