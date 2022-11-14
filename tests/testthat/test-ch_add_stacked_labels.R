@@ -1,5 +1,6 @@
 base_plot <- ggplot(ggplot2::txhousing, aes(x = date, y = volume, colour = city, label = city)) +
-  geom_line()
+  geom_line() +
+  theme_grattan()
 
 p <- base_plot %>%
   ch_add_stacked_labels()

@@ -72,12 +72,12 @@ that's a cryptic message telling you to set the size argument. Setting it to
 }
 \examples{
 \dontrun{
+ base_plot <- ggplot(ggplot2::txhousing, aes(x = date, y = volume, colour = city, label = city)) +
+ geom_line() +
+ theme_grattan()
 
-# not the best examples because they already have stacked labels
-# but you'll see what it does
-chart_citymapper() \%>\% ch_add_stacked_labels()
-
-chart_jhu_cases() \%>\% ch_add_stacked_labels()
+ base_plot \%>\%
+ ch_add_stacked_labels
 
 }
 }

@@ -11,7 +11,7 @@
 #' @param is_note (logical; default = FALSE) is it a note?
 #' @param bold_labs (logical; default = TRUE) should the labels be bolded?
 #'
-#' @return
+#' @return a character
 #' @export
 #'
 #' @examples
@@ -80,12 +80,12 @@ colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
 #'
 #' @examples
 #' \dontrun{
+#'  base_plot <- ggplot(ggplot2::txhousing, aes(x = date, y = volume, colour = city, label = city)) +
+#'  geom_line() +
+#'  theme_grattan()
 #'
-#' # not the best examples because they already have stacked labels
-#' # but you'll see what it does
-#' chart_citymapper() %>% ch_add_stacked_labels()
-#'
-#' chart_jhu_cases() %>% ch_add_stacked_labels()
+#'  base_plot %>%
+#'  ch_add_stacked_labels
 #'
 #' }
 ch_add_stacked_labels <- function(.plot,
@@ -148,7 +148,6 @@ ch_add_stacked_labels <- function(.plot,
   .plot +
     ggrepel::geom_text_repel(
       data               = df_labels,
-      family             = "Calibri",
       nudge_x            = as.numeric(nudge),
       segment.colour = segment.colour,
       min.segment.length = min.segment.length,
