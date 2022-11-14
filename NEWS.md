@@ -1,3 +1,6 @@
+# grattantheme 0.12.0
+* add `ch_add_stacked_labels` to help add labels to charts 
+
 # grattantheme 0.11.1
 * fix the slide template so slide number stops appearing in the top right hand corner when copying slides across decks
 
