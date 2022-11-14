@@ -1,20 +1,20 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 0.11.0
+Version: 0.11.1
 Authors@R: c(
-    person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
+    person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au",
                 role = c("aut")),
     person(given = "Will", family = "Mackey", email = "william.mackey@grattaninstitute.edu.au",
                 role = c("aut", "cre")))
-Description: Enables the user to create ggplot2 charts that conform 
-    to the Grattan Institute style guide. 
+Description: Enables the user to create ggplot2 charts that conform
+    to the Grattan Institute style guide.
 License: MIT + file LICENSE
 Depends: R (>= 3.5.0)
 Imports:
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.3.0),
-    glue, 
+    glue,
     purrr (>= 0.3.0),
     knitr (>= 1.22),
     rmarkdown (>= 1.12),
@@ -24,18 +24,17 @@ Imports:
     stringr,
     rstudioapi,
     officer,
-    dplyr, 
+    dplyr,
     rvg,
     clipr,
     utils,
-    gdtools, 
-    magrittr, 
-    rlang
+    gdtools,
+    fs
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.1
-Suggests: 
+Suggests:
     assertthat,
     testthat (>= 2.1.0),
     covr,

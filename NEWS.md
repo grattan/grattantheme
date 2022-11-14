@@ -1,5 +1,8 @@
+# grattantheme 0.11.1
+* fix the slide template so slide number stops appearing in the top right hand corner when copying slides across decks
+
 # grattantheme 0.11.0
-* add `ch_add_stacked_labels` 
+* add `check_chart_aspect_ratio` to help with checking charts are formatted correctly
 
 # grattantheme 0.10.0
 * adds `colour_text` to help with ggtext colouring
@@ -74,7 +77,7 @@ information about the chart types in the grattantheme package.
 * Bug fixes and improvements to save_chartdata() function
 
 # grattantheme 0.5.1
-* Charts without a subtitle that are saved as "fullslide" or similar will now vertically expand the plot to fill the space of the absent subtitle 
+* Charts without a subtitle that are saved as "fullslide" or similar will now vertically expand the plot to fill the space of the absent subtitle
 * save_chartdata() function added
 * New 'faded' versions of the Grattan palette available
 

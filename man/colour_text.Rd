@@ -16,7 +16,7 @@ colour_text(colour, text, is_note = FALSE, bold_labs = TRUE)
 \item{bold_labs}{(logical; default = TRUE) should the labels be bolded?}
 }
 \value{
-a character
+(a glue)
 }
 \description{
 This is a helper function to wrap the css to make text certain colours. This
