@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 0.10.0
+Version: 0.11.1
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
                 role = c("aut")),
@@ -14,7 +14,7 @@ Depends: R (>= 3.5.0)
 Imports:
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.3.0),
-    glue, 
+    glue,
     purrr (>= 0.3.0),
     knitr (>= 1.22),
     rmarkdown (>= 1.12),
@@ -27,7 +27,8 @@ Imports:
     rvg,
     clipr,
     utils,
-    gdtools
+    gdtools,
+    fs
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true

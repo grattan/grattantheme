@@ -15,6 +15,9 @@ colour_text(colour, text, is_note = FALSE, bold_labs = TRUE)
 
 \item{bold_labs}{(logical; default = TRUE) should the labels be bolded?}
 }
+\value{
+(a glue)
+}
 \description{
 This is a helper function to wrap the css to make text certain colours. This
 will be useful when making grattan charts. This should be used within `ggtext::geom_richtext()`
