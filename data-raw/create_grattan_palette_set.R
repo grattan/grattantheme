@@ -1,9 +1,9 @@
 # Create Grattan palette sets
 
 # Assume more/higher is better; and better is yellow (can be reversed with reverse = TRUE)
-#' The QND colours
+#' The grattan colours
 #'
-#' These colours are used in \code{qnd_plot} and form the basis for our
+#' These colours are used in \code{grattan_plot} and form the basis for our
 #' palettes.
 #'
 #' @export

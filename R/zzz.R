@@ -1,3 +1,5 @@
 .onLoad <- function(libname, pkgname) {
-  set_plot_colours("qnd")
+  # register_palette()
+
+  # set_aesthetics("grattan")
 }
