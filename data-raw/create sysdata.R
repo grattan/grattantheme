@@ -17,7 +17,7 @@ chart_types <- tibble::tribble(
                 "fullslide_43", "active",        25.40,   19.05,    140,     55,         70, "fullslide", "template_43.pptx",
                         "blog", "active",        25.40,   19.05,    155,     62,         85, "fullslide", "template_blog.pptx",
                           "a4", "active",        21.00,   29.70,    114,     66,         62, "fullslide", NA_character_,
-              "fullslide_2022", "active",        11.91,   31.70,    175,     55,         95, "fullslide", "slide_template_2022.pptx",
+              "fullslide_2022", "active",        31.70,   19.05,    175,     55,         95, "fullslide", "template_2022.pptx",
 
                 "fullslide_44", "deprecated",   25.40,   25.40,    140,     55,         95, "fullslide", NA_character_,
                    "blog_half", "deprecated",   25.4/2,  19.05,    155,     62,         85, "fullslide", "template_blog_half.pptx",
