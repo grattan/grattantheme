@@ -58,7 +58,6 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
     type <- chart_types$type[!is.na(chart_types$pptx_template)]
   }
 
-
   output_dir <- tools::file_path_sans_ext(filename)
 
   if (isFALSE(dir.exists(output_dir))) {
@@ -83,17 +82,15 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
     }
   }
 
-  walk2(.x = filenames,
-        .y = type,
-        .f = create_pptx_shell,
-        p = plot)
+  num_slides <- length(plot)
 
-  walk2(
+  purrr::walk2(
     .x = filenames,
     .y = type,
     .f = ~add_graph_to_pptx(filename = .x,
                             type = .y,
-                            p = plot)
+                            p = plot,
+                            num_slides = num_slides)
   )
 
   ggplot2::set_last_plot(p)
@@ -243,15 +240,26 @@ pandoc_test <- function() {
 
 #' Take a pre-existing PPTX document with n slides and a list of n ggplot2
 #' objects; add one object to each slide using officer
-#' @param p list of plot(s)
+#'
+#' @param p a ggplot
 #' @param filename filename incl. path to an existing PPTX file
 #' @param type a grattantheme chart type with a PPTX template
+#' @param num_slides number of slides to make
+#'
 #' @keywords internal
 #' @importFrom officer read_pptx on_slide ph_with ph_location_label
 #' @importFrom rvg dml
 add_graph_to_pptx <- function(p,
                               filename,
-                              type) {
+                              type,
+                              num_slides) {
+  message(glue::glue("Making {type}"))
+  # Get path to appropriate PPTX template from `grattantheme`
+  template_filename <- system.file("extdata",
+                                   chart_types_inc_deprecated$pptx_template[chart_types_inc_deprecated$type == type],
+                                   package = "grattantheme")
+
+
 
   p <- purrr::map(
     .x = p,
@@ -259,19 +267,17 @@ add_graph_to_pptx <- function(p,
     type = type,
     labs_to_wrap = "caption"
   )
-
-  x <- read_pptx(filename)
-  num_slides <- length(x)
-
-  if (length(p) != num_slides) {
-    stop("Number of slides in shell must match number of plots in list")
-  }
+  master <- dplyr::if_else(type == "fullslide", "Charts for overheads", "Office Theme")
+  x <- officer::read_pptx(template_filename)
 
   for (slide in seq_len(num_slides)) {
+    notes <- return_script_and_chart_location(filename = filename)
 
     plot <- p[[slide]]
 
-    x <- on_slide(x, index = slide)
+    x <- x %>%
+      officer::add_slide(layout="Two Content", master = master) %>%
+      officer::set_notes(value = notes, officer::notes_location_type(type = "body"))
 
     replace_null <- function(string) {
       ifelse(is.null(string), " ", string)
@@ -279,13 +285,17 @@ add_graph_to_pptx <- function(p,
 
     labs <- extract_labs(plot)
 
-    x <- ph_with(x,
+    x <- officer::ph_with(x,
                  replace_null(labs$title),
-                 location = ph_location_label("Title 1"))
+                 location = officer::ph_location_label("Title 1"))
 
-    x <- ph_with(x,
+    x <- officer::ph_with(x,
                  replace_null(labs$subtitle),
-                 location = ph_location_label("Content Placeholder 2"))
+                 location = officer::ph_location_label("Content Placeholder 2"))
+
+    x <- officer::ph_with(x,
+                 replace_null(ggplot2::labs$caption),
+                 location = officer::ph_location_label("Caption Placeholder 1"))
 
 
     plot <- replace_labs(plot)
@@ -299,25 +309,25 @@ add_graph_to_pptx <- function(p,
     if (!report_bound) {
       plot <- replace_labs(plot, list(title = NULL,
                                       subtitle = NULL,
-                                      caption = labs$caption))
+                                      caption = NULL))
     }
 
-    if (isTRUE(gdtools::font_family_exists("Helvetica"))) {
-      sans_font <- "Helvetica"
-    } else if (isTRUE(gdtools::font_family_exists("Arial"))) {
-      sans_font <- "Arial"
-    } else {
-      if (gdtools::match_family("sans") == "DejaVu Sans") {
-        sans_font <- "Arial"
-      } else {
-        sans_font <- gdtools::match_family("sans")
-      }
-    }
+    # if (isTRUE(gdtools::font_family_exists("Helvetica"))) {
+    #   sans_font <- "Helvetica"
+    # } else if (isTRUE(gdtools::font_family_exists("Arial"))) {
+    #   sans_font <- "Arial"
+    # } else {
+    #   if (gdtools::match_family("sans") == "DejaVu Sans") {
+    #     sans_font <- "Arial"
+    #   } else {
+    #     sans_font <- gdtools::match_family("sans")
+    #   }
+    # }
 
     # Define the graph location; if no subtitle exists OR the chart is
     # report bound, we want to fill the subtitle space with the graph
     if (!is.null(labs$subtitle) | report_bound) {
-      graph_location <- ph_location_label("Content Placeholder 3")
+      graph_location <- officer::ph_location_label("Content Placeholder 3")
     } else {
       slide_summ <- officer::slide_summary(x)
       v_offset <- 0.12
@@ -334,12 +344,12 @@ add_graph_to_pptx <- function(p,
     }
 
     # Add graph as SVG object
-    x <- ph_with(x,
-                 rvg::dml(ggobj = plot,
-                          fonts = list(sans = sans_font,
-                                       `DejaVu Sans` = sans_font,
-                                       Arial = sans_font,
-                                       Helvetica = sans_font)),
+    x <- officer::ph_with(x,
+                 rvg::dml(ggobj = plot),
+                          # fonts = list(sans = sans_font,
+                          #              `DejaVu Sans` = sans_font,
+                          #              Arial = sans_font,
+                          #              Helvetica = sans_font)),
                  location = graph_location)
 
     if (is.null(labs$subtitle)) {
@@ -350,4 +360,39 @@ add_graph_to_pptx <- function(p,
 
   print(x, filename)
 
+}
+
+
+#' Return a charter vector of the filepath of the script and powerpoint location
+#'
+#' An internal function used in `add_graph_to_pptx` to add the location of the script that
+#' made a chart and the location where the chart is saved.
+#'
+#' @param filename the filename of the powerpoint location
+#'
+#' @return a character
+return_script_and_chart_location <- function(filename) {
+  if (isTRUE(requireNamespace("rstudioapi")) &&
+      isTRUE(rstudioapi::isAvailable())) {
+    script_location <- rstudioapi::getActiveDocumentContext()$path
+  } else {
+    script_location <- ""
+  }
+
+  graph_location <- normalizePath(filename, mustWork = FALSE)
+
+  script_location <- gsub("^.*(?=(Dropbox))", "", script_location, perl = TRUE)
+  graph_location <- gsub("^.*(?=(Dropbox))", "", graph_location, perl = TRUE)
+
+  script_loc_note <- ifelse(script_location == "",
+                            "",
+                            paste0("R script location: ",
+                                   script_location))
+
+  graph_loc_note <- paste0("Powerpoint file location: ",
+                           graph_location)
+
+  final_note <- paste0(script_loc_note, "\n", graph_loc_note)
+
+  return(final_note)
 }
