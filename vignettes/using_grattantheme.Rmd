@@ -159,7 +159,7 @@ plot2 <- ggplot(iris,
                    y = Sepal.Width,
                    colour = Sepal.Length)) +
         geom_point(size = 5) +
-        grattan_y_continuous() +
+        scale_y_continuous_grattan() +
         labs(x = "")
 
 plot_f <- plot2 +

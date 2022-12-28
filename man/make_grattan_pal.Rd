@@ -29,7 +29,7 @@ It returns a function that takes a single value and makes that many colours.
 }
 \examples{
 
-ggplot2::ggplot(mtcars, aes(x = mpg, y = hp, colour = as.character(wt))) +
+ggplot2::ggplot(mtcars, ggplot2::aes(x = mpg, y = hp, colour = as.character(wt))) +
   ggplot2::geom_point() +
   ggplot2::scale_colour_manual(values = make_grattan_pal()(29))
 
