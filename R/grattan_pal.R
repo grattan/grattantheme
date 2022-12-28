@@ -86,7 +86,7 @@ make_grattan_pal_discrete <- function(n) {
 register_palette <- function() {
   palette_option <- options("grattan_palette")
   if (is.null(palette_option$grattan_palette)) {
-    message("No palette option declared, setting it to new")
+    message("No palette option declared for grattantheme, setting it to new")
     options("grattan_palette" = "new")
   }
 }
