@@ -17,6 +17,7 @@ chart_types <- tibble::tribble(
                 "fullslide_43", "active",        25.40,   19.05,    140,     55,         70, "fullslide", "template_43.pptx",
                         "blog", "active",        25.40,   19.05,    155,     62,         85, "fullslide", "template_blog.pptx",
                           "a4", "active",        21.00,   29.70,    114,     66,         62, "fullslide", NA_character_,
+              "fullslide_2022", "active",        11.91,   31.70,    175,     55,         95, "fullslide", "slide_template_2022.pptx",
 
                 "fullslide_44", "deprecated",   25.40,   25.40,    140,     55,         95, "fullslide", NA_character_,
                    "blog_half", "deprecated",   25.4/2,  19.05,    155,     62,         85, "fullslide", "template_blog_half.pptx",
@@ -27,16 +28,16 @@ chart_types <- tibble::tribble(
 blog_border <- 0.15
 
 chart_types <- chart_types %>%
-  mutate(top_border = case_when(class == "normal" ~ 0,
+  dplyr::mutate(top_border = dplyr::case_when(class == "normal" ~ 0,
                                 grepl("blog", type) ~ blog_border,
                                 type == "fullslide_old169" ~ 0.5,
                                 TRUE ~ 0.7),
-         bottom_border = case_when(class == "normal" ~ 0,
+         bottom_border = dplyr::case_when(class == "normal" ~ 0,
                                    grepl("blog", type) ~ 0.05,
                                    type %in% c("fullslide",
                                                "fullslide_44") ~ 0.24,
                                    TRUE ~ 0.05),
-         left_border = case_when(class == "normal" ~ 0,
+         left_border = dplyr::case_when(class == "normal" ~ 0,
                                  type %in% c("fullslide_43",
                                              "fullslide_44") ~ (width - 22.16) / 2,
                                  type == "fullslide" ~ (width - 30) / 2,
@@ -54,7 +55,7 @@ all_chart_types_inc_deprecated <- chart_types$type
 fullslide_chart_types <- chart_types$type[chart_types$class == "fullslide" & chart_types$status == "active"]
 fullslide_chart_types_inc_deprecated <- chart_types$type[chart_types$class == "fullslide"]
 
-use_data(logogrob,
+usethis::use_data(logogrob,
          chart_types,
          chart_types_inc_deprecated,
          all_chart_types,
@@ -65,6 +66,6 @@ use_data(logogrob,
          overwrite = TRUE)
 
 chart_types_ext <- chart_types
-use_data(chart_types_ext,
+usethis::use_data(chart_types_ext,
          internal = FALSE,
          overwrite = TRUE)
