@@ -14,8 +14,8 @@ grattan_palettes <- list(
               grattan_darkblue,
               grattan_lightgrey,
               grattan_darkgrey),
-  `sequential` = c(grattan_orange, grattan_darkred),
-  `diverging` = c(grattan_darkred, grattan_orange, grattan_yellow)
+  `sequential` = c(grattan_darkred, grattan_orange, grattan_yellow),
+  `diverging` = c(grattan_darkred, grattan_orange, grattan_blue)
 )
 
 #' Interpolate a grattan colour palette
@@ -45,7 +45,13 @@ grattan_palettes <- list(
 #'   ggplot2::scale_colour_manual(values = make_grattan_pal()(29))
 #'
 #' @export
-make_grattan_pal <- function(palette = "graph", reverse = FALSE, ...) {
+make_grattan_pal <- function(palette = "sequential",
+                             reverse = FALSE,
+                             ...) {
+
+  assertthat::assert_that(palette %in% c("graph", "sequential", "diverging"),
+                          msg = "Palette isn't one of `graph`, `sequential` or `diverging`")
+
   pal <- grattan_palettes[[palette]]
 
   if (reverse) pal <- rev(pal)
@@ -71,6 +77,8 @@ make_grattan_pal <- function(palette = "graph", reverse = FALSE, ...) {
 #'
 #' @export
 make_grattan_pal_discrete <- function(n) {
+  assertthat::assert_that(n <= 10,
+                          msg = "Chart requires more than 10 colours. Consider a continuous palette or make a palette with more colours own using `make_grattan_pal(palette = 'graph')` e.g. `scale_colour_manual(values = make_grattan_pal(palette = 'graph')(29))")
   pal <- grattan_palettes[["graph"]]
 
   return(pal[1:n])
@@ -86,8 +94,8 @@ make_grattan_pal_discrete <- function(n) {
 register_palette <- function() {
   palette_option <- options("grattan_palette")
   if (is.null(palette_option$grattan_palette)) {
-    message("No palette option declared for grattantheme, setting it to new")
-    options("grattan_palette" = "new")
+    message("No palette option declared for grattantheme, setting it to the latest")
+    options("grattan_palette" = "latest")
   }
 }
 

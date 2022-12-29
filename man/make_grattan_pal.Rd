@@ -4,7 +4,7 @@
 \alias{make_grattan_pal}
 \title{Interpolate a grattan colour palette}
 \usage{
-make_grattan_pal(palette = "graph", reverse = FALSE, ...)
+make_grattan_pal(palette = "sequential", reverse = FALSE, ...)
 }
 \arguments{
 \item{palette}{(character; default = \code{"graph"}) given name of a grattan

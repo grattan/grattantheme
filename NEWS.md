@@ -10,12 +10,14 @@
 * deprecate `create_pptx_shell` and `create_slide_shell` as `officer` now offers functionality to edit notes directly
 * makes the caption a text box and placeholder for easier editing
 * includes the template for the new theme 
-* updates the templates 
+* updates the older templates for better caption management
+* removes the `helvetica` font choice as arial is now the standard font choice
 
 ### Clean up 
 * delete `make_slide` as it was deprecated
 * rename `chart_helper.R` to `chart_helpers.R`
 * delete deprecated chart templates 
+* simplifies `grattan_arrow` test as it was failing
 
 
 # grattantheme 0.11.1

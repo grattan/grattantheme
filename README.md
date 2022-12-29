@@ -68,7 +68,7 @@ The colours that will be used in your plot are:
 
 A range of colours from the style guide (such as `grattan_lightorange`,
 `grattan_darkred`, and so on) are defined for your convenience. Each
-colour has eight tints available, e.g. `grattan_lightorange` has lighter
+colour has eight tints available, e.g. `grattan_lightorange` has lighter
 variants `grattan_lightorange1` through `grattan_lightorange8` (closest
 to white). These can be used to allow highlighting or when filling in
 block colours behind text, such as when designing tables.
