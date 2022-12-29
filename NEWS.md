@@ -1,3 +1,25 @@
+# grattantheme 1.0.0
+### Colours 
+* deprecate `grattan_fill_manual` and `grattan_fill_manual` in favour of a different implementation of `scale_fill_manual` and `scale_colour_manual`
+* set default geoms on load 
+* change colours from being called as data and rather being called as objects
+* creates a base colour and uses `grDevices::colorRampPalette` to make the lighter/darker permutations 
+* deprecates `grattan_pal` in favour of `make_grattan_pal` and `make_grattan_pal_discrete`
+
+### Chart templates 
+* deprecate `create_pptx_shell` and `create_slide_shell` as `officer` now offers functionality to edit notes directly
+* makes the caption a text box and placeholder for easier editing
+* includes the template for the new theme 
+* updates the older templates for better caption management
+* removes the `helvetica` font choice as arial is now the standard font choice
+
+### Clean up 
+* delete `make_slide` as it was deprecated
+* rename `chart_helper.R` to `chart_helpers.R`
+* delete deprecated chart templates 
+* simplifies `grattan_arrow` test as it was failing
+
+
 # grattantheme 0.11.1
 * fix the slide template so slide number stops appearing in the top right hand corner when copying slides across decks
 

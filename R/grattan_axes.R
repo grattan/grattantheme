@@ -67,7 +67,7 @@ NULL
 #' @export
 
 grattan_y_continuous <- function(expand_bottom = 0, expand_top = 0.015, ...) {
-  scale_y_continuous(expand = ggplot2::expansion(mult = c(expand_bottom,
+  ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(expand_bottom,
                                                             expand_top)),
                        ...)
 }
@@ -93,7 +93,7 @@ grattan_x_continuous <- function(expand_left = 0,
                                  expand_right = 0.015,
                                  ...) {
 
-    scale_x_continuous(expand = ggplot2::expansion(mult = c(expand_left,
+    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(expand_left,
                                                             expand_right)),
                        ...)
 

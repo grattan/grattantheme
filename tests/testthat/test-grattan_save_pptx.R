@@ -6,7 +6,8 @@ base_p1 <- mtcars %>%
 
 p1 <-  base_p1 +
   labs(title = "My title",
-       subtitle = "My subtitle")
+       subtitle = "My subtitle",
+       caption = "Notes: notes. Source: source")
 
 p2 <- mtcars %>%
   ggplot(aes(x = mpg, y = wt)) +
@@ -37,7 +38,7 @@ no_slides <- function(filename) {
 }
 
 test_that("create_pptx_shell creates an empty pptx document with the appropriate number of slides", {
-  skip_on_cran()
+  skip("Deprecated")
 
   # Plot argument to create_pptx_shell() must be a list of ggplot2 object(s)
   expect_error(create_pptx_shell(p1,
@@ -62,10 +63,7 @@ test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 
   skip_on_cran()
 
-  create_pptx_shell(list(p1), "temp.pptx", "fullslide_43")
-  on.exit(unlink("temp.pptx"))
-
-  add_graph_to_pptx(list(p1), "temp.pptx", "fullslide_43")
+  add_graph_to_pptx(list(p1), "temp.pptx", "fullslide", num_slides = 1)
   expect_true(is_valid_pptx("temp.pptx"))
 
   x <- officer::read_pptx("temp.pptx")
@@ -73,7 +71,8 @@ test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 
   expect_identical(summ_x$text[1], "My title")
   expect_identical(summ_x$text[2], "My subtitle")
-  expect_identical(summ_x$text[3], "1015202530352345wtmpg")
+  expect_identical(summ_x$text[3], "Notes: notes.\nSource: source")
+  expect_identical(summ_x$text[4], "1015202530352345wtmpg")
 })
 
 test_that("grattan_save_pptx works in various configurations", {
