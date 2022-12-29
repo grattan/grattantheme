@@ -28,6 +28,9 @@
     <loc>/reference/add_graph_to_pptx.html</loc>
   </url>
   <url>
+    <loc>/reference/all_geoms.html</loc>
+  </url>
+  <url>
     <loc>/reference/chart_types_ext.html</loc>
   </url>
   <url>
@@ -44,6 +47,15 @@
   </url>
   <url>
     <loc>/reference/create_slide_shell.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dot-prep_aes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dot-set_geom_aesthetics.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dot-set_grattan_aesthetics.html</loc>
   </url>
   <url>
     <loc>/reference/export_latex_code.html</loc>
@@ -172,9 +184,6 @@
     <loc>/reference/grattan_darkorange8.html</loc>
   </url>
   <url>
-    <loc>/reference/grattan_darkorange_f.html</loc>
-  </url>
-  <url>
     <loc>/reference/grattan_darkred.html</loc>
   </url>
   <url>
@@ -200,9 +209,6 @@
   </url>
   <url>
     <loc>/reference/grattan_darkred8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred_f.html</loc>
   </url>
   <url>
     <loc>/reference/grattan_darkyellow.html</loc>
@@ -340,9 +346,6 @@
     <loc>/reference/grattan_lightorange8.html</loc>
   </url>
   <url>
-    <loc>/reference/grattan_lightorange_f.html</loc>
-  </url>
-  <url>
     <loc>/reference/grattan_lightred.html</loc>
   </url>
   <url>
@@ -397,9 +400,6 @@
     <loc>/reference/grattan_lightyellow8.html</loc>
   </url>
   <url>
-    <loc>/reference/grattan_lightyellow_f.html</loc>
-  </url>
-  <url>
     <loc>/reference/grattan_orange.html</loc>
   </url>
   <url>
@@ -430,13 +430,13 @@
     <loc>/reference/grattan_orange_alpha.html</loc>
   </url>
   <url>
-    <loc>/reference/grattan_orange_f.html</loc>
-  </url>
-  <url>
     <loc>/reference/grattan_pal.html</loc>
   </url>
   <url>
     <loc>/reference/grattan_palette_set.html</loc>
+  </url>
+  <url>
+    <loc>/reference/grattan_palettes.html</loc>
   </url>
   <url>
     <loc>/reference/grattan_point_filled.html</loc>
@@ -467,9 +467,6 @@
   </url>
   <url>
     <loc>/reference/grattan_red8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red_f.html</loc>
   </url>
   <url>
     <loc>/reference/grattan_save.html</loc>
@@ -508,25 +505,43 @@
     <loc>/reference/grattan_yellow8.html</loc>
   </url>
   <url>
-    <loc>/reference/grattan_yellow_f.html</loc>
-  </url>
-  <url>
     <loc>/reference/gridextra_fullslide.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/make_slide.html</loc>
+    <loc>/reference/make_grattan_pal.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_grattan_pal_discrete.html</loc>
   </url>
   <url>
     <loc>/reference/pandoc_test.html</loc>
   </url>
   <url>
+    <loc>/reference/plot_opts_grattan.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_opts_vanilla.html</loc>
+  </url>
+  <url>
+    <loc>/reference/register_palette.html</loc>
+  </url>
+  <url>
     <loc>/reference/replace_labs.html</loc>
   </url>
   <url>
+    <loc>/reference/return_script_and_chart_location.html</loc>
+  </url>
+  <url>
     <loc>/reference/save_chartdata.html</loc>
+  </url>
+  <url>
+    <loc>/reference/scale_colour_grattan.html</loc>
+  </url>
+  <url>
+    <loc>/reference/set_aesthetics.html</loc>
   </url>
   <url>
     <loc>/reference/stitch_pdfs.html</loc>
