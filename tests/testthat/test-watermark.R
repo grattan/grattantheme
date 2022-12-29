@@ -12,6 +12,6 @@ test_that("watermark adds watermark", {
 
   expect_is(pw, "gg")
 
-  vdiffr::expect_doppelganger("plot with watermark", pw, path = "vdiffr-tests")
+  vdiffr::expect_doppelganger("plot with watermark", pw)
 
 })
