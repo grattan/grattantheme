@@ -11,6 +11,7 @@ p <- base_plot + theme_grattan()
 test_that("grattan colour functions work as expected", {
 
   expect_length(make_grattan_pal()(6), 6)
+  expect_length(make_grattan_pal(reverse = TRUE)(6), 6)
   expect_length(make_grattan_pal(palette = "graph")(6), 6)
   expect_length(make_grattan_pal(palette = "diverging")(6), 6)
 
