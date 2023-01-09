@@ -1,3 +1,6 @@
+# grattantheme 1.0.1
+* update `grattan_orange` to the new colour 
+
 # grattantheme 1.0.0
 ### Colours 
 * deprecate `grattan_fill_manual` and `grattan_fill_manual` in favour of a different implementation of `scale_fill_manual` and `scale_colour_manual`
