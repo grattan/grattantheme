@@ -15,7 +15,7 @@ Imports:
     clipr,
     cowsay, 
     dplyr, 
-    gdtools (== 0.2.3),
+    gdtools,
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.3.0),
     glue,
