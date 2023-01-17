@@ -1,7 +1,7 @@
 # Define grattan colours =======================================================
 base_yellow <<- dplyr::if_else(options("grattan_palette") == "old", "#FFE07F", "#3E0E39")
 base_darkyellow <- dplyr::if_else(options("grattan_palette") == "old", "#FFC35A", "#F5B50C")
-base_orange <- "#F68B33" #unchanged
+base_orange <-  dplyr::if_else(options("grattan_palette") == "old", "#F68B33", "#EF7900")
 base_darkorange <- "#D4582A" #unchanged
 base_red <- dplyr::if_else(options("grattan_palette") == "old", "#A02226", "#A1253E")
 base_darkred <- dplyr::if_else(options("grattan_palette") == "old", "#621214", "#611633")

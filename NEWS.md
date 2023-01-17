@@ -1,3 +1,7 @@
+# grattantheme 1.0.2
+* update `grattan_orange` to the new colour again??
+* clean readme 
+
 # grattantheme 1.0.1
 * update `grattan_orange` to the new colour 
 
