@@ -1,3 +1,6 @@
+# grattantheme 1.0.3
+* correct the order of the colours
+
 # grattantheme 1.0.2
 * update `grattan_orange` to the new colour again??
 * clean readme 
