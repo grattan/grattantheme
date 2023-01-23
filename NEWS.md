@@ -1,3 +1,6 @@
+# grattantheme 1.0.4
+* update the read me
+
 # grattantheme 1.0.3
 * correct the order of the colours
 
