@@ -21,10 +21,10 @@ test_that("grattan colour functions work as expected", {
   expect_error(make_grattan_pal_discrete(11))
 
   expect_equal(make_grattan_pal_discrete(n = 5),
-               c(grattan_orange,
-                 grattan_lightred,
-                 grattan_darkyellow,
+               c(grattan_yellow,
+                 grattan_orange,
                  grattan_darkorange,
+                 grattan_red,
                  grattan_darkred
                 ))
 
@@ -41,7 +41,7 @@ test_that("grattan colour functions work as expected", {
 
   plot_w_col_built <- ggplot_build(plot_w_col)
 
-  expect_equal(plot_w_col_built$data[[2]]$colour[1], "#A1253E")
+  expect_equal(plot_w_col_built$data[[2]]$colour[1], "#EF7900")
 
   expect_equal(length(unique(plot_w_col_built$data[[2]]$colour)), 3)
 
