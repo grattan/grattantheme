@@ -24,7 +24,8 @@ grattan_palettes <- list(
 #' This is a list of grattan colours combined into palettes. The palettes are used
 #' for different plots and maps.
 #' @export
-palette_order <- if(options("grattan_palette") == "old") {
+palette_order <- list(
+  `old` =
                                 c(
                                   grattan_lightyellow,
                                   grattan_yellow,
@@ -36,7 +37,8 @@ palette_order <- if(options("grattan_palette") == "old") {
                                   grattan_darkblue,
                                   grattan_lightgrey,
                                   grattan_darkgrey
-                                )} else {
+                                ),
+  `new` =
                                 c(
                                   grattan_yellow,
                                   grattan_orange,
@@ -48,7 +50,7 @@ palette_order <- if(options("grattan_palette") == "old") {
                                   grattan_darkblue,
                                   grattan_lightgrey,
                                   grattan_darkgrey
-                                )}
+                                ))
 
 
 
@@ -115,7 +117,11 @@ make_grattan_pal_discrete <- function(n) {
                           msg = "Chart requires more than 10 colours. Consider a continuous palette or make a palette with more colours own using `make_grattan_pal(palette = 'graph')` e.g. `scale_colour_manual(values = make_grattan_pal(palette = 'graph')(29))")
   pal <- grattan_palettes[["graph"]][1:n]
 
-  ordered_pal <- palette_order[palette_order %in% pal]
+  order_name <- dplyr::if_else(options("grattan_palette") == "old", "old", "new")
+
+  order <- palette_order[[order_name]]
+
+  ordered_pal <- order[order %in% pal]
 
   return(ordered_pal)
 }

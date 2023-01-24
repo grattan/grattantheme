@@ -5,7 +5,7 @@
 \alias{palette_order}
 \title{Set the palette order as needed in the}
 \format{
-An object of class \code{character} of length 10.
+An object of class \code{list} of length 2.
 }
 \usage{
 palette_order
