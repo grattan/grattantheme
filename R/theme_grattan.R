@@ -107,7 +107,7 @@
 #' @export
 
 theme_grattan <- function(base_size = 18,
-                          base_family = "sans",
+                          base_family = NULL,
                           chart_type = "normal",
                           flipped = FALSE,
                           background = "white",
