@@ -1,5 +1,5 @@
 # grattantheme 1.1.0
-* add `paulify_classifications` to grattantheme
+* add `paulify_classifications` to `grattantheme`
 
 # grattantheme 1.0.4
 * update the read me
