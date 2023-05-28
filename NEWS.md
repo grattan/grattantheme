@@ -1,3 +1,8 @@
+# grattantheme 1.2.0
+* fix the spacing in the new slide template 
+* create new template with a narrower chart area to align more with reports 
+
+
 # grattantheme 1.1.0
 * add `paulify_classifications` to `grattantheme`
 
