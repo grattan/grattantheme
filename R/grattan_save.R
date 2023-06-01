@@ -63,6 +63,7 @@
 #' @param dpi Plot resolution. Default is "retina".
 #' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
 #' won't be performed. This is useful if using ggtext syntax within titles.
+#' @param subdirectory Logical. TRUE by default. If FALSE will not create a separate subdirectory for each chart.
 #' @param ... arguments passed to `ggsave()`. For example, use
 #' `device = cairo_pdf` to use the Cairo PDF rendering engine.
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
@@ -142,6 +143,7 @@ grattan_save <- function(filename,
                          latex = FALSE,
                          dpi = "retina",
                          ignore_long_title = FALSE,
+                         subdirectory = NULL,
                          ...) {
 
   # param checks
@@ -171,6 +173,11 @@ grattan_save <- function(filename,
 
   # create subdirectory
   dir <- tools::file_path_sans_ext(filename)
+
+  if (isFALSE(subdirectory)) {
+    dir <- dirname(dir)
+  }
+
   filetype <- tools::file_ext(filename)
   file_name <- tools::file_path_sans_ext(basename(filename))
 
