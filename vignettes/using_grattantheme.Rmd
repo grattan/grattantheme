@@ -121,51 +121,37 @@ We can call single colours:
 
 ```{r}
 plot + 
-  geom_hline(yintercept = 3, colour = grattan_lightorange) +
+  geom_hline(yintercept = 3, colour = grattan_orange) +
   geom_vline(xintercept = 6, colour = grattan_darkorange) +
   theme_grattan() +
   grattan_y_continuous()
 ```
 
 
-We can also use the `grattan_fill_manual()` or `grattan_colour_manual()` functions to change the colours of our fill or colour _aesthetics_. These can be used for discrete/catagorical data (the default) or continuous data. 
+We can also use the `scale_fill_grattan()` or `scale_colour_grattan()` functions to change the colours of our fill or colour _aesthetics_. These can be used for discrete/catagorical data (the default) or continuous data. 
 
 ### Discrete colours
-In our example, we have five different trees each represented by a colour, so we set the number of colours to five: `grattan_fill_manual(n = 5)`:
+In our example, we have three different flowers each represented by a colour. So we need to set `discrete = TRUE`
 
 ```{r}
 plot + 
   theme_grattan() +
   grattan_y_continuous() +
-  grattan_colour_manual(3)
+  scale_colour_grattan(discrete = TRUE)
 
 ```
 
-We can reverse the order of the fill colours using the `reverse` argument:
+Note that if you need more than 10 colours your chart will not render some of the data. You can set a manual theme using `make_grattan_pal`
 
 ```{r}
-plot + 
-  theme_grattan() +
-  grattan_y_continuous() +
-  grattan_colour_manual(3, reverse = TRUE)
-
+ggplot(mtcars, aes(x = mpg, y = hp, colour = as.character(wt))) +
+  geom_point() +
+  scale_colour_manual(values = make_grattan_pal()(29))
 ```
-
-Note that if you do not specify _enough_ colours, will receive an error:
-
-```{r, eval = TRUE, error= TRUE, fig.show='hide'}
-plot + 
-  theme_grattan() +
-  grattan_y_continuous() + 
-  grattan_colour_manual(2)
-```
-
-You won't receive an error if you specify _too many_ colours. `ggplot` will choose the first `n` colours it needs and ignore the rest.
-
 
 ### Continuous colours
 
-`grattan_(colour|fill)_manual` includes an option for continuous colours: `discrete = FALSE`. 
+`scale_(colour|fill)_grattan` includes an option for continuous colours: `discrete = FALSE`. 
 
 ```{r}
 plot2 <- ggplot(iris,
@@ -173,50 +159,15 @@ plot2 <- ggplot(iris,
                    y = Sepal.Width,
                    colour = Sepal.Length)) +
         geom_point(size = 5) +
-        grattan_y_continuous() +
+        scale_y_continuous_grattan() +
         labs(x = "")
 
-plot2 +
+plot_f <- plot2 +
   theme_grattan() +
-  grattan_colour_manual(discrete = FALSE)
+  scale_colour_grattan(discrete = FALSE)
+
+plot_f
 ```
-
-
-We can change the set of colours the continuous palette is generated from using the `palette` argument:
-
-```{r, fig.height=10, fig.width=10}
-p_full <- plot2 +
-  theme_grattan() +
-  grattan_colour_manual(discrete = FALSE, palette = "full")
-
-
-p_full_f <- plot2 +
-  theme_grattan() +
-  grattan_colour_manual(discrete = FALSE, palette = "full_f")
-
-p_dark <- plot2 +
-  theme_grattan() +
-  grattan_colour_manual(discrete = FALSE, palette = "dark")
-
-
-p_light <- plot2 +
-  theme_grattan() +
-  grattan_colour_manual(discrete = FALSE, palette = "light")
-
-p_diverging <- plot2 +
-  theme_grattan() +
-  grattan_colour_manual(discrete = FALSE, palette = "diverging")
-
-p_grey <- plot2 +
-  theme_grattan() +
-  grattan_colour_manual(discrete = FALSE, palette = "grey")
-
-
-gridExtra::grid.arrange(p_full, p_full_f, 
-                        p_dark, p_light, 
-                        p_diverging, p_grey)
-```
-
 
 ## Saving plots with `grattan_save`
 
@@ -241,7 +192,7 @@ Now we can save our Grattan-formatted graph as a normally-formatted report chart
 
 ```{r}
 # Create and store the plot:
-plot_final <- p_full_f +
+plot_final <- plot_f +
               labs(title = "Iris plants are rad!",
                  subtitle = "Width of sepal",
                  x = "Length of sepal", 

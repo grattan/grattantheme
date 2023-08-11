@@ -64,7 +64,7 @@ library(grattantheme)
 
 make_col_tibble <- function(n) {
   
-  tibble(col = grattan_pal(n),
+  tibble(col = make_grattan_pal_discrete(n),
          order = c(1:n),
          n = n)
   
@@ -81,7 +81,7 @@ col_plot <- grattan_colours %>%
   ggplot(aes(x = reorder(n_desc, -n), 
              y = order, 
              fill = col)) +
-  geom_tile(col = "white", size = 1) +
+  geom_tile(col = "white", linewidth = 1) +
   scale_fill_manual(values = levels(grattan_colours$col)) +
   coord_flip(expand = FALSE, ylim = c(0, 13)) +
   theme_grattan() +
@@ -97,12 +97,6 @@ col_plot
 ```
 
 A range of colours from the style guide (such as `grattan_lightorange`, `grattan_darkred`, and so on) are defined for your convenience. Each colour has eight tints available, e.g. `grattan_lightorange` has lighter variants `grattan_lightorange1` through `grattan_lightorange8` (closest to white). These can be used to allow highlighting or when filling in block colours behind text, such as when designing tables.
-
-The full set of colour options are:
-
-```{r, echo=FALSE}
-knitr::include_graphics("man/figures/grattan-pal.png")
-```
 
 
 ## Save your nice looking charts

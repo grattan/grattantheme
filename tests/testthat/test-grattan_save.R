@@ -4,7 +4,7 @@ library(openxlsx)
 test_plot <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
   geom_point() +
   theme_grattan() +
-  grattan_colour_manual(n = 3) +
+  scale_colour_grattan(discrete = TRUE) +
   grattan_y_continuous(limits = c(0, 40)) +
   labs(x = "Weight",
        title = "Smaller cars get better mileage",
@@ -14,13 +14,13 @@ test_plot <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 test_plot_nolabs <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
   geom_point() +
   theme_grattan() +
-  grattan_colour_manual(n = 3) +
+  scale_colour_grattan(discrete = TRUE) +
   grattan_y_continuous(limits = c(0, 40))
 
 test_plot_longlabs <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
   geom_point() +
   theme_grattan() +
-  grattan_colour_manual(n = 3) +
+  scale_colour_grattan(discrete = TRUE) +
   grattan_y_continuous(limits = c(0, 40)) +
   labs(x = "Weight",
        title = "Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage Smaller cars get better mileage",
@@ -124,7 +124,6 @@ test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_blog_half.png"))
   expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
 
-
   unlink("../figs/grattan_save", recursive = TRUE)
   unlink("../testthat/Rplots.pdf")
 })
@@ -199,12 +198,6 @@ test_that("grattan_save() height behaviour works as expected with fullslide char
   unlink("manual_height", recursive = TRUE)
 
 })
-
-
-
-
-
-
 
 test_that("grattan_save() sends the right messages",{
   expect_error(

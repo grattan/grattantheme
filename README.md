@@ -73,10 +73,6 @@ variants `grattan_lightorange1` through `grattan_lightorange8` (closest
 to white). These can be used to allow highlighting or when filling in
 block colours behind text, such as when designing tables.
 
-The full set of colour options are:
-
-<img src="man/figures/grattan-pal.png" width="75%" />
-
 ## Save your nice looking charts
 
 Use `grattan_save()` to save your ggplot2 charts (eg. as `.png` or

@@ -14,14 +14,14 @@ theme_grattan_base <- function(base_size = 18,
     theme(
       line = element_line(
         colour = grattantheme::grattan_gridlinegrey,
-        size = base_line_size,
+        linewidth = base_line_size,
         linetype = 1,
         lineend = "butt"
       ),
       rect = element_rect(
         fill = background,
         colour = grattantheme::grattan_gridlinegrey,
-        size = base_rect_size,
+        linewidth = base_rect_size,
         linetype = 0
       ),
       text = element_text(
@@ -37,7 +37,7 @@ theme_grattan_base <- function(base_size = 18,
         size = base_size
       ),
       axis.line = element_line(
-        size = points_to_mm(1),
+        linewidth = points_to_mm(1),
         colour = "black"
       ),
       axis.line.x = NULL,
@@ -104,7 +104,7 @@ theme_grattan_base <- function(base_size = 18,
       panel.background = element_rect(colour = NA),
       panel.border = element_blank(),
       panel.grid = element_line(colour = grattantheme::grattan_gridlinegrey,
-                                size = points_to_mm(0.5)),
+                                linewidth = points_to_mm(0.5)),
       panel.grid.minor = element_blank(),
       panel.spacing = unit(1,
                            "lines"),
@@ -171,7 +171,7 @@ theme_grattan_base <- function(base_size = 18,
     ret <- ret %+replace%
       theme(panel.border = element_rect(
         linetype = 1,
-        size = points_to_mm(2),
+        linewidth = points_to_mm(2),
         colour = "black",
         fill = NA
       ))

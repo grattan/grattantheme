@@ -1,3 +1,158 @@
+#' Predefined grattan colours combined into palettes
+#'
+#' This is a list of grattan colours combined into palettes. The palettes are used
+#' for different plots and maps.
+#' @export
+grattan_palettes <- list(
+  `graph` = c(grattan_orange,
+              grattan_red,
+              grattan_yellow,
+              grattan_darkorange,
+              grattan_darkred,
+              grattan_lightyellow,
+              grattan_blue,
+              grattan_darkblue,
+              grattan_lightgrey,
+              grattan_darkgrey),
+  `sequential` = c(grattan_darkred, grattan_orange, grattan_yellow),
+  `diverging` = c(grattan_darkred, grattan_orange, grattan_blue)
+)
+
+
+#' Set the palette order as needed in the
+#'
+#' This is a list of grattan colours combined into palettes. The palettes are used
+#' for different plots and maps.
+#' @export
+palette_order <- list(
+  `old` =
+                                c(
+                                  grattan_lightyellow,
+                                  grattan_yellow,
+                                  grattan_orange,
+                                  grattan_darkorange,
+                                  grattan_red,
+                                  grattan_darkred,
+                                  grattan_blue,
+                                  grattan_darkblue,
+                                  grattan_lightgrey,
+                                  grattan_darkgrey
+                                ),
+  `new` =
+                                c(
+                                  grattan_yellow,
+                                  grattan_orange,
+                                  grattan_darkorange,
+                                  grattan_red,
+                                  grattan_darkred,
+                                  grattan_lightyellow,
+                                  grattan_blue,
+                                  grattan_darkblue,
+                                  grattan_lightgrey,
+                                  grattan_darkgrey
+                                ))
+
+
+
+#' Interpolate a grattan colour palette
+#'
+#' This function takes a grattan colour palette and generates more colours from it,
+#' so that there are enough to make your chart.
+#'
+#' The interpolation method is set to "spline" (the default is "linear") in an
+#' attempt to reduce the number of vomit colours that get produced when
+#' generating many colours.
+#'
+#' It returns a function that takes a single value and makes that many colours.
+#'
+#' @param palette (character; default = \code{"graph"}) given name of a grattan
+#'   palette: \code{\link{grattan_palettes}}
+#' @param reverse (boolean; default = \code{FALSE}) indicating if palette should
+#'   be reverse
+#' @param ... Additional arguments to pass to \code{colorRampPalette} see
+#'   details here \code{\link[grDevices]{colorRamp}}
+#'
+#' @seealso \code{\link{grattan_palettes}}
+#'
+#' @examples
+#'
+#' ggplot2::ggplot(mtcars, ggplot2::aes(x = mpg, y = hp, colour = as.character(wt))) +
+#'   ggplot2::geom_point() +
+#'   ggplot2::scale_colour_manual(values = make_grattan_pal()(29))
+#'
+#' @export
+make_grattan_pal <- function(palette = "sequential",
+                             reverse = FALSE,
+                             ...) {
+
+  assertthat::assert_that(palette %in% c("graph", "sequential", "diverging"),
+                          msg = "Palette isn't one of `graph`, `sequential` or `diverging`")
+
+  pal <- grattan_palettes[[palette]]
+
+  if (reverse) pal <- rev(pal)
+
+  grDevices::colorRampPalette(
+    pal,
+    ...,
+    interpolate = "spline"
+  )
+}
+
+#' Create a grattan colour palette
+#'
+#' This function takes a the grattan graph colour palette and returns a vector of colours equal to n.
+#' It is used in \code{\link{scale_colour_grattan}} and \code{\link{scale_fill_grattan}} to make the discrete
+#' colour scale as the order of colours is specific in the grattan branding guides and so using an interpolated scale
+#' does not work.
+#'
+#'
+#' @param n how many colours to return
+#'
+#' @seealso \code{\link{grattan_palettes}}
+#'
+#' @export
+make_grattan_pal_discrete <- function(n) {
+  assertthat::assert_that(n <= 10,
+                          msg = "Chart requires more than 10 colours. Consider a continuous palette or make a palette with more colours own using `make_grattan_pal(palette = 'graph')` e.g. `scale_colour_manual(values = make_grattan_pal(palette = 'graph')(29))")
+  pal <- grattan_palettes[["graph"]][1:n]
+
+  order_name <- dplyr::if_else(options("grattan_palette") == "old", "old", "new")
+
+  order <- palette_order[[order_name]]
+
+  ordered_pal <- order[order %in% pal]
+
+  return(ordered_pal)
+}
+
+#' Register the option for which palette to use.
+#'
+#' Grattan now has an old palette and a new palette. Depending which is needed users can
+#' set options("grattan_palette" = "old") to have the colours map to the old colours. Otherwise the colours
+#' default to the new colours.
+#'
+#' @export
+register_palette <- function() {
+  palette_option <- options("grattan_palette")
+  if (is.null(palette_option$grattan_palette)) {
+    message("No palette option declared for grattantheme, setting it to the latest")
+    options("grattan_palette" = "latest")
+  }
+}
+
+### Deprecated ####
+# Generates a full palette
+# deprecated in version 1.0.0
+grattan_palette <- function(palette = "full", reverse = FALSE, ...) {
+
+  pal <- grattantheme::grattan_palette_set[[palette]]
+
+  if (reverse) pal <- rev(pal)
+
+  grDevices::colorRampPalette(pal, ...)
+}
+
 #' Create a Grattan-appropriate palette for your chart.
 #'
 #' @param n Numeric. The number of levels in your colour scale. Minimum value is
@@ -38,9 +193,13 @@
 #'
 #' @export
 
-grattan_pal <- function(n = 0, reverse = FALSE,
+grattan_pal <- function(n = 0,
+                        reverse = FALSE,
                         faded_level = 0,
                         faded = FALSE) {
+
+  lifecycle::deprecate_warn(when = "1.0.0", what = "grattan_pal()",
+                            details = "Please use `make_grattan_pal` or `make_grattan_pal_discrete` instead.")
 
   if (isTRUE(faded) & faded_level == 0) {
     faded_level <- 4
@@ -75,79 +234,81 @@ get_palette <- function(n, f) {
     palette <- "orange"
   } else if (n == "2a") {
     palette <- c("orange",
-                 "darkorange")
+                         "darkorange")
   } else if (n == 2) {
     palette <- c("orange",
-                 "red")
+                         "red")
   } else if (n == 3) {
     palette <- c("yellow",
-                 "orange",
-                 "red")
+                         "orange",
+                         "red")
   } else if (n == 4) {
     palette <- c("yellow",
-                 "orange",
-                 "darkorange",
-                 "red")
+                         "orange",
+                         "darkorange",
+                         "red")
   } else if (n == 5) {
     palette <- c("yellow",
-                 "orange",
-                 "darkorange",
-                 "red",
-                 "darkred")
+                         "orange",
+                         "darkorange",
+                         "red",
+                         "darkred")
   } else if (n == 6) {
     palette <- c("lightyellow",
-                 "yellow",
-                 "orange",
-                 "darkorange",
-                 "red",
-                 "darkred")
+                              "yellow",
+                              "orange",
+                              "darkorange",
+                              "red",
+                              "darkred")
   } else if (n == 7) {
     palette <- c("lightyellow",
-                 "yellow",
-                 "lightorange",
-                 "darkorange",
-                 "red",
-                 "darkred",
-                 "blue")
+                              "yellow",
+                              "lightorange",
+                              "darkorange",
+                              "red",
+                              "darkred",
+                              "blue")
   } else if (n == 8) {
     palette <- c("lightyellow",
-                 "yellow",
-                 "lightorange",
-                 "darkorange",
-                 "red",
-                 "darkred",
-                 "blue",
-                 "darkblue")
+                              "yellow",
+                              "lightorange",
+                              "darkorange",
+                              "red",
+                              "darkred",
+                              "blue",
+                              "darkblue")
   } else if (n == 9) {
     palette <- c("lightyellow",
-                 "yellow",
-                 "lightorange",
-                 "darkorange",
-                 "red",
-                 "darkred",
-                 "blue",
-                 "darkblue",
-                 "lightgrey")
+                              "yellow",
+                              "lightorange",
+                              "darkorange",
+                              "red",
+                              "darkred",
+                              "blue",
+                              "darkblue",
+                              "lightgrey")
   } else if (n == 10) {
     palette <- c("lightyellow",
-                 "yellow",
-                 "lightorange",
-                 "darkorange",
-                 "red",
-                 "darkred",
-                 "blue",
-                 "darkblue",
-                 "lightgrey",
-                 "darkgrey")
+                              "yellow",
+                              "lightorange",
+                              "darkorange",
+                              "red",
+                              "darkred",
+                              "blue",
+                              "darkblue",
+                              "lightgrey",
+                              "darkgrey")
   }
 
   if (f == 0) f <- ""
 
   palette <- purrr::map_chr(
-      paste0("grattan_", palette, f),
-      get
-    )
+    paste0("grattan_", palette, f),
+    get
+  )
 
   return(palette)
 
 }
+
+

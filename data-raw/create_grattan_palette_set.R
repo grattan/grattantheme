@@ -1,7 +1,12 @@
 # Create Grattan palette sets
 
 # Assume more/higher is better; and better is yellow (can be reversed with reverse = TRUE)
-
+#' The grattan colours
+#'
+#' These colours are used in \code{grattan_plot} and form the basis for our
+#' palettes.
+#'
+#' @export
 grattan_palette_set <- list(
   `full`  = c(grattan_red,
               grattan_darkorange,

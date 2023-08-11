@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 0.12.0
+Version: 1.1.0
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au",
                 role = c("aut")),
@@ -12,31 +12,33 @@ Description: Enables the user to create ggplot2 charts that conform
 License: MIT + file LICENSE
 Depends: R (>= 3.5.0)
 Imports:
+    clipr,
+    cowsay, 
+    dplyr, 
+    gdtools,
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.3.0),
     glue,
-    purrr (>= 0.3.0),
-    knitr (>= 1.22),
-    rmarkdown (>= 1.12),
     gridExtra,
-    patchwork (>= 1.0.0),
-    openxlsx (>= 4.1.0.1),
-    stringr,
-    rstudioapi,
-    officer,
-    dplyr,
-    rvg,
-    clipr,
-    utils,
-    gdtools,
+    grDevices, 
     fs, 
-    magrittr, 
-    rlang
+    knitr (>= 1.22), 
+    lifecycle,
+    rmarkdown (>= 1.12),
+    patchwork (>= 1.0.0),
+    praise,
+    purrr (>= 0.3.0),
+    officer,
+    openxlsx (>= 4.1.0.1),
+    rstudioapi,
+    rvg,
+    stringr,
+    utils,
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.1
-Suggests:
+Suggests: 
     assertthat,
     testthat (>= 2.1.0),
     covr,

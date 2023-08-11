@@ -5,14 +5,16 @@
 \title{Take a pre-existing PPTX document with n slides and a list of n ggplot2
 objects; add one object to each slide using officer}
 \usage{
-add_graph_to_pptx(p, filename, type)
+add_graph_to_pptx(p, filename, type, num_slides)
 }
 \arguments{
-\item{p}{list of plot(s)}
+\item{p}{a ggplot}
 
 \item{filename}{filename incl. path to an existing PPTX file}
 
 \item{type}{a grattantheme chart type with a PPTX template}
+
+\item{num_slides}{number of slides to make}
 }
 \description{
 Take a pre-existing PPTX document with n slides and a list of n ggplot2
