@@ -7,7 +7,9 @@
     )
     wanted_animals <-
       names(cowsay::animals)[!names(cowsay::animals) %in% unwanted_animals]
-    cowsay::say(praise::praise(), sample(wanted_animals, 1))
+    withr::with_preserve_seed({
+      cowsay::say(praise::praise(), sample(wanted_animals, 1))
+    })
   }
   register_palette()
   set_aesthetics("grattan")
