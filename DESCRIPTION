@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 1.0.0
+Version: 1.2.0
 Authors@R: c(
     person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
                 role = c("aut")),
@@ -15,6 +15,7 @@ Imports:
     clipr,
     cowsay, 
     dplyr, 
+    gdtools,
     ggrepel (>= 0.8.0),
     ggplot2 (>= 3.3.0),
     glue,

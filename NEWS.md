@@ -1,3 +1,24 @@
+# grattantheme 1.2.0
+* fix the spacing in the new slide template 
+* create new template with a narrower chart area to align more with reports 
+
+
+# grattantheme 1.1.0
+* add `paulify_classifications` to `grattantheme`
+
+# grattantheme 1.0.4
+* update the read me
+
+# grattantheme 1.0.3
+* correct the order of the colours
+
+# grattantheme 1.0.2
+* update `grattan_orange` to the new colour again??
+* clean readme 
+
+# grattantheme 1.0.1
+* update `grattan_orange` to the new colour 
+
 # grattantheme 1.0.0
 ### Colours 
 * deprecate `grattan_fill_manual` and `grattan_fill_manual` in favour of a different implementation of `scale_fill_manual` and `scale_colour_manual`

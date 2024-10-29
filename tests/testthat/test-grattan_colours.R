@@ -21,10 +21,10 @@ test_that("grattan colour functions work as expected", {
   expect_error(make_grattan_pal_discrete(11))
 
   expect_equal(make_grattan_pal_discrete(n = 5),
-               c(grattan_orange,
-                 grattan_lightred,
-                 grattan_darkyellow,
+               c(grattan_yellow,
+                 grattan_orange,
                  grattan_darkorange,
+                 grattan_red,
                  grattan_darkred
                 ))
 
@@ -41,7 +41,7 @@ test_that("grattan colour functions work as expected", {
 
   plot_w_col_built <- ggplot_build(plot_w_col)
 
-  expect_equal(plot_w_col_built$data[[2]]$colour[1], "#A1253E")
+  expect_equal(plot_w_col_built$data[[2]]$colour[1], "#EF7900")
 
   expect_equal(length(unique(plot_w_col_built$data[[2]]$colour)), 3)
 
@@ -62,7 +62,7 @@ test_that("grattan continuous palette functions work as expected (colour)", {
 
   expect_equal(length(unique(plot_cont_built$data[[1]]$colour)), 22)
 
-  expect_equal(plot_cont_built$data[[1]]$colour[1], "#B04E37")
+  expect_equal(plot_cont_built$data[[1]]$colour[1], "#AB4316")
 
   vdiffr::expect_doppelganger("plot with continuous palette",
                               plot_cont)
@@ -84,7 +84,7 @@ test_that("grattan continuous palette functions work as expected (fill)", {
 
   expect_equal(length(unique(plot_fill_built$data[[1]]$fill)), 35)
 
-  expect_equal(plot_fill_built$data[[1]]$fill[35], "#A34437")
+  expect_equal(plot_fill_built$data[[1]]$fill[35], "#9F3A1B")
 
   vdiffr::expect_doppelganger("plot with fill palette",
                               plot_fill)

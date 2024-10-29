@@ -127,7 +127,7 @@ add_graph_to_pptx <- function(p,
     labs_to_wrap = "caption"
   )
 
-  master <- dplyr::if_else(type == "fullslide", "Charts for overheads", "Office Theme")
+  master <- dplyr::if_else(type == "fullslide_old", "Charts for overheads", "Office Theme")
   x <- officer::read_pptx(template_filename)
 
   for (slide in seq_len(num_slides)) {

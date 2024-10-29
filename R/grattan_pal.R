@@ -18,6 +18,42 @@ grattan_palettes <- list(
   `diverging` = c(grattan_darkred, grattan_orange, grattan_blue)
 )
 
+
+#' Set the palette order as needed in the
+#'
+#' This is a list of grattan colours combined into palettes. The palettes are used
+#' for different plots and maps.
+#' @export
+palette_order <- list(
+  `old` =
+                                c(
+                                  grattan_lightyellow,
+                                  grattan_yellow,
+                                  grattan_orange,
+                                  grattan_darkorange,
+                                  grattan_red,
+                                  grattan_darkred,
+                                  grattan_blue,
+                                  grattan_darkblue,
+                                  grattan_lightgrey,
+                                  grattan_darkgrey
+                                ),
+  `new` =
+                                c(
+                                  grattan_yellow,
+                                  grattan_orange,
+                                  grattan_darkorange,
+                                  grattan_red,
+                                  grattan_darkred,
+                                  grattan_lightyellow,
+                                  grattan_blue,
+                                  grattan_darkblue,
+                                  grattan_lightgrey,
+                                  grattan_darkgrey
+                                ))
+
+
+
 #' Interpolate a grattan colour palette
 #'
 #' This function takes a grattan colour palette and generates more colours from it,
@@ -79,9 +115,15 @@ make_grattan_pal <- function(palette = "sequential",
 make_grattan_pal_discrete <- function(n) {
   assertthat::assert_that(n <= 10,
                           msg = "Chart requires more than 10 colours. Consider a continuous palette or make a palette with more colours own using `make_grattan_pal(palette = 'graph')` e.g. `scale_colour_manual(values = make_grattan_pal(palette = 'graph')(29))")
-  pal <- grattan_palettes[["graph"]]
+  pal <- grattan_palettes[["graph"]][1:n]
 
-  return(pal[1:n])
+  order_name <- dplyr::if_else(options("grattan_palette") == "old", "old", "new")
+
+  order <- palette_order[[order_name]]
+
+  ordered_pal <- order[order %in% pal]
+
+  return(ordered_pal)
 }
 
 #' Register the option for which palette to use.
