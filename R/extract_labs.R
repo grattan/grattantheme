@@ -35,8 +35,26 @@ extract_labs <- function(p) {
 
   }
 
-  list(title = title,
-       subtitle = subtitle,
-       caption = caption)
+  raw_labs_list <- list(title = title,
+                        subtitle = subtitle,
+                        caption = caption)
+
+  list_no_html <- purrr::map(raw_labs_list,
+                             text_from_html)
+
+  list_no_html
+}
+
+text_from_html <- function(x) {
+
+  if (length(x) > 0) {
+
+    x %>%
+      charToRaw() %>%
+      rvest::read_html() %>%
+      rvest::html_text2()
+  } else {
+    x
+  }
 
 }
