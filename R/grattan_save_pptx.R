@@ -14,6 +14,8 @@
 #' @param type Chart type. If you specify multiple types, as
 #' in `type = c("fullslide", "wholecolumn")` or `type = "all"`, multiple
 #' files will be created, with the type added to the filename.
+#' @param no_new_folder Logical. If `TRUE`, the output will be saved without creating a new subfolder.
+#' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.
 #' @examples
 #' \dontrun{
 #' library(ggplot2)
@@ -26,15 +28,31 @@
 #'             caption = "Notes: notes go here. Source: source goes here.")
 #'
 #' grattan_save_pptx(p, "test.pptx")
+#'
+#' library(ggplot2)
+#
+# p2 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#   geom_point() +
+#   theme_grattan() +
+#   theme(plot.subtitle = ggtext::element_markdown()) +
+#   labs(title = "My title",
+#        subtitle = "My **rich** subtitle",
+#        caption = "Notes: notes go here. Source: source goes here.")
+#
+# grattan_save_pptx(p2, filename = "test.pptx", rich_subtitle = TRUE)
+#'
 #' }
 #' @export
 #' @importFrom purrr walk walk2
-grattan_save_pptx <- function(p = ggplot2::last_plot(),
-                              filename,
+grattan_save_pptx <- function(filename,
+                              p = ggplot2::last_plot(),
                               type = "fullslide",
-                              no_new_folder = FALSE) {
+                              no_new_folder = FALSE,
+                              rich_subtitle = FALSE,
+                              png_dpi = 300) {  # Added rich_subtitle option and PNG DPI control
 
   plot <- p
+
   pptx_types_inc_deprecated <- chart_types_inc_deprecated$type[!is.na(chart_types_inc_deprecated$pptx_template)]
 
   allowed_types <- c(pptx_types_inc_deprecated, "all")
@@ -75,7 +93,6 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
                          paste0(base_filename, "_", type, ".", filetype))
 
   # plot must be either a single ggplot2 plot OR a list of ggplot2 plots
-  # if a single plot, we want to create a list with the plot as the sole element
   if (inherits(plot, "gg")) {
     plot <- list(plot)
   } else if (!inherits(plot, "list")) {
@@ -95,50 +112,57 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
     .f = ~add_graph_to_pptx(filename = .x,
                             type = .y,
                             p = plot,
-                            num_slides = num_slides)
+                            num_slides = num_slides,
+                            rich_subtitle = rich_subtitle,
+                            png_dpi = png_dpi)
   )
 
   ggplot2::set_last_plot(p)
   invisible(TRUE)
 }
 
-#' Take a pre-existing PPTX document with n slides and a list of n ggplot2
-#' objects; add one object to each slide using officer
-#'
-#' @param p a ggplot
-#' @param filename filename incl. path to an existing PPTX file
-#' @param type a grattantheme chart type with a PPTX template
-#' @param num_slides number of slides to make
-#'
-#' @keywords internal
-#' @importFrom officer read_pptx on_slide ph_with ph_location_label
-#' @importFrom rvg dml
 add_graph_to_pptx <- function(p,
                               filename,
                               type,
-                              num_slides) {
+                              num_slides,
+                              rich_subtitle = FALSE,
+                              png_dpi = 300) {
 
   message(glue::glue("Making {type}"))
 
-  # Get path to appropriate PPTX template from `grattantheme`
+  # Get path to appropriate PPTX template
   template_filename <- system.file("extdata",
                                    chart_types_inc_deprecated$pptx_template[chart_types_inc_deprecated$type == type],
                                    package = "grattantheme")
 
+  # Get PowerPoint dimensions
+  pptx <- officer::read_pptx(template_filename)
+  slide_size <- officer::slide_size(pptx)
+
+  # Convert PowerPoint units (inches) to mm for ggsave
+  width_mm <- slide_size$width * 25.4
+  height_mm <- slide_size$height * 25.4
+
   p <- purrr::map(
-    .x = p,
-    .f = wrap_labs,
-    type = type,
-    labs_to_wrap = "caption"
-  )
+      .x = p,
+      .f = wrap_labs,
+      type = type,
+      labs_to_wrap = "caption"
+    )
 
   master <- dplyr::if_else(type == "fullslide_old", "Charts for overheads", "Office Theme")
-  x <- officer::read_pptx(template_filename)
+  x <- pptx
+
+  # Create temp directory for PNGs if using rich_subtitle
+  if (rich_subtitle) {
+    temp_dir <- tempfile("grattan_pptx_")
+    dir.create(temp_dir)
+  }
 
   for (slide in seq_len(num_slides)) {
     notes <- return_script_and_chart_location(filename = filename)
-
     plot <- p[[slide]]
+    labs <- extract_labs(plot)
 
     x <- x %>%
       officer::add_slide(layout="Two Content", master = master) %>%
@@ -148,67 +172,63 @@ add_graph_to_pptx <- function(p,
       ifelse(is.null(string), " ", string)
     }
 
-    labs <- extract_labs(plot)
+    x <- officer::ph_with(x,
+                          replace_null(labs$title),
+                          location = officer::ph_location_label("Title 1"))
 
     x <- officer::ph_with(x,
-                 replace_null(labs$title),
-                 location = officer::ph_location_label("Title 1"))
+                          replace_null(labs$caption),
+                          location = officer::ph_location_label("Caption Placeholder 1"))
 
-    x <- officer::ph_with(x,
-                 replace_null(labs$subtitle),
-                 location = officer::ph_location_label("Content Placeholder 2"))
+    if (rich_subtitle) {
 
-    x <- officer::ph_with(x,
-                 replace_null(labs$caption),
-                 location = officer::ph_location_label("Caption Placeholder 1"))
+      # Save as high-quality PNG matching content placeholder dimensions
+      png_file <- file.path(temp_dir, paste0("slide_", slide, ".png"))
 
+      plot <- plot +
+        theme(plot.title = element_blank(),
+              plot.caption = element_blank())
 
-    plot <- replace_labs(plot)
+      # Get the layout summary for the "Two Content" layout
+      layout_props  <- officer::layout_properties(pptx, layout = "Two Content")
 
+      # # Find the placeholder with the label "Content placeholder 3"
+      placeholder <- layout_props[layout_props$ph_label == "Content Placeholder 3", ]
 
-    # Add caption back in for non-report-bound chart types
-    chart_class <- chart_types_inc_deprecated$class[chart_types_inc_deprecated$type == type]
-    # Is the chart bound for a report?
-    report_bound <- chart_class == "normal"
+      # Convert dimensions from inches to millimeters (1 inch = 25.4 mm)
+      image_width_mm <- placeholder$cx * 25.4
+      image_height_mm <- placeholder$cy * 25.4
 
-    if (!report_bound) {
-      plot <- replace_labs(plot, list(title = NULL,
-                                      subtitle = NULL,
-                                      caption = NULL))
-    }
+      ggsave(png_file,
+             plot,
+             width = image_width_mm,
+             height = image_height_mm,
+             units = "mm",
+             dpi = png_dpi,
+             bg = "white")
 
-    # Define the graph location; if no subtitle exists OR the chart is
-    # report bound, we want to fill the subtitle space with the graph
-    if (!is.null(labs$subtitle) | report_bound) {
-      graph_location <- officer::ph_location_label("Content Placeholder 3")
+      # Add PNG to PowerPoint in content placeholder
+      x <- officer::ph_with(x,
+                            officer::external_img(png_file),
+                            location = officer::ph_location_label("Content Placeholder 3"),
+                            use_loc_size = TRUE)
+
     } else {
-      slide_summ <- officer::slide_summary(x)
-      v_offset <- 0.12
-      graph_location <- officer::ph_location(
-        left = slide_summ$offx[slide_summ$ph_label == "Content Placeholder 2"],
-        top = slide_summ$offy[slide_summ$ph_label == "Content Placeholder 2"] +
-          v_offset,
-        width = slide_summ$cx[slide_summ$ph_label == "Content Placeholder 2"],
-        height = officer::slide_size(x)$height -
-          slide_summ$offy[slide_summ$ph_label == "Content Placeholder 2"] -
-          v_offset
-        )
+      # Original behavior for non-rich_subtitle
+      x <- officer::ph_with(x,
+                            replace_null(labs$subtitle),
+                            location = officer::ph_location_label("Content Placeholder 2"))
 
-    }
+      plot <- replace_labs(plot)
 
-    # Add graph as SVG object
-    x <- officer::ph_with(x,
-                 rvg::dml(ggobj = plot),
-                 location = graph_location)
-
-    if (is.null(labs$subtitle)) {
-      x <- officer::ph_remove(x, ph_label = "Content Placeholder 2")
-
+      # Add graph as SVG
+      x <- officer::ph_with(x,
+                            rvg::dml(ggobj = plot),
+                            location = officer::ph_location_label("Content Placeholder 3"))
     }
   }
 
   print(x, filename)
-
 }
 
 

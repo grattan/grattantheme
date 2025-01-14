@@ -4,17 +4,28 @@
 \alias{grattan_save_pptx}
 \title{Save a ggplot2 chart, or list of charts, as a Powerpoint presentation}
 \usage{
-grattan_save_pptx(p = ggplot2::last_plot(), filename, type = "fullslide")
+grattan_save_pptx(
+  filename,
+  p = ggplot2::last_plot(),
+  type = "fullslide",
+  no_new_folder = FALSE,
+  rich_subtitle = FALSE,
+  png_dpi = 300
+)
 }
 \arguments{
-\item{p}{ggplot2 plot, or a list of ggplot2 plots}
-
 \item{filename}{Filename (including path where necessary) to save your
 Powerpoint presentation.}
+
+\item{p}{ggplot2 plot, or a list of ggplot2 plots}
 
 \item{type}{Chart type. If you specify multiple types, as
 in `type = c("fullslide", "wholecolumn")` or `type = "all"`, multiple
 files will be created, with the type added to the filename.}
+
+\item{no_new_folder}{Logical. If `TRUE`, the output will be saved without creating a new subfolder.}
+
+\item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.}
 }
 \description{
 `grattan_save_pptx()` creates a Grattan-style Powerpoint
@@ -37,5 +48,8 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
             caption = "Notes: notes go here. Source: source goes here.")
 
 grattan_save_pptx(p, "test.pptx")
+
+library(ggplot2)
+
 }
 }

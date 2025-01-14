@@ -17,6 +17,7 @@ grattan_save(
   latex = FALSE,
   dpi = "retina",
   ignore_long_title = FALSE,
+  no_new_folder = FALSE,
   ...
 )
 

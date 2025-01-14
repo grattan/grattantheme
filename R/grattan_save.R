@@ -142,6 +142,7 @@ grattan_save <- function(filename,
                          latex = FALSE,
                          dpi = "retina",
                          ignore_long_title = FALSE,
+                         no_new_folder = FALSE,
                          ...) {
 
   # param checks
@@ -170,7 +171,9 @@ grattan_save <- function(filename,
 
 
   # create subdirectory
-  dir <- tools::file_path_sans_ext(filename)
+  if (!no_new_folder) {
+  dir <- tools::file_path_sans_ext(filename) } else
+  {dir <- tools::dirname(filename)}
   filetype <- tools::file_ext(filename)
   file_name <- tools::file_path_sans_ext(basename(filename))
 
@@ -219,6 +222,9 @@ grattan_save <- function(filename,
 
   # if all charts
   if (type == "all") {
+
+    # append .pdf if filetype is empty
+    if (filetype == "") {filetype <- "pdf"}
 
     filenames <- file.path(dir, paste0(file_name, "_", all_chart_types, ".", filetype))
 
