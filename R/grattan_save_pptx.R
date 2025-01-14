@@ -31,7 +31,8 @@
 #' @importFrom purrr walk walk2
 grattan_save_pptx <- function(p = ggplot2::last_plot(),
                               filename,
-                              type = "fullslide") {
+                              type = "fullslide",
+                              no_new_folder = FALSE) {
 
   plot <- p
   pptx_types_inc_deprecated <- chart_types_inc_deprecated$type[!is.na(chart_types_inc_deprecated$pptx_template)]
@@ -58,7 +59,11 @@ grattan_save_pptx <- function(p = ggplot2::last_plot(),
     type <- chart_types$type[!is.na(chart_types$pptx_template)]
   }
 
-  output_dir <- tools::file_path_sans_ext(filename)
+  if (isTRUE(no_new_folder)) {
+    output_dir <- dirname(filename)
+  } else {
+    output_dir <- tools::file_path_sans_ext(filename)
+  }
 
   if (isFALSE(dir.exists(output_dir))) {
     dir.create(output_dir, recursive = TRUE)
