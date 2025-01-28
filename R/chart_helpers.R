@@ -71,3 +71,17 @@ paulify_classifications <- function(classification, remove_services = FALSE) {
           stringr::str_replace(classification, " and ", ", and "),
           classification)
 }
+
+#' Case when that orders the factors as you order the case when
+fct_case_when <- function(...) {
+  args <- as.list(match.call())
+  levels <- sapply(args[-1], function(f) f[[3]]) # extract RHS of formula
+  levels <- levels[!is.na(levels)]
+  factor(dplyr::case_when(...), levels = levels)}
+
+
+#' Wrap strings without dropping factor levels
+str_wrap_factor <- function(x, ...) {
+  levels(x) <- stringr::str_wrap(levels(x), ...)
+  x
+}
