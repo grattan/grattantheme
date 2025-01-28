@@ -63,6 +63,7 @@
 #' @param dpi Plot resolution. Default is "retina".
 #' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
 #' won't be performed. This is useful if using ggtext syntax within titles.
+#' @param no_new_folder Default is FALSE. If TRUE, the image will not be saved in new subdirectory.
 #' @param ... arguments passed to `ggsave()`. For example, use
 #' `device = cairo_pdf` to use the Cairo PDF rendering engine.
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
@@ -173,7 +174,7 @@ grattan_save <- function(filename,
   # create subdirectory
   if (!no_new_folder) {
   dir <- tools::file_path_sans_ext(filename) } else
-  {dir <- tools::dirname(filename)}
+  {dir <- dirname(filename)}
   filetype <- tools::file_ext(filename)
   file_name <- tools::file_path_sans_ext(basename(filename))
 
@@ -205,7 +206,8 @@ grattan_save <- function(filename,
 
         grattan_save_pptx(p = object,
                           type = type,
-                          filename = pptx_filename)
+                          filename = pptx_filename,
+                          no_new_folder = no_new_folder)
       }
     }
     ## export single image
