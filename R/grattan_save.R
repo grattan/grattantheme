@@ -64,8 +64,8 @@
 #' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
 #' won't be performed. This is useful if using ggtext syntax within titles.
 #' @param no_new_folder Default is FALSE. If TRUE, the image will not be saved in new subdirectory.
-#' @param ... arguments passed to `ggsave()`. For example, use
-#' `device = cairo_pdf` to use the Cairo PDF rendering engine.
+#' @param device The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.
+#' @param ... Any additional arguments passed to `ggsave()`. 
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
 #'
 #' @import ggplot2
@@ -144,6 +144,7 @@ grattan_save <- function(filename,
                          dpi = "retina",
                          ignore_long_title = FALSE,
                          no_new_folder = FALSE,
+                         device = cairo_pdf,
                          ...) {
 
   # param checks
@@ -219,6 +220,7 @@ grattan_save <- function(filename,
                   dpi = dpi,
                   save_pptx = save_pptx,
                   ignore_long_title = ignore_long_title,
+                  device = device,
                   ...)
   }
 
@@ -260,6 +262,7 @@ grattan_save <- function(filename,
                  dpi = dpi,
                  save_pptx = save_pptx,
                  ignore_long_title = ignore_long_title,
+                 device = device,
                  ...)
 
   }
@@ -280,6 +283,7 @@ grattan_save_ <- function(filename,
                           dpi,
                           save_pptx,
                           ignore_long_title,
+                          device,
                           ...) {
 
   plot_class <- chart_types$class[chart_types$type == type]
@@ -321,7 +325,7 @@ grattan_save_ <- function(filename,
 
   ggplot2::ggsave(filename, object,
                   width = width, height = height, units = "cm",
-                  dpi = dpi, ...)
+                  dpi = dpi, device = device, ...)
 
 }
 
