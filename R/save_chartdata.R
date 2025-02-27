@@ -19,11 +19,14 @@
 #' little to accommodate the labels.
 #' @param height Numeric, optional. Use this to override the default height
 #' for plots of your chosen `type`; see \code{?grattan_save} for more details.
+#' @param select_data removes any columns that are not used in ggplot 
+#' mappings and facets from the exported chart data. Default is TRUE.
 #'
 #' @export
 #' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage
 #' @importFrom openxlsx createStyle addStyle setColWidths saveWorkbook
 #' @importFrom ggplot2 last_plot
+#' @importFrom rlang quo_get_expr
 #'
 #' @examples
 #'
@@ -41,7 +44,8 @@
 save_chartdata <- function(filename,
                            object = ggplot2::last_plot(),
                            type = "normal",
-                           height = NULL) {
+                           height = NULL,
+                           select_data = TRUE) {
 
   if (tools::file_ext(filename) != "xlsx") {
     stop(filename, " is not a valid filename; filename must end in .xlsx")
@@ -97,6 +101,24 @@ save_chartdata <- function(filename,
 
   # Get chart data
   chart_data <- object$data
+  
+  if (select_data) {
+    # Find the columns used in the ggplot mappings
+    if (!is.null(object$mapping)) {
+      used_cols <- unlist(lapply(object$mapping, function(x) as.character(quo_get_expr(x))))
+    }
+    
+    # Find any columns that are used for facets
+    if (!is.null(object$facet)) {
+      facet_cols <- unlist(lapply(object$facet$params$facets, function(x) as.character(quo_get_expr(x))))
+      used_cols <- c(used_cols, facet_cols)
+    }
+    
+    # Filter the chart data for only the columns used in the ggplot mappings and facets
+    chart_data <- chart_data %>% 
+      select(all_of(unname(used_cols))) 
+  }
+  
 
   # Remove any `sf` columns
   chart_data <- as.data.frame(chart_data)
