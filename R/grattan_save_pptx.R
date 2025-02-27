@@ -172,14 +172,6 @@ add_graph_to_pptx <- function(p,
       ifelse(is.null(string), " ", string)
     }
 
-    x <- officer::ph_with(x,
-                          replace_null(labs$title),
-                          location = officer::ph_location_label("Title 1"))
-
-    x <- officer::ph_with(x,
-                          replace_null(labs$caption),
-                          location = officer::ph_location_label("Caption Placeholder 1"))
-
     if (rich_subtitle) {
 
       # Save as high-quality PNG matching content placeholder dimensions
@@ -226,6 +218,16 @@ add_graph_to_pptx <- function(p,
                             rvg::dml(ggobj = plot),
                             location = officer::ph_location_label("Content Placeholder 3"))
     }
+    
+    x <- officer::ph_with(x,
+                          replace_null(labs$title),
+                          location = officer::ph_location_label("Title 1"))
+    
+    x <- officer::ph_with(x,
+                          replace_null(labs$caption),
+                          location = officer::ph_location_label("Caption Placeholder 1"))
+    
+    
   }
 
   print(x, filename)
