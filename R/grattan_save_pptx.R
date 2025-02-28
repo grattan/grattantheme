@@ -197,7 +197,7 @@ add_graph_to_pptx <- function(p,
              height = image_height_mm,
              units = "mm",
              dpi = png_dpi,
-             bg = "white")
+             bg = "transparent")
 
       # Add PNG to PowerPoint in content placeholder
       x <- officer::ph_with(x,
@@ -215,7 +215,7 @@ add_graph_to_pptx <- function(p,
 
       # Add graph as SVG
       x <- officer::ph_with(x,
-                            rvg::dml(ggobj = plot),
+                            rvg::dml(ggobj = plot, bg = 'NA'),
                             location = officer::ph_location_label("Content Placeholder 3"))
     }
     
