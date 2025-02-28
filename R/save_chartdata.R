@@ -26,6 +26,7 @@
 #' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage
 #' @importFrom openxlsx createStyle addStyle setColWidths saveWorkbook
 #' @importFrom ggplot2 last_plot
+#' @importFrom purrr map
 #' @importFrom rlang quo_get_expr
 #'
 #' @examples
@@ -98,47 +99,30 @@ save_chartdata <- function(filename,
                height = height,
                force_labs = TRUE,
                dpi = 72)
-
-  # Get chart data
-  chart_data <- object$data
   
-  if (select_data) {
-    # Find the columns used in the ggplot mappings
-    if (!is.null(object$mapping)) {
-      used_cols <- unlist(lapply(object$mapping, function(x) as.character(quo_get_expr(x))))
-    }
-    
-    # Find any columns that are used for facets
-    if (!is.null(object$facet)) {
-      facet_cols <- unlist(lapply(object$facet$params$facets, function(x) as.character(quo_get_expr(x))))
-      used_cols <- c(used_cols, facet_cols)
-    }
-    
-    # Filter the chart data for only the columns used in the ggplot mappings and facets
-    chart_data <- chart_data %>% 
-      select(all_of(unname(used_cols))) 
+  # Check whether the plot has been created using patchwork or gridExtra
+  multiple_plots <- inherits(object, c("patchwork", "gtable"))
+
+  # Extract and clean the chart data
+  
+  if (multiple_plots) {
+    chart_data <- map(seq_along(object), function(i) {clean_chartdata_(object[[i]], select_data = T)})
+  } else {
+    chart_data <- clean_chartdata_(object, select_data)
   }
   
+  # Find total number of columns and rows across all dataframes
 
-  # Remove any `sf` columns
-  chart_data <- as.data.frame(chart_data)
-  chart_data <- subset(chart_data,
-                       select = sapply(chart_data,
-                                       function(x) !inherits(x, "sfc")))
-
-  # To ensure that dates are correctly-formatted, save as strings
-  for (col in seq_along(chart_data)) {
-    if (inherits(chart_data[[col]], "Date")) {
-      chart_data[[col]] <- as.character(chart_data[[col]])
-    }
+  if(multiple_plots) {
+    data_columns <- max(unlist(map(chart_data, nrow)))
+    data_rows <- sum(unlist(map(chart_data, ~nrow(.x) + 1))) - 1
+  } else {
+    data_columns <- ncol(chart_data)
+    data_rows <- nrow(chart_data)
   }
-
-  names(chart_data) <- tools::toTitleCase(names(chart_data))
-
-  data_columns <- ncol(chart_data)
-  data_rows <- nrow(chart_data)
-
-  # Create workbook and add content
+  
+  # Create workbook and add title, caption, footnotes, and chart
+  
   wb <- openxlsx::createWorkbook()
 
   openxlsx::addWorksheet(wb,
@@ -161,13 +145,6 @@ save_chartdata <- function(filename,
                       x = plot_caption,
                       startCol = 2,
                       startRow = 5 + data_rows)
-
-
-  openxlsx::writeData(wb,
-                      sheet = 1,
-                      x = chart_data,
-                      startCol = 2,
-                      startRow = 3)
 
   openxlsx::insertImage(wb = wb,
                         sheet = 1,
@@ -196,12 +173,55 @@ save_chartdata <- function(filename,
                                                fontSize = 12)
 
   addStyle(wb, 1, grattan_title_style, cols = 2, rows = 1, stack = TRUE)
-
-  # Orange fill for table
-
+  
+  # Italicise caption
+  
+  grattan_caption_style <- openxlsx::createStyle(textDecoration = c("italic",
+                                                                    "underline"),
+                                                 halign = "left")
+  
+  addStyle(wb,
+           1,
+           grattan_caption_style,
+           rows = 5 + data_rows,
+           cols = 2,
+           stack = TRUE)
+  
+  # Bold header
+  
+  grattan_heading_style <- openxlsx::createStyle(textDecoration = "bold")
+  
+  addStyle(wb,
+           1,
+           grattan_heading_style,
+           rows = 3,
+           cols = 2:(data_columns + 1),
+           stack = TRUE)
+  
+  # Define the styles needed for formatting the chart data boxes
+  
   grattan_table_style <- openxlsx::createStyle(fgFill = grattantheme::grattan_orange_alpha,
                                                bgFill = grattantheme::grattan_orange_alpha,
                                                wrapText = TRUE)
+  
+  grattan_border <- function(border,
+                             border_colour = grattantheme::grattan_lightorange,
+                             border_style = "thick") {
+    openxlsx::createStyle(border = border,
+                          borderColour = border_colour,
+                          borderStyle = border_style)
+  }
+  
+  # Add the chart data to the workbook
+  
+  openxlsx::writeData(wb,
+                      sheet = 1,
+                      x = chart_data,
+                      startCol = 2,
+                      startRow = 3)
+
+  # Orange fill for table
+
 
   addStyle(wb, 1,
            grattan_table_style,
@@ -210,40 +230,7 @@ save_chartdata <- function(filename,
            stack = TRUE,
            gridExpand = TRUE)
 
-  # Italicise caption
-
-  grattan_caption_style <- openxlsx::createStyle(textDecoration = c("italic",
-                                                                    "underline"),
-                                                 halign = "left")
-
-  addStyle(wb,
-           1,
-           grattan_caption_style,
-           rows = 5 + data_rows,
-           cols = 2,
-           stack = TRUE)
-
-  # Bold header
-
-  grattan_heading_style <- openxlsx::createStyle(textDecoration = "bold")
-
-  addStyle(wb,
-           1,
-           grattan_heading_style,
-           rows = 3,
-           cols = 2:(data_columns + 1),
-           stack = TRUE)
-
   # Add borders
-
-  grattan_border <- function(border,
-                             border_colour = grattantheme::grattan_lightorange,
-                             border_style = "thick") {
-    openxlsx::createStyle(border = border,
-                          borderColour = border_colour,
-                          borderStyle = border_style)
-  }
-
 
   openxlsx::addStyle(wb, 1,
                      grattan_border("left"),
@@ -292,3 +279,62 @@ save_chartdata <- function(filename,
 
 }
 
+
+### clean_chartdata_ is an internal function that is used by save_chartdata to 
+### extract and clean data from a ggplot2 object before it is written to Excel.
+
+
+clean_chartdata_ <- function(object, 
+                             select_data = select_data) {
+  
+  chart_data <- object$data
+  
+  if (select_data) {
+  
+  # Find the columns used in the ggplot mappings
+  if (!is.null(object$mapping)) {
+    used_cols <- unlist(lapply(object$mapping, function(x) as.character(all.vars(x))))
+  }
+  
+  # Find any columns that are used for facets
+  if (!is.null(object$facet)) {
+    facet_cols <- unlist(lapply(object$facet$params$facets, function(x) as.character(all.vars(x))))
+    used_cols <- c(used_cols, facet_cols)
+  }
+  
+  # Check that all of used_cols exist in the underlying data, if not throw a warning and filter only actually existing columns
+  
+  missing_cols <- setdiff(used_cols, names(chart_data))
+  
+  if (length(missing_cols) > 0) {
+    
+    warning(paste("The following columns are not present and have not been exported to chart data:", paste(missing_cols, collapse = ", "), ". Set select_data = FALSE to export all columns to chart data."))
+    
+    used_cols <- intersect(used_cols, names(chart_data))
+    
+  }
+  
+  }
+  
+  # Filter the chart data for only the columns used in the ggplot mappings and facets
+  chart_data <- chart_data %>% 
+    select(all_of(unname(used_cols))) 
+  
+  # Remove any `sf` columns
+  chart_data <- as.data.frame(chart_data)
+  chart_data <- subset(chart_data,
+                       select = sapply(chart_data,
+                                       function(x) !inherits(x, "sfc")))
+  
+  # To ensure that dates are correctly-formatted, save as strings
+  for (col in seq_along(chart_data)) {
+    if (inherits(chart_data[[col]], "Date")) {
+      chart_data[[col]] <- as.character(chart_data[[col]])
+    }
+  }
+  
+  names(chart_data) <- tools::toTitleCase(names(chart_data))
+  
+  return(chart_data)
+  
+}
