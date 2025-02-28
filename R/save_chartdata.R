@@ -56,12 +56,13 @@ save_chartdata <- function(filename,
   if (!inherits(object, "ggplot")) {
     stop("`object` is not a ggplot2 object")
   }
-
+  
   if (!type %in% chart_types$type) {
     stop(type,
          " is not a recognised chart type;",
          " see ?grattan_save for types.")
   }
+  
 
   obj_name <- deparse(substitute(object))
 
@@ -100,12 +101,12 @@ save_chartdata <- function(filename,
                force_labs = TRUE,
                dpi = 72)
   
-  # Check whether the plot has been created using patchwork or gridExtra
-  multiple_plots <- inherits(object, c("patchwork", "gtable"))
+  # Check whether the plot has been created using patchwork
+  patchwork <- inherits(object, c("patchwork"))
 
   # Extract and clean the chart data
   
-  if (multiple_plots) {
+  if (patchwork) {
     chart_data <- map(seq_along(object), function(i) {clean_chartdata_(object[[i]], select_data = T)})
   } else {
     chart_data <- clean_chartdata_(object, select_data)
@@ -113,7 +114,7 @@ save_chartdata <- function(filename,
   
   # Find total number of columns and rows across all data frames
 
-  if(multiple_plots) {
+  if(patchwork) {
     # For multiple data frames, find the maximum number of columns...
     max_data_columns <- max(unlist(map(chart_data, nrow)))
     # ...and find the total number of rows, including space between
@@ -123,6 +124,25 @@ save_chartdata <- function(filename,
     max_data_rows <- nrow(chart_data)
   }
   
+  # Extract subtitle and caption from the ggplot or patchwork objects
+  
+  if (patchwork) {
+    plot_subtitle <- object$patches$annotation$subtitle
+    plot_caption <- object$patches$annotation$caption
+    if (is.null(plot_subtitle)) {
+      warning("No subtitle found in patchwork object. Use plot_annotation() to add a subtitle.")
+    }
+    if (is.null(plot_caption)) {
+      warning("No caption found in patchwork object. Use plot_annotation() to add a caption")
+    }
+  } else {
+    plot_subtitle <- object$labels$subtitle
+    plot_caption <- object$labels$caption
+  }
+  
+  # Remove everything before "Source:" in caption
+  plot_caption <- gsub(".+?(?=Source:)", "", plot_caption, perl = TRUE)
+  
   # Create workbook and add title, caption, footnotes, and chart
   
   wb <- openxlsx::createWorkbook()
@@ -130,11 +150,6 @@ save_chartdata <- function(filename,
   openxlsx::addWorksheet(wb,
                          sheetName = obj_name,
                          gridLines = FALSE)
-
-  plot_subtitle <- object$labels$subtitle
-  plot_caption <- object$labels$caption
-  # Remove everything before "Source:" in caption
-  plot_caption <- gsub(".+?(?=Source:)", "", plot_caption, perl = TRUE)
 
   openxlsx::writeData(wb = wb,
                       sheet = 1,
@@ -157,6 +172,15 @@ save_chartdata <- function(filename,
                         height = height / 1.5,
                         units = "cm",
                         dpi = 320)
+  
+  # Change font of entire sheet
+  grattan_font_style <- openxlsx::createStyle(fontName = "Arial",
+                                              fontSize = 11,
+                                              halign = "center",
+                                              fontColour = "#000000")
+  
+  addStyle(wb, 1, grattan_font_style, cols = 1:100, rows = 1:2000,
+           gridExpand = TRUE)
 
   # Bold title
 
@@ -222,7 +246,7 @@ save_chartdata <- function(filename,
                         startCol = 2,
                         startRow = current_row)
     
-    # Orang fill for table
+    # Orange fill for table
     
     addStyle(wb, 1,
              grattan_table_style,
@@ -266,9 +290,9 @@ save_chartdata <- function(filename,
                        cols = 2:(data_columns + 1),
                        stack = TRUE)
     
-    # Update current_row for next data frame and add 1 for spacing
+    # Update current_row for next data frame and add 2 for spacing
     
-    current_row <- current_row + data_rows + 1
+    current_row <- current_row + data_rows + 2
     
   }
 
@@ -277,15 +301,6 @@ save_chartdata <- function(filename,
   openxlsx::setColWidths(wb, 1,
                          cols = 1,
                          widths = 0.45)
-  
-  # Change font of entire sheet
-  grattan_font_style <- openxlsx::createStyle(fontName = "Arial",
-                                              fontSize = 11,
-                                              halign = "center",
-                                              fontColour = "#000000")
-  
-  addStyle(wb, 1, grattan_font_style, cols = 1:100, rows = 1:2000,
-           gridExpand = TRUE)
 
   # Save workbook ----
   # Use minimal compression, for speed
@@ -314,6 +329,11 @@ clean_chartdata_ <- function(object,
                              select_data = select_data) {
   
   chart_data <- object$data
+  
+  # Check datafram
+  if (is.null(chart_data) | !is.data.frame(chart_data)) {
+    stop("No data found in chart. Note that charts created in gridExtra or cowplot are not fully supported.")
+  }
   
   if (select_data) {
   
