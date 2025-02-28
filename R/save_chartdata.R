@@ -111,14 +111,16 @@ save_chartdata <- function(filename,
     chart_data <- clean_chartdata_(object, select_data)
   }
   
-  # Find total number of columns and rows across all dataframes
+  # Find total number of columns and rows across all data frames
 
   if(multiple_plots) {
-    data_columns <- max(unlist(map(chart_data, nrow)))
-    data_rows <- sum(unlist(map(chart_data, ~nrow(.x) + 1))) - 1
+    # For multiple data frames, find the maximum number of columns...
+    max_data_columns <- max(unlist(map(chart_data, nrow)))
+    # ...and find the total number of rows, including space between
+    max_data_rows <- sum(unlist(map(chart_data, ~nrow(.x) + 1))) - 1
   } else {
-    data_columns <- ncol(chart_data)
-    data_rows <- nrow(chart_data)
+    max_data_columns <- ncol(chart_data)
+    max_data_rows <- nrow(chart_data)
   }
   
   # Create workbook and add title, caption, footnotes, and chart
@@ -144,27 +146,17 @@ save_chartdata <- function(filename,
                       sheet = 1,
                       x = plot_caption,
                       startCol = 2,
-                      startRow = 5 + data_rows)
+                      startRow = 5 + max_data_rows)
 
   openxlsx::insertImage(wb = wb,
                         sheet = 1,
                         startRow = 3,
-                        startCol = data_columns + 3,
+                        startCol = max_data_columns + 3,
                         file = temp_image_end_location,
                         width = chart_types$width[chart_types$type == type] / 1.5,
                         height = height / 1.5,
                         units = "cm",
                         dpi = 320)
-
-
-  # Change font of entire sheet
-  grattan_font_style <- openxlsx::createStyle(fontName = "Arial",
-                                              fontSize = 11,
-                                              halign = "center",
-                                              fontColour = "#000000")
-
-  addStyle(wb, 1, grattan_font_style, cols = 1:100, rows = 1:2000,
-           gridExpand = TRUE)
 
   # Bold title
 
@@ -183,19 +175,8 @@ save_chartdata <- function(filename,
   addStyle(wb,
            1,
            grattan_caption_style,
-           rows = 5 + data_rows,
+           rows = 5 + max_data_rows,
            cols = 2,
-           stack = TRUE)
-  
-  # Bold header
-  
-  grattan_heading_style <- openxlsx::createStyle(textDecoration = "bold")
-  
-  addStyle(wb,
-           1,
-           grattan_heading_style,
-           rows = 3,
-           cols = 2:(data_columns + 1),
            stack = TRUE)
   
   # Define the styles needed for formatting the chart data boxes
@@ -212,54 +193,99 @@ save_chartdata <- function(filename,
                           borderStyle = border_style)
   }
   
-  # Add the chart data to the workbook
+  grattan_heading_style <- openxlsx::createStyle(textDecoration = "bold")
   
-  openxlsx::writeData(wb,
-                      sheet = 1,
-                      x = chart_data,
-                      startCol = 2,
-                      startRow = 3)
-
-  # Orange fill for table
-
-
-  addStyle(wb, 1,
-           grattan_table_style,
-           cols = 2:(data_columns + 1),
-           rows = 3:(data_rows + 3),
-           stack = TRUE,
-           gridExpand = TRUE)
-
-  # Add borders
-
-  openxlsx::addStyle(wb, 1,
-                     grattan_border("left"),
-                     rows = 3:(data_rows + 3),
-                     cols = 2,
-                     stack = TRUE)
-
-  openxlsx::addStyle(wb, 1,
-                     grattan_border("right"),
-                     rows = 3:(data_rows + 3),
-                     cols = data_columns + 1,
-                     stack = TRUE)
-  openxlsx::addStyle(wb, 1,
-                     grattan_border("top"),
-                     rows = 3,
-                     cols = 2:(data_columns + 1),
-                     stack = TRUE)
-
-  openxlsx::addStyle(wb, 1,
-                     grattan_border("bottom"),
-                     rows = data_rows + 3,
-                     cols = 2:(data_columns + 1),
-                     stack = TRUE)
+  # Create a list of dataframes to write
+  
+  if (is.data.frame(chart_data)) {
+    data_list <- list(chart_data)
+  } else{
+    data_list <- chart_data
+  }
+  
+  # Set starting row for writing data
+  
+  current_row <- 3
+  
+  # Add the chart data to the workbook and format for each dataframe
+  
+  for (i in seq_along(data_list)) {
+    
+    chart_data <- data_list[[i]]
+    data_rows <- nrow(chart_data)
+    data_columns <- ncol(chart_data)
+    
+    # Add data
+    openxlsx::writeData(wb,
+                        sheet = 1,
+                        x = chart_data,
+                        startCol = 2,
+                        startRow = current_row)
+    
+    # Orang fill for table
+    
+    addStyle(wb, 1,
+             grattan_table_style,
+             cols = 2:(data_columns + 1),
+             rows = current_row:(current_row + data_rows),
+             stack = TRUE,
+             gridExpand = TRUE)
+    
+    # Bold header
+    
+    addStyle(wb,
+             1,
+             grattan_heading_style,
+             rows = current_row,
+             cols = 2:(data_columns + 1),
+             stack = TRUE)
+    
+    # Add borders
+    
+    openxlsx::addStyle(wb, 1,
+                       grattan_border("left"),
+                       rows = current_row:(current_row + data_rows),
+                       cols = 2,
+                       stack = TRUE)
+    
+    openxlsx::addStyle(wb, 1,
+                       grattan_border("right"),
+                       rows = current_row:(current_row + data_rows),
+                       cols = data_columns + 1,
+                       stack = TRUE)
+    
+    openxlsx::addStyle(wb, 1,
+                       grattan_border("top"),
+                       rows = current_row,
+                       cols = 2:(data_columns + 1),
+                       stack = TRUE)
+    
+    openxlsx::addStyle(wb, 1,
+                       grattan_border("bottom"),
+                       rows = current_row + data_rows,
+                       cols = 2:(data_columns + 1),
+                       stack = TRUE)
+    
+    # Update current_row for next data frame and add 1 for spacing
+    
+    current_row <- current_row + data_rows + 1
+    
+  }
 
   # Resize first column
 
   openxlsx::setColWidths(wb, 1,
                          cols = 1,
                          widths = 0.45)
+  
+  # Change font of entire sheet
+  grattan_font_style <- openxlsx::createStyle(fontName = "Arial",
+                                              fontSize = 11,
+                                              halign = "center",
+                                              fontColour = "#000000")
+  
+  addStyle(wb, 1, grattan_font_style, cols = 1:100, rows = 1:2000,
+           gridExpand = TRUE)
 
   # Save workbook ----
   # Use minimal compression, for speed
