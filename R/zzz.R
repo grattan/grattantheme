@@ -1,6 +1,6 @@
 .onLoad <- function(libname, pkgname) {
 
-  cowsay::say(praise::praise(), sample(names(cowsay::animals)[!names(cowsay::animals) %in%  c("anxiouscat",
+if(interactive)  {cowsay::say(praise::praise(), sample(names(cowsay::animals)[!names(cowsay::animals) %in%  c("anxiouscat",
                                                                                              "fish",
                                                                                              "grumpycat",
                                                                                              "longcat",
@@ -8,7 +8,7 @@
                                                                                              "mushroom",
                                                                                              "shortcat",
                                                                                              "signbunny",
-                                                                                             "stretchycat")], 1) )
+                                                                                             "stretchycat")], 1) )}
   register_palette()
   set_aesthetics("grattan")
 
