@@ -18,6 +18,8 @@ grattan_save(
   dpi = "retina",
   ignore_long_title = FALSE,
   no_new_folder = FALSE,
+  rich_subtitle = FALSE,
+  device = cairo_pdf,
   ...
 )
 
@@ -92,8 +94,15 @@ LaTeX code to clipboard and console.}
 \item{ignore_long_title}{Default is FALSE. If TRUE, the check on a long title
 won't be performed. This is useful if using ggtext syntax within titles.}
 
-\item{...}{arguments passed to `ggsave()`. For example, use
-`device = cairo_pdf` to use the Cairo PDF rendering engine.
+\item{no_new_folder}{Default is FALSE. If TRUE, the image will not be saved in new subdirectory.}
+
+\item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a PNG 
+image and inserted into the slide. This is mainly intended for folks using
+markdown text in the subtitles and plots.}
+
+\item{device}{The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.}
+
+\item{...}{Any additional arguments passed to `ggsave()`. 
 For `grattan_save_all()`, the `...` are passed to `grattan_save()`.}
 }
 \description{
