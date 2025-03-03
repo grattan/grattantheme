@@ -64,6 +64,9 @@
 #' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
 #' won't be performed. This is useful if using ggtext syntax within titles.
 #' @param no_new_folder Default is FALSE. If TRUE, the image will not be saved in new subdirectory.
+#' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a PNG 
+#' image and inserted into the slide. This is mainly intended for folks using
+#' markdown text in the subtitles and plots.
 #' @param device The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.
 #' @param ... Any additional arguments passed to `ggsave()`. 
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
@@ -144,6 +147,7 @@ grattan_save <- function(filename,
                          dpi = "retina",
                          ignore_long_title = FALSE,
                          no_new_folder = FALSE,
+                         rich_subtitle = FALSE,
                          device = cairo_pdf,
                          ...) {
 
@@ -208,7 +212,8 @@ grattan_save <- function(filename,
         grattan_save_pptx(p = object,
                           type = type,
                           filename = pptx_filename,
-                          no_new_folder = no_new_folder)
+                          no_new_folder = no_new_folder,
+                          rich_subtitle = rich_subtitle)
       }
     }
     ## export single image
