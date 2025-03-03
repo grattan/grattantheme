@@ -19,8 +19,10 @@
 #' little to accommodate the labels.
 #' @param height Numeric, optional. Use this to override the default height
 #' for plots of your chosen `type`; see \code{?grattan_save} for more details.
-#' @param select_data removes any columns that are not used in ggplot 
+#' @param select_data optional. Removes any columns that are not used in ggplot 
 #' mappings and facets from the exported chart data. Default is TRUE.
+#' @param round Numeric, optional. Round numbers in the chart data to this
+#' number of decimal places. Default is NULL, which does not round numbers.
 #'
 #' @export
 #' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage
@@ -46,7 +48,8 @@ save_chartdata <- function(filename,
                            object = ggplot2::last_plot(),
                            type = "normal",
                            height = NULL,
-                           select_data = TRUE) {
+                           select_data = TRUE, 
+                           round = NULL) {
 
   if (tools::file_ext(filename) != "xlsx") {
     stop(filename, " is not a valid filename; filename must end in .xlsx")
@@ -107,9 +110,9 @@ save_chartdata <- function(filename,
   # Extract and clean the chart data
   
   if (patchwork) {
-    chart_data <- map(seq_along(object), function(i) {clean_chartdata_(object[[i]], select_data = T)})
+    chart_data <- map(seq_along(object), function(i) {clean_chartdata_(object[[i]], select_data, round)})
   } else {
-    chart_data <- clean_chartdata_(object, select_data)
+    chart_data <- clean_chartdata_(object, select_data, round)
   }
   
   # Find total number of columns and rows across all data frames
@@ -326,11 +329,12 @@ save_chartdata <- function(filename,
 
 
 clean_chartdata_ <- function(object, 
-                             select_data = select_data) {
+                             select_data,
+                             round) {
   
   chart_data <- object$data
   
-  # Check datafram
+  # Check dataframe
   if (is.null(chart_data) | !is.data.frame(chart_data)) {
     stop("No data found in chart. Note that charts created in gridExtra or cowplot are not fully supported.")
   }
@@ -379,8 +383,16 @@ clean_chartdata_ <- function(object,
     }
   }
   
+  # Round numbers in numeric columns if option selected
+  
+  if (!is.null(round)) {
+    chart_data <- chart_data %>% 
+      mutate(across(where(is.numeric), ~round(., round)))
+  }
+  
   names(chart_data) <- tools::toTitleCase(names(chart_data))
   
   return(chart_data)
   
 }
+
