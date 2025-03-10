@@ -73,6 +73,12 @@ paulify_classifications <- function(classification, remove_services = FALSE) {
 }
 
 #' Case when that orders the factors as you order the case when
+#' 
+#' This function is a wrapper around dplyr::case_when that ensures that
+#' factor levels are ordered in the same way as the case_when statement.
+#' 
+#' @return a factor
+#' @export
 fct_case_when <- function(...) {
   args <- as.list(match.call())
   levels <- sapply(args[-1], function(f) f[[3]]) # extract RHS of formula
@@ -81,7 +87,27 @@ fct_case_when <- function(...) {
 
 
 #' Wrap strings without dropping factor levels
+#' 
+#' This function is a wrapper around stringr::str_wrap that ensures that
+#' factor levels are not dropped.
+#' 
+#' @return a factor
+#' @export
+#' 
 str_wrap_factor <- function(x, ...) {
   levels(x) <- stringr::str_wrap(levels(x), ...)
   x
+}
+
+#' Remove en-dashes from a data frame
+#' 
+#' This function is a wrapper around stringr::str_replace_all that removes 
+#' en-dashes from a data frame.
+#' 
+#' @return a data frame
+#' @export
+
+deendash <- function(df) {
+  df %>%
+    mutate(across(where(is.character), ~ str_replace_all(., "–", "-")))
 }

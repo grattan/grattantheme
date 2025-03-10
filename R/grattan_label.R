@@ -18,7 +18,7 @@
 #' (see \code{?unit::grid}). Default is 0.1.
 #' @param lineheight Height of lines of text - smaller means the lines
 #' of text are closer together. Default is `0.8`.
-#' @param label.size Default is `0`.
+#' @param label.size Size of label border line, in mm. Default is `NA`, which means no border.
 #' @param fill Colour of label background; default is `"white"`.
 #'
 #' @examples
@@ -50,7 +50,7 @@
 #' @rdname grattan_label_functions
 #' @export
 grattan_label <- function(..., size = 18, padding = 0.1, lineheight = 0.8,
-                          label.size = 0, fill = "white") {
+                          label.size = NA, fill = "white") {
   .size = size / ggplot2::.pt
 
   ggplot2::geom_label(
@@ -66,7 +66,7 @@ grattan_label <- function(..., size = 18, padding = 0.1, lineheight = 0.8,
 #' @rdname grattan_label_functions
 #' @export
 grattan_label_repel <- function(..., size = 18, padding = 0.1, lineheight = 0.8,
-                                label.size = 0, fill = "white") {
+                                label.size = NA, fill = "white") {
   .size = size / ggplot2::.pt
 
   ggrepel::geom_label_repel(

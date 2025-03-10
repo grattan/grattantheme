@@ -17,7 +17,3 @@ cm_to_in <- function(cm, round = FALSE) {
   }
 }
 
-deendash <- function(df) {
-  df %>%
-    mutate(across(where(is.character), ~ str_replace_all(., "–", "-")))
-}
