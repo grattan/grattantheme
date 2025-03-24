@@ -212,7 +212,6 @@ grattan_save <- function(filename,
         grattan_save_pptx(p = object,
                           type = type,
                           filename = file.path(dir, paste0(file_name, ".pptx")),
-                          no_new_folder = no_new_folder,
                           rich_subtitle = rich_subtitle)
       }
     }
