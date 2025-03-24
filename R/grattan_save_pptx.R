@@ -90,7 +90,7 @@ grattan_save_pptx <- function(filename,
   base_filename <- tools::file_path_sans_ext(basename(filename))
   filetype <- tools::file_ext(filename)
   filenames <- file.path(output_dir,
-                         paste0(base_filename, "_", type, ".", filetype))
+                         paste0(base_filename, ".", filetype))
 
   # plot must be either a single ggplot2 plot OR a list of ggplot2 plots
   if (inherits(plot, "gg")) {
