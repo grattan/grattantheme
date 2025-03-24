@@ -14,7 +14,6 @@
 #' @param type Chart type. If you specify multiple types, as
 #' in `type = c("fullslide", "wholecolumn")` or `type = "all"`, multiple
 #' files will be created, with the type added to the filename.
-#' @param no_new_folder Logical. If `TRUE`, the output will be saved without creating a new subfolder.
 #' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.
 #' @examples
 #' \dontrun{
@@ -47,7 +46,6 @@
 grattan_save_pptx <- function(filename,
                               p = ggplot2::last_plot(),
                               type = "fullslide",
-                              no_new_folder = FALSE,
                               rich_subtitle = FALSE,
                               png_dpi = 300) {  # Added rich_subtitle option and PNG DPI control
 
@@ -77,15 +75,9 @@ grattan_save_pptx <- function(filename,
     type <- chart_types$type[!is.na(chart_types$pptx_template)]
   }
 
-  if (isTRUE(no_new_folder)) {
+ 
+  # get output directory
     output_dir <- dirname(filename)
-  } else {
-    output_dir <- tools::file_path_sans_ext(filename)
-  }
-
-  if (isFALSE(dir.exists(output_dir))) {
-    dir.create(output_dir, recursive = TRUE)
-  }
 
   base_filename <- tools::file_path_sans_ext(basename(filename))
   filetype <- tools::file_ext(filename)

@@ -180,6 +180,7 @@ grattan_save <- function(filename,
   if (!no_new_folder) {
   dir <- tools::file_path_sans_ext(filename) } else
   {dir <- dirname(filename)}
+  
   filetype <- tools::file_ext(filename)
   file_name <- tools::file_path_sans_ext(basename(filename))
 
@@ -210,7 +211,7 @@ grattan_save <- function(filename,
         
         grattan_save_pptx(p = object,
                           type = type,
-                          filename = paste0(dir, ".pptx"),
+                          filename = file.path(dir, paste0(file_name, ".pptx")),
                           no_new_folder = no_new_folder,
                           rich_subtitle = rich_subtitle)
       }
@@ -251,7 +252,7 @@ grattan_save <- function(filename,
       valid_pptx_types <- all_chart_types[template_exists]
 
       grattan_save_pptx(p = object,
-                        filename = paste0(dir, ".pptx"),
+                        filename = file.path(dir, paste0(file_name, ".pptx")),
                         type = valid_pptx_types)
 
     }
