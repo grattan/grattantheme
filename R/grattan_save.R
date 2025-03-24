@@ -207,11 +207,10 @@ grattan_save <- function(filename,
       if (isFALSE(template_exists)) {
         warning("Cannot save Powerpoint for type '", type, "'.")
       } else {
-        pptx_filename <- paste0(tools::file_path_sans_ext(filename), ".pptx")
-
+        
         grattan_save_pptx(p = object,
                           type = type,
-                          filename = pptx_filename,
+                          filename = paste0(dir, ".pptx"),
                           no_new_folder = no_new_folder,
                           rich_subtitle = rich_subtitle)
       }
