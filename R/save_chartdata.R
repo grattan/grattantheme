@@ -119,7 +119,7 @@ save_chartdata <- function(filename,
 
   if(patchwork) {
     # For multiple data frames, find the maximum number of columns...
-    max_data_columns <- max(unlist(map(chart_data, nrow)))
+    max_data_columns <- max(unlist(map(chart_data, ncol)))
     # ...and find the total number of rows, including space between
     max_data_rows <- sum(unlist(map(chart_data, ~nrow(.x) + 1))) - 1
   } else {
