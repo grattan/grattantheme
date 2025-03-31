@@ -19,8 +19,8 @@
 #' little to accommodate the labels.
 #' @param height Numeric, optional. Use this to override the default height
 #' for plots of your chosen `type`; see \code{?grattan_save} for more details.
-#' @param select_data optional. Removes any columns that are not used in ggplot 
-#' mappings and facets from the exported chart data. Default is TRUE.
+#' @param select_data Logical, default is TRUE. Removes any columns that are not 
+#' used in ggplot mappings and facets from the exported chart data. 
 #' @param round Numeric, optional. Round numbers in the chart data to this
 #' number of decimal places. Default is NULL, which does not round numbers.
 #'
@@ -30,6 +30,7 @@
 #' @importFrom ggplot2 last_plot
 #' @importFrom purrr map
 #' @importFrom rlang quo_get_expr
+#' @importFrom dplyr select
 #'
 #' @examples
 #'
@@ -364,6 +365,8 @@ clean_chartdata_ <- function(object,
     
   }
   
+  } else {
+    used_cols <- names(chart_data)
   }
   
   # Filter the chart data for only the columns used in the ggplot mappings and facets

@@ -71,6 +71,15 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 </g>
 <defs>
+  <clipPath id='cpMTIuNTd8NzA3LjQzfDQyLjYzfDU2My43Mg=='>
+    <rect x='12.57' y='42.63' width='694.87' height='521.09' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMTIuNTd8NzA3LjQzfDQyLjYzfDU2My43Mg==)'>
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<defs>
   <clipPath id='cpNTk0LjA1fDcwNy40M3w0Mi42M3w3My44MQ=='>
     <rect x='594.05' y='42.63' width='113.39' height='31.18' />
   </clipPath>
@@ -275,12 +284,28 @@
 <g clip-path='url(#cpNy4wOXw3MTIuOTF8MTMyLjQxfDU2OS4yMA==)'>
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<text x='7.23' y='554.89' style='font-size: 9.99px; font-style: italic; font-family: sans;' textLength='51.65px' lengthAdjust='spacingAndGlyphs'>Notes: Blah</text>
-<text x='7.23' y='565.68' style='font-size: 9.99px; font-style: italic; font-family: sans;' textLength='88.86px' lengthAdjust='spacingAndGlyphs'>Source: somewhere</text>
 </g>
 <g clip-path='url(#cpNy4wOXw3MTIuOTF8MTMyLjQxfDU2OS4yMA==)'>
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<g clip-path='url(#cpNy4wOXw3MTIuOTF8MTMyLjQxfDU2OS4yMA==)'>
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<g clip-path='url(#cpNy4wOXw3MTIuOTF8MTMyLjQxfDU2OS4yMA==)'>
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<g clip-path='url(#cpNy4wOXw3MTIuOTF8MTMyLjQxfDU2OS4yMA==)'>
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<g clip-path='url(#cpNy4wOXw3MTIuOTF8MTMyLjQxfDU2OS4yMA==)'>
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<text x='7.23' y='554.89' style='font-size: 9.99px; font-style: italic; font-family: sans;' textLength='54.43px' lengthAdjust='spacingAndGlyphs'>Notes: Blah </text>
+<text x='7.23' y='565.68' style='font-size: 9.99px; font-style: italic; font-family: sans;' textLength='88.86px' lengthAdjust='spacingAndGlyphs'>Source: somewhere</text>
 </g>
 <g clip-path='url(#cpNy4wOXw3MTIuOTF8MTMyLjQxfDU2OS4yMA==)'>
 </g>

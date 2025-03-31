@@ -12,6 +12,7 @@ grattan_save(
   height = NULL,
   save_pptx = FALSE,
   save_data = FALSE,
+  select_data = TRUE,
   force_labs = FALSE,
   watermark = NULL,
   latex = FALSE,
@@ -75,6 +76,9 @@ for each type for which a Powerpoint template exists.}
 TRUE, a properly-formatted .xlsx file will be created containing the
 dataframe you passed to ggplot(). The filename and path will be the same as
 your image, but with a .xlsx extension.}
+
+\item{select_data}{Logical. Default is TRUE. Removes any columns that are not 
+used in ggplot mappings and facets from the exported chart data.}
 
 \item{force_labs}{Logical. By default, `grattan_save()` will remove your
 title, subtitle, and caption (if present) from your graph before saving it,

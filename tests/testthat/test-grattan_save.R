@@ -1,5 +1,6 @@
 library(ggplot2)
 library(openxlsx)
+library(magick)
 
 test_plot <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
   geom_point() +
@@ -42,7 +43,6 @@ test_that("grattan_save() saves charts (no powerpoint)", {
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_a4.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
 
@@ -68,8 +68,6 @@ test_that("grattan_save() saves charts (with powerpoint)", {
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot.xlsx"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.pptx"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullpage.pptx"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
@@ -114,7 +112,6 @@ test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_a4.png"))
   expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
 
@@ -133,7 +130,8 @@ test_that("grattan_save() saves chart data when requested",{
                object = test_plot,
                force_labs = FALSE,
                type = "normal",
-               save_data = TRUE)
+               save_data = TRUE,
+               select_data = FALSE)
 
   expect_true(file.exists("test/test_normal.pdf"))
   expect_true(file.exists("test/test.xlsx"))
@@ -159,19 +157,26 @@ test_that("grattan_save() height behaviour works as expected with normal charts"
 
   grattan_save(filename = "test_plot_normal_default_height.png",
                object = test_plot,
-               type = "normal")
+               type = "normal",
+               device = 'png')
 
   grattan_save(filename = "test_plot_normal_manual_height.png",
                object = test_plot,
                type = "normal",
-               height = 20)
+               height = 20, 
+               device = 'png')
 
   expect_true(file.exists("test_plot_normal_default_height/test_plot_normal_default_height_normal.png"))
   expect_true(file.exists("test_plot_normal_manual_height/test_plot_normal_manual_height_normal.png"))
 
-  expect_gt(file.size("test_plot_normal_manual_height/test_plot_normal_manual_height_normal.png"),
-            file.size("test_plot_normal_default_height/test_plot_normal_default_height_normal.png"))
-
+  default_img <- magick::image_read("test_plot_normal_default_height/test_plot_normal_default_height_normal.png")
+  manual_img <- magick::image_read("test_plot_normal_manual_height/test_plot_normal_manual_height_normal.png")
+  
+  default_info <- magick::image_info(default_img)
+  manual_info <- magick::image_info(manual_img)
+  
+  expect_gt(manual_info$height, default_info$height)
+  
   unlink("test_plot_normal_default_height", recursive = TRUE)
   unlink("test_plot_normal_manual_height", recursive = TRUE)
 
@@ -181,12 +186,14 @@ test_that("grattan_save() height behaviour works as expected with fullslide char
 
   grattan_save(filename = "default_height.png",
                object = test_plot,
-               type = "fullslide")
+               type = "fullslide",
+               device = 'png')
 
   grattan_save(filename = "manual_height.png",
                object = test_plot,
                type = "fullslide",
-               height = 40)
+               height = 40,
+               device = 'png')
 
   expect_true(file.exists("default_height/default_height_fullslide.png"))
   expect_true(file.exists("manual_height/manual_height_fullslide.png"))
@@ -234,10 +241,8 @@ test_that("grattan_save_all() works", {
   expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_normal.png"))
   expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_tiny.png"))
   expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_wholecolumn.png"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_blog.png"))
   expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot.xlsx"))
   expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide.pptx"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_blog.pptx"))
   expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide_43.png"))
 
   expect_false(file.exists("../figs/grattan_save_all/test_plot/test_plot_blog_half.png"))

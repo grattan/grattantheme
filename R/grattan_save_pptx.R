@@ -79,7 +79,8 @@ grattan_save_pptx <- function(filename,
 
  
   # get output directory
-    output_dir <- dirname(filename)
+  filename <- as.character(filename)
+  output_dir <- dirname(filename)
 
   base_filename <- tools::file_path_sans_ext(basename(filename))
   filetype <- tools::file_ext(filename)
