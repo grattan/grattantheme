@@ -32,6 +32,7 @@ Imports:
     openxlsx (>= 4.1.0.1),
     rstudioapi,
     rvg,
+    rlang,
     stringr,
     utils,
 VignetteBuilder: knitr
