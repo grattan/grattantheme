@@ -8,7 +8,6 @@ grattan_save_pptx(
   filename,
   p = ggplot2::last_plot(),
   type = "fullslide",
-  no_new_folder = FALSE,
   rich_subtitle = FALSE,
   png_dpi = 300
 )
@@ -23,8 +22,6 @@ Powerpoint presentation.}
 in `type = c("fullslide", "wholecolumn")` or `type = "all"`, multiple
 files will be created, with the type added to the filename.}
 
-\item{no_new_folder}{Logical. If `TRUE`, the output will be saved without creating a new subfolder.}
-
 \item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.}
 }
 \description{
@@ -34,7 +31,9 @@ subtitle, and caption of your graph are placed in the appropriate places.
 Speaker notes are included, which include the file path to the R script
 from which you called `grattan_save_pptx()`. If you supply a list of plots,
 your Powerpoint presentation will include multiple slides -- one per plot.
-If you specify multiple types, multiple PPTX files will be created.
+If you specify multiple types, multiple PPTX files will be created. This
+function is usually best called by running `grattan_save(..., save_pptx = T)` 
+or `grattan_save_all()`, rather than calling it directly.
 }
 \examples{
 \dontrun{

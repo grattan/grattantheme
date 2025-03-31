@@ -25,9 +25,6 @@
 #'
 #' p_logo <- create_fullslide(p)
 #'
-#' # Create an image that's ready for the blog
-#'
-#' p_blog <- create_fullslide(p, "blog")
 #'
 #' @export
 #' @importFrom patchwork wrap_plots wrap_elements plot_spacer plot_annotation
