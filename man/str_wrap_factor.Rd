@@ -6,6 +6,11 @@
 \usage{
 str_wrap_factor(x, ...)
 }
+\arguments{
+\item{x}{a factor}
+
+\item{...}{arguments to pass to stringr::str_wrap}
+}
 \value{
 a factor
 }

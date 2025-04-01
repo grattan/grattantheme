@@ -77,6 +77,8 @@ paulify_classifications <- function(classification, remove_services = FALSE) {
 #' This function is a wrapper around dplyr::case_when that ensures that
 #' factor levels are ordered in the same way as the case_when statement.
 #' 
+#' @param ... a series of formulas to pass to dplyr::case_when
+#' 
 #' @return a factor
 #' @export
 fct_case_when <- function(...) {
@@ -90,6 +92,9 @@ fct_case_when <- function(...) {
 #' 
 #' This function is a wrapper around stringr::str_wrap that ensures that
 #' factor levels are not dropped.
+#' 
+#' @param x a factor
+#' @param ... arguments to pass to stringr::str_wrap
 #' 
 #' @return a factor
 #' @export

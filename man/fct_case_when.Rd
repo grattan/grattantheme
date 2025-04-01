@@ -6,6 +6,9 @@
 \usage{
 fct_case_when(...)
 }
+\arguments{
+\item{...}{a series of formulas to pass to dplyr::case_when}
+}
 \value{
 a factor
 }
