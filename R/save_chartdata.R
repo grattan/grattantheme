@@ -30,7 +30,7 @@
 #' @importFrom ggplot2 last_plot
 #' @importFrom purrr map
 #' @importFrom rlang quo_get_expr
-#' @importFrom dplyr select
+#' @importFrom dplyr select all_of mutate across where
 #'
 #' @examples
 #'
