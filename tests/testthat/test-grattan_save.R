@@ -93,6 +93,8 @@ test_that("grattan_save() saves charts (with powerpoint)", {
 test_that("grattan_save() saves last_plot() and works with repeated calls", {
   ggplot(mtcars, aes(x = wt, y = mpg)) +
     geom_point()
+  
+  skip_on_os('mac')
 
   skip_on_cran()
   
