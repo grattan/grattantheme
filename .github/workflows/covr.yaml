@@ -35,12 +35,6 @@ jobs:
           remotes::install_cran("covr", type = "binary")
         shell: Rscript {0}
         
-      - name: Install macOS system dependencies
-        if: runner.os == 'macOS'
-        run: |
-          brew install cairo
-          brew install libpng
-
       - name: Test coverage
         run: covr::codecov()
         shell: Rscript {0}

@@ -38,11 +38,6 @@ jobs:
           install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
         
-      - name: Install macOS system dependencies
-        if: runner.os == 'macOS'
-        run: |
-          brew install cairo
-          brew install libpng
 
       - name: Install package
         run: R CMD INSTALL .
