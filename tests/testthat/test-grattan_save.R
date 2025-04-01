@@ -31,8 +31,6 @@ test_plot_longlabs <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 
 test_that("grattan_save() saves charts (no powerpoint)", {
   
-  skip_on_os('mac')
-  
   test_dir <- file.path(tempdir(), "grattan_save_test")
   dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
 
@@ -57,8 +55,6 @@ test_that("grattan_save() saves charts (no powerpoint)", {
 })
 
 test_that("grattan_save() saves charts (with powerpoint)", {
-  
-  skip_on_os('mac')
 
   skip_on_cran()
   
@@ -113,8 +109,6 @@ test_that("grattan_save() saves last_plot() and works with repeated calls", {
 
 
 test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
-  
-  skip_on_os('mac')
 
   skip_on_cran()
 
@@ -173,7 +167,6 @@ test_that("grattan_save() saves chart data when requested",{
 })
 
 test_that("grattan_save() height behaviour works as expected with normal charts", {
-  
 
   grattan_save(filename = "test_plot_normal_default_height.png",
                object = test_plot,
@@ -251,7 +244,6 @@ test_that("grattan_save() saves a plot with a watermark", {
 
 test_that("grattan_save_all() works", {
   
-  skip_on_os('mac')
   skip_on_cran()
   
   test_dir <- file.path(tempdir(), "grattan_save_test")
