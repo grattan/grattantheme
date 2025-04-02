@@ -47,8 +47,8 @@ test_that("grattan_save() saves charts (no powerpoint)", {
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_tiny.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_wholecolumn.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_a4.png")))
-  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_43.png")))
   
+  expect_false(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_43.png")))
   expect_false(file.exists(file.path(test_dir, "test_plot.png", "test_plot_blog_half.png")))
   
   unlink(test_dir, recursive = TRUE)
@@ -77,8 +77,8 @@ test_that("grattan_save() saves charts (with powerpoint)", {
   expect_true(file.exists(file.path(output_dir, "test_plot_wholecolumn.png")))
   expect_true(file.exists(file.path(output_dir, "test_plot_fullslide.pptx")))
   expect_true(file.exists(file.path(output_dir, "test_plot_fullpage.pptx")))
-  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide_43.png")))
-
+  
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_43.png")))
   expect_false(file.exists(file.path(output_dir, "test_plot_blog_half.png")))
   expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_44.png")))
 
@@ -126,8 +126,8 @@ test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
   expect_true(file.exists(file.path(output_dir, "test_plot_tiny.png")))
   expect_true(file.exists(file.path(output_dir, "test_plot_wholecolumn.png")))
   expect_true(file.exists(file.path(output_dir, "test_plot_a4.png")))
-  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide_43.png")))
   
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_43.png")))
   expect_false(file.exists(file.path(output_dir, "test_plot_fullslide.pptx")))
   expect_false(file.exists(file.path(output_dir, "test_plot.xlsx")))
   expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_44.png")))
@@ -260,8 +260,8 @@ test_that("grattan_save_all() works", {
   expect_true(file.exists(file.path(output_dir, "test_plot_wholecolumn.png")))
   expect_true(file.exists(file.path(output_dir, "test_plot.xlsx")))
   expect_true(file.exists(file.path(output_dir, "test_plot_fullslide.pptx")))
-  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide_43.png")))
   
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_43.png")))
   expect_false(file.exists(file.path(output_dir, "test_plot_blog_half.png")))
   expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_44.png")))
   
