@@ -30,10 +30,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Install system dependencies on macOS
+      - name: Install xquartz system dependency on macOS
         if: runner.os == 'macOS'
         run: |
-          brew install cairo
           brew install --cask xquartz
 
       - uses: r-lib/actions/setup-pandoc@v2
