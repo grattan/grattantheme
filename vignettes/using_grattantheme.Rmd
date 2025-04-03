@@ -177,14 +177,15 @@ The `grattan_save()` function saves your chart in a variety of types. We specify
 * `"normal"`: a standard report chart size, and the default. [**height** = 14.5cm x **width** = 22.16cm]
 * `"wholecolumn`: a taller whole-column chart for reports. [22.16 x 22.16]
 * `"fullpage"`: a full-page chart for reports. [22.16 x 44.32]
+* `"normal_169"`: a standard report chart size, but in 16:9 format.[14.5 x 30]
 * `"tiny"`: a rarely-used short chart for reports. [11.08 x 22.16]
-* `"fullslide"` : to produce charts that look like a full slide with the Grattan logo. This option allows notes and sources to accompany the saved figure. 
-* `"fullslide_169"` : as with "fullslide", but in 16:9 orientation.
-* `"blog"` : Like "fullslide" plots, but with narrower borders -- use this type for the Grattan Blog or other online outlets like The Conversation.
+* `"a4"`: a standard A4 chart size. [29.7 x 21]
+* `"fullslide"` : to produce charts that look like a slide with the Grattan logo. This option allows notes and sources to accompany the saved figure. While this option remains available, it is currently not recommended for use in `.pdf` format, as the Grattan presentation slide format uses fonts that are not reproducible in R, and hence the slide format is out of date.
+* `"fullslide_narrow"` : as with "fullslide", but with a narrower chart.
 
 You can specify `type = "all"` to save in all formats.
 
-The argument `filename` is required. You must include an extension; `.pdf` is standard for Grattan charts for reports; `.png` is standard for the Grattan Blog. 
+The argument `filename` is required. You can specify a file extension; `.pdf` is standard for Grattan charts for reports and is the default if no extension is specified; `.png` is standard for other media. 
 
 `grattan_save()` uses the ggplot2 function `ggsave()` to save your chart. Like `ggsave()`, `grattan_save()` will use the last plot you displayed by default, but you can specify something else with `object`.
 
@@ -213,27 +214,29 @@ Which produces a chart that can fit into a report. Note that the title, subtitle
 knitr::include_graphics("iris.pdf")
 ```
 
-If we wanted to save a full-slide chart, complete with a title, subtitle, notes/sources and the Grattan slide format, we specify `type = "fullslide"`:
+By default, `grattan_save` will save the chart in a new subdirectory that reflects the name of the chart you provide. If you wish to instead save the chart in the current working directory, you can set `no`:
+<!-- ## Saving full-slide charts - have removed for now given issues with functionality -->
+<!-- If we wanted to save a full-slide chart, complete with a title, subtitle, notes/sources and the Grattan slide format, we specify `type = "fullslide"`: -->
 
-```{r, eval = FALSE}
-# Save the plot
-grattan_save(filename = "iris_fullslide.pdf",
-             object = plot_final,
-             type = "fullslide")
+<!-- ```{r, eval = FALSE} -->
+<!-- # Save the plot -->
+<!-- grattan_save(filename = "iris_fullslide.pdf", -->
+<!--              object = plot_final, -->
+<!--              type = "fullslide") -->
 
-```
+<!-- ``` -->
 
-```{r, include=FALSE}
-# Actually save the plot to call, but don't include output
-grattan_save(filename = "iris_fullslide.pdf",
-             object = plot_final,
-             type = "fullslide")
+<!-- ```{r, include=FALSE} -->
+<!-- # Actually save the plot to call, but don't include output -->
+<!-- grattan_save(filename = "iris_fullslide.pdf", -->
+<!--              object = plot_final, -->
+<!--              type = "fullslide") -->
 
-```
+<!-- ``` -->
 
-```{r, out.width = "400px", echo = FALSE}
-knitr::include_graphics("iris_fullslide.pdf")
-```
+<!-- ```{r, out.width = "400px", echo = FALSE} -->
+<!-- knitr::include_graphics("iris_fullslide.pdf") -->
+<!-- ``` -->
 
 ### Saving Powerpoint files
 
@@ -242,19 +245,23 @@ It's convenient to also save your files in Powerpoint format. This allows PDs to
 You can save a Powerpoint file, with appropriate speaker notes included, like this:
 
 ```{r, eval = FALSE}
-grattan_save_pptx(plot_final,
-                  "iris_fullslide.pptx",
-                  type = "fullslide")
-```
-
-Or, you can just use the `save_pptx` argument to `grattan_save()`, like this:
-
-```{r, eval = FALSE}
 grattan_save("iris_fullslide.pdf",
              plot_final,
              type = "fullslide",
              save_pptx = TRUE)
 ```
+
+Or, you can use the `grattan_save_pptx` function, like this:
+
+```{r, eval = FALSE}
+grattan_save_pptx(plot_final,
+                  "iris_fullslide.pptx",
+                  type = "fullslide")
+```
+
+Note that the `grattan_save_pptx` function does not create a new subdirectory for your file, while `grattan_save` will by default.
+
+If your chart includes markdown-formatted text either in chart labels or in the chart subtitle, `officer` will often fail to correctly format the Powerpoint slide output. As a workaround, you can use the option `rich_subtitle = T`, which converts both your chart and subtitle to a `.png` file, which is inserted into the Powerpoint slide. This means the content (including fonts) cannot then be edited in Powerpoint after the fact , but will correctly reflect any markdown formatting.
 
 ### Saving chart data
 
