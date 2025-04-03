@@ -41,7 +41,7 @@ LazyData: true
 RoxygenNote: 7.3.2
 Suggests: 
     assertthat,
-    testthat (>= 2.1.0),
+    testthat (>= 3.0.0),
     covr,
     vdiffr,
     magick,
