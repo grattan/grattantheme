@@ -50,6 +50,8 @@
 #'   TRUE, a properly-formatted .xlsx file will be created containing the
 #'   dataframe you passed to ggplot(). The filename and path will be the same as
 #'   your image, but with a .xlsx extension.
+#' @param select_data Logical. Default is TRUE. Removes any columns that are not 
+#' used in ggplot mappings and facets from the exported chart data. 
 #' @param force_labs Logical. By default, `grattan_save()` will remove your
 #'   title, subtitle, and caption (if present) from your graph before saving it,
 #'   unless `type` = "fullslide". By setting `force_labs` to TRUE, your
@@ -63,8 +65,12 @@
 #' @param dpi Plot resolution. Default is "retina".
 #' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
 #' won't be performed. This is useful if using ggtext syntax within titles.
-#' @param ... arguments passed to `ggsave()`. For example, use
-#' `device = cairo_pdf` to use the Cairo PDF rendering engine.
+#' @param no_new_folder Default is FALSE. If TRUE, the image will not be saved in new subdirectory.
+#' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a PNG 
+#' image and inserted into the slide. This is mainly intended for folks using
+#' markdown text in the subtitles and plots.
+#' @param device The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.
+#' @param ... Any additional arguments passed to `ggsave()`. 
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
 #'
 #' @import ggplot2
@@ -137,11 +143,15 @@ grattan_save <- function(filename,
                          height = NULL,
                          save_pptx = FALSE,
                          save_data = FALSE,
+                         select_data = TRUE,
                          force_labs = FALSE,
                          watermark = NULL,
                          latex = FALSE,
                          dpi = "retina",
                          ignore_long_title = FALSE,
+                         no_new_folder = FALSE,
+                         rich_subtitle = FALSE,
+                         device = cairo_pdf,
                          ...) {
 
   # param checks
@@ -170,7 +180,10 @@ grattan_save <- function(filename,
 
 
   # create subdirectory
-  dir <- tools::file_path_sans_ext(filename)
+  if (!no_new_folder) {
+  dir <- tools::file_path_sans_ext(filename) } else
+  {dir <- dirname(filename)}
+  
   filetype <- tools::file_ext(filename)
   file_name <- tools::file_path_sans_ext(basename(filename))
 
@@ -188,7 +201,8 @@ grattan_save <- function(filename,
         save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
                        object = object,
                        type = type,
-                       height = height)
+                       height = height,
+                       select_data = select_data)
     }
     ## export single pptx
     if (isTRUE(save_pptx)) {
@@ -198,11 +212,11 @@ grattan_save <- function(filename,
       if (isFALSE(template_exists)) {
         warning("Cannot save Powerpoint for type '", type, "'.")
       } else {
-        pptx_filename <- paste0(tools::file_path_sans_ext(filename), ".pptx")
-
+        
         grattan_save_pptx(p = object,
                           type = type,
-                          filename = pptx_filename)
+                          filename = file.path(dir, paste0(file_name, ".pptx")),
+                          rich_subtitle = rich_subtitle)
       }
     }
     ## export single image
@@ -214,11 +228,15 @@ grattan_save <- function(filename,
                   dpi = dpi,
                   save_pptx = save_pptx,
                   ignore_long_title = ignore_long_title,
+                  device = device,
                   ...)
   }
 
   # if all charts
   if (type == "all") {
+
+    # append .pdf if filetype is empty
+    if (filetype == "") {filetype <- "pdf"}
 
     filenames <- file.path(dir, paste0(file_name, "_", all_chart_types, ".", filetype))
 
@@ -237,7 +255,7 @@ grattan_save <- function(filename,
       valid_pptx_types <- all_chart_types[template_exists]
 
       grattan_save_pptx(p = object,
-                        filename = paste0(dir, ".pptx"),
+                        filename = file.path(dir, paste0(file_name, ".pptx")),
                         type = valid_pptx_types)
 
     }
@@ -252,6 +270,7 @@ grattan_save <- function(filename,
                  dpi = dpi,
                  save_pptx = save_pptx,
                  ignore_long_title = ignore_long_title,
+                 device = device,
                  ...)
 
   }
@@ -272,6 +291,7 @@ grattan_save_ <- function(filename,
                           dpi,
                           save_pptx,
                           ignore_long_title,
+                          device,
                           ...) {
 
   plot_class <- chart_types$class[chart_types$type == type]
@@ -313,7 +333,7 @@ grattan_save_ <- function(filename,
 
   ggplot2::ggsave(filename, object,
                   width = width, height = height, units = "cm",
-                  dpi = dpi, ...)
+                  dpi = dpi, device = device, ...)
 
 }
 

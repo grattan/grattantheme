@@ -35,8 +35,5 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 
 p_logo <- create_fullslide(p)
 
-# Create an image that's ready for the blog
-
-p_blog <- create_fullslide(p, "blog")
 
 }

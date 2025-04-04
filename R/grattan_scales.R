@@ -33,7 +33,7 @@ scale_colour_grattan <- function(
   pal <- make_grattan_pal(palette = palette, reverse = reverse)
 
   if (discrete) {
-    ggplot2::discrete_scale("colour", paste0("grattan_", palette), palette = make_grattan_pal_discrete, ...)
+    ggplot2::discrete_scale("colour", palette = make_grattan_pal_discrete, ...)
   } else {
     ggplot2::scale_color_gradientn(colours = pal(256L), ...)
   }
@@ -61,7 +61,7 @@ scale_fill_grattan <- function(
   pal <- make_grattan_pal(palette = palette, reverse = reverse)
 
   if (discrete) {
-    ggplot2::discrete_scale("fill", paste0("grattan_", palette), palette =  make_grattan_pal_discrete, ...)
+    ggplot2::discrete_scale("fill", palette =  make_grattan_pal_discrete, ...)
   } else {
     ggplot2::scale_fill_gradientn(colours = pal(256L), ...)
   }
