@@ -1,564 +1,191 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/using_grattantheme.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_graph_to_pptx.html</loc>
-  </url>
-  <url>
-    <loc>/reference/all_geoms.html</loc>
-  </url>
-  <url>
-    <loc>/reference/chart_types_ext.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_chart_aspect_ratio.html</loc>
-  </url>
-  <url>
-    <loc>/reference/colour_text.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_fullslide.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_pptx_shell.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_slide_shell.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-prep_aes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-set_geom_aesthetics.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-set_grattan_aesthetics.html</loc>
-  </url>
-  <url>
-    <loc>/reference/export_latex_code.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extract_labs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_arrow.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_axes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_black.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_blue.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_blue1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_blue2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_blue3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_blue4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_blue5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_blue6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_blue7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_blue8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_box.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkblue.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkblue1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkblue2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkblue3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkblue4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkblue5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkblue6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkblue7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkblue8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkgrey.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkgrey1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkgrey2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkgrey3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkgrey4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkgrey5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkgrey6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkgrey7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkgrey8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkorange.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkorange1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkorange2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkorange3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkorange4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkorange5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkorange6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkorange7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkorange8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkred8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkyellow.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkyellow1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkyellow2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkyellow3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkyellow4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkyellow5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkyellow6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkyellow7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_darkyellow8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_grey1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_grey2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_grey3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_grey4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_grey5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_grey_alpha.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_grey_title.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_gridlinegrey.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_label_functions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightblue.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightblue1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightblue2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightblue3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightblue4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightblue5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightblue6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightblue7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightblue8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightgrey.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightgrey1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightgrey2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightgrey3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightgrey4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightgrey5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightgrey6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightgrey7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightgrey8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightorange.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightorange1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightorange2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightorange3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightorange4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightorange5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightorange6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightorange7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightorange8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightred.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightred1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightred2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightred3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightred4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightred5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightred6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightred7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightred8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightyellow.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightyellow1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightyellow2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightyellow3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightyellow4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightyellow5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightyellow6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightyellow7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_lightyellow8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_orange_alpha.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_pal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_palette_set.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_palettes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_point_filled.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_red8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_save.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_save_pptx.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_scale.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_yellow.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_yellow1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_yellow2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_yellow3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_yellow4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_yellow5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_yellow6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_yellow7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grattan_yellow8.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gridextra_fullslide.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make_grattan_pal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make_grattan_pal_discrete.html</loc>
-  </url>
-  <url>
-    <loc>/reference/palette_order.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pandoc_test.html</loc>
-  </url>
-  <url>
-    <loc>/reference/paulify_classifications.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_opts_grattan.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot_opts_vanilla.html</loc>
-  </url>
-  <url>
-    <loc>/reference/register_palette.html</loc>
-  </url>
-  <url>
-    <loc>/reference/replace_labs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/return_script_and_chart_location.html</loc>
-  </url>
-  <url>
-    <loc>/reference/save_chartdata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/scale_colour_grattan.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_aesthetics.html</loc>
-  </url>
-  <url>
-    <loc>/reference/stitch_pdfs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/theme_grattan.html</loc>
-  </url>
-  <url>
-    <loc>/reference/watermark.html</loc>
-  </url>
-  <url>
-    <loc>/reference/wrap_labs.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/using_grattantheme.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/all_geoms.html</loc></url>
+<url><loc>/reference/chart_types_ext.html</loc></url>
+<url><loc>/reference/check_chart_aspect_ratio.html</loc></url>
+<url><loc>/reference/colour_text.html</loc></url>
+<url><loc>/reference/create_fullslide.html</loc></url>
+<url><loc>/reference/create_pptx_shell.html</loc></url>
+<url><loc>/reference/create_slide_shell.html</loc></url>
+<url><loc>/reference/dot-prep_aes.html</loc></url>
+<url><loc>/reference/dot-set_geom_aesthetics.html</loc></url>
+<url><loc>/reference/dot-set_grattan_aesthetics.html</loc></url>
+<url><loc>/reference/export_latex_code.html</loc></url>
+<url><loc>/reference/extract_labs.html</loc></url>
+<url><loc>/reference/fct_case_when.html</loc></url>
+<url><loc>/reference/grattan_arrow.html</loc></url>
+<url><loc>/reference/grattan_axes.html</loc></url>
+<url><loc>/reference/grattan_black.html</loc></url>
+<url><loc>/reference/grattan_blue.html</loc></url>
+<url><loc>/reference/grattan_blue1.html</loc></url>
+<url><loc>/reference/grattan_blue2.html</loc></url>
+<url><loc>/reference/grattan_blue3.html</loc></url>
+<url><loc>/reference/grattan_blue4.html</loc></url>
+<url><loc>/reference/grattan_blue5.html</loc></url>
+<url><loc>/reference/grattan_blue6.html</loc></url>
+<url><loc>/reference/grattan_blue7.html</loc></url>
+<url><loc>/reference/grattan_blue8.html</loc></url>
+<url><loc>/reference/grattan_box.html</loc></url>
+<url><loc>/reference/grattan_darkblue.html</loc></url>
+<url><loc>/reference/grattan_darkblue1.html</loc></url>
+<url><loc>/reference/grattan_darkblue2.html</loc></url>
+<url><loc>/reference/grattan_darkblue3.html</loc></url>
+<url><loc>/reference/grattan_darkblue4.html</loc></url>
+<url><loc>/reference/grattan_darkblue5.html</loc></url>
+<url><loc>/reference/grattan_darkblue6.html</loc></url>
+<url><loc>/reference/grattan_darkblue7.html</loc></url>
+<url><loc>/reference/grattan_darkblue8.html</loc></url>
+<url><loc>/reference/grattan_darkgrey.html</loc></url>
+<url><loc>/reference/grattan_darkgrey1.html</loc></url>
+<url><loc>/reference/grattan_darkgrey2.html</loc></url>
+<url><loc>/reference/grattan_darkgrey3.html</loc></url>
+<url><loc>/reference/grattan_darkgrey4.html</loc></url>
+<url><loc>/reference/grattan_darkgrey5.html</loc></url>
+<url><loc>/reference/grattan_darkgrey6.html</loc></url>
+<url><loc>/reference/grattan_darkgrey7.html</loc></url>
+<url><loc>/reference/grattan_darkgrey8.html</loc></url>
+<url><loc>/reference/grattan_darkorange.html</loc></url>
+<url><loc>/reference/grattan_darkorange1.html</loc></url>
+<url><loc>/reference/grattan_darkorange2.html</loc></url>
+<url><loc>/reference/grattan_darkorange3.html</loc></url>
+<url><loc>/reference/grattan_darkorange4.html</loc></url>
+<url><loc>/reference/grattan_darkorange5.html</loc></url>
+<url><loc>/reference/grattan_darkorange6.html</loc></url>
+<url><loc>/reference/grattan_darkorange7.html</loc></url>
+<url><loc>/reference/grattan_darkorange8.html</loc></url>
+<url><loc>/reference/grattan_darkred.html</loc></url>
+<url><loc>/reference/grattan_darkred1.html</loc></url>
+<url><loc>/reference/grattan_darkred2.html</loc></url>
+<url><loc>/reference/grattan_darkred3.html</loc></url>
+<url><loc>/reference/grattan_darkred4.html</loc></url>
+<url><loc>/reference/grattan_darkred5.html</loc></url>
+<url><loc>/reference/grattan_darkred6.html</loc></url>
+<url><loc>/reference/grattan_darkred7.html</loc></url>
+<url><loc>/reference/grattan_darkred8.html</loc></url>
+<url><loc>/reference/grattan_darkyellow.html</loc></url>
+<url><loc>/reference/grattan_darkyellow1.html</loc></url>
+<url><loc>/reference/grattan_darkyellow2.html</loc></url>
+<url><loc>/reference/grattan_darkyellow3.html</loc></url>
+<url><loc>/reference/grattan_darkyellow4.html</loc></url>
+<url><loc>/reference/grattan_darkyellow5.html</loc></url>
+<url><loc>/reference/grattan_darkyellow6.html</loc></url>
+<url><loc>/reference/grattan_darkyellow7.html</loc></url>
+<url><loc>/reference/grattan_darkyellow8.html</loc></url>
+<url><loc>/reference/grattan_grey1.html</loc></url>
+<url><loc>/reference/grattan_grey2.html</loc></url>
+<url><loc>/reference/grattan_grey3.html</loc></url>
+<url><loc>/reference/grattan_grey4.html</loc></url>
+<url><loc>/reference/grattan_grey5.html</loc></url>
+<url><loc>/reference/grattan_grey_alpha.html</loc></url>
+<url><loc>/reference/grattan_grey_title.html</loc></url>
+<url><loc>/reference/grattan_gridlinegrey.html</loc></url>
+<url><loc>/reference/grattan_label_functions.html</loc></url>
+<url><loc>/reference/grattan_lightblue.html</loc></url>
+<url><loc>/reference/grattan_lightblue1.html</loc></url>
+<url><loc>/reference/grattan_lightblue2.html</loc></url>
+<url><loc>/reference/grattan_lightblue3.html</loc></url>
+<url><loc>/reference/grattan_lightblue4.html</loc></url>
+<url><loc>/reference/grattan_lightblue5.html</loc></url>
+<url><loc>/reference/grattan_lightblue6.html</loc></url>
+<url><loc>/reference/grattan_lightblue7.html</loc></url>
+<url><loc>/reference/grattan_lightblue8.html</loc></url>
+<url><loc>/reference/grattan_lightgrey.html</loc></url>
+<url><loc>/reference/grattan_lightgrey1.html</loc></url>
+<url><loc>/reference/grattan_lightgrey2.html</loc></url>
+<url><loc>/reference/grattan_lightgrey3.html</loc></url>
+<url><loc>/reference/grattan_lightgrey4.html</loc></url>
+<url><loc>/reference/grattan_lightgrey5.html</loc></url>
+<url><loc>/reference/grattan_lightgrey6.html</loc></url>
+<url><loc>/reference/grattan_lightgrey7.html</loc></url>
+<url><loc>/reference/grattan_lightgrey8.html</loc></url>
+<url><loc>/reference/grattan_lightorange.html</loc></url>
+<url><loc>/reference/grattan_lightorange1.html</loc></url>
+<url><loc>/reference/grattan_lightorange2.html</loc></url>
+<url><loc>/reference/grattan_lightorange3.html</loc></url>
+<url><loc>/reference/grattan_lightorange4.html</loc></url>
+<url><loc>/reference/grattan_lightorange5.html</loc></url>
+<url><loc>/reference/grattan_lightorange6.html</loc></url>
+<url><loc>/reference/grattan_lightorange7.html</loc></url>
+<url><loc>/reference/grattan_lightorange8.html</loc></url>
+<url><loc>/reference/grattan_lightred.html</loc></url>
+<url><loc>/reference/grattan_lightred1.html</loc></url>
+<url><loc>/reference/grattan_lightred2.html</loc></url>
+<url><loc>/reference/grattan_lightred3.html</loc></url>
+<url><loc>/reference/grattan_lightred4.html</loc></url>
+<url><loc>/reference/grattan_lightred5.html</loc></url>
+<url><loc>/reference/grattan_lightred6.html</loc></url>
+<url><loc>/reference/grattan_lightred7.html</loc></url>
+<url><loc>/reference/grattan_lightred8.html</loc></url>
+<url><loc>/reference/grattan_lightyellow.html</loc></url>
+<url><loc>/reference/grattan_lightyellow1.html</loc></url>
+<url><loc>/reference/grattan_lightyellow2.html</loc></url>
+<url><loc>/reference/grattan_lightyellow3.html</loc></url>
+<url><loc>/reference/grattan_lightyellow4.html</loc></url>
+<url><loc>/reference/grattan_lightyellow5.html</loc></url>
+<url><loc>/reference/grattan_lightyellow6.html</loc></url>
+<url><loc>/reference/grattan_lightyellow7.html</loc></url>
+<url><loc>/reference/grattan_lightyellow8.html</loc></url>
+<url><loc>/reference/grattan_orange.html</loc></url>
+<url><loc>/reference/grattan_orange1.html</loc></url>
+<url><loc>/reference/grattan_orange2.html</loc></url>
+<url><loc>/reference/grattan_orange3.html</loc></url>
+<url><loc>/reference/grattan_orange4.html</loc></url>
+<url><loc>/reference/grattan_orange5.html</loc></url>
+<url><loc>/reference/grattan_orange6.html</loc></url>
+<url><loc>/reference/grattan_orange7.html</loc></url>
+<url><loc>/reference/grattan_orange8.html</loc></url>
+<url><loc>/reference/grattan_orange_alpha.html</loc></url>
+<url><loc>/reference/grattan_pal.html</loc></url>
+<url><loc>/reference/grattan_palette_set.html</loc></url>
+<url><loc>/reference/grattan_palettes.html</loc></url>
+<url><loc>/reference/grattan_point_filled.html</loc></url>
+<url><loc>/reference/grattan_red.html</loc></url>
+<url><loc>/reference/grattan_red1.html</loc></url>
+<url><loc>/reference/grattan_red2.html</loc></url>
+<url><loc>/reference/grattan_red3.html</loc></url>
+<url><loc>/reference/grattan_red4.html</loc></url>
+<url><loc>/reference/grattan_red5.html</loc></url>
+<url><loc>/reference/grattan_red6.html</loc></url>
+<url><loc>/reference/grattan_red7.html</loc></url>
+<url><loc>/reference/grattan_red8.html</loc></url>
+<url><loc>/reference/grattan_save.html</loc></url>
+<url><loc>/reference/grattan_save_pptx.html</loc></url>
+<url><loc>/reference/grattan_scale.html</loc></url>
+<url><loc>/reference/grattan_yellow.html</loc></url>
+<url><loc>/reference/grattan_yellow1.html</loc></url>
+<url><loc>/reference/grattan_yellow2.html</loc></url>
+<url><loc>/reference/grattan_yellow3.html</loc></url>
+<url><loc>/reference/grattan_yellow4.html</loc></url>
+<url><loc>/reference/grattan_yellow5.html</loc></url>
+<url><loc>/reference/grattan_yellow6.html</loc></url>
+<url><loc>/reference/grattan_yellow7.html</loc></url>
+<url><loc>/reference/grattan_yellow8.html</loc></url>
+<url><loc>/reference/gridextra_fullslide.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/make_grattan_pal.html</loc></url>
+<url><loc>/reference/make_grattan_pal_discrete.html</loc></url>
+<url><loc>/reference/palette_order.html</loc></url>
+<url><loc>/reference/pandoc_test.html</loc></url>
+<url><loc>/reference/paulify_classifications.html</loc></url>
+<url><loc>/reference/plot_opts_grattan.html</loc></url>
+<url><loc>/reference/plot_opts_vanilla.html</loc></url>
+<url><loc>/reference/register_palette.html</loc></url>
+<url><loc>/reference/replace_labs.html</loc></url>
+<url><loc>/reference/return_script_and_chart_location.html</loc></url>
+<url><loc>/reference/save_chartdata.html</loc></url>
+<url><loc>/reference/scale_colour_grattan.html</loc></url>
+<url><loc>/reference/set_aesthetics.html</loc></url>
+<url><loc>/reference/stitch_pdfs.html</loc></url>
+<url><loc>/reference/str_wrap_factor.html</loc></url>
+<url><loc>/reference/theme_grattan.html</loc></url>
+<url><loc>/reference/watermark.html</loc></url>
+<url><loc>/reference/wrap_labs.html</loc></url>
 </urlset>
+
