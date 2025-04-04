@@ -187,6 +187,10 @@ You can specify `type = "all"` to save in all formats.
 
 The argument `filename` is required. You can specify a file extension; `.pdf` is standard for Grattan charts for reports and is the default if no extension is specified; `.png` is standard for other media. 
 
+Charts will be produced using the `cairo_pdf` device, unless another `device` is specified. Note that installation of `cairo_pdf` may require installation of additional software on your system, such as Xquartz on MacOS.
+
+By default, `grattan_save` will save the chart in a new subdirectory that reflects the name of the chart you provide. If you wish to instead save the chart in the current working directory, you can set `no_new_folder = TRUE`.
+
 `grattan_save()` uses the ggplot2 function `ggsave()` to save your chart. Like `ggsave()`, `grattan_save()` will use the last plot you displayed by default, but you can specify something else with `object`.
 
 Now we can save our Grattan-formatted graph as a normally-formatted report chart:
@@ -214,7 +218,6 @@ Which produces a chart that can fit into a report. Note that the title, subtitle
 knitr::include_graphics("iris.pdf")
 ```
 
-By default, `grattan_save` will save the chart in a new subdirectory that reflects the name of the chart you provide. If you wish to instead save the chart in the current working directory, you can set `no`:
 <!-- ## Saving full-slide charts - have removed for now given issues with functionality -->
 <!-- If we wanted to save a full-slide chart, complete with a title, subtitle, notes/sources and the Grattan slide format, we specify `type = "fullslide"`: -->
 
@@ -270,12 +273,13 @@ When we release reports or working papers, we typically upload an Excel file inc
 You can use it like this:
 
 ```{r, eval = FALSE}
-save_chartdata("plot_final.xlsx", object = plot_final)
-```
-
-Or, just use the `save_data` argument to `grattan_save()` when you save your plot:
-```{r, eval = FALSE}
 grattan_save("plot_final.png",
              type = "fullslide",
              save_data = TRUE)
+```
+
+Or you can use the `save_chartdata` function directly, like this:
+
+```{r, eval = FALSE}
+save_chartdata("plot_final.xlsx", object = plot_final)
 ```
