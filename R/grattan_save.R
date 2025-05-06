@@ -248,6 +248,7 @@ grattan_save <- function(filename,
       save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
                      object = object,
                      type = "normal",
+                     select_data = select_data,
                      height = height)
     }
 
