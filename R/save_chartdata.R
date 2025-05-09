@@ -117,7 +117,7 @@ save_chartdata <- function(filename,
     # Filter out any NULL entries, e.g. those caused by plot_spacer
     chart_data <- Filter(Negate(is.null), chart_data)
 
-    # Throw a warning if
+    # Stop if no chart data is found.
     if (length(chart_data) == 0) {
       stop("No valid data found in any of the charts in the patchwork object.")
     }
@@ -389,7 +389,7 @@ clean_chartdata_ <- function(object,
   used_cols <- unique(used_cols)
 
     # Check that all of used_cols exist in the underlying data, if not throw a warning and filter only actually existing columns
-    if(length(used_cols > 0 )){
+    if(length(used_cols) > 0 ){
 
       missing_cols <- setdiff(used_cols, names(chart_data))
 
