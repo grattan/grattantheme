@@ -50,8 +50,8 @@
 #'   TRUE, a properly-formatted .xlsx file will be created containing the
 #'   dataframe you passed to ggplot(). The filename and path will be the same as
 #'   your image, but with a .xlsx extension.
-#' @param select_data Logical. Default is TRUE. Removes any columns that are not 
-#' used in ggplot mappings and facets from the exported chart data. 
+#' @param select_data Logical. Default is TRUE. Removes any columns that are not
+#' used in ggplot mappings and facets from the exported chart data.
 #' @param force_labs Logical. By default, `grattan_save()` will remove your
 #'   title, subtitle, and caption (if present) from your graph before saving it,
 #'   unless `type` = "fullslide". By setting `force_labs` to TRUE, your
@@ -66,11 +66,11 @@
 #' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
 #' won't be performed. This is useful if using ggtext syntax within titles.
 #' @param no_new_folder Default is FALSE. If TRUE, the image will not be saved in new subdirectory.
-#' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a PNG 
+#' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a PNG
 #' image and inserted into the slide. This is mainly intended for folks using
 #' markdown text in the subtitles and plots.
 #' @param device The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.
-#' @param ... Any additional arguments passed to `ggsave()`. 
+#' @param ... Any additional arguments passed to `ggsave()`.
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
 #'
 #' @import ggplot2
@@ -183,7 +183,7 @@ grattan_save <- function(filename,
   if (!no_new_folder) {
   dir <- tools::file_path_sans_ext(filename) } else
   {dir <- dirname(filename)}
-  
+
   filetype <- tools::file_ext(filename)
   file_name <- tools::file_path_sans_ext(basename(filename))
 
@@ -193,6 +193,9 @@ grattan_save <- function(filename,
 
   # if single chart
   if (type != "all") {
+
+    # append .pdf if filetype is empty
+    if (filetype == "") {filetype <- "pdf"}
 
     filename <- file.path(dir, paste0(file_name, "_", type, ".", filetype))
 
@@ -212,7 +215,7 @@ grattan_save <- function(filename,
       if (isFALSE(template_exists)) {
         warning("Cannot save Powerpoint for type '", type, "'.")
       } else {
-        
+
         grattan_save_pptx(p = object,
                           type = type,
                           filename = file.path(dir, paste0(file_name, ".pptx")),
@@ -245,6 +248,7 @@ grattan_save <- function(filename,
       save_chartdata(filename = file.path(dir, paste0(file_name, ".xlsx")),
                      object = object,
                      type = "normal",
+                     select_data = select_data,
                      height = height)
     }
 
