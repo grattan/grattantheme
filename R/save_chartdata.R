@@ -352,9 +352,10 @@ clean_chartdata_ <- function(object,
   # Check dataframe
   if (is.null(chart_data) | !is.data.frame(chart_data)) {
     if (patchwork) {
-      warning(sprintf("No chartdata found for patchwork plot %s. This can occur when plot_spacer() is used.", index))
+      # Create message if chart is patchwork and some the charts are missing data.
+      # Main function will report an error if instead there is no data in any plot object.
+      message(sprintf("No chartdata found for patchwork plot %s. This can occur when plot_spacer() is used.", index))
     }
-    warning("No data found in chart. Note that charts created in gridExtra or cowplot are not fully supported.")
     return(NULL)
   }
 
