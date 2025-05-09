@@ -111,9 +111,21 @@ save_chartdata <- function(filename,
   # Extract and clean the chart data
 
   if (patchwork) {
-    chart_data <- map(seq_along(object), function(i) {clean_chartdata_(object[[i]], select_data, round)})
+    # Map separate components of patchwork plot to clean_chartdata_
+    chart_data <- map(seq_along(object), function(i) {clean_chartdata_(object[[i]], select_data, round, patchwork = TRUE, index = i)})
+
+    # Filter out any NULL entries, e.g. those caused by plot_spacer
+    chart_data <- Filter(Negate(is.null), chart_data)
+
+    # Throw a warning if
+    if (length(chart_data) == 0) {
+      stop("No valid data found in any of the charts in the patchwork object.")
+    }
   } else {
     chart_data <- clean_chartdata_(object, select_data, round)
+    if (is.null(chart_data)) {
+      stop("No valid data found in the chart.")
+    }
   }
 
   # Find total number of columns and rows across all data frames
@@ -331,13 +343,19 @@ save_chartdata <- function(filename,
 
 clean_chartdata_ <- function(object,
                              select_data,
-                             round) {
+                             round,
+                             patchwork = FALSE,
+                             index = NULL) {
 
   chart_data <- object$data
 
   # Check dataframe
   if (is.null(chart_data) | !is.data.frame(chart_data)) {
-    stop("No data found in chart. Note that charts created in gridExtra or cowplot are not fully supported.")
+    if (patchwork) {
+      warning(sprintf("No chartdata found for patchwork plot %s. This can occur when plot_spacer() is used.", index))
+    }
+    warning("No data found in chart. Note that charts created in gridExtra or cowplot are not fully supported.")
+    return(NULL)
   }
 
   if (select_data) {
