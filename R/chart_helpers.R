@@ -112,7 +112,7 @@ str_wrap_factor <- function(x, ...) {
 #' @return a data frame
 #' @export
 
-deendash <- function(df) {
+remove_endash <- function(df) {
   df %>%
-    mutate(across(where(is.character), ~ str_replace_all(., "–", "-")))
+    mutate(across(where(is.character), ~ str_replace_all(., "\u2013", "-")))
 }
