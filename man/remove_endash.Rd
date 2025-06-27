@@ -6,10 +6,13 @@
 \usage{
 remove_endash(df)
 }
+\arguments{
+\item{df}{a data frame}
+}
 \value{
 a data frame
 }
 \description{
-This function is a wrapper around stringr::str_replace_all that removes 
+This function is a wrapper around stringr::str_replace_all that removes
 en-dashes from a data frame.
 }
