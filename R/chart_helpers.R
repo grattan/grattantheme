@@ -103,3 +103,16 @@ str_wrap_factor <- function(x, ...) {
   levels(x) <- stringr::str_wrap(levels(x), ...)
   x
 }
+
+#' Remove en-dashes from a data frame
+#' 
+#' This function is a wrapper around stringr::str_replace_all that removes 
+#' en-dashes from a data frame.
+#' 
+#' @return a data frame
+#' @export
+
+remove_endash <- function(df) {
+  df %>%
+    mutate(across(where(is.character), ~ str_replace_all(., "\u2013", "-")))
+}
