@@ -77,7 +77,7 @@ TRUE, a properly-formatted .xlsx file will be created containing the
 dataframe you passed to ggplot(). The filename and path will be the same as
 your image, but with a .xlsx extension.}
 
-\item{select_data}{Logical. Default is TRUE. Removes any columns that are not 
+\item{select_data}{Logical. Default is TRUE. Removes any columns that are not
 used in ggplot mappings and facets from the exported chart data.}
 
 \item{force_labs}{Logical. By default, `grattan_save()` will remove your
@@ -100,13 +100,13 @@ won't be performed. This is useful if using ggtext syntax within titles.}
 
 \item{no_new_folder}{Default is FALSE. If TRUE, the image will not be saved in new subdirectory.}
 
-\item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a PNG 
+\item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a PNG
 image and inserted into the slide. This is mainly intended for folks using
 markdown text in the subtitles and plots.}
 
 \item{device}{The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.}
 
-\item{...}{Any additional arguments passed to `ggsave()`. 
+\item{...}{Any additional arguments passed to `ggsave()`.
 For `grattan_save_all()`, the `...` are passed to `grattan_save()`.}
 }
 \description{

@@ -29,7 +29,7 @@ little to accommodate the labels.}
 \item{height}{Numeric, optional. Use this to override the default height
 for plots of your chosen `type`; see \code{?grattan_save} for more details.}
 
-\item{select_data}{Logical, default is TRUE. Removes any columns that are not 
+\item{select_data}{Logical, default is TRUE. Removes any columns that are not
 used in ggplot mappings and facets from the exported chart data.}
 
 \item{round}{Numeric, optional. Round numbers in the chart data to this
