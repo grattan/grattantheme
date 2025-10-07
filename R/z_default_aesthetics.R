@@ -93,28 +93,20 @@ plot_opts_vanilla <- list(
 #'
 #' A wrapper for a bunch of other functions to set ggplot2 default aesthetics.
 .set_grattan_aesthetics <- function() {
-  # Import an unexported function from {ggplot2} used to inspect a ggproto
-  # object, the object class that underpins all geoms
-  validate_subclass <- utils::getFromNamespace("validate_subclass", "ggplot2")
+  # Get Geom objects directly
+  get_geom_aes <- function(geom_name) {
+    tryCatch({
+      geom_class <- paste0("Geom", tools::toTitleCase(geom_name))
+      geom_obj <- getFromNamespace(geom_class, "ggplot2")
+      if (inherits(geom_obj, "Geom")) {
+        return(geom_obj$default_aes)
+      }
+      NULL
+    }, error = function(e) NULL)
+  }
 
   current_aesthetics <- grattantheme::all_geoms %>%
-    # Get the details for geoms currently available in the namespace
-    # We use safely() because the geom's package must be libraried for it to
-    # be accessible (otherwise it errors), and `all_geoms` was build with
-    # many ggplot extension packages libraried
-    purrr::map(
-      purrr::safely(validate_subclass),
-      "Geom",
-      env = parent.frame()
-    ) %>%
-    purrr::map(
-      purrr::pluck,
-      "result"
-    ) %>%
-    purrr::map(
-      purrr::pluck,
-      "default_aes"
-    ) %>%
+    purrr::map(get_geom_aes) %>%
     purrr::set_names(grattantheme::all_geoms)
 
   # Overwrite elements of the current_aesthetics to use theme settings
