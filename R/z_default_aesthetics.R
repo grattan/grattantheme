@@ -59,7 +59,7 @@ plot_opts_vanilla <- list(
 #' changes settings where the default is not NA; no need for \code{geom_point}
 #' to have a default font family.
 #'
-#' This is used inside `.set_grattab_aesthetics()`
+#' This is used inside `.set_grattan_aesthetics()`
 #'
 #' @param geom (character) the geom to change (e.g. \code{point} or
 #'   \code{line})
@@ -93,6 +93,14 @@ plot_opts_vanilla <- list(
 #'
 #' A wrapper for a bunch of other functions to set ggplot2 default aesthetics.
 .set_grattan_aesthetics <- function() {
+
+  # Skip this for ggplot2 4.0.0+ as geoms now use from_theme() expressions
+  # which properly respect theme settings. The grattanify_geom_defaults()
+  # function will handle setting appropriate defaults.
+  if (utils::packageVersion("ggplot2") >= "4.0.0") {
+    return(invisible(NULL))
+  }
+
   # Get Geom objects directly
   get_geom_aes <- function(geom_name) {
     tryCatch({
