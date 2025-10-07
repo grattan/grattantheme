@@ -95,7 +95,7 @@ plot_opts_vanilla <- list(
 .set_grattan_aesthetics <- function() {
   # Import an unexported function from {ggplot2} used to inspect a ggproto
   # object, the object class that underpins all geoms
-  check_subclass <- utils::getFromNamespace("check_subclass", "ggplot2")
+  validate_subclass <- utils::getFromNamespace("validate_subclass", "ggplot2")
 
   current_aesthetics <- grattantheme::all_geoms %>%
     # Get the details for geoms currently available in the namespace
@@ -103,7 +103,7 @@ plot_opts_vanilla <- list(
     # be accessible (otherwise it errors), and `all_geoms` was build with
     # many ggplot extension packages libraried
     purrr::map(
-      purrr::safely(check_subclass),
+      purrr::safely(validate_subclass),
       "Geom",
       env = parent.frame()
     ) %>%
