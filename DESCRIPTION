@@ -8,8 +8,8 @@ Authors@R: c(
     person(given = "Will", family = "Mackey",
                 role = c("aut")),
     person(given = "Grattan Institute",
-                email = "info@grattan.edu.au"),
-                role = c("cre"))
+                email = "info@grattan.edu.au",
+                role = c("cre")))
 Description: Enables the user to create ggplot2 charts that conform 
     to the Grattan Institute style guide. 
 License: MIT + file LICENSE
