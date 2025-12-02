@@ -1,3 +1,6 @@
+# grattantheme 1.3.1
+* Updated aesthetics handling of default geoms to ensure compatibility with ggplot2 version 4.0.0.
+
 # grattantheme 1.3.0
 * Updates to `grattan_save` and `grattan_save_pptx`, including adding `no_new_folder` option to prevent creation of subfolders, setting cairo_pdf as the default `device`, and adding `rich_subtitle` option for preserving markdown formatting in PowerPoint exports. Powerpoint templates are also updated for consistency with internal Grattan templates.
 * Updates to `save_chartdata`, including adding `select_data` option to remove extraneous columns from chartdata, and adding the `round` parameter to control decimal places in numeric data.
