@@ -59,7 +59,7 @@ plot_opts_vanilla <- list(
 #' changes settings where the default is not NA; no need for \code{geom_point}
 #' to have a default font family.
 #'
-#' This is used inside `.set_grattab_aesthetics()`
+#' This is used inside `.set_grattan_aesthetics()`
 #'
 #' @param geom (character) the geom to change (e.g. \code{point} or
 #'   \code{line})
@@ -93,28 +93,28 @@ plot_opts_vanilla <- list(
 #'
 #' A wrapper for a bunch of other functions to set ggplot2 default aesthetics.
 .set_grattan_aesthetics <- function() {
-  # Import an unexported function from {ggplot2} used to inspect a ggproto
-  # object, the object class that underpins all geoms
-  check_subclass <- utils::getFromNamespace("check_subclass", "ggplot2")
+
+  # Skip this for ggplot2 4.0.0+ as geoms now use from_theme() expressions
+  # which properly respect theme settings. The grattanify_geom_defaults()
+  # function will handle setting appropriate defaults.
+  if (utils::packageVersion("ggplot2") >= "4.0.0") {
+    return(invisible(NULL))
+  }
+
+  # Get Geom objects directly
+  get_geom_aes <- function(geom_name) {
+    tryCatch({
+      geom_class <- paste0("Geom", tools::toTitleCase(geom_name))
+      geom_obj <- getFromNamespace(geom_class, "ggplot2")
+      if (inherits(geom_obj, "Geom")) {
+        return(geom_obj$default_aes)
+      }
+      NULL
+    }, error = function(e) NULL)
+  }
 
   current_aesthetics <- grattantheme::all_geoms %>%
-    # Get the details for geoms currently available in the namespace
-    # We use safely() because the geom's package must be libraried for it to
-    # be accessible (otherwise it errors), and `all_geoms` was build with
-    # many ggplot extension packages libraried
-    purrr::map(
-      purrr::safely(check_subclass),
-      "Geom",
-      env = parent.frame()
-    ) %>%
-    purrr::map(
-      purrr::pluck,
-      "result"
-    ) %>%
-    purrr::map(
-      purrr::pluck,
-      "default_aes"
-    ) %>%
+    purrr::map(get_geom_aes) %>%
     purrr::set_names(grattantheme::all_geoms)
 
   # Overwrite elements of the current_aesthetics to use theme settings

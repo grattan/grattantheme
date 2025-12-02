@@ -29,7 +29,7 @@ test_that("theme_grattan() arguments work",{
   p_flipped <- base_plot + theme_grattan(flipped = TRUE)
 
   expect_null(p_flipped$theme$panel.grid.major.x)
-  expect_is(p_flipped$theme$panel.grid.major.y, "element_blank")
+  expect_is(p_flipped$theme$panel.grid.major.y, "ggplot2::element_blank")
 
   p_orange <- base_plot + theme_grattan(background = "orange")
 
@@ -42,7 +42,7 @@ test_that("theme_grattan() arguments work",{
   expect_equal(p_legend$theme$legend.position, "top")
 
   # Normal plot:
-  expect_equal(class(p$theme$axis.line.y)[1], "element_blank")
+  expect_equal(class(p$theme$axis.line.y)[1], "ggplot2::element_blank")
 
   # Scatter plot:
   expect_null(p_scatter$theme$axis.line.y)

@@ -1,12 +1,15 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 1.3.0
+Version: 1.3.1
 Authors@R: c(
-    person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
+    person("Matt", "Cowgill", 
                 role = c("aut")),
-    person(given = "Will", family = "Mackey", email = "william.mackey@grattaninstitute.edu.au",
-                role = c("aut", "cre")))
+    person(given = "Will", family = "Mackey",
+                role = c("aut")),
+    person(given = "Grattan Institute",
+                email = "info@grattan.edu.au",
+                role = c("cre")))
 Description: Enables the user to create ggplot2 charts that conform 
     to the Grattan Institute style guide. 
 License: MIT + file LICENSE
@@ -17,7 +20,7 @@ Imports:
     dplyr, 
     gdtools,
     ggrepel (>= 0.8.0),
-    ggplot2 (>= 3.3.0),
+    ggplot2 (>= 4.0.0),
     glue,
     gridExtra,
     grDevices, 
