@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -100,7 +100,7 @@ in <code>R</code> using <code>ggplot</code>.</p>
 <span>             y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>             colour <span class="op">=</span> <span class="st">"Species"</span><span class="op">)</span></span></code></pre></div>
 <p>This successfully plots the data we want to plot:</p>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 <p>But it doesn’t yet <em>look</em> like a Grattan chart. To adjust the
 <em>look</em> we adjust ‘<code>theme</code>’ elements, like
 <code>axis.ticks.x = element_line(colour = "black")</code> to adjust the
@@ -122,7 +122,7 @@ slide in no time.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 <p>By default, <code><a href="../reference/theme_grattan.html">theme_grattan()</a></code> supresses the legend to
 allow for clearer on-chart labelling. We can include the legend with the
 <code>legend</code> argument, which takes <code>"off"</code>,
@@ -131,21 +131,21 @@ allow for clearer on-chart labelling. We can include the legend with the
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>legend <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 <p>To align the y-axis with zero, change the y scale with
 <code><a href="../reference/grattan_axes.html">grattan_y_continuous()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 <p>Sometimes we’ll want a chart for a box in a report. We can change the
 background colour with the <code>background</code> argument:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>background <span class="op">=</span> <span class="st">"box"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 <p>The standard Grattan rules for <code>x</code> and <code>y</code> axes
 flip if the chart is a horizontal bar chart. The <code>x</code> axis
 then follows the rules of the <code>y</code> axis, and vice-versa. If we
@@ -158,7 +158,7 @@ this is the case using the argument <code>fillped</code> set to
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>flipped <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 <p>The final adjustments we can specify with <code>theme_grattan</code>
 are the font size and font family. The defaults meet Grattan formatting
 requirements, but if we do need to change them we can:</p>
@@ -166,7 +166,7 @@ requirements, but if we do need to change them we can:</p>
 <code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">8</span>, base_family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 <div style="page-break-after: always;"></div>
 </div>
 <div class="section level2">
@@ -183,7 +183,7 @@ Colours names are taken from the chart-guide and are:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">6</span>, colour <span class="op">=</span> <span class="va">grattan_darkorange</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 <p>We can also use the <code><a href="../reference/scale_colour_grattan.html">scale_fill_grattan()</a></code> or
 <code><a href="../reference/scale_colour_grattan.html">scale_colour_grattan()</a></code> functions to change the colours of
 our fill or colour <em>aesthetics</em>. These can be used for
@@ -198,7 +198,7 @@ colour. So we need to set <code>discrete = TRUE</code></p>
 <span>  <span class="fu"><a href="../reference/theme_grattan.html">theme_grattan</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/grattan_axes.html">grattan_y_continuous</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_colour_grattan.html">scale_colour_grattan</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 <p>Note that if you need more than 10 colours your chart will not render
 some of the data. You can set a manual theme using
 <code>make_grattan_pal</code></p>
@@ -206,7 +206,7 @@ some of the data. You can set a manual theme using
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">hp</span>, colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="../reference/make_grattan_pal.html">make_grattan_pal</a></span><span class="op">(</span><span class="op">)</span><span class="op">(</span><span class="fl">29</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="continuous-colours">Continuous colours<a class="anchor" aria-label="anchor" href="#continuous-colours"></a>
@@ -227,7 +227,7 @@ continuous colours: <code>discrete = FALSE</code>.</p>
 <span>  <span class="fu"><a href="../reference/scale_colour_grattan.html">scale_colour_grattan</a></span><span class="op">(</span>discrete <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot_f</span></span></code></pre></div>
-<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" width="576" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -301,12 +301,12 @@ report chart:</p>
 <span>             type <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in grSoftVersion(): unable to load shared object '/Library/Frameworks/R.framework/Resources/modules//R_X11.so':</span></span>
 <span><span class="co">#&gt;   dlopen(/Library/Frameworks/R.framework/Resources/modules//R_X11.so, 0x0006): Library not loaded: /opt/X11/lib/libSM.6.dylib</span></span>
-<span><span class="co">#&gt;   Referenced from: &lt;D469498A-D948-3064-86EA-DF67F05DCE0F&gt; /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/modules/R_X11.so</span></span>
-<span><span class="co">#&gt;   Reason: tried: '/opt/X11/lib/libSM.6.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/X11/lib/libSM.6.dylib' (no such file), '/opt/X11/lib/libSM.6.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libSM.6.dylib' (no such file), '/Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.7-6.0/arm64/Contents/Home//lib/server/libSM.6.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libSM.6.dylib' (no such file), '/Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.7-6.0/arm64/Contents/Home//lib/server/libSM.6.dylib' (no such file)</span></span>
+<span><span class="co">#&gt;   Referenced from: &lt;7ECC4104-EC6A-38FD-9BEA-BFE0B870925C&gt; /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/modules/R_X11.so</span></span>
+<span><span class="co">#&gt;   Reason: tried: '/opt/X11/lib/libSM.6.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/X11/lib/libSM.6.dylib' (no such file), '/opt/X11/lib/libSM.6.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libSM.6.dylib' (no such file), '/Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.9-10.0/arm64/Contents/Home//lib/server/libSM.6.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libSM.6.dylib' (no such file), '/Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.9-10.0/arm64/Contents/Home//lib/server/libSM.6.dylib' (no such file)</span></span>
 <span><span class="co">#&gt; Warning in cairoVersion(): unable to load shared object '/Library/Frameworks/R.framework/Resources/library/grDevices/libs//cairo.so':</span></span>
 <span><span class="co">#&gt;   dlopen(/Library/Frameworks/R.framework/Resources/library/grDevices/libs//cairo.so, 0x0006): Library not loaded: /opt/X11/lib/libXrender.1.dylib</span></span>
-<span><span class="co">#&gt;   Referenced from: &lt;8BEC12F7-999D-3BC3-8F3A-2F9F34808E56&gt; /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/grDevices/libs/cairo.so</span></span>
-<span><span class="co">#&gt;   Reason: tried: '/opt/X11/lib/libXrender.1.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/X11/lib/libXrender.1.dylib' (no such file), '/opt/X11/lib/libXrender.1.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libXrender.1.dylib' (no such file), '/Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.7-6.0/arm64/Contents/Home//lib/server/libXrender.1.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libXrender.1.dylib' (no such file), '/Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.7-6.0/arm64/Contents/Home//lib/ [... truncated]</span></span>
+<span><span class="co">#&gt;   Referenced from: &lt;263B701F-2238-3478-A7D2-B7513231EF98&gt; /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/grDevices/libs/cairo.so</span></span>
+<span><span class="co">#&gt;   Reason: tried: '/opt/X11/lib/libXrender.1.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/X11/lib/libXrender.1.dylib' (no such file), '/opt/X11/lib/libXrender.1.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libXrender.1.dylib' (no such file), '/Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.9-10.0/arm64/Contents/Home//lib/server/libXrender.1.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libXrender.1.dylib' (no such file), '/Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.9-10.0/arm64/Contents/Home//li [... truncated]</span></span>
 <span><span class="co">#&gt; Warning in device(filename = "iris/iris_normal.pdf", width = 8.7244094488189, :</span></span>
 <span><span class="co">#&gt; failed to load cairo DLL</span></span></code></pre></div>
 <p>Which produces a chart that can fit into a report. Note that the
@@ -375,12 +375,12 @@ like this:</p>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Matt Cowgill, Will Mackey.</p>
+<p>Developed by Matt Cowgill, Will Mackey, Grattan Institute.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
