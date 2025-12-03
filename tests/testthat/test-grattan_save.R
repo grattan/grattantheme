@@ -170,6 +170,69 @@ test_that("grattan_save() saves chart data when requested",{
 
 })
 
+test_that("grattan_save() respects select_data and round parameters", {
+
+  # Create a plot with extra columns in data that aren't used
+  test_data <- mtcars
+
+  plot_with_extra_cols <- ggplot(test_data, aes(x = wt, y = mpg, col = factor(cyl))) +
+    geom_point() +
+    theme_grattan()
+
+  # Test with select_data = TRUE (default) - should remove unused columns
+  grattan_save(filename = "test_select.pdf",
+               object = plot_with_extra_cols,
+               force_labs = FALSE,
+               type = "normal",
+               save_data = TRUE,
+               select_data = TRUE)
+
+  saved_data_selected <- openxlsx::read.xlsx("test_select/test_select.xlsx")
+
+  expect_true("wt" %in% tolower(names(saved_data_selected)))
+  expect_true("mpg" %in% tolower(names(saved_data_selected)))
+  expect_true("cyl" %in% tolower(names(saved_data_selected)))
+
+  expect_false("qsec" %in% tolower(names(saved_data_selected)))
+  expect_false("vs" %in% tolower(names(saved_data_selected)))
+
+  # Test with select_data = FALSE - should keep all columns
+  grattan_save(filename = "test_noselect.pdf",
+               object = plot_with_extra_cols,
+               force_labs = FALSE,
+               type = "normal",
+               save_data = TRUE,
+               select_data = FALSE)
+
+  saved_data_all <- openxlsx::read.xlsx("test_noselect/test_noselect.xlsx")
+
+  expect_true("qsec" %in% tolower(names(saved_data_all)))
+  expect_true("vs" %in% tolower(names(saved_data_all)))
+
+  # Test rounding parameter
+  grattan_save(filename = "test_round.pdf",
+               object = test_plot,
+               force_labs = FALSE,
+               type = "normal",
+               save_data = TRUE,
+               round = 2)
+
+  saved_data_rounded <- openxlsx::read.xlsx("test_round/test_round.xlsx", rows = 3:35)
+
+  names(saved_data_rounded) <- tolower(names(saved_data_rounded))
+
+  # Check that numeric columns are rounded to 2 decimal places
+  numeric_cols <- sapply(saved_data_rounded, is.numeric)
+  for (col in names(saved_data_rounded)[numeric_cols]) {
+    max_decimals <- max(nchar(sub(".*\\.", "", as.character(saved_data_rounded[[col]]))))
+    expect_lte(max_decimals, 2)
+  }
+
+  unlink("test_select", recursive = TRUE)
+  unlink("test_noselect", recursive = TRUE)
+  unlink("test_round", recursive = TRUE)
+})
+
 test_that("grattan_save() height behaviour works as expected with normal charts", {
 
   grattan_save(filename = "test_plot_normal_default_height.png",
@@ -242,6 +305,55 @@ test_that("grattan_save() saves a plot with a watermark", {
 
 
   unlink("test_plot_watermark", recursive = TRUE)
+})
+
+test_that("grattan_save() respects no_new_folder parameter", {
+
+  skip_on_cran()
+
+  test_dir <- file.path(tempdir(), "grattan_save_test")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
+
+  # Test default behaviour (creates subfolder)
+  grattan_save(filename = file.path(test_dir, "with_folder.png"),
+               object = test_plot,
+               type = "normal")
+
+  expect_true(file.exists(file.path(test_dir, "with_folder", "with_folder_normal.png")))
+  expect_true(dir.exists(file.path(test_dir, "with_folder")))
+
+  # Test with no_new_folder = TRUE (no subfolder created)
+  grattan_save(filename = file.path(test_dir, "without_folder.png"),
+               object = test_plot,
+               type = "normal",
+               no_new_folder = TRUE)
+
+  expect_true(file.exists(file.path(test_dir, "without_folder_normal.png")))
+  expect_false(dir.exists(file.path(test_dir, "without_folder")))
+
+  # Test with no_new_folder = TRUE and save_data
+  grattan_save(filename = file.path(test_dir, "without_folder_data.png"),
+               object = test_plot,
+               type = "normal",
+               no_new_folder = TRUE,
+               save_data = TRUE)
+
+  expect_true(file.exists(file.path(test_dir, "without_folder_data_normal.png")))
+  expect_true(file.exists(file.path(test_dir, "without_folder_data.xlsx")))
+  expect_false(dir.exists(file.path(test_dir, "without_folder_data")))
+
+  # Test with no_new_folder = TRUE and save_pptx
+  grattan_save(filename = file.path(test_dir, "without_folder_pptx.png"),
+               object = test_plot,
+               type = "fullslide",
+               no_new_folder = TRUE,
+               save_pptx = TRUE)
+
+  expect_true(file.exists(file.path(test_dir, "without_folder_pptx_fullslide.png")))
+  expect_true(file.exists(file.path(test_dir, "without_folder_pptx_fullslide.pptx")))
+  expect_false(dir.exists(file.path(test_dir, "without_folder_pptx")))
+
+  unlink(test_dir, recursive = TRUE)
 })
 
 # I'm going to update the grattan_save_all works test_that function so that it works with a temp_dir as per the tests above.
