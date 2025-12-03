@@ -26,5 +26,5 @@ changes settings where the default is not NA; no need for \code{geom_point}
 to have a default font family.
 }
 \details{
-This is used inside `.set_grattab_aesthetics()`
+This is used inside `.set_grattan_aesthetics()`
 }
