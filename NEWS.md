@@ -1,6 +1,6 @@
 # grattantheme 1.4
 * Updated chart types. Deprecated 'a4', 'tiny', and 'fullslide'. Added 'fullslide_half' chart type.
-* Consequential updates to tests.
+* Made consquential updates to tests and added new tests to expand coverage for functions added in version 1.3.
 
 # grattantheme 1.3.1
 * Updated aesthetics and handling of default geoms to ensure compatibility with ggplot2 version 4.0.0.
