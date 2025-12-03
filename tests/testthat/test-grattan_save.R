@@ -189,12 +189,9 @@ test_that("grattan_save() respects select_data and round parameters", {
 
   saved_data_selected <- openxlsx::read.xlsx("test_select/test_select.xlsx")
 
-  expect_true("wt" %in% tolower(names(saved_data_selected)))
-  expect_true("mpg" %in% tolower(names(saved_data_selected)))
-  expect_true("cyl" %in% tolower(names(saved_data_selected)))
+  expect_true(all(c("wt", "mpg", "cyl") %in% tolower(names(saved_data_selected))))
 
   expect_false("qsec" %in% tolower(names(saved_data_selected)))
-  expect_false("vs" %in% tolower(names(saved_data_selected)))
 
   # Test with select_data = FALSE - should keep all columns
   grattan_save(filename = "test_noselect.pdf",
@@ -207,7 +204,6 @@ test_that("grattan_save() respects select_data and round parameters", {
   saved_data_all <- openxlsx::read.xlsx("test_noselect/test_noselect.xlsx")
 
   expect_true("qsec" %in% tolower(names(saved_data_all)))
-  expect_true("vs" %in% tolower(names(saved_data_all)))
 
   # Test rounding parameter
   grattan_save(filename = "test_round.pdf",

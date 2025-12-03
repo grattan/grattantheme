@@ -121,3 +121,18 @@ test_that("grattan_save_pptx works when labels are present / absent", {
   unlink("temp", recursive = T, force = T)
 
 })
+
+test_that("grattan_save_pptx creates pptx with rich_subtitle = TRUE", {
+
+  skip_on_cran()
+
+  grattan_save_pptx(p = p1,
+                    filename = "temp_rich.pptx",
+                    type = "fullslide",
+                    rich_subtitle = TRUE)
+
+  expect_true(is_valid_pptx("temp_rich_fullslide.pptx"))
+  expect_equal(no_slides("temp_rich_fullslide.pptx"), 1)
+
+  unlink("temp_rich", recursive = TRUE, force = TRUE)
+})
