@@ -142,6 +142,7 @@ register_palette <- function() {
 }
 
 ### Deprecated ####
+# nocov start
 # Generates a full palette
 # deprecated in version 1.0.0
 grattan_palette <- function(palette = "full", reverse = FALSE, ...) {
@@ -310,5 +311,6 @@ get_palette <- function(n, f) {
   return(palette)
 
 }
+# nocov end
 
 

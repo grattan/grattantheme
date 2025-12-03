@@ -2,6 +2,11 @@
 #' @keywords internal
 #' @import gridExtra
 
+lifecycle::deprecate_warn(when = "1.3.0",
+                          what = "gridextra_fullslide()",
+                          details = "This function is no longer maintained.")
+
+# nocov start
 gridextra_fullslide <- function(object,
                              type = "fullslide",
                              height = NULL,
@@ -184,3 +189,5 @@ gridextra_fullslide <- function(object,
   total
 
 }
+
+# nocov end

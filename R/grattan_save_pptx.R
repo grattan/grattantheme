@@ -7,7 +7,7 @@
 #' from which you called `grattan_save_pptx()`. If you supply a list of plots,
 #' your Powerpoint presentation will include multiple slides -- one per plot.
 #' If you specify multiple types, multiple PPTX files will be created. This
-#' function is usually best called by running `grattan_save(..., save_pptx = T)` 
+#' function is usually best called by running `grattan_save(..., save_pptx = T)`
 #' or `grattan_save_all()`, rather than calling it directly.
 #'
 #' @param p ggplot2 plot, or a list of ggplot2 plots
@@ -50,7 +50,7 @@ grattan_save_pptx <- function(filename,
                               p = ggplot2::last_plot(),
                               type = "fullslide",
                               rich_subtitle = FALSE,
-                              png_dpi = 300) {  
+                              png_dpi = 300) {
 
   plot <- p
 
@@ -78,7 +78,7 @@ grattan_save_pptx <- function(filename,
     type <- chart_types$type[!is.na(chart_types$pptx_template)]
   }
 
- 
+
   # get output directory
   filename <- as.character(filename)
   output_dir <- dirname(filename)
@@ -214,16 +214,16 @@ add_graph_to_pptx <- function(p,
                             rvg::dml(ggobj = plot, bg = 'NA'),
                             location = officer::ph_location_label("Content Placeholder 3"))
     }
-    
+
     x <- officer::ph_with(x,
                           replace_null(labs$title),
                           location = officer::ph_location_label("Title 1"))
-    
+
     x <- officer::ph_with(x,
                           replace_null(labs$caption),
                           location = officer::ph_location_label("Caption Placeholder 1"))
-    
-    
+
+
   }
 
   print(x, filename)
@@ -286,6 +286,8 @@ pandoc_test <- function() {
 
 
 ### deprecated 1.0.0------------------
+
+# nocov start
 
 #' Create a Powerpoint document containing no content other than the
 #' template + slide-specific speaker notes (extracted from a ggplot2 object)
@@ -414,3 +416,4 @@ create_slide_shell <- function(p, filename) {
   plot_area
 }
 
+# nocov end

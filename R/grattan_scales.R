@@ -119,7 +119,7 @@ NULL
 #' @import ggplot2
 #' @export
 
-
+# nocov start
 grattan_colour_manual <- function(n = 0,
                                   reverse = FALSE,
                                   discrete = TRUE,
@@ -177,3 +177,4 @@ grattan_fill_manual <- function(n = 0,
   }
 
 }
+# nocov end
