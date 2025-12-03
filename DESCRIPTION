@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 1.3.1
+Version: 1.4
 Authors@R: c(
     person("Matt", "Cowgill", 
                 role = c("aut")),

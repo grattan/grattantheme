@@ -22,19 +22,26 @@
 #' \itemize{
 #'   \item{"normal"}{ The default. Use for normal Grattan report charts,
 #'    or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.}
-#'   \item{"normal_169"}{ Useful for pasting into a 16:9 format Grattan
-#'   Powerpoint slide. Width: 30cm, height: 14.5cm.}
-#'   \item{"tiny"}{ Fills the width of a column in a Grattan report,
-#'   but is shorter than usual. Width: 22.2cm, height: 11.1cm.}
 #'   \item{"wholecolumn"}{ Takes up a whole column in a Grattan report.
 #'   Width: 22.2cm, height: 22.2cm.}
 #'   \item{"fullpage"}{ Fills a whole page of a Grattan report.
 #'   Width: 44.3cm, height: 22.2cm.}
-#'   \item{"fullslide}{ A 16:9 Grattan
+#'   \item{"fullslide"}{ A 16:9 Grattan
 #'   Powerpoint slide, complete with logo. Use this to drop into standard
-#'   presentations. Width: 33.9cm, height: 19.0cm}
-#'   \item{"blog"}{"Creates a 4:3 image that looks like a Grattan Powerpoint
-#'   slide, but with less border whitespace than `fullslide`."}
+#'   presentations. Total slide size: 33.9cm x 19.0cm. Chart size: 31.5cm x 11.9cm.}
+#'   \item{"fullslide_narrow"}{ A Grattan
+#'   Powerpoint slide with logo, but a narrower chart.
+#'   Use this to allow space for annotations in powerpoint Chart size: 23cm x 11.9cm.}
+#'   #'   \item{"fullslide_half"}{ A Grattan
+#'   Powerpoint slide with logo, but a half-width chart.
+#'   Use this to manually create side-by-side charts or
+#'   allow space for a half-slide of text in powerpoint. Chart size: 15.3cm x 11.9cm.}
+#'   \item{"blog"}{ Deprecated. Creates a 4:3 image that looks like a Grattan Powerpoint
+#'   slide, but with less border whitespace than `fullslide`.}
+#'   \item{"normal_169"}{ Deprecated. Useful for pasting into a 16:9 format Grattan
+#'   Powerpoint slide. Width: 30cm, height: 14.5cm.}
+#'   \item{"tiny"}{ Deprecated. Fills the width of a column in a Grattan report,
+#'   but is shorter than usual. Width: 22.2cm, height: 11.1cm.}
 #' }
 #' Set type = "all" to save your chart in all available sizes or use
 #' `grattan_save_all()`.

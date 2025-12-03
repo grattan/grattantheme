@@ -1,5 +1,5 @@
 # grattantheme 1.4
-* Updated chart types. Deprecated 'a4', 'tiny', and 'fullslide'. 
+* Updated chart types. Deprecated 'a4', 'tiny', and 'fullslide'. Added 'fullslide_half' chart type.
 * Consequential updates to tests.
 
 # grattantheme 1.3.1
