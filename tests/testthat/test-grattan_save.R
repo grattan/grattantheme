@@ -41,6 +41,8 @@ test_that("grattan_save() saves charts (no powerpoint)", {
                type = "all")
 
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_narrow.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_half.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullpage.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_normal.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_wholecolumn.png")))
@@ -64,12 +66,17 @@ test_that("grattan_save() saves charts (with powerpoint)", {
   grattan_save(filename = file.path(test_dir, "test_plot.png"),
                object = test_plot,
                save_pptx = TRUE,
-               save_data = TRUE,
+               save_data = FALSE,
                type = "all")
 
   output_dir <- file.path(test_dir, "test_plot")
 
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide.pptx")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_half.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_half.pptx")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_narrow.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_narrow.pptx")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullpage.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_normal.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_wholecolumn.png")))
@@ -78,7 +85,6 @@ test_that("grattan_save() saves charts (with powerpoint)", {
   expect_false(file.exists(file.path(test_dir, "test_plot", "test_plot_a4.png")))
   expect_false(file.exists(file.path(test_dir, "test_plot", "test_plot_tiny.png")))
   expect_false(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_43.png")))
-  expect_false(file.exists(file.path(test_dir, "test_plot.png", "test_plot_blog_half.png")))
 
   unlink(test_dir, recursive = TRUE)
 
@@ -118,6 +124,8 @@ test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
   output_dir <- file.path(test_dir, "test_plot")
 
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_half.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_narrow.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullpage.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_normal.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_wholecolumn.png")))
@@ -251,11 +259,15 @@ test_that("grattan_save_all() works", {
   output_dir <- file.path(test_dir, "test_plot")
 
   expect_true(file.exists(file.path(output_dir, "test_plot_fullslide.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide_narrow.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide_half.png")))
   expect_true(file.exists(file.path(output_dir, "test_plot_fullpage.png")))
   expect_true(file.exists(file.path(output_dir, "test_plot_normal.png")))
   expect_true(file.exists(file.path(output_dir, "test_plot_wholecolumn.png")))
   expect_true(file.exists(file.path(output_dir, "test_plot.xlsx")))
   expect_true(file.exists(file.path(output_dir, "test_plot_fullslide.pptx")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide_half.pptx")))
+
 
   expect_false(file.exists(file.path(output_dir, "test_plot_normal_169.png")))
   expect_false(file.exists(file.path(output_dir, "test_plot_tiny.png")))

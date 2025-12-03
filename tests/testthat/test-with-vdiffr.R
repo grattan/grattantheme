@@ -25,7 +25,6 @@ border_plot <- base_plot +
 
 coloured_plot <- base_plot +
   geom_point(aes(col = factor(cyl))) +
-  grattan_colour_manual(n = 3) +
   theme_grattan() +
   labs(subtitle = "Either put units here or jam an elaborate thing here that describes both axes, whatevs")
 
