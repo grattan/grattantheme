@@ -71,3 +71,49 @@ paulify_classifications <- function(classification, remove_services = FALSE) {
           stringr::str_replace(classification, " and ", ", and "),
           classification)
 }
+
+#' Case when that orders the factors as you order the case when
+#'
+#' This function is a wrapper around dplyr::case_when that ensures that
+#' factor levels are ordered in the same way as the case_when statement.
+#'
+#' @param ... a series of formulas to pass to dplyr::case_when
+#'
+#' @return a factor
+#' @export
+fct_case_when <- function(...) {
+  args <- as.list(match.call())
+  levels <- sapply(args[-1], function(f) f[[3]]) # extract RHS of formula
+  levels <- levels[!is.na(levels)]
+  factor(dplyr::case_when(...), levels = levels)}
+
+
+#' Wrap strings without dropping factor levels
+#'
+#' This function is a wrapper around stringr::str_wrap that ensures that
+#' factor levels are not dropped.
+#'
+#' @param x a factor
+#' @param ... arguments to pass to stringr::str_wrap
+#'
+#' @return a factor
+#' @export
+#'
+str_wrap_factor <- function(x, ...) {
+  levels(x) <- stringr::str_wrap(levels(x), ...)
+  x
+}
+
+#' Remove en-dashes from a data frame
+#'
+#' This function is a wrapper around stringr::str_replace_all that removes
+#' en-dashes from a data frame.
+#'
+#' @param df a data frame
+#' @return a data frame
+#' @export
+
+remove_endash <- function(df) {
+  df %>%
+    mutate(across(where(is.character), ~ str_replace_all(., "\u2013", "-")))
+}

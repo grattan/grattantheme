@@ -20,6 +20,6 @@ test_that("legend is in expected place (or absent)", {
   legend_within <- base_plot +
     theme_grattan(legend = c(0.5, 0.5))
 
-  expect_identical(legend_within$theme$legend.position, c(0.5, 0.5))
+  expect_identical(legend_within$theme$legend.position.inside, c(0.5, 0.5))
 
 })

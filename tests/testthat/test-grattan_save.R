@@ -1,5 +1,6 @@
 library(ggplot2)
 library(openxlsx)
+library(magick)
 
 test_plot <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
   geom_point() +
@@ -29,56 +30,60 @@ test_plot_longlabs <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 
 
 test_that("grattan_save() saves charts (no powerpoint)", {
+  
+  test_dir <- file.path(tempdir(), "grattan_save_test")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
 
-  grattan_save(filename = "../figs/grattan_save/test_plot.png",
+  grattan_save(filename = file.path(test_dir, "test_plot.png"),
                object = test_plot,
                save_pptx = FALSE,
                save_data = FALSE,
                type = "all")
 
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullpage.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal_169.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_a4.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
-
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
-
-  unlink("../figs/grattan_save", recursive = TRUE)
-  unlink("../testthat/Rplots.pdf")
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullpage.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_normal_169.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_normal.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_tiny.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_wholecolumn.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_a4.png")))
+  
+  expect_false(file.exists(file.path(test_dir, "test_plot", "test_plot_fullslide_43.png")))
+  expect_false(file.exists(file.path(test_dir, "test_plot.png", "test_plot_blog_half.png")))
+  
+  unlink(test_dir, recursive = TRUE)
 })
 
 test_that("grattan_save() saves charts (with powerpoint)", {
 
   skip_on_cran()
+  
+  test_dir <- file.path(tempdir(), "grattan_save_test")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
 
-  grattan_save(filename = "../figs/grattan_save/test_plot.png",
+  grattan_save(filename = file.path(test_dir, "test_plot.png"),
                object = test_plot,
                save_pptx = TRUE,
                save_data = TRUE,
                type = "all")
+  
+  output_dir <- file.path(test_dir, "test_plot")
+  
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullpage.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_normal_169.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_normal.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_tiny.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_wholecolumn.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide.pptx")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullpage.pptx")))
+  
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_43.png")))
+  expect_false(file.exists(file.path(output_dir, "test_plot_blog_half.png")))
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_44.png")))
 
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullpage.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal_169.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot.xlsx"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.pptx"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullpage.pptx"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
-
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_blog_half.png"))
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
-
-  unlink("../figs/grattan_save", recursive = TRUE)
-  unlink("../testthat/Rplots.pdf")
+  unlink(test_dir, recursive = TRUE)
+  
 })
 
 test_that("grattan_save() saves last_plot() and works with repeated calls", {
@@ -86,15 +91,18 @@ test_that("grattan_save() saves last_plot() and works with repeated calls", {
     geom_point()
 
   skip_on_cran()
+  
+  test_dir <- file.path(tempdir(), "grattan_save_test")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
 
-  grattan_save("../figs/grattan_save/test.png", type = "all", save_pptx = TRUE)
+  grattan_save(file.path(test_dir, "test.png"), type = "all", save_pptx = TRUE)
   # Test that a repeated save causes no problems
-  grattan_save("../figs/grattan_save/test.png", type = "all", save_pptx = TRUE)
+  grattan_save(file.path(test_dir, "test.png"), type = "all", save_pptx = TRUE)
 
-  expect_true(file.exists("../figs/grattan_save/test/test_fullslide.png"))
+  expect_true(file.exists(file.path(test_dir, "test", "test_fullslide.png")))
 
-  unlink("../figs/grattan_save", recursive = TRUE)
-  unlink("../testthat/Rplots.pdf")
+  unlink(test_dir, recursive = TRUE)
+  
 })
 
 
@@ -102,30 +110,30 @@ test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
 
   skip_on_cran()
 
-  unlink("../figs/grattan_save", recursive = TRUE)
-
-  grattan_save(filename = "../figs/grattan_save/test_plot.png",
+  test_dir <- file.path(tempdir(), "grattan_save_test")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
+  
+  grattan_save(filename = file.path(test_dir, "test_plot.png"),
                object = test_plot,
                type = "all")
+  
+  output_dir <- file.path(test_dir, "test_plot")
+  
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullpage.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_normal_169.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_normal.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_tiny.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_wholecolumn.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_a4.png")))
+  
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_43.png")))
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide.pptx")))
+  expect_false(file.exists(file.path(output_dir, "test_plot.xlsx")))
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_44.png")))
 
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullpage.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal_169.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_normal.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_tiny.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_wholecolumn.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_blog.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_a4.png"))
-  expect_true(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_43.png"))
-
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide.pptx"))
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_blog.pptx"))
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot.xlsx"))
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_blog_half.png"))
-  expect_false(file.exists("../figs/grattan_save/test_plot/test_plot_fullslide_44.png"))
-
-  unlink("../figs/grattan_save", recursive = TRUE)
-  unlink("../testthat/Rplots.pdf")
+  unlink(test_dir, recursive = TRUE)
+  
 })
 
 test_that("grattan_save() saves chart data when requested",{
@@ -133,7 +141,8 @@ test_that("grattan_save() saves chart data when requested",{
                object = test_plot,
                force_labs = FALSE,
                type = "normal",
-               save_data = TRUE)
+               save_data = TRUE,
+               select_data = FALSE)
 
   expect_true(file.exists("test/test_normal.pdf"))
   expect_true(file.exists("test/test.xlsx"))
@@ -159,19 +168,26 @@ test_that("grattan_save() height behaviour works as expected with normal charts"
 
   grattan_save(filename = "test_plot_normal_default_height.png",
                object = test_plot,
-               type = "normal")
+               type = "normal",
+               device = 'png')
 
   grattan_save(filename = "test_plot_normal_manual_height.png",
                object = test_plot,
                type = "normal",
-               height = 20)
+               height = 20, 
+               device = 'png')
 
   expect_true(file.exists("test_plot_normal_default_height/test_plot_normal_default_height_normal.png"))
   expect_true(file.exists("test_plot_normal_manual_height/test_plot_normal_manual_height_normal.png"))
 
-  expect_gt(file.size("test_plot_normal_manual_height/test_plot_normal_manual_height_normal.png"),
-            file.size("test_plot_normal_default_height/test_plot_normal_default_height_normal.png"))
-
+  default_img <- magick::image_read("test_plot_normal_default_height/test_plot_normal_default_height_normal.png")
+  manual_img <- magick::image_read("test_plot_normal_manual_height/test_plot_normal_manual_height_normal.png")
+  
+  default_info <- magick::image_info(default_img)
+  manual_info <- magick::image_info(manual_img)
+  
+  expect_gt(manual_info$height, default_info$height)
+  
   unlink("test_plot_normal_default_height", recursive = TRUE)
   unlink("test_plot_normal_manual_height", recursive = TRUE)
 
@@ -181,12 +197,14 @@ test_that("grattan_save() height behaviour works as expected with fullslide char
 
   grattan_save(filename = "default_height.png",
                object = test_plot,
-               type = "fullslide")
+               type = "fullslide",
+               device = 'png')
 
   grattan_save(filename = "manual_height.png",
                object = test_plot,
                type = "fullslide",
-               height = 40)
+               height = 40,
+               device = 'png')
 
   expect_true(file.exists("default_height/default_height_fullslide.png"))
   expect_true(file.exists("manual_height/manual_height_fullslide.png"))
@@ -220,32 +238,37 @@ test_that("grattan_save() saves a plot with a watermark", {
   unlink("test_plot_watermark", recursive = TRUE)
 })
 
+# I'm going to update the grattan_save_all works test_that function so that it works with a temp_dir as per the tests above.
 
 test_that("grattan_save_all() works", {
-
+  
   skip_on_cran()
-
-  grattan_save_all(filename = "../figs/grattan_save_all/test_plot.png",
+  
+  test_dir <- file.path(tempdir(), "grattan_save_test")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
+  
+  grattan_save_all(filename = file.path(test_dir, "test_plot.png"),
                    object = test_plot)
-
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide.png"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullpage.png"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_normal_169.png"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_normal.png"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_tiny.png"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_wholecolumn.png"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_blog.png"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot.xlsx"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide.pptx"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_blog.pptx"))
-  expect_true(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide_43.png"))
-
-  expect_false(file.exists("../figs/grattan_save_all/test_plot/test_plot_blog_half.png"))
-  expect_false(file.exists("../figs/grattan_save_all/test_plot/test_plot_fullslide_44.png"))
-
-  unlink("../figs/grattan_save_all", recursive = TRUE)
-  unlink("../testthat/Rplots.pdf")
+  
+  output_dir <- file.path(test_dir, "test_plot")
+  
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullpage.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_normal_169.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_normal.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_tiny.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_wholecolumn.png")))
+  expect_true(file.exists(file.path(output_dir, "test_plot.xlsx")))
+  expect_true(file.exists(file.path(output_dir, "test_plot_fullslide.pptx")))
+  
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_43.png")))
+  expect_false(file.exists(file.path(output_dir, "test_plot_blog_half.png")))
+  expect_false(file.exists(file.path(output_dir, "test_plot_fullslide_44.png")))
+  
+  unlink(test_dir, recursive = TRUE)
+  
 })
+
 
 
 test_that("grattan_save(ignore_long_titles = TRUE) successfully ignores long titles", {

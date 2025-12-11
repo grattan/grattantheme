@@ -37,14 +37,11 @@ replace_labs <- function(p,
                              labs)
 
   } else {# Non-patchwork plots
-    # First, remove existing labels
-    p$labels <- subset(p$labels,
-                       !names(p$labels) %in%
-                         c("title", "subtitle", "caption"))
 
-    # Then, replace with supplied labels
-    p$labels <- c(p$labels,
-                  labs)
+    # Non-patchwork plots: use labs() to properly set labels
+    p <- p + ggplot2::labs(title = labs$title,
+                           subtitle = labs$subtitle,
+                           caption = labs$caption)
 
   }
   p

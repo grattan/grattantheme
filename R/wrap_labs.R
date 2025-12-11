@@ -162,11 +162,11 @@ wrap_labs <- function(object,
         notes <- notes_and_source[[1]][1]
         source <- paste0("Source", notes_and_source[[1]][2])
 
-        notes <- paste0(strwrap(notes, char_width_grattan_caption),
-                        collapse = "\n")
-
-        source <- paste0(strwrap(source, char_width_grattan_caption),
-                         collapse = "\n")
+        # notes <- paste0(strwrap(notes, char_width_grattan_caption),
+        #                 collapse = "\n")
+        #
+        # source <- paste0(strwrap(source, char_width_grattan_caption),
+        #                  collapse = "\n")
 
         stored_caption <- paste0(notes, "\n", source)
       }

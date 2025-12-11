@@ -35,7 +35,7 @@ colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
     if (bold_labs) {
       ret <- glue::glue("<b style='color:{colour}'>{text}</b>")
     } else {
-      ret <- glue::glue("<span style='color:{colour}'>**{text}**</span>")
+      ret <- glue::glue("<span style='color:{colour}'>{text}</span>")
     }
   }
   if (is_note) ret <- glue::glue("<span style='color:{grattan_grey3}'>{text}</span>")
