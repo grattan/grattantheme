@@ -25,6 +25,7 @@ Imports:
     gridExtra,
     grDevices, 
     fs, 
+    jsonlite,
     knitr (>= 1.22), 
     lifecycle,
     rmarkdown (>= 1.12),

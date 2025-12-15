@@ -1,4 +1,5 @@
 #' Legacy function, used for animation, because you can't animate patchwork plots
+#' @name gridextra_fullslide
 #' @keywords internal
 #' @import gridExtra
 
