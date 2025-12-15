@@ -33,16 +33,9 @@ get_overleaf_base_path <- function() {
 
   dropbox_path <- dropbox_info$business$path
 
-  # Get top-level directories, excluding 'data' and 'Grattan Team'
-  top_dirs <- list.dirs(dropbox_path, recursive = FALSE, full.names = TRUE)
-  top_dirs <- top_dirs[!basename(top_dirs) %in% c("data", "Grattan Team")]
-
-  # Search one level down in each remaining folder for Apps/Overleaf
-  for (dir in top_dirs) {
-    apps_path <- file.path(dir, "Apps", "Overleaf")
-    if (dir.exists(apps_path)) {
-      return(apps_path)
-    }
+  # Get 'Apps folder' if it exists
+  if(dir.exists(file.path(dropbox_path, "Apps", "Overleaf"))) {
+    return(file.path(dropbox_path, "Apps", "Overleaf"))
   }
 
   # If we get here, nothing was found
