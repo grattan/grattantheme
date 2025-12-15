@@ -34,7 +34,7 @@ Speaker notes are included, which include the file path to the R script
 from which you called `grattan_save_pptx()`. If you supply a list of plots,
 your Powerpoint presentation will include multiple slides -- one per plot.
 If you specify multiple types, multiple PPTX files will be created. This
-function is usually best called by running `grattan_save(..., save_pptx = T)` 
+function is usually best called by running `grattan_save(..., save_pptx = T)`
 or `grattan_save_all()`, rather than calling it directly.
 }
 \examples{
