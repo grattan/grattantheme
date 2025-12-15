@@ -187,7 +187,7 @@ add_graph_to_pptx <- function(p,
       plot <- plot +
         theme(plot.title = element_blank(),
               plot.caption = element_blank(),
-              text = element_text(family = slide_font_name))
+              text = element_text(family = pptx_fonts$sans))
 
       # Get the layout summary for the "Two Content" layout
       layout_props  <- officer::layout_properties(pptx, layout = "Two Content")
