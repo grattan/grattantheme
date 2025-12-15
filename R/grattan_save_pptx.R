@@ -18,6 +18,11 @@
 #' files will be created, with the type added to the filename.
 #' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.
 #' @param png_dpi Integer. The DPI of the PNG image saved when `rich_subtitle = TRUE`.
+#' @param use_slide_font Logical. If `TRUE` (the default), charts will use
+#' Avenir Next LT Pro font for slide presentations. If `FALSE`, charts will
+#' use Arial font (suitable for reports). Avenir Next LT Pro must be installed
+#' on the system for this to work; if not found, a warning is issued and
+#' Arial is used as a fallback.
 #' @examples
 #' \dontrun{
 #' library(ggplot2)
@@ -50,7 +55,8 @@ grattan_save_pptx <- function(filename,
                               p = ggplot2::last_plot(),
                               type = "fullslide",
                               rich_subtitle = FALSE,
-                              png_dpi = 300) {
+                              png_dpi = 300,
+                              use_slide_font = TRUE) {
 
   plot <- p
 
@@ -110,7 +116,8 @@ grattan_save_pptx <- function(filename,
                             p = plot,
                             num_slides = num_slides,
                             rich_subtitle = rich_subtitle,
-                            png_dpi = png_dpi)
+                            png_dpi = png_dpi,
+                            use_slide_font = TRUE)
   )
 
   ggplot2::set_last_plot(p)
@@ -122,7 +129,8 @@ add_graph_to_pptx <- function(p,
                               type,
                               num_slides,
                               rich_subtitle = FALSE,
-                              png_dpi = 300) {
+                              png_dpi = 300,
+                              use_slide_font = TRUE) {
 
   message(glue::glue("Making {type}"))
 
@@ -170,12 +178,16 @@ add_graph_to_pptx <- function(p,
 
     if (rich_subtitle) {
 
+      # Determine which font to use (Avenir for slides if available)
+      pptx_fonts <- get_pptx_fonts(use_slide_font = use_slide_font)
+
       # Save as high-quality PNG matching content placeholder dimensions
       png_file <- file.path(temp_dir, paste0("slide_", slide, ".png"))
 
       plot <- plot +
         theme(plot.title = element_blank(),
-              plot.caption = element_blank())
+              plot.caption = element_blank(),
+              text = element_text(family = slide_font_name))
 
       # Get the layout summary for the "Two Content" layout
       layout_props  <- officer::layout_properties(pptx, layout = "Two Content")
@@ -210,8 +222,13 @@ add_graph_to_pptx <- function(p,
       plot <- replace_labs(plot)
 
       # Add graph as SVG
+      # Determine which font to use (Avenir for slides if available)
+      pptx_fonts <- get_pptx_fonts(use_slide_font = use_slide_font)
+
       x <- officer::ph_with(x,
-                            rvg::dml(ggobj = plot, bg = 'NA'),
+                            rvg::dml(ggobj = plot,
+                                     bg = 'NA',
+                                     fonts = pptx_fonts),
                             location = officer::ph_location_label("Content Placeholder 3"))
     }
 
@@ -282,6 +299,44 @@ pandoc_test <- function() {
 
   invisible(TRUE)
 
+}
+
+#' Determine which font to use for PowerPoint charts - not exported
+#' @param use_slide_font Logical. If TRUE, use Avenir Next LT Pro (for slides).
+#'   If FALSE, use Arial (for reports). Default is TRUE.
+#' @return A named list suitable for the fonts parameter of rvg::dml()
+#' @keywords internal
+get_pptx_fonts <- function(use_slide_font = TRUE) {
+
+  if (!use_slide_font) {
+    # Use default Arial for reports
+    return(list())
+  }
+
+  # For slides, try to find Avenir Next LT Pro
+  available_fonts <- systemfonts::system_fonts()$family
+
+  slide_font <- if ("Avenir Next LT Pro" %in% available_fonts) {
+    "Avenir Next LT Pro"
+  } else if ("Avenir Next" %in% available_fonts) {
+    "Avenir Next"
+  } else if ("Avenir" %in% available_fonts) {
+    "Avenir"
+  } else {
+    # Only warn on non-Windows systems, as Avenir is typically not available on Windows
+    is_windows <- Sys.getenv("OS") == "Windows_NT"
+
+    if (!is_windows) {
+      warning("Avenir font family not found on this system. ",
+              "PowerPoint slides will use Arial instead. ",
+              "For correct slide formatting, install Avenir Next LT Pro.",
+              call. = FALSE)
+    }
+    return(list())
+  }
+
+  # Return font mapping for rvg::dml()
+  list(sans = slide_font)
 }
 
 

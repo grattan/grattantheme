@@ -230,7 +230,8 @@ grattan_save <- function(filename,
         grattan_save_pptx(p = object,
                           type = type,
                           filename = file.path(dir, paste0(file_name, ".pptx")),
-                          rich_subtitle = rich_subtitle)
+                          rich_subtitle = rich_subtitle,
+                          use_slide_font = TRUE)
       }
     }
     ## export single image
@@ -273,7 +274,8 @@ grattan_save <- function(filename,
       grattan_save_pptx(p = object,
                         filename = file.path(dir, paste0(file_name, ".pptx")),
                         type = valid_pptx_types,
-                        rich_subtitle = rich_subtitle)
+                        rich_subtitle = rich_subtitle,
+                        use_slide_font = TRUE)
 
     }
 
