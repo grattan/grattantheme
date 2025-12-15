@@ -143,17 +143,23 @@ test_that("grattan_save() doesn't save chart data / PPTX when not requested", {
 })
 
 test_that("grattan_save() saves chart data when requested",{
-  grattan_save(filename = "test.pdf",
+
+  skip_on_cran()
+
+  test_dir <- file.path(tempdir(), "grattan_save_test")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
+
+  grattan_save(filename = file.path(test_dir, "test.pdf"),
                object = test_plot,
                force_labs = FALSE,
                type = "normal",
                save_data = TRUE,
                select_data = FALSE)
 
-  expect_true(file.exists("test/test_normal.pdf"))
-  expect_true(file.exists("test/test.xlsx"))
+  expect_true(file.exists(file.path(test_dir, "test", "test_normal.pdf")))
+  expect_true(file.exists(file.path(test_dir, "test", "test.xlsx")))
 
-  saved_data <- openxlsx::read.xlsx("test/test.xlsx",
+  saved_data <- openxlsx::read.xlsx(file.path(test_dir, "test", "test.xlsx"),
                                     rows = c(3:35),
                                     cols = c(2:12))
 
@@ -165,8 +171,7 @@ test_that("grattan_save() saves chart data when requested",{
   expect_is(saved_data, "data.frame")
   expect_identical(saved_data, mtcars_no_rownames)
 
-  unlink("test.pdf")
-  unlink("test.xlsx")
+  unlink(test_dir, recursive = TRUE)
 
 })
 
