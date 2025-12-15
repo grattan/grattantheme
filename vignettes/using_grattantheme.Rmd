@@ -283,3 +283,36 @@ Or you can use the `save_chartdata` function directly, like this:
 ```{r, eval = FALSE}
 save_chartdata("plot_final.xlsx", object = plot_final)
 ```
+
+### Saving to an Overleaf atlas
+
+Grattan reports are drafted in Overleaf, with charts saved to an 'atlas' folder. Once this folder has been set up to sync locally via Dropbox, you can save charts directly from R to your Overleaf project using `grattan_save_overleaf()`.
+
+The first time you use `grattan_save_overleaf()` in an R session, you'll be prompted to select which Overleaf project to use from those synced in your Dropbox. Your choice is stored for the current R session only.
+
+For reproducibility, we recommend setting your Overleaf project at the start of your script:
+```{r, eval = FALSE}
+library(grattantheme)
+
+# Set the Overleaf project
+set_overleaf_project("Orange")  # Searches for matching project name
+
+# Create and save your chart
+plot_final <- ggplot(mtcars, aes(x = wt, y = mpg)) + 
+  geom_point() +
+  theme_grattan()
+
+grattan_save_overleaf("my_chart.pdf", plot_final)
+```
+
+The function saves only the PDF version of your chart to the atlas folder. No PowerPoint or data files are created. You can still specify chart types:
+```{r, eval = FALSE}
+# Save as a taller chart
+grattan_save_overleaf("tall_chart.pdf", plot_final, type = "wholecolumn")
+```
+
+To change which project you're saving to during your session:
+```{r, eval = FALSE}
+set_overleaf_project("transport-report")
+grattan_save_overleaf("another_chart.pdf", plot_final)
+```
