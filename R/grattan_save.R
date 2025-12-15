@@ -368,3 +368,70 @@ grattan_save_all <- function(filename,
                save_data = TRUE,
                ...)
 }
+
+
+
+#' Save chart to Overleaf project directory
+#'
+#' A wrapper around \code{grattan_save()} that saves PDF charts directly to
+#' your Overleaf project's atlas folder via Dropbox sync. On first use, you'll
+#' be prompted to select which Overleaf project to use. This choice is stored
+#' for the current R session, or can be set with \code{set_overleaf_project()}.
+#'
+#' @param filename Filename for the chart, with or without .pdf extension
+#' @param object A ggplot object. Defaults to the last plot created.
+#' @param type Chart type - see \code{?grattan_save} for options. Defaults to "normal".
+#' @param ... Additional arguments passed to \code{grattan_save()}, such as
+#'   \code{height}, \code{dpi}, \code{force_labs}, etc.
+#'
+#' @details The function saves only the PDF version of your chart to the
+#'   \code{atlas} subfolder of your chosen Overleaf project. No PPTX or data
+#'   files are created. Charts are saved directly to the Overleaf directory
+#'   without creating subdirectories.
+#'
+#'   Since the Overleaf project setting only persists for the current R session,
+#'   we recommend calling \code{set_overleaf_project()} in your script (or a
+#'   setup script, if used). This improves reproducibility of your code.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(ggplot2)
+#'
+#' # Set the Overleaf project at the start of your script
+#' set_overleaf_project("Orange")  # Searches for matching project
+#'
+#' # Create and save charts
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+#' grattan_save_overleaf("my_chart.pdf", p)
+#'
+#' # Save with 'wholecolumn' chart type
+#' grattan_save_overleaf("tall_chart.pdf", p, type = 'wholecolumn')
+#'
+#' # Change to a different project
+#' set_overleaf_project("transport-report")
+#' grattan_save_overleaf("another_chart.pdf", p)
+#' }
+grattan_save_overleaf <- function(filename,
+                                  object = ggplot2::last_plot(),
+                                  type = "normal",
+                                  ...) {
+
+  # Get the Overleaf atlas directory
+  overleaf_dir <- get_overleaf_project()
+
+  # Construct full path
+  full_path <- file.path(overleaf_dir, filename)
+
+  # Call grattan_save with appropriate parameters
+  grattan_save(filename = full_path,
+               object = object,
+               type = type,
+               no_new_folder = TRUE,
+               save_pptx = FALSE,
+               save_data = FALSE,
+               ...)
+
+  invisible(full_path)
+}
