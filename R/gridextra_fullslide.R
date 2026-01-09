@@ -3,15 +3,15 @@
 #' @keywords internal
 #' @import gridExtra
 
-lifecycle::deprecate_warn(when = "1.3.0",
-                          what = "gridextra_fullslide()",
-                          details = "This function is no longer maintained.")
-
 # nocov start
 gridextra_fullslide <- function(object,
                              type = "fullslide",
                              height = NULL,
                              print_object = FALSE) {
+
+  lifecycle::deprecate_warn(when = "1.3.0",
+                            what = "gridextra_fullslide()",
+                            details = "This function is no longer maintained.")
 
   fullslide_types <- chart_types$type[chart_types$class == "fullslide"]
 
