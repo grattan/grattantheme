@@ -316,9 +316,7 @@ get_pptx_fonts <- function(use_slide_font = TRUE) {
   # For slides, try to find Avenir Next LT Pro
   available_fonts <- systemfonts::system_fonts()$family
 
-  slide_font <- if ("Avenir Next LT Pro" %in% available_fonts) {
-    "Avenir Next LT Pro"
-  } else if ("Avenir Next" %in% available_fonts) {
+  slide_font <- if ("Avenir Next" %in% available_fonts) {
     "Avenir Next"
   } else if ("Avenir" %in% available_fonts) {
     "Avenir"
@@ -329,7 +327,7 @@ get_pptx_fonts <- function(use_slide_font = TRUE) {
     if (!is_windows) {
       warning("Avenir font family not found on this system. ",
               "PowerPoint slides will use Arial instead. ",
-              "For correct slide formatting, install Avenir Next LT Pro.",
+              "For correct slide formatting, install Avenir Next.",
               call. = FALSE)
     }
     return(list())

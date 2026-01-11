@@ -67,84 +67,98 @@ create_fullslide <- function(plot = last_plot(),
     p <- replace_labs(p,
                       labs = list(title = NULL,
                                   subtitle = NULL,
-                                  caption = labs$caption))
+                                  caption = NULL))
 
+    # Determine fonts
+    available_fonts <- systemfonts::system_fonts()$family
+
+    title_font <- if("DM Serif Display" %in% available_fonts) {
+      "DM Serif Display"
+    } else {
+      "serif"
+    }
+
+    main_font <- if("Avenir Next" %in% available_fonts) {
+      "Avenir Next"
+    } else {
+      "sans"
+    }
 
     stored_title <- labs$title
     stored_subtitle <- labs$subtitle
+    stored_caption <- labs$caption
 
-    title_font_size <- 18
+    title_font_size <- 32
+    subtitle_font_size <- 18
+    caption_font_size <- 8
+
+    # Create grey box as background (full width, 3.2cm height)
+    grey_box <- grid::rectGrob(gp = gpar(fill = "#F2F2F2", col = "#F2F2F2"))
 
     toptitle <- grid::grid.text(label = stored_title,
                                x = unit(0, "npc"),
-                               y = unit(0.1, "npc"),
-                               just = c("left", "bottom"),
+                               y = unit(0.5, "npc"),
+                               just = c("left", "centre"),
                                draw = FALSE,
                                gp = gpar(col = "black",
                                          fontsize = title_font_size,
-                                         fontface = "bold",
                                          lineheight = 0.9,
-                                         fontfamily = "sans"))
+                                         fontfamily = title_font))
+
+    # Create header grob that combines grey box + title + logo
+    header_grob <- grid::gTree(children = grid::gList(
+      grey_box,
+      grid::editGrob(toptitle, vp = grid::viewport(x = 0, width = unit(1, "npc") - unit(4.1, "cm"), just = "left")),
+      grid::editGrob(logogrob, vp = grid::viewport(x = 1, width = unit(4, "cm"), just = "right"))
+    ))
 
     topsubtitle <- grid::grid.text(label = stored_subtitle,
                                    x = unit(0, "npc"),
-                                   y = unit(0.925, "npc"),
+                                   y = unit(0.5, "npc"),
                                    draw = F,
                                    just = c("left", "top"),
                                    gp = gpar(col = "black",
-                                             fontsize = 18,
+                                             fontsize = subtitle_font_size,
                                              lineheight = 0.9,
-                                             fontfamily = "sans"))
+                                             fontfamily = main_font))
 
+    # Create caption (positioned with 0.4cm gap above it)
 
-    # Define additional grobs -----
-    blank_grob <- rectGrob(gp = gpar(lwd = 0))
+    topcaption <- grid::grid.text(label = stored_caption,
+                                  x = unit(0, "npc"),
+                                  y = unit(1, "npc"),  # Top of caption area
+                                  draw = FALSE,
+                                  just = c("left", "top"),
+                                  gp = gpar(col = "black",
+                                            fontsize = caption_font_size,
+                                            lineheight = 0.9,
+                                            fontfamily = main_font))
 
-    orange_line <- grid.lines(y = c(0.5, 0.5),
-                              draw = FALSE,
-                              gp = gpar(col = grattantheme::grattan_lightorange,
-                                       lwd = 2))
-
-    orange_line_height <- 0.08
-
-    logo_height <- 1.1
-    logo_width <- 4
-    logo_padding <- 0.1
-
+    # Layout using patchwork
     layout <- "
-    T#L
-    OOO
+    HHH
     SSS
     PPP
+    CCC
     "
 
     subtitle_present <- !is.null(stored_subtitle)
+    caption_present <- !is.null(stored_caption) && stored_caption != ""
 
-    subtitle_height <- ifelse(subtitle_present,
-                              logo_height,
-                              0)
+    subtitle_height <- ifelse(subtitle_present, 1.82, 0)
+    caption_height <- ifelse(caption_present, 2.13 - 0.4, 0)  # Total space minus gap
+    caption_gap <- ifelse(caption_present, 0.4, 0)
 
-    wrap_plots(T = wrap_elements(full = toptitle),
-               L = wrap_elements(full = logogrob),
-               O = wrap_elements(full = orange_line),
+    wrap_plots(H = wrap_elements(full = header_grob),
                S = wrap_elements(full = topsubtitle),
                P = wrap_elements(full = p),
+               C = wrap_elements(full = topcaption),
                design = layout,
-               heights = unit(c(logo_height,
-                                0.001,
-                                subtitle_height,
-                                1),
-                              c("cm",
-                                "cm",
-                                "cm",
-                                "null")),
-               widths = unit(c(1,
-                               logo_padding,
-                               logo_width),
-                             c("null",
-                               "cm",
-                               "cm"))
-               ) +
+               heights = unit(c(3.2,                    # Grey box with title/logo
+                                subtitle_height,         # Subtitle area
+                                chosen_chart_type$height,                    # Chart panel (matches sysdata)
+                                caption_gap + caption_height),  # Gap + caption
+                              "cm")) +
       plot_annotation(theme = theme(plot.margin = margin(top_border,
                                                          right_border,
                                                          bottom_border,

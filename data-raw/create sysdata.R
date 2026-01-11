@@ -10,7 +10,7 @@ chart_types <- tibble::tribble(
                       "normal",     "active",   22.16,   14.50,    120,     70,         75, "normal",    "template_normal.pptx",
                  "wholecolumn",     "active",   22.16,   22.16,    120,     70,         75, "normal",    "template_wholecolumn.pptx",
                     "fullpage",     "active",   44.32,   22.16,    240,    140,        150, "normal",    "template_fullpage.pptx",
-                   "fullslide",     "active",    31.5,    11.9,    240,     55,         95, "fullslide", "template_fullslide.pptx",
+                   "fullslide",     "active",    31.7,    11.9,    240,     55,         95, "fullslide", "template_fullslide.pptx",
             "fullslide_narrow",     "active",    23.0,    11.9,    175,     55,         95, "fullslide", "template_fullslide_narrow.pptx",
               "fullslide_half",     "active",    15.3,    11.9,    120,     55,         47, "fullslide", "template_fullslide_half.pptx",
 
@@ -32,8 +32,14 @@ chart_types <- chart_types %>%
   dplyr::mutate(top_border = dplyr::case_when(class == "normal" ~ 0,
                                 grepl("blog", type) ~ blog_border,
                                 type == "fullslide_old169" ~ 0.5,
+                                type %in% c("fullslide",
+                                            "fullslide_narrow",
+                                            "fullslide_half") ~ 0,
                                 TRUE ~ 0.7),
          bottom_border = dplyr::case_when(class == "normal" ~ 0,
+                                  type %in% c("fullslide",
+                                              "fullslide_narrow",
+                                              "fullslide_half") ~ 0,
                                    grepl("blog", type) ~ 0.05,
                                    type %in% c("fullslide",
                                                "fullslide_44") ~ 0.24,
@@ -41,11 +47,15 @@ chart_types <- chart_types %>%
          left_border = dplyr::case_when(class == "normal" ~ 0,
                                  type %in% c("fullslide_43",
                                              "fullslide_44") ~ (width - 22.16) / 2,
-                                 type == "fullslide" ~ (width - 30) / 2,
+                                 type %in% c("fullslide", "fullslide_narrow") ~ (33.87 - width) / 2,
+                                 type ==  "fullslide_half" ~ 1.085,
                                  type == "a4" ~ (width - 19) / 2,
                                  type == "fullslide_old169" ~ (width - 22.64) / 2,
                                  grepl("blog", type) ~ blog_border),
-         right_border = left_border)
+         right_border = if_else(
+           type == "fullslide_half", 17.85, # Position toward left of chart
+           left_border
+         ))
 
 chart_types_inc_deprecated <- chart_types
 chart_types <- chart_types[chart_types$status == "active", ]
