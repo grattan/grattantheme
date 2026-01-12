@@ -2,7 +2,7 @@
 % Please edit documentation in R/z_default_aesthetics.R
 \name{.prep_aes}
 \alias{.prep_aes}
-\title{Prepare `{ggplot2}` geom_ defaults}
+\title{Prepare \code{ggplot2} geom_ defaults}
 \usage{
 .prep_aes(geom, aes, setting)
 }

@@ -17,8 +17,8 @@ not}
 
 \item{reverse}{Boolean indicating whether the palette should be reversed}
 
-\item{...}{Additional arguments passed to \code{\link{discrete_scale}} or
-\code{\link{scale_color_gradientn}}, used respectively when discrete is
+\item{...}{Additional arguments passed to \code{\link[ggplot2]{discrete_scale}} or
+\code{\link[ggplot2]{scale_color_gradientn}}, used respectively when discrete is
 TRUE or FALSE}
 }
 \description{

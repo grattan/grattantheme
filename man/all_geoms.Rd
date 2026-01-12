@@ -11,7 +11,7 @@ A vector
 all_geoms
 }
 \description{
-A vector of geoms exported from `{ggplot2}` and extension packages. This
+A vector of geoms exported from \code{ggplot2} and extension packages. This
 vector is iterated on to set the default aesthetics for each geom, allowing
 the grattan colours to be plotted automatically.
 }

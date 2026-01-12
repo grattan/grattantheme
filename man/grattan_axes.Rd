@@ -38,10 +38,7 @@ lowest value of your plotted value.}
 white space is added to the right of your chart.}
 }
 \description{
-These functions automatically hide the '0' label when the axis starts at 0,
-consistent with Grattan style. The '0' label will only be hidden when 0 is
-the minimum value on the axis. If the axis includes negative values or starts
-at a value other than 0, all labels (including '0' if present) will be shown.
+These functions also hide the '0' label when the axis starts at 0.
 }
 \examples{
 
@@ -77,7 +74,7 @@ p
 # Alternatively, set the limits of the chart (in this example we'll set
 # the lower limit to 0, but you could use some other value
 # like 10 in this case).Note that by setting the second value of limits
-# to NA, we're telling ggplot2 to calculate theupper limit as usual based
+# to NA, we're telling ggplot2 to calculate the upper limit as usual based
 # on the data. All the usual arguments of `scale_y_continuous()`
 # (limits, breaks, labels, etc.) can be used.
 

@@ -1,6 +1,6 @@
 #' A vector of geoms
 #'
-#' A vector of geoms exported from `{ggplot2}` and extension packages. This
+#' A vector of geoms exported from \code{ggplot2} and extension packages. This
 #' vector is iterated on to set the default aesthetics for each geom, allowing
 #' the grattan colours to be plotted automatically.
 #'
@@ -52,7 +52,7 @@ plot_opts_vanilla <- list(
 
 .safe_set_geom_aesthetics <- purrr::safely(.set_geom_aesthetics) # nolint
 
-#' Prepare `{ggplot2}` geom_ defaults
+#' Prepare \code{ggplot2} geom_ defaults
 #'
 #' ggplot2 geoms have default aesthetics which can be changed for each
 #' session. This function is a generalised way to set geom defaults. It only
@@ -177,7 +177,7 @@ set_aesthetics <- function(type) {
     "ggplot2 will use",
     nice_type,
     "aesthetics (in the absence of a scale_colour etc function).",
-    "\nRun `set_aesthetics()` again after any more `library()` calls to {ggplot2} extension packages to set the aesthetics of geoms from those packages."
+    "\nRun `set_aesthetics()` again after any more `library()` calls to ggplot2 extension packages to set the aesthetics of geoms from those packages."
   )
 
 
