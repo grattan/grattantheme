@@ -146,14 +146,17 @@ get_grattan_font <- function(type = c("normal", "slide"),
   element <- match.arg(element)
 
   if (type == "normal") {
-    return(.grattan_fonts$normal %||% "sans")
+    font <- .grattan_fonts$normal
+    return(if (is.null(font)) "sans" else font)
   }
 
   if (element == "title") {
-    return(.grattan_fonts$slide_title %||% "sans")
+    font <- .grattan_fonts$slide_title
+    return(if (is.null(font)) "sans" else font)
   }
 
-  .grattan_fonts$slide_body %||% "sans"
+  font <- .grattan_fonts$slide_body
+  if (is.null(font)) "sans" else font
 }
 
 #' Get startup message about font configuration
@@ -162,9 +165,9 @@ get_grattan_font <- function(type = c("normal", "slide"),
 #' @keywords internal
 get_font_status_message <- function() {
 
-  normal <- .grattan_fonts$normal %||% "sans"
-  slide_title <- .grattan_fonts$slide_title %||% "sans"
-  slide_body <- .grattan_fonts$slide_body %||% "sans"
+  normal <- if (is.null(.grattan_fonts$normal)) "sans" else .grattan_fonts$normal
+  slide_title <- if (is.null(.grattan_fonts$slide_title)) "sans" else .grattan_fonts$slide_title
+  slide_body <- if (is.null(.grattan_fonts$slide_body)) "sans" else .grattan_fonts$slide_body
 
   if (slide_title == slide_body) {
     slide_display <- slide_body
