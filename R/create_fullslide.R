@@ -94,8 +94,10 @@ create_fullslide <- function(plot = last_plot(),
 
     # Wrap title text to fit within available space (max ~52 chars per line)
     # This prevents text from clipping behind the logo
+    title_is_multiline <- FALSE
     if (!is.null(stored_title) && nchar(stored_title) > 52) {
       stored_title <- paste(strwrap(stored_title, width = 52), collapse = "\n")
+      title_is_multiline <- TRUE
     }
 
     # Create grey box as background
@@ -121,54 +123,43 @@ create_fullslide <- function(plot = last_plot(),
     )
 
     # Create the title text grob
-    # Using vjust = 0.5 for proper vertical centering of multi-line text
+    # Adjust vertical position based on whether title is single or multi-line
+    title_y <- if (title_is_multiline) 0.42 else 0.55
+
     toptitle <- grid::textGrob(label = stored_title,
-                               x = unit(0, "npc"),
-                               y = unit(0.5, "npc"),
-                               just = c("left", "centre"),
-                               vjust = 0.5,
+                               x = 0,
+                               y = title_y,
+                               just = c("left", "center"),
                                gp = gpar(col = "black",
                                          fontsize = title_font_size,
                                          lineheight = 0.9,
                                          fontfamily = title_font))
 
     # Create header grob that combines grey box + title + logo
-    # Title and logo should span a consistent width (standard fullslide width)
-    # regardless of the chart type below.
-    # The header panel width varies by chart type, so for narrower charts we need
-    # to extend the title/logo beyond the panel boundaries.
+    # The title and logo should align with the chart edges and span the standard
+    # fullslide width (31.7cm), regardless of whether the chart is centered or left-aligned.
+    # Since patchwork panels are constrained to the chart width, we position elements
+    # using absolute coordinates relative to the panel's left edge (x=0).
     standard_fullslide_width <- chart_types$width[chart_types$type == "fullslide"]
     logo_width <- 4  # Width of logo in cm
 
-    # Calculate the x offset for title/logo based on chart alignment
-    # For centered charts (fullslide_narrow), we need to shift right by left_border
-    # For left-aligned charts (fullslide, fullslide_half), no shift needed
-    title_logo_x_offset <- if (left_border == right_border) {
-      # Symmetric borders = centered chart, so offset title/logo to center
-      left_border
-    } else {
-      # Asymmetric borders = left-aligned chart, no offset
-      0
-    }
+    # Title spans from left edge of chart to (standard_fullslide_width - logo_width)
+    title_width <- standard_fullslide_width - logo_width - 0.1
 
-    # Title viewport: spans from offset position to standard_fullslide_width - logo_width
-    # For narrower charts, this extends beyond the panel (clip = off)
+    # Create viewport for title - positioned at chart left edge, extends beyond if needed
     title_vp <- grid::viewport(
-      x = unit(title_logo_x_offset, "cm"),
+      x = 0,
       y = 0.5,
-      width = unit(standard_fullslide_width - logo_width - 0.1, "cm"),
-      height = unit(1, "npc"),
+      width = unit(title_width, "cm"),
       just = c("left", "center"),
       clip = "off"
     )
 
-    # Logo viewport: positioned at standard_fullslide_width from offset, logo_width cm wide
-    # This also extends beyond panel for narrower charts
+    # Create viewport for logo - positioned at standard_fullslide_width from chart left edge
     logo_vp <- grid::viewport(
-      x = unit(title_logo_x_offset + standard_fullslide_width, "cm"),
-      y = 0.5,
+      x = unit(standard_fullslide_width, "cm"),
+      y = 0.35,
       width = unit(logo_width, "cm"),
-      height = unit(1, "npc"),
       just = c("right", "center"),
       clip = "off"
     )
@@ -181,7 +172,7 @@ create_fullslide <- function(plot = last_plot(),
 
     topsubtitle <- grid::grid.text(label = stored_subtitle,
                                    x = unit(0, "npc"),
-                                   y = unit(0.5, "npc"),
+                                   y = unit(0.7, "npc"),
                                    draw = F,
                                    just = c("left", "top"),
                                    gp = gpar(col = "black",
