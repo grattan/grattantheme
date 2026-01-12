@@ -11,7 +11,7 @@ test_that("create_fullslide works", {
   full_p <- create_fullslide(p, "fullslide")
 
   expect_is(full_p, "patchwork")
-  expect_length(full_p, 5)
+  expect_length(full_p, 4)  # H (header), S (subtitle), P (plot), C (caption)
   expect_false(is.null(full_p$patches))
 
 })

@@ -66,6 +66,10 @@ all_chart_types_inc_deprecated <- chart_types$type
 fullslide_chart_types <- chart_types$type[chart_types$class == "fullslide" & chart_types$status == "active"]
 fullslide_chart_types_inc_deprecated <- chart_types$type[chart_types$class == "fullslide"]
 
+# Define standard fullslide slide dimensions (16:9 PowerPoint slide)
+fullslide_slide_width <- 33.87   # cm
+fullslide_slide_height <- 19.05  # cm
+
 usethis::use_data(logogrob,
          chart_types,
          chart_types_inc_deprecated,
@@ -73,6 +77,8 @@ usethis::use_data(logogrob,
          all_chart_types_inc_deprecated,
          fullslide_chart_types,
          fullslide_chart_types_inc_deprecated,
+         fullslide_slide_width,
+         fullslide_slide_height,
          internal = TRUE,
          overwrite = TRUE)
 

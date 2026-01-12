@@ -116,7 +116,7 @@
 <text x='612.68' y='526.32' text-anchor='middle' style='font-size: 18.00px; font-family: sans;' textLength='10.01px' lengthAdjust='spacingAndGlyphs'>5</text>
 <text x='368.75' y='546.93' text-anchor='middle' style='font-size: 18.00px; font-family: sans;' textLength='18.00px' lengthAdjust='spacingAndGlyphs'>wt</text>
 <text x='0.14' y='44.68' style='font-size: 18.00px; fill: #6A737B; font-family: sans;' textLength='682.47px' lengthAdjust='spacingAndGlyphs'>Either put units here or jam an elaborate thing here that describes both axes, whatevs</text>
-<text x='0.14' y='19.59' style='font-size: 18.00px; font-weight: bold; fill: #6A737B; font-family: sans;' textLength='595.38px' lengthAdjust='spacingAndGlyphs'>Here goes a Grattan title, blah blah lots of words go here extremely orange</text>
+<text x='0.14' y='19.59' style='font-size: 18.00px; font-weight: bold; fill: #6A737B; font-family: sans;' textLength='590.81px' lengthAdjust='spacingAndGlyphs'>Here goes a Grattan title, blah blah lots of words go here and it's very long</text>
 <text x='0.14' y='572.49' style='font-size: 9.99px; font-style: italic; font-family: sans;' textLength='143.29px' lengthAdjust='spacingAndGlyphs'>Notes: Blah Source: somewhere</text>
 </g>
 </svg>

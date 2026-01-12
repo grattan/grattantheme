@@ -345,6 +345,9 @@ grattan_save_ <- function(filename,
 
   width <- chart_types$width[chart_types$type == type]
 
+  # Store whether height was manually specified before setting default
+  height_was_null <- is.null(height)
+
   if (is.null(height)) {
     height <- chart_types$height[chart_types$type == type]
   }
@@ -363,8 +366,11 @@ grattan_save_ <- function(filename,
     # Full slide height = all components
     # The height from chart_types is the chart panel only
     # We need to add: header (3.2cm) + subtitle (variable) + caption (variable)
-    # For standard fullslide, approximate total height is 19.05cm (16:9 slide)
-    height <- 19.05
+    # For standard fullslide, use the defined slide height (16:9 slide)
+    # Only override height if it was not manually specified
+    if (height_was_null) {
+      height <- fullslide_slide_height
+    }
   }
 
   ggplot2::ggsave(filename, object,

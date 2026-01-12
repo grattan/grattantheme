@@ -2,6 +2,19 @@
 
 context("vdiffr-tests")
 
+# Create writer function for fullslide plots with specific dimensions
+write_svg_fullslide <- function(plot, file, title = "") {
+  # Convert cm to inches (1 cm = 0.393701 inches)
+  width_inches <- fullslide_slide_width * 0.393701
+  height_inches <- fullslide_slide_height * 0.393701
+
+  # Use vdiffr's internal svglite function with custom dimensions
+  vdiffr:::svglite(file, width = width_inches, height = height_inches)
+  print(plot)
+  grDevices::dev.off()
+  invisible()
+}
+
 base_plot <- mtcars %>%
   ggplot(aes(x = wt,
              y = mpg)) +
@@ -38,6 +51,14 @@ short_subtitle_plot <- base_plot +
 fullslide_plot <- normal_plot %>%
   wrap_labs("fullslide") %>%
   create_fullslide("fullslide")
+
+fullslide_narrow_plot <- normal_plot %>%
+  wrap_labs("fullslide_narrow") %>%
+  create_fullslide("fullslide_narrow")
+
+fullslide_half_plot <- normal_plot %>%
+  wrap_labs("fullslide_half") %>%
+  create_fullslide("fullslide_half")
 
 orange_plot <- base_plot +
   theme_grattan(background = "orange")
@@ -76,7 +97,18 @@ test_that("plot with short subtitle fills the blank space", {
 
 
 test_that("fullslide plot looks correct", {
-  vdiffr::expect_doppelganger("fullslide plot", fullslide_plot)
+  vdiffr::expect_doppelganger("fullslide plot", fullslide_plot,
+                              writer = write_svg_fullslide)
+})
+
+test_that("fullslide_narrow plot looks correct", {
+  vdiffr::expect_doppelganger("fullslide narrow plot", fullslide_narrow_plot,
+                              writer = write_svg_fullslide)
+})
+
+test_that("fullslide_half plot looks correct", {
+  vdiffr::expect_doppelganger("fullslide half plot", fullslide_half_plot,
+                              writer = write_svg_fullslide)
 })
 
 test_that("orange background returned when requested", {

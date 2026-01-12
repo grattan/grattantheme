@@ -18,7 +18,7 @@
 #' @param type Optional. If specified, must be one of "fullslide", "fullslide_narrow", or "fullslide_half".
 #' This determines the chart width and positioning within the slide.
 #'
-#' @return An object of class "patchwork" with full slide dimensions (33.87cm x 19.05cm).
+#' @return An object of class "patchwork" with full slide dimensions (16:9 PowerPoint slide).
 #'
 #' @examples
 #'
