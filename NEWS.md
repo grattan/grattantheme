@@ -1,7 +1,9 @@
 # grattantheme 1.4
 * Updated chart types. Deprecated 'a4', 'tiny', and 'fullslide'. Added 'fullslide_half' chart type.
 * Add new `grattan_save_overleaf` function and associated utilities to identify and save charts to an Overleaf atlas.
-* Made consquential updates to tests and added new tests to expand coverage for functions added in version 1.3.
+* Update `create_fullslide` function to ensure .pdf outputs match Grattan's current powerpoint template.
+* Add new font handling utilities to ensure fonts match Grattan's current style guide, and are consistent across operating systems.
+* Made consequential updates to tests and added new tests to expand coverage for functions added in version 1.3 and current version.
 
 # grattantheme 1.3.1
 * Updated aesthetics and handling of default geoms to ensure compatibility with ggplot2 version 4.0.0.

@@ -176,5 +176,5 @@ get_font_status_message <- function() {
     return("Fonts: using defaults")
   }
 
-  paste0("Fonts: 'normal' =", normal, ", 'slide' =", slide_display)
+  paste0("Fonts: 'normal' = ", normal, ", 'slide' = ", slide_display)
 }
