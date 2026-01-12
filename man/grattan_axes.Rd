@@ -27,7 +27,9 @@ add white space equal to the whole area of your data.}
 white space is added to the top of your chart. Increase to add more white
 space.}
 
-\item{...}{arguments passed to scale_y_continuous or scale_x_continuous}
+\item{...}{arguments passed to scale_y_continuous or scale_x_continuous. Note
+that if you provide a custom `labels` argument, it will override the default
+behavior of hiding the '0' label.}
 
 \item{expand_left}{default is 0. This will ensure your y-axis is at the
 lowest value of your plotted value.}
@@ -36,8 +38,10 @@ lowest value of your plotted value.}
 white space is added to the right of your chart.}
 }
 \description{
-Ensure your y- and x-axis are Grattan style guide-consistent and doesn't hang
-off the edge of the chart.
+These functions automatically hide the '0' label when the axis starts at 0,
+consistent with Grattan style. The '0' label will only be hidden when 0 is
+the minimum value on the axis. If the axis includes negative values or starts
+at a value other than 0, all labels (including '0' if present) will be shown.
 }
 \examples{
 

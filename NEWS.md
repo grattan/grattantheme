@@ -3,6 +3,7 @@
 * Add new `grattan_save_overleaf` function and associated utilities to identify and save charts to an Overleaf atlas.
 * Update `create_fullslide` function to ensure .pdf outputs match Grattan's current powerpoint template.
 * Add new font handling utilities to ensure fonts match Grattan's current style guide, and are consistent across operating systems.
+* Updated `grattan_scale` functions to by default hide the zero label if the axis starts at zero.
 * Made consequential updates to tests and added new tests to expand coverage for functions added in version 1.3 and current version.
 
 # grattantheme 1.3.1

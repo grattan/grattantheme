@@ -67,3 +67,78 @@ test_that("manual expansion works", {
   expect_equal(y_max, max(mtcars$mpg) + (mtcars_y_range * expand_amount))
 
 })
+
+test_that("grattan_y_continuous hides zero label when axis starts at 0", {
+  p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+    geom_point() +
+    grattan_y_continuous(limits = c(0, NA)) +
+    theme_grattan()
+
+  built <- ggplot2::ggplot_build(p)
+
+  expect_true(!is.null(p$scales$get_scales("y")))
+
+  y_labels <- built$layout$panel_params[[1]]$y$get_labels()
+  zero_positions <- built$layout$panel_params[[1]]$y$get_breaks() == 0
+
+  if (any(zero_positions)) {
+    expect_equal(y_labels[zero_positions], "")
+  }
+})
+
+test_that("grattan_x_continuous hides zero label when axis starts at 0", {
+  p <- ggplot(mtcars, aes(x = mpg, y = wt)) +
+    geom_point() +
+    grattan_x_continuous(limits = c(0, NA)) +
+    theme_grattan()
+
+  built <- ggplot2::ggplot_build(p)
+
+  expect_true(!is.null(p$scales$get_scales("x")))
+
+  x_labels <- built$layout$panel_params[[1]]$x$get_labels()
+  zero_positions <- built$layout$panel_params[[1]]$x$get_breaks() == 0
+
+  if (any(zero_positions)) {
+    expect_equal(x_labels[zero_positions], "")
+  }
+})
+
+test_that("custom labels parameter is respected", {
+  custom_labels <- function(x) paste0("$", x)
+
+  p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+    geom_point() +
+    grattan_y_continuous(limits = c(0, NA), labels = custom_labels) +
+    theme_grattan()
+
+  built <- ggplot2::ggplot_build(p)
+
+  y_labels <- built$layout$panel_params[[1]]$y$get_labels()
+  zero_positions <- built$layout$panel_params[[1]]$y$get_breaks() == 0
+
+  if (any(zero_positions)) {
+    expect_equal(y_labels[zero_positions], "$0")
+  }
+})
+
+test_that("non-zero starting axes show all labels including zero if present", {
+  df <- data.frame(x = 1:10, y = c(-4, -3, -2, -1, 0, 1, 2, 3, 4, 5))
+  p <- ggplot(df, aes(x = x, y = y)) +
+    geom_point() +
+    grattan_y_continuous() +
+    theme_grattan()
+
+  built <- ggplot2::ggplot_build(p)
+
+  y_breaks <- built$layout$panel_params[[1]]$y$get_breaks()
+  y_labels <- built$layout$panel_params[[1]]$y$get_labels()
+
+  expect_true(any(y_breaks < 0, na.rm = TRUE))
+
+  zero_positions <- !is.na(y_breaks) & y_breaks == 0
+  if (any(zero_positions)) {
+    zero_label <- y_labels[zero_positions]
+    expect_true(zero_label != "")
+  }
+})
