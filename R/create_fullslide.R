@@ -1,15 +1,24 @@
-#' Assemble a chart featuring the Grattan logo and orange line
+#' Assemble a chart featuring the Grattan logo and grey header
 #'
 #' Takes a ggplot2 object and formats it to look like a
-#' Grattan Powerpoint slide. You will rarely need to call this function
-#' directly - use `grattan_save()` to save a ggplot2 object as a 'slide'-like
-#' image.
+#' Grattan Powerpoint slide. The function adds a grey header box containing
+#' the chart title and Grattan logo, along with subtitle and caption text.
+#' Title text is automatically wrapped if longer than one line.
+#' You will rarely need to call this function directly - use `grattan_save()`
+#' to save a ggplot2 object as a 'slide'-like image.
+#'
+#' The function allows for three types with different layouts:
+#' \itemize{
+#'   \item{fullslide: Standard width chart with left-aligned text/logo}
+#'   \item{fullslide_narrow: Narrower centered chart with text/logo aligned consistently with fullslide}
+#'   \item{fullslide_half: Half-width left-aligned chart for side-by-side layouts}
+#' }
 #'
 #' @param plot A ggplot2 plot
-#' @param type Optional. If specified, must be one of "fullslide", "fullslide_169", "fullslide_44", or "blog".
-#' This is used to define the size of the white border around the image.
+#' @param type Optional. If specified, must be one of "fullslide", "fullslide_narrow", or "fullslide_half".
+#' This determines the chart width and positioning within the slide.
 #'
-#' @return An object of class "patchwork".
+#' @return An object of class "patchwork" with full slide dimensions (33.87cm x 19.05cm).
 #'
 #' @examples
 #'
@@ -136,28 +145,37 @@ create_fullslide <- function(plot = last_plot(),
                                          fontfamily = title_font))
 
     # Create header grob that combines grey box + title + logo
-    # The title and logo should align with the chart edges and span the standard
-    # fullslide width (31.7cm), regardless of whether the chart is centered or left-aligned.
-    # Since patchwork panels are constrained to the chart width, we position elements
-    # using absolute coordinates relative to the panel's left edge (x=0).
+    # The title and logo positioning:
+    # - For fullslide and fullslide_half: align with chart left edge
+    # - For fullslide_narrow: align with fullslide's position (not the narrow chart edge)
+    #   This means offsetting left from the narrow chart by (narrow_border - fullslide_border)
     standard_fullslide_width <- chart_types$width[chart_types$type == "fullslide"]
+    standard_fullslide_left_border <- chart_types$left_border[chart_types$type == "fullslide"]
     logo_width <- 4  # Width of logo in cm
 
-    # Title spans from left edge of chart to (standard_fullslide_width - logo_width)
+    # Calculate x offset for title/logo
+    # For fullslide_narrow (centered chart), we need to shift left to match fullslide position
+    title_logo_x_offset <- if (left_border == right_border && left_border != standard_fullslide_left_border) {
+      -(left_border - standard_fullslide_left_border)
+    } else {
+      0
+    }
+
+    # Title spans standard fullslide width minus logo width
     title_width <- standard_fullslide_width - logo_width - 0.1
 
-    # Create viewport for title - positioned at chart left edge, extends beyond if needed
+    # Create viewport for title
     title_vp <- grid::viewport(
-      x = 0,
+      x = unit(0, "npc") + unit(title_logo_x_offset, "cm"),
       y = 0.5,
       width = unit(title_width, "cm"),
       just = c("left", "center"),
       clip = "off"
     )
 
-    # Create viewport for logo - positioned at standard_fullslide_width from chart left edge
+    # Create viewport for logo
     logo_vp <- grid::viewport(
-      x = unit(standard_fullslide_width, "cm"),
+      x = unit(0, "npc") + unit(title_logo_x_offset + standard_fullslide_width, "cm"),
       y = 0.35,
       width = unit(logo_width, "cm"),
       just = c("right", "center"),
@@ -170,27 +188,50 @@ create_fullslide <- function(plot = last_plot(),
       grid::editGrob(logogrob, vp = logo_vp)
     ))
 
-    topsubtitle <- grid::grid.text(label = stored_subtitle,
-                                   x = unit(0, "npc"),
-                                   y = unit(0.7, "npc"),
-                                   draw = F,
-                                   just = c("left", "top"),
-                                   gp = gpar(col = "black",
-                                             fontsize = subtitle_font_size,
-                                             lineheight = 0.9,
-                                             fontfamily = main_font))
+    # Subtitle and caption use the same x offset as title/logo for fullslide_narrow
+    # They need viewports with clip="off" to allow drawing outside panel boundaries
+
+    subtitle_grob <- grid::textGrob(label = stored_subtitle,
+                                    x = 0,
+                                    y = unit(0.7, "npc"),
+                                    just = c("left", "top"),
+                                    gp = gpar(col = "black",
+                                              fontsize = subtitle_font_size,
+                                              lineheight = 0.9,
+                                              fontfamily = main_font))
+
+    subtitle_vp <- grid::viewport(
+      x = unit(0, "npc") + unit(title_logo_x_offset, "cm"),
+      y = 0,
+      width = unit(1, "npc"),
+      height = unit(1, "npc"),
+      just = c("left", "bottom"),
+      clip = "off"
+    )
+
+    topsubtitle <- grid::editGrob(subtitle_grob, vp = subtitle_vp)
 
     # Create caption (positioned with 0.4cm gap above it)
 
-    topcaption <- grid::grid.text(label = stored_caption,
-                                  x = unit(0, "npc"),
-                                  y = unit(1, "npc"),  # Top of caption area
-                                  draw = FALSE,
-                                  just = c("left", "top"),
-                                  gp = gpar(col = "black",
-                                            fontsize = caption_font_size,
-                                            lineheight = 0.9,
-                                            fontfamily = main_font))
+    caption_grob <- grid::textGrob(label = stored_caption,
+                                   x = 0,
+                                   y = unit(1, "npc"),
+                                   just = c("left", "top"),
+                                   gp = gpar(col = "black",
+                                             fontsize = caption_font_size,
+                                             lineheight = 0.9,
+                                             fontfamily = main_font))
+
+    caption_vp <- grid::viewport(
+      x = unit(0, "npc") + unit(title_logo_x_offset, "cm"),
+      y = 0,
+      width = unit(1, "npc"),
+      height = unit(1, "npc"),
+      just = c("left", "bottom"),
+      clip = "off"
+    )
+
+    topcaption <- grid::editGrob(caption_grob, vp = caption_vp)
 
     # Layout using patchwork
     layout <- "
