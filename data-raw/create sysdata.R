@@ -1,7 +1,7 @@
 library(devtools)
 library(dplyr)
 
-logo <- magick::image_read_pdf("data-raw/GrattanSVGLogo.pdf")
+logo <- magick::image_read("data-raw/GrattanPNGlogo.png")
 
 logogrob <- grid::rasterGrob(logo)
 
@@ -53,7 +53,7 @@ chart_types <- chart_types %>%
                                  type == "fullslide_old169" ~ (width - 22.64) / 2,
                                  grepl("blog", type) ~ blog_border),
          right_border = if_else(
-           type == "fullslide_half", 17.85, # Position toward left of chart
+           type == "fullslide_half", 17.485, # Position toward left of chart
            left_border
          ))
 

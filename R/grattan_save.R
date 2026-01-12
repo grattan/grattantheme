@@ -349,6 +349,23 @@ grattan_save_ <- function(filename,
     height <- chart_types$height[chart_types$type == type]
   }
 
+  # For fullslide charts, adjust dimensions to account for the full slide size
+  # including margins that were added by create_fullslide()
+  if (plot_class == "fullslide") {
+    left_border <- chart_types$left_border[chart_types$type == type]
+    right_border <- chart_types$right_border[chart_types$type == type]
+    top_border <- chart_types$top_border[chart_types$type == type]
+    bottom_border <- chart_types$bottom_border[chart_types$type == type]
+
+    # Full slide width = chart width + borders
+    width <- width + left_border + right_border
+
+    # Full slide height = all components
+    # The height from chart_types is the chart panel only
+    # We need to add: header (3.2cm) + subtitle (variable) + caption (variable)
+    # For standard fullslide, approximate total height is 19.05cm (16:9 slide)
+    height <- 19.05
+  }
 
   ggplot2::ggsave(filename, object,
                   width = width, height = height, units = "cm",

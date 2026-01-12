@@ -6,7 +6,7 @@ base_plot <- mtcars %>%
   ggplot(aes(x = wt,
              y = mpg)) +
   geom_point() +
-  labs(title = "Here goes a Grattan title, blah blah lots of words go here extremely orange",
+  labs(title = "Here goes a Grattan title, blah blah lots of words go here and it's very long",
        caption = "Notes: Blah Source: somewhere")
 
 normal_plot <- base_plot +

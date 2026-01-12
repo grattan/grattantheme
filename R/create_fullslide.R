@@ -92,24 +92,91 @@ create_fullslide <- function(plot = last_plot(),
     subtitle_font_size <- 18
     caption_font_size <- 8
 
-    # Create grey box as background (full width, 3.2cm height)
-    grey_box <- grid::rectGrob(gp = gpar(fill = "#F2F2F2", col = "#F2F2F2"))
+    # Wrap title text to fit within available space (max ~52 chars per line)
+    # This prevents text from clipping behind the logo
+    if (!is.null(stored_title) && nchar(stored_title) > 52) {
+      stored_title <- paste(strwrap(stored_title, width = 52), collapse = "\n")
+    }
 
-    toptitle <- grid::grid.text(label = stored_title,
+    # Create grey box as background
+    # The grey box needs to extend beyond the plot area into the margins
+    # to fill the full slide width. We extend it by the left/right borders.
+    # For asymmetric borders (like fullslide_half), we need to calculate the
+    # x position offset to account for the different left/right extensions.
+
+    # Calculate the x position: shift left by (right_border - left_border) / 2
+    # This centers the extended box on the full slide, not the plot area
+    x_offset <- (right_border - left_border) / 2
+
+    grey_box_vp <- grid::viewport(x = unit(0.5, "npc") + unit(x_offset, "cm"),
+                                   y = 0.5,
+                                   width = unit(1, "npc") + unit(left_border + right_border, "cm"),
+                                   height = unit(1, "npc"),
+                                   just = c("centre", "centre"),
+                                   clip = "off")
+
+    grey_box <- grid::editGrob(
+      grid::rectGrob(gp = gpar(fill = "#F2F2F2", col = "#F2F2F2")),
+      vp = grey_box_vp
+    )
+
+    # Create the title text grob
+    # Using vjust = 0.5 for proper vertical centering of multi-line text
+    toptitle <- grid::textGrob(label = stored_title,
                                x = unit(0, "npc"),
                                y = unit(0.5, "npc"),
                                just = c("left", "centre"),
-                               draw = FALSE,
+                               vjust = 0.5,
                                gp = gpar(col = "black",
                                          fontsize = title_font_size,
                                          lineheight = 0.9,
                                          fontfamily = title_font))
 
     # Create header grob that combines grey box + title + logo
+    # Title and logo should span a consistent width (standard fullslide width)
+    # regardless of the chart type below.
+    # The header panel width varies by chart type, so for narrower charts we need
+    # to extend the title/logo beyond the panel boundaries.
+    standard_fullslide_width <- chart_types$width[chart_types$type == "fullslide"]
+    logo_width <- 4  # Width of logo in cm
+
+    # Calculate the x offset for title/logo based on chart alignment
+    # For centered charts (fullslide_narrow), we need to shift right by left_border
+    # For left-aligned charts (fullslide, fullslide_half), no shift needed
+    title_logo_x_offset <- if (left_border == right_border) {
+      # Symmetric borders = centered chart, so offset title/logo to center
+      left_border
+    } else {
+      # Asymmetric borders = left-aligned chart, no offset
+      0
+    }
+
+    # Title viewport: spans from offset position to standard_fullslide_width - logo_width
+    # For narrower charts, this extends beyond the panel (clip = off)
+    title_vp <- grid::viewport(
+      x = unit(title_logo_x_offset, "cm"),
+      y = 0.5,
+      width = unit(standard_fullslide_width - logo_width - 0.1, "cm"),
+      height = unit(1, "npc"),
+      just = c("left", "center"),
+      clip = "off"
+    )
+
+    # Logo viewport: positioned at standard_fullslide_width from offset, logo_width cm wide
+    # This also extends beyond panel for narrower charts
+    logo_vp <- grid::viewport(
+      x = unit(title_logo_x_offset + standard_fullslide_width, "cm"),
+      y = 0.5,
+      width = unit(logo_width, "cm"),
+      height = unit(1, "npc"),
+      just = c("right", "center"),
+      clip = "off"
+    )
+
     header_grob <- grid::gTree(children = grid::gList(
       grey_box,
-      grid::editGrob(toptitle, vp = grid::viewport(x = 0, width = unit(1, "npc") - unit(4.1, "cm"), just = "left")),
-      grid::editGrob(logogrob, vp = grid::viewport(x = 1, width = unit(4, "cm"), just = "right"))
+      grid::editGrob(toptitle, vp = title_vp),
+      grid::editGrob(logogrob, vp = logo_vp)
     ))
 
     topsubtitle <- grid::grid.text(label = stored_subtitle,
