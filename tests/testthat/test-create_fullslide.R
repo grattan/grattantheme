@@ -8,7 +8,8 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
 test_that("create_fullslide works", {
   expect_error(create_fullslide(p, "normal"))
 
-  full_p <- create_fullslide(p, "fullslide")
+  # Use font = "normal" for consistent tests across platforms
+  full_p <- create_fullslide(p, "fullslide", font = "normal")
 
   expect_is(full_p, "patchwork")
   expect_length(full_p, 4)  # H (header), S (subtitle), P (plot), C (caption)
@@ -18,7 +19,8 @@ test_that("create_fullslide works", {
 
 test_that("saved fullslides look as expected", {
   fullslide_types <- chart_types$type[chart_types$class == "fullslide"]
-  plots <- purrr::map(fullslide_types, create_fullslide, plot = p)
+  # Use font = "normal" for consistent tests across platforms
+  plots <- purrr::map(fullslide_types, create_fullslide, plot = p, font = "normal")
   plots <- setNames(plots, fullslide_types)
   filename <- file.path("test", "saved_plots.rda")
 

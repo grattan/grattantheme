@@ -16,17 +16,17 @@ License: MIT + file LICENSE
 Depends: R (>= 3.5.0)
 Imports:
     clipr,
-    cowsay, 
-    dplyr, 
+    cowsay,
+    dplyr,
     gdtools,
     ggrepel (>= 0.8.0),
     ggplot2 (>= 4.0.0),
     glue,
     gridExtra,
-    grDevices, 
-    fs, 
+    grDevices,
+    fs,
     jsonlite,
-    knitr (>= 1.22), 
+    knitr (>= 1.22),
     lifecycle,
     rmarkdown (>= 1.12),
     patchwork (>= 1.0.0),
@@ -38,6 +38,7 @@ Imports:
     rvg,
     rlang,
     stringr,
+    systemfonts,
     utils,
 VignetteBuilder: knitr
 Encoding: UTF-8

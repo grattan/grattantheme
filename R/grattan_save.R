@@ -78,6 +78,10 @@
 #' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a PNG
 #' image and inserted into the slide. This is mainly intended for folks using
 #' markdown text in the subtitles and plots.
+#' @param font Either "slide" or "normal". Default is NULL, which automatically
+#' uses "slide" for fullslide types and PowerPoint output, and "normal" for
+#' other types. "slide" uses DM Serif Display for titles and Avenir Next for
+#' body text (if available). "normal" uses Arial.
 #' @param device The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.
 #' @param ... Any additional arguments passed to `ggsave()`.
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
@@ -161,6 +165,7 @@ grattan_save <- function(filename,
                          ignore_long_title = FALSE,
                          no_new_folder = FALSE,
                          rich_subtitle = FALSE,
+                         font = NULL,
                          device = cairo_pdf,
                          ...) {
 
@@ -227,11 +232,12 @@ grattan_save <- function(filename,
         warning("Cannot save Powerpoint for type '", type, "'.")
       } else {
 
+        pptx_font <- if (is.null(font)) "slide" else font
         grattan_save_pptx(p = object,
                           type = type,
                           filename = file.path(dir, paste0(file_name, ".pptx")),
                           rich_subtitle = rich_subtitle,
-                          use_slide_font = TRUE)
+                          font = pptx_font)
       }
     }
     ## export single image
@@ -243,6 +249,7 @@ grattan_save <- function(filename,
                   dpi = dpi,
                   save_pptx = save_pptx,
                   ignore_long_title = ignore_long_title,
+                  font = font,
                   device = device,
                   ...)
   }
@@ -271,11 +278,12 @@ grattan_save <- function(filename,
       template_exists <- !is.na(template)
       valid_pptx_types <- all_chart_types[template_exists]
 
+      pptx_font <- if (is.null(font)) "slide" else font
       grattan_save_pptx(p = object,
                         filename = file.path(dir, paste0(file_name, ".pptx")),
                         type = valid_pptx_types,
                         rich_subtitle = rich_subtitle,
-                        use_slide_font = TRUE)
+                        font = pptx_font)
 
     }
 
@@ -289,6 +297,7 @@ grattan_save <- function(filename,
                  dpi = dpi,
                  save_pptx = save_pptx,
                  ignore_long_title = ignore_long_title,
+                 font = font,
                  device = device,
                  ...)
 
@@ -310,6 +319,7 @@ grattan_save_ <- function(filename,
                           dpi,
                           save_pptx,
                           ignore_long_title,
+                          font,
                           device,
                           ...) {
 
@@ -321,8 +331,11 @@ grattan_save_ <- function(filename,
 
     object <- wrap_labs(object, type, ignore_long_title = ignore_long_title)
 
+    # Use "slide" font for fullslide types if font is NULL
+    fullslide_font <- if (is.null(font)) "slide" else font
     object <- create_fullslide(plot = object,
-                               type = type)
+                               type = type,
+                               font = fullslide_font)
 
   } else { # following code only applies if type != "fullslide"
 

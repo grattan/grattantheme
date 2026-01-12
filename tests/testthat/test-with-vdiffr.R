@@ -48,17 +48,19 @@ short_subtitle_plot <- base_plot +
   theme_grattan() +
   labs(subtitle = "This is a short subtitle")
 
+# Use font = "normal" for consistent tests across platforms
+# (slide fonts may differ based on font availability)
 fullslide_plot <- normal_plot %>%
   wrap_labs("fullslide") %>%
-  create_fullslide("fullslide")
+  create_fullslide("fullslide", font = "normal")
 
 fullslide_narrow_plot <- normal_plot %>%
   wrap_labs("fullslide_narrow") %>%
-  create_fullslide("fullslide_narrow")
+  create_fullslide("fullslide_narrow", font = "normal")
 
 fullslide_half_plot <- normal_plot %>%
   wrap_labs("fullslide_half") %>%
-  create_fullslide("fullslide_half")
+  create_fullslide("fullslide_half", font = "normal")
 
 orange_plot <- base_plot +
   theme_grattan(background = "orange")

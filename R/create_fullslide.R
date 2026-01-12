@@ -17,6 +17,8 @@
 #' @param plot A ggplot2 plot
 #' @param type Optional. If specified, must be one of "fullslide", "fullslide_narrow", or "fullslide_half".
 #' This determines the chart width and positioning within the slide.
+#' @param font Either "slide" (default) or "normal". "slide" uses DM Serif Display
+#' for the title and Avenir Next for body text (if available). "normal" uses Arial.
 #'
 #' @return An object of class "patchwork" with full slide dimensions (16:9 PowerPoint slide).
 #'
@@ -40,7 +42,8 @@
 #' @import grid
 
 create_fullslide <- function(plot = last_plot(),
-                             type) {
+                             type,
+                             font = c("slide", "normal")) {
 
     # Check inputs and define plot borders ----
 
@@ -49,24 +52,21 @@ create_fullslide <- function(plot = last_plot(),
     }
 
     if (missing(type)) {
-      top_border <- 0.15
-      right_border <- 0.15
-      bottom_border <- 0.05
-      left_border = 0.15
-
-    } else {
-      if (!type %in% fullslide_chart_types_inc_deprecated) {
-        stop(type,
-             " is not a valid chart type.\nMust be one of: ",
-             paste(fullslide_chart_types, collapse = ", "))
-      }
-
-      chosen_chart_type <- chart_types[chart_types$type == type, ]
-      top_border <- chosen_chart_type$top_border
-      right_border <- chosen_chart_type$right_border
-      bottom_border <- chosen_chart_type$bottom_border
-      left_border <- chosen_chart_type$left_border
+      # Default to fullslide type when not specified
+      type <- "fullslide"
     }
+
+    if (!type %in% fullslide_chart_types_inc_deprecated) {
+      stop(type,
+           " is not a valid chart type.\nMust be one of: ",
+           paste(fullslide_chart_types, collapse = ", "))
+    }
+
+    chosen_chart_type <- chart_types[chart_types$type == type, ]
+    top_border <- chosen_chart_type$top_border
+    right_border <- chosen_chart_type$right_border
+    bottom_border <- chosen_chart_type$bottom_border
+    left_border <- chosen_chart_type$left_border
 
     # Create title and subtitle -----
     p <- plot
@@ -78,20 +78,10 @@ create_fullslide <- function(plot = last_plot(),
                                   subtitle = NULL,
                                   caption = NULL))
 
-    # Determine fonts
-    available_fonts <- systemfonts::system_fonts()$family
-
-    title_font <- if("DM Serif Display" %in% available_fonts) {
-      "DM Serif Display"
-    } else {
-      "serif"
-    }
-
-    main_font <- if("Avenir Next" %in% available_fonts) {
-      "Avenir Next"
-    } else {
-      "sans"
-    }
+    # Determine fonts based on font parameter
+    font <- match.arg(font)
+    title_font <- get_grattan_font(font, "title")
+    main_font <- get_grattan_font(font, "body")
 
     stored_title <- labs$title
     stored_subtitle <- labs$subtitle

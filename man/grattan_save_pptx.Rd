@@ -9,7 +9,8 @@ grattan_save_pptx(
   p = ggplot2::last_plot(),
   type = "fullslide",
   rich_subtitle = FALSE,
-  png_dpi = 300
+  png_dpi = 300,
+  font = c("slide", "normal")
 )
 }
 \arguments{
@@ -25,6 +26,9 @@ files will be created, with the type added to the filename.}
 \item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.}
 
 \item{png_dpi}{Integer. The DPI of the PNG image saved when `rich_subtitle = TRUE`.}
+
+\item{font}{Either "slide" (default) or "normal". "slide" uses Avenir Next
+for body text (if available). "normal" uses Arial.}
 }
 \description{
 `grattan_save_pptx()` creates a Grattan-style Powerpoint

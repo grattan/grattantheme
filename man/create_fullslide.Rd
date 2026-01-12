@@ -2,24 +2,37 @@
 % Please edit documentation in R/create_fullslide.R
 \name{create_fullslide}
 \alias{create_fullslide}
-\title{Assemble a chart featuring the Grattan logo and orange line}
+\title{Assemble a chart featuring the Grattan logo and grey header}
 \usage{
-create_fullslide(plot = last_plot(), type)
+create_fullslide(plot = last_plot(), type, font = c("slide", "normal"))
 }
 \arguments{
 \item{plot}{A ggplot2 plot}
 
-\item{type}{Optional. If specified, must be one of "fullslide", "fullslide_169", "fullslide_44", or "blog".
-This is used to define the size of the white border around the image.}
+\item{type}{Optional. If specified, must be one of "fullslide", "fullslide_narrow", or "fullslide_half".
+This determines the chart width and positioning within the slide.}
+
+\item{font}{Either "slide" (default) or "normal". "slide" uses DM Serif Display
+for the title and Avenir Next for body text (if available). "normal" uses Arial.}
 }
 \value{
-An object of class "patchwork".
+An object of class "patchwork" with full slide dimensions (16:9 PowerPoint slide).
 }
 \description{
 Takes a ggplot2 object and formats it to look like a
-Grattan Powerpoint slide. You will rarely need to call this function
-directly - use `grattan_save()` to save a ggplot2 object as a 'slide'-like
-image.
+Grattan Powerpoint slide. The function adds a grey header box containing
+the chart title and Grattan logo, along with subtitle and caption text.
+Title text is automatically wrapped if longer than one line.
+You will rarely need to call this function directly - use `grattan_save()`
+to save a ggplot2 object as a 'slide'-like image.
+}
+\details{
+The function allows for three types with different layouts:
+\itemize{
+  \item{fullslide: Standard width chart with left-aligned text/logo}
+  \item{fullslide_narrow: Narrower centered chart with text/logo aligned consistently with fullslide}
+  \item{fullslide_half: Half-width left-aligned chart for side-by-side layouts}
+}
 }
 \examples{
 

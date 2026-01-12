@@ -21,6 +21,7 @@ grattan_save(
   ignore_long_title = FALSE,
   no_new_folder = FALSE,
   rich_subtitle = FALSE,
+  font = NULL,
   device = cairo_pdf,
   ...
 )
@@ -114,6 +115,11 @@ won't be performed. This is useful if using ggtext syntax within titles.}
 \item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a PNG
 image and inserted into the slide. This is mainly intended for folks using
 markdown text in the subtitles and plots.}
+
+\item{font}{Either "slide" or "normal". Default is NULL, which automatically
+uses "slide" for fullslide types and PowerPoint output, and "normal" for
+other types. "slide" uses DM Serif Display for titles and Avenir Next for
+body text (if available). "normal" uses Arial.}
 
 \item{device}{The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.}
 

@@ -63,7 +63,7 @@ test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 
   skip_on_cran()
 
-  add_graph_to_pptx(list(p1), "temp.pptx", "fullslide", num_slides = 1)
+  add_graph_to_pptx(list(p1), "temp.pptx", "fullslide", num_slides = 1, font = "normal")
   expect_true(is_valid_pptx("temp.pptx"))
 
   x <- officer::read_pptx("temp.pptx")
