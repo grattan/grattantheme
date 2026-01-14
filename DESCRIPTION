@@ -15,18 +15,15 @@ Description: Enables the user to create ggplot2 charts that conform
 License: MIT + file LICENSE
 Depends: R (>= 3.5.0)
 Imports:
-    clipr,
     dplyr,
     ggrepel (>= 0.8.0),
     ggplot2 (>= 4.0.0),
     glue,
-    gridExtra,
     grDevices,
     fs,
     jsonlite,
     lifecycle,
     ragg,
-    rmarkdown (>= 1.12),
     patchwork (>= 1.0.0),
     purrr (>= 0.3.0),
     officer,
@@ -42,10 +39,14 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
-Suggests: 
+Suggests:
     assertthat,
-    testthat (>= 3.0.0),
+    clipr,
     covr,
-    vdiffr,
+    gridExtra,
+    knitr,
     magick,
-    png
+    png,
+    rmarkdown (>= 1.12),
+    testthat (>= 3.0.0),
+    vdiffr
