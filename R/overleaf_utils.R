@@ -101,6 +101,7 @@ find_overleaf_projects <- function(overleaf_base_path) {
 #' set_overleaf_project("transport-report")
 #' # ... rest of your script
 #' }
+#' @importFrom utils menu
 set_overleaf_project <- function(project = NULL) {
 
   if (is.null(project)) {

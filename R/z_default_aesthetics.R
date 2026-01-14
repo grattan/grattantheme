@@ -1,3 +1,6 @@
+# Suppress R CMD check NOTE about internal data objects
+utils::globalVariables("vanilla_geom_aesthetics")
+
 #' A vector of geoms
 #'
 #' A vector of geoms exported from \code{ggplot2} and extension packages. This
@@ -92,6 +95,7 @@ plot_opts_vanilla <- list(
 #' Set the default ggplot2 aesthetics to grattan branding
 #'
 #' A wrapper for a bunch of other functions to set ggplot2 default aesthetics.
+#' @importFrom utils getFromNamespace
 .set_grattan_aesthetics <- function() {
 
   # Skip this for ggplot2 4.0.0+ as geoms now use from_theme() expressions
@@ -185,7 +189,7 @@ set_aesthetics <- function(type) {
   if (type == "grattan") {
     options(plot_opts_grattan)
     .set_grattan_aesthetics()
-    message(the_message)
+    packageStartupMessage(the_message)
   } else if (type == "vanilla") {
     # Set default aesthetics
     options(plot_opts_vanilla)
@@ -196,7 +200,7 @@ set_aesthetics <- function(type) {
         new = .x
       )
     )
-    message(the_message)
+    packageStartupMessage(the_message)
   } else {
     message("Not a valid type. Nothing changed.")
   }

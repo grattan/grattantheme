@@ -24,7 +24,6 @@ Imports:
     grDevices,
     fs,
     jsonlite,
-    knitr (>= 1.22),
     lifecycle,
     ragg,
     rmarkdown (>= 1.12),
