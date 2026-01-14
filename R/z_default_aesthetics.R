@@ -173,11 +173,12 @@ plot_opts_vanilla <- list(
 set_aesthetics <- function(type) {
   nice_type <- ifelse(type == "grattan", "grattan", type)
 
-  the_message <- paste(
-    "ggplot2 will use",
-    nice_type,
-    "aesthetics (in the absence of a scale_colour etc function).",
-    "\nRun `set_aesthetics()` again after any more `library()` calls to ggplot2 extension packages to set the aesthetics of geoms from those packages."
+  rule <- paste(rep("\u2500", 40), collapse = "")
+
+  the_message <- paste0(
+    "\u2500\u2500 Aesthetics ", rule, "\n",
+    "ggplot2 will use ", nice_type, " aesthetics (in the absence of a scale_colour etc function).\n",
+    "Run `set_aesthetics()` again after any more `library()` calls to ggplot2 extension packages to set the aesthetics of geoms from those packages."
   )
 
 

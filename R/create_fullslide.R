@@ -92,21 +92,15 @@ create_fullslide <- function(plot = last_plot(),
     caption_font_size <- 8
 
     # Wrap title text to fit within available space (max ~52 chars per line)
-    # This prevents text from clipping behind the logo
     title_is_multiline <- FALSE
     if (!is.null(stored_title) && nchar(stored_title) > 52) {
       stored_title <- paste(strwrap(stored_title, width = 52), collapse = "\n")
       title_is_multiline <- TRUE
     }
 
-    # Create grey box as background
+    # Create grey box as background for title + logo
     # The grey box needs to extend beyond the plot area into the margins
-    # to fill the full slide width. We extend it by the left/right borders.
-    # For asymmetric borders (like fullslide_half), we need to calculate the
-    # x position offset to account for the different left/right extensions.
-
-    # Calculate the x position: shift left by (right_border - left_border) / 2
-    # This centers the extended box on the full slide, not the plot area
+    # to fill the full slide width, and may need to be offset relative to chart.
     x_offset <- (right_border - left_border) / 2
 
     grey_box_vp <- grid::viewport(x = unit(0.5, "npc") + unit(x_offset, "cm"),
@@ -135,10 +129,6 @@ create_fullslide <- function(plot = last_plot(),
                                          fontfamily = title_font))
 
     # Create header grob that combines grey box + title + logo
-    # The title and logo positioning:
-    # - For fullslide and fullslide_half: align with chart left edge
-    # - For fullslide_narrow: align with fullslide's position (not the narrow chart edge)
-    #   This means offsetting left from the narrow chart by (narrow_border - fullslide_border)
     standard_fullslide_width <- chart_types$width[chart_types$type == "fullslide"]
     standard_fullslide_left_border <- chart_types$left_border[chart_types$type == "fullslide"]
     logo_width <- 4  # Width of logo in cm
@@ -201,11 +191,11 @@ create_fullslide <- function(plot = last_plot(),
 
     topsubtitle <- grid::editGrob(subtitle_grob, vp = subtitle_vp)
 
-    # Create caption (positioned with 0.4cm gap above it)
+    # Create caption
 
     caption_grob <- grid::textGrob(label = stored_caption,
                                    x = 0,
-                                   y = unit(1, "npc"),
+                                   y = unit(1, "npc") - unit(0.4, "cm"),
                                    just = c("left", "top"),
                                    gp = gpar(col = "black",
                                              fontsize = caption_font_size,
@@ -234,19 +224,18 @@ create_fullslide <- function(plot = last_plot(),
     subtitle_present <- !is.null(stored_subtitle)
     caption_present <- !is.null(stored_caption) && stored_caption != ""
 
-    subtitle_height <- ifelse(subtitle_present, 1.82, 0)
-    caption_height <- ifelse(caption_present, 2.13 - 0.4, 0)  # Total space minus gap
-    caption_gap <- ifelse(caption_present, 0.4, 0)
+    subtitle_area_height <- 1.82
+    caption_area_height <- 2.13
 
     wrap_plots(H = wrap_elements(full = header_grob),
                S = wrap_elements(full = topsubtitle),
                P = wrap_elements(full = p),
                C = wrap_elements(full = topcaption),
                design = layout,
-               heights = unit(c(3.2,                    # Grey box with title/logo
-                                subtitle_height,         # Subtitle area
-                                chosen_chart_type$height,                    # Chart panel (matches sysdata)
-                                caption_gap + caption_height),  # Gap + caption
+               heights = unit(c(3.2,                      # Grey box with title/logo
+                                subtitle_area_height,     # Subtitle area
+                                chosen_chart_type$height, # Chart panel
+                                caption_area_height),     # Caption area
                               "cm")) +
       plot_annotation(theme = theme(plot.margin = margin(top_border,
                                                          right_border,

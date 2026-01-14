@@ -136,7 +136,6 @@ make_grattan_pal_discrete <- function(n) {
 register_palette <- function() {
   palette_option <- options("grattan_palette")
   if (is.null(palette_option$grattan_palette)) {
-    message("No palette option declared for grattantheme, setting it to the latest")
     options("grattan_palette" = "latest")
   }
 }

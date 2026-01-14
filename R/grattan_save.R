@@ -232,12 +232,12 @@ grattan_save <- function(filename,
         warning("Cannot save Powerpoint for type '", type, "'.")
       } else {
 
-        pptx_font <- if (is.null(font)) "slide" else font
+        # Pass font through - grattan_save_pptx will handle NULL appropriately
         grattan_save_pptx(p = object,
                           type = type,
                           filename = file.path(dir, paste0(file_name, ".pptx")),
                           rich_subtitle = rich_subtitle,
-                          font = pptx_font)
+                          font = font)
       }
     }
     ## export single image
@@ -278,12 +278,12 @@ grattan_save <- function(filename,
       template_exists <- !is.na(template)
       valid_pptx_types <- all_chart_types[template_exists]
 
-      pptx_font <- if (is.null(font)) "slide" else font
+      # Pass font through - grattan_save_pptx will handle NULL appropriately
       grattan_save_pptx(p = object,
                         filename = file.path(dir, paste0(file_name, ".pptx")),
                         type = valid_pptx_types,
                         rich_subtitle = rich_subtitle,
-                        font = pptx_font)
+                        font = font)
 
     }
 
@@ -386,9 +386,38 @@ grattan_save_ <- function(filename,
     }
   }
 
-  ggplot2::ggsave(filename, object,
-                  width = width, height = height, units = "cm",
-                  dpi = dpi, device = device, ...)
+  # Determine the appropriate device based on file extension
+
+  # For PDF files, use the provided device (default cairo_pdf)
+  # For raster formats (PNG, JPEG, TIFF), use ragg which supports systemfonts
+  file_ext <- tolower(tools::file_ext(filename))
+
+  if (file_ext == "pdf") {
+    # Use cairo_pdf for PDF output
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = device, ...)
+  } else if (file_ext == "png") {
+    # Use ragg for PNG (supports systemfonts-registered fonts)
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = ragg::agg_png, ...)
+  } else if (file_ext %in% c("jpg", "jpeg")) {
+    # Use ragg for JPEG
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = ragg::agg_jpeg, ...)
+  } else if (file_ext == "tiff") {
+    # Use ragg for TIFF
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = ragg::agg_tiff, ...)
+  } else {
+    # For other formats, use the provided device
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = device, ...)
+  }
 
 }
 

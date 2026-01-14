@@ -1,7 +1,9 @@
 #' Check that your chart looks alright in the different chart formats
 #'
 #' This function will open your plot in a new window with the aspect ratio of the
-#' chart type selected
+#' chart type selected. For fullslide chart types (fullslide, fullslide_narrow,
+#' fullslide_half), this will show the complete slide with the grey header,
+#' Grattan logo, and properly positioned title/subtitle/caption.
 #'
 #' @inheritParams grattan_save
 #'
@@ -11,27 +13,49 @@
 #' @examples
 #' \dontrun{
 #' ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
-#' check_chart_aspect_ratio()}
+#' check_chart_aspect_ratio()
+#'
+#' # Check fullslide appearance with title and subtitle
+#' ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'   geom_point() +
+#'   labs(title = "My title", subtitle = "My subtitle") +
+#'   theme_grattan()
+#' check_chart_aspect_ratio(type = "fullslide")
+#' }
 #'
 check_chart_aspect_ratio <- function(object = ggplot2::last_plot(),
                                      type = "normal") {
 
-  height <- chart_types_inc_deprecated$height[chart_types_inc_deprecated$type == type]
+  plot_class <- chart_types_inc_deprecated$class[chart_types_inc_deprecated$type == type]
 
-  width <- chart_types_inc_deprecated$width[chart_types_inc_deprecated$type == type]
+  filename <- file.path(tempdir(), "temp.png")
 
-  filename <- file.path(tempdir(), "temp.png" )
+  if (plot_class == "fullslide") {
+    # For fullslide types, create the full slide with header/logo
+    plot <- wrap_labs(object, type, ignore_long_title = FALSE)
+    plot <- create_fullslide(plot = plot, type = type, font = "slide")
 
-  plot <- object  +
-    ggplot2::theme(plot.title = ggplot2::element_blank(),
-          plot.subtitle = ggplot2::element_blank(),
-          plot.caption = ggplot2::element_blank())
+    # Use full slide dimensions
+    width <- fullslide_slide_width
+    height <- fullslide_slide_height
+
+  } else {
+    # For normal chart types, just show the chart without labels
+    height <- chart_types_inc_deprecated$height[chart_types_inc_deprecated$type == type]
+    width <- chart_types_inc_deprecated$width[chart_types_inc_deprecated$type == type]
+
+    plot <- object +
+      ggplot2::theme(plot.title = ggplot2::element_blank(),
+                     plot.subtitle = ggplot2::element_blank(),
+                     plot.caption = ggplot2::element_blank())
+  }
 
   ggplot2::ggsave(filename,
                   plot = plot,
                   width = width,
                   height = height,
-                  units = "cm")
+                  units = "cm",
+                  device = ragg::agg_png)
 
   fs::file_show(filename)
 }

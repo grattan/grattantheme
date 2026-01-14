@@ -18,8 +18,9 @@
 #' files will be created, with the type added to the filename.
 #' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.
 #' @param png_dpi Integer. The DPI of the PNG image saved when `rich_subtitle = TRUE`.
-#' @param font Either "slide" (default) or "normal". "slide" uses Avenir Next
-#' for body text (if available). "normal" uses Arial.
+#' @param font Either "slide", "normal", or NULL (default). NULL automatically
+#' uses "slide" for fullslide chart types and "normal" for other types.
+#' "slide" uses Avenir Next for body text (if available). "normal" uses Arial.
 #' @examples
 #' \dontrun{
 #' library(ggplot2)
@@ -53,7 +54,7 @@ grattan_save_pptx <- function(filename,
                               type = "fullslide",
                               rich_subtitle = FALSE,
                               png_dpi = 300,
-                              font = c("slide", "normal")) {
+                              font = NULL) {
 
   plot <- p
 
@@ -105,18 +106,27 @@ grattan_save_pptx <- function(filename,
 
   num_slides <- length(plot)
 
-  font <- match.arg(font)
+  # Determine font for each type: fullslide types use "slide", others use "normal"
+  # User-specified font overrides the default
+  fonts <- purrr::map_chr(type, function(t) {
+    if (!is.null(font)) {
+      return(font)
+    }
+    type_class <- chart_types_inc_deprecated$class[chart_types_inc_deprecated$type == t]
+    if (type_class == "fullslide") "slide" else "normal"
+  })
 
-  purrr::walk2(
-    .x = filenames,
-    .y = type,
-    .f = ~add_graph_to_pptx(filename = .x,
-                            type = .y,
-                            p = plot,
-                            num_slides = num_slides,
-                            rich_subtitle = rich_subtitle,
-                            png_dpi = png_dpi,
-                            font = font)
+  purrr::pwalk(
+    list(filenames, type, fonts),
+    function(fn, tp, fnt) {
+      add_graph_to_pptx(filename = fn,
+                        type = tp,
+                        p = plot,
+                        num_slides = num_slides,
+                        rich_subtitle = rich_subtitle,
+                        png_dpi = png_dpi,
+                        font = fnt)
+    }
   )
 
   ggplot2::set_last_plot(p)
@@ -160,6 +170,14 @@ add_graph_to_pptx <- function(p,
   if (rich_subtitle) {
     temp_dir <- tempfile("grattan_pptx_")
     dir.create(temp_dir)
+
+    # Get the layout summary for the "Two Content" layout
+    layout_props <- officer::layout_properties(pptx, layout = "Two Content")
+    placeholder <- layout_props[layout_props$ph_label == "Content Placeholder 3", ]
+
+    # Get placeholder dimensions in inches (officer uses inches internally)
+    image_width_in <- placeholder$cx
+    image_height_in <- placeholder$cy
   }
 
   for (slide in seq_len(num_slides)) {
@@ -176,11 +194,10 @@ add_graph_to_pptx <- function(p,
     }
 
     if (rich_subtitle) {
-
       # Get the font family to use
       body_font <- get_grattan_font(font, "body")
 
-      # Save as high-quality PNG matching content placeholder dimensions
+      # Save as high-quality PNG using ragg (uses systemfonts)
       png_file <- file.path(temp_dir, paste0("slide_", slide, ".png"))
 
       plot <- plot +
@@ -188,23 +205,14 @@ add_graph_to_pptx <- function(p,
               plot.caption = element_blank(),
               text = element_text(family = body_font))
 
-      # Get the layout summary for the "Two Content" layout
-      layout_props  <- officer::layout_properties(pptx, layout = "Two Content")
-
-      # # Find the placeholder with the label "Content placeholder 3"
-      placeholder <- layout_props[layout_props$ph_label == "Content Placeholder 3", ]
-
-      # Convert dimensions from inches to millimeters (1 inch = 25.4 mm)
-      image_width_mm <- placeholder$cx * 25.4
-      image_height_mm <- placeholder$cy * 25.4
-
-      ggsave(png_file,
-             plot,
-             width = image_width_mm,
-             height = image_height_mm,
-             units = "mm",
-             dpi = png_dpi,
-             bg = "transparent")
+      ragg::agg_png(png_file,
+                    width = image_width_in,
+                    height = image_height_in,
+                    units = "in",
+                    res = png_dpi,
+                    background = "transparent")
+      print(plot)
+      grDevices::dev.off()
 
       # Add PNG to PowerPoint in content placeholder
       x <- officer::ph_with(x,
@@ -213,7 +221,7 @@ add_graph_to_pptx <- function(p,
                             use_loc_size = TRUE)
 
     } else {
-      # Original behavior for non-rich_subtitle
+      # Use rvg::dml() for editable vector graphics
       x <- officer::ph_with(x,
                             replace_null(labs$subtitle),
                             location = officer::ph_location_label("Content Placeholder 2"))
@@ -221,12 +229,13 @@ add_graph_to_pptx <- function(p,
       plot <- replace_labs(plot)
 
       # Build font mapping for rvg::dml()
+      # Note: rvg uses gdtools for fonts, which only sees system-installed fonts
       body_font <- get_grattan_font(font, "body")
       pptx_fonts <- if (body_font == "sans") list() else list(sans = body_font)
 
       x <- officer::ph_with(x,
                             rvg::dml(ggobj = plot,
-                                     bg = 'NA',
+                                     bg = "transparent",
                                      fonts = pptx_fonts),
                             location = officer::ph_location_label("Content Placeholder 3"))
     }

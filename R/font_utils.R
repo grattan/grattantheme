@@ -43,8 +43,7 @@ register_shared_fonts <- function(font_folder) {
 
   result <- list(avenir_next = FALSE, dm_serif = FALSE)
 
-  # Register Avenir Next from slide.ttc
-  # Indices: 0=Bold, 1=Bold Italic, 4=Italic, 7=Regular
+  # Register Avenir Next from slide.ttc if available
   avenir_path <- file.path(font_folder, "slide.ttc")
 
   if (file.exists(avenir_path)) {
@@ -102,21 +101,25 @@ setup_grattan_fonts <- function() {
   .grattan_fonts$slide_title <- "sans"
   .grattan_fonts$slide_body <- "sans"
 
-  # Get available fonts (system + any already registered)
-  available <- c(
-    systemfonts::system_fonts()$family,
-    tryCatch(systemfonts::registry_fonts()$family, error = function(e) character(0))
-  )
+  # Track how fonts were found (for informative startup message)
+  .grattan_fonts$avenir_source <- "none"
+  .grattan_fonts$dm_serif_source <- "none"
 
-  # Check for system fonts first
-  if ("DM Serif Display" %in% available) {
+  # Get system-installed fonts
+
+  system_fonts <- systemfonts::system_fonts()$family
+
+  # Check for system-installed fonts first
+  if ("DM Serif Display" %in% system_fonts) {
     .grattan_fonts$slide_title <- "DM Serif Display"
+    .grattan_fonts$dm_serif_source <- "system"
   }
 
-  if ("Avenir Next" %in% available) {
+  if ("Avenir Next" %in% system_fonts) {
     .grattan_fonts$slide_body <- "Avenir Next"
+    .grattan_fonts$avenir_source <- "system"
   } else {
-    # Try to load from shared folder
+    # Try to load from shared folder via systemfonts registration
     font_folder <- get_font_folder_path()
 
     if (!is.null(font_folder)) {
@@ -124,9 +127,11 @@ setup_grattan_fonts <- function() {
 
       if (registration$avenir_next) {
         .grattan_fonts$slide_body <- "Avenir Next"
+        .grattan_fonts$avenir_source <- "registered"
       }
       if (registration$dm_serif && .grattan_fonts$slide_title == "sans") {
         .grattan_fonts$slide_title <- "DM Serif Display"
+        .grattan_fonts$dm_serif_source <- "registered"
       }
     }
   }
@@ -165,19 +170,70 @@ get_grattan_font <- function(type = c("normal", "slide"),
 #' @keywords internal
 get_font_status_message <- function() {
 
-  normal <- if (is.null(.grattan_fonts$normal)) "sans" else .grattan_fonts$normal
+  normal_font <- if (is.null(.grattan_fonts$normal)) "sans" else .grattan_fonts$normal
   slide_title <- if (is.null(.grattan_fonts$slide_title)) "sans" else .grattan_fonts$slide_title
   slide_body <- if (is.null(.grattan_fonts$slide_body)) "sans" else .grattan_fonts$slide_body
+  avenir_source <- if (is.null(.grattan_fonts$avenir_source)) "none" else .grattan_fonts$avenir_source
+  dm_serif_source <- if (is.null(.grattan_fonts$dm_serif_source)) "none" else .grattan_fonts$dm_serif_source
 
+  rule <- paste(rep("\u2500", 40), collapse = "")
+  header <- paste0("\u2500\u2500 Fonts ", rule, "\n")
+
+  # Format font names for display
+  normal_font_display <- if (normal_font == "sans") "Default sans-serif font" else normal_font
+
+  # Build the slide font display string
   if (slide_title == slide_body) {
-    slide_display <- slide_body
+    slide_display <- if (slide_body == "sans") "Default sans-serif font" else slide_body
   } else {
-    slide_display <- paste0(slide_title, " (title) + ", slide_body, " (body)")
+    slide_title_display <- if (slide_title == "sans") "Default sans-serif font" else slide_title
+    slide_body_display <- if (slide_body == "sans") "Default sans-serif font" else slide_body
+    slide_display <- paste0(slide_title_display, " (title) + ", slide_body_display, " (body)")
   }
 
-  if (normal == "sans" && slide_title == "sans" && slide_body == "sans") {
-    return("Fonts: using defaults")
+  # Case 1: No Grattan fonts found at all
+  if (slide_title == "sans" && slide_body == "sans") {
+    return(paste0(
+      header,
+      "'normal' - ", normal_font_display, "\n",
+      "'slide'  - ", slide_display, "\n",
+      "Required fonts not found - install Avenir Next and DM Serif Display."
+    ))
   }
 
-  paste0("Fonts: 'normal' = ", normal, ", 'slide' = ", slide_display)
+  # Case 2: All fonts found via system install (best case - works everywhere)
+  if (avenir_source == "system" &&
+      (dm_serif_source == "system" || slide_title == "sans")) {
+    return(paste0(
+      header,
+      "'normal' - ", normal_font_display, "\n",
+      "'slide'  - ", slide_display, " (system-installed)\n",
+      "Full font support for all outputs."
+    ))
+  }
+
+  # Case 3: Fonts registered via systemfonts (works for PNG, not PDF/PPTX)
+  if (avenir_source == "registered" || dm_serif_source == "registered") {
+    registered_fonts <- c()
+    if (avenir_source == "registered") registered_fonts <- c(registered_fonts, "Avenir Next")
+    if (dm_serif_source == "registered") registered_fonts <- c(registered_fonts, "DM Serif Display")
+
+    return(paste0(
+      header,
+      "'normal' - ", normal_font_display, "\n",
+      "'slide'  - ", slide_display, "\n",
+      paste(registered_fonts, collapse = ", "), " loaded from Dropbox.\n",
+      "- PNG or JPEG outputs will render correctly\n",
+      "- PDF slide fonts require system install to render in Grattan style\n",
+      "- PPTX slide chart fonts will require manual adjustment."
+    ))
+  }
+
+  # Case 4: Mixed - some system, some missing
+  paste0(
+    header,
+    "'normal' - ", normal_font_display, "\n",
+    "'slide'  - ", slide_display, "\n",
+    "Some fonts may not render in Grattan style."
+  )
 }

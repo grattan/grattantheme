@@ -10,7 +10,7 @@ grattan_save_pptx(
   type = "fullslide",
   rich_subtitle = FALSE,
   png_dpi = 300,
-  font = c("slide", "normal")
+  font = NULL
 )
 }
 \arguments{
@@ -27,8 +27,9 @@ files will be created, with the type added to the filename.}
 
 \item{png_dpi}{Integer. The DPI of the PNG image saved when `rich_subtitle = TRUE`.}
 
-\item{font}{Either "slide" (default) or "normal". "slide" uses Avenir Next
-for body text (if available). "normal" uses Arial.}
+\item{font}{Either "slide", "normal", or NULL (default). NULL automatically
+uses "slide" for fullslide chart types and "normal" for other types.
+"slide" uses Avenir Next for body text (if available). "normal" uses Arial.}
 }
 \description{
 `grattan_save_pptx()` creates a Grattan-style Powerpoint

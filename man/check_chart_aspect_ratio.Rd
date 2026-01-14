@@ -43,11 +43,21 @@ Set type = "all" to save your chart in all available sizes or use
 }
 \description{
 This function will open your plot in a new window with the aspect ratio of the
-chart type selected
+chart type selected. For fullslide chart types (fullslide, fullslide_narrow,
+fullslide_half), this will show the complete slide with the grey header,
+Grattan logo, and properly positioned title/subtitle/caption.
 }
 \examples{
 \dontrun{
 ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
-check_chart_aspect_ratio()}
+check_chart_aspect_ratio()
+
+# Check fullslide appearance with title and subtitle
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  labs(title = "My title", subtitle = "My subtitle") +
+  theme_grattan()
+check_chart_aspect_ratio(type = "fullslide")
+}
 
 }
