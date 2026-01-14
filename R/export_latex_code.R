@@ -9,7 +9,6 @@
 #' and used in the \code{\\includegraphics} call.
 #' @return LaTeX code to create a figure environment
 #' @import stringr
-#' @importFrom clipr write_clip
 #' @importFrom tools file_path_sans_ext
 #' @export
 #'
