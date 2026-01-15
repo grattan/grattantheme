@@ -9,7 +9,6 @@
 #' and used in the \code{\\includegraphics} call.
 #' @return LaTeX code to create a figure environment
 #' @import stringr
-#' @importFrom clipr write_clip
 #' @importFrom tools file_path_sans_ext
 #' @export
 #'
@@ -19,7 +18,12 @@ export_latex_code <- function(p = ggplot2::last_plot(),
                               chart_path = "atlas/chart.pdf",
                               export_type = "wholecolumn") {
 
-  code_to_clipboard <- clipr::clipr_available()
+  if (!requireNamespace("clipr", quietly = TRUE)) {
+    message("Package 'clipr' is not installed. LaTeX code will be returned but not copied to clipboard.")
+    code_to_clipboard <- FALSE
+  } else {
+    code_to_clipboard <- clipr::clipr_available()
+  }
 
   # make export_path
   if (export_type != "") export_type <- paste0("_", export_type)

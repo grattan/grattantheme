@@ -51,11 +51,9 @@ Once grattantheme is installed, you can load it the same way you normally load a
 
 See the [grattantheme vignette](https://grattan.github.io/grattantheme/articles/using_grattantheme.html) for a more complete guide.
 
-Use `theme_grattan()` to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots,  `theme_grattan(chart_type = "scatter")` provides a black y-axis. 
+Use `theme_grattan()` to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots,  `theme_grattan(chart_type = "scatter")` provides a black y-axis. For charts with discrete values on the y axis, `theme_grattan(flipped = 'TRUE')` provides a vertical axis line and rotates gridlines.
 
-Use `grattan_y_continuous()` to set default values for your vertical axis that will work well with most Grattan charts. 
-
-Use `grattan_colour_manual(n)` or `grattan_fill_manual(n)` to format the `n` coloured elements of your `ggplot2` plot. These functions will choose appropriately-spaced Grattan colours, ordered from either light to dark or the reverse. 
+Use `scale_y_continuous_grattan()` (or `scale_x_continuous_grattan` if flipped) to set default values for your vertical axis that will work well with most Grattan charts. 
 
 The colours that will be used in your plot are:
 
@@ -99,10 +97,21 @@ col_plot
 
 A range of colours from the style guide (such as `grattan_lightorange`, `grattan_darkred`, and so on) are defined for your convenience. Each colour has eight tints available, e.g. `grattan_lightorange` has lighter variants `grattan_lightorange1` through `grattan_lightorange8` (closest to white). These can be used to allow highlighting or when filling in block colours behind text, such as when designing tables.
 
+Use `theme_grattan(background = "box")` to create a chart for a Grattan report box. 
+
+## Add chart annotations and notes
+
+Use `grattan_label()`, `grattan_label_repel()`, or `grattan_arrow()` to add style-guide consistent annotations to your chart. 
+
+Use `labs(caption = "Notes: Your notes. Source: Your source.")` to add notes and sources, with text appropriately wrapped. 
+
+## Check how your chart looks
+
+Use `check_chart_aspect_ratio()` to create a temporary pop-up chart to inspect chart appearances at different aspect ratios.
 
 ## Save your nice looking charts
 
-Use `grattan_save()` to save your ggplot2 charts (eg. as `.png` or `.pdf` files) for use elsewhere, such as in Powerpoint, LaTeX, or the Grattan Blog, with the size and resolution set to style guide-consistent values. You can save your charts in a variety of sizes and styles (see `?grattan_save()` for a list). 
+Use `grattan_save()` to save your ggplot2 charts (eg. as `.png` or `.pdf` files) for use elsewhere, such as in Powerpoint or LaTeX with the size and resolution set to style guide-consistent values. You can save your charts in a variety of sizes and styles (see `?grattan_save()` for a list). 
 
 Want to save your chart as a Powerpoint file? Use `grattan_save(save_pptx = TRUE)` or the standalone `grattan_save_pptx()` function.
 
@@ -110,6 +119,8 @@ Want to save your chart and accompanying data as a properly-formatted .xlsx work
 standalone `save_chartdata()` function.
 
 Save your chart in all Grattan formats - along with chart data - using `grattan_save_all()`.
+
+Use `set_overleaf_project("project_name")` and then `grattan_save_overleaf()` to conveniently save your chart to an ongoing Overleaf report project.
 
 ## Save animated charts
 

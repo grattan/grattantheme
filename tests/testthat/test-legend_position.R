@@ -3,7 +3,7 @@ context("test legend placement")
 base_plot <- ggplot(mtcars,
                     aes(x = wt, y = mpg, col = factor(cyl))) +
   geom_point() +
-  grattan_colour_manual(3)
+  scale_colour_manual(values = make_grattan_pal_discrete(3))
 
 test_that("legend is in expected place (or absent)", {
 

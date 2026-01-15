@@ -1,6 +1,9 @@
+# Suppress R CMD check NOTE about internal data objects
+utils::globalVariables("vanilla_geom_aesthetics")
+
 #' A vector of geoms
 #'
-#' A vector of geoms exported from `{ggplot2}` and extension packages. This
+#' A vector of geoms exported from \code{ggplot2} and extension packages. This
 #' vector is iterated on to set the default aesthetics for each geom, allowing
 #' the grattan colours to be plotted automatically.
 #'
@@ -52,7 +55,7 @@ plot_opts_vanilla <- list(
 
 .safe_set_geom_aesthetics <- purrr::safely(.set_geom_aesthetics) # nolint
 
-#' Prepare `{ggplot2}` geom_ defaults
+#' Prepare \code{ggplot2} geom_ defaults
 #'
 #' ggplot2 geoms have default aesthetics which can be changed for each
 #' session. This function is a generalised way to set geom defaults. It only
@@ -92,6 +95,7 @@ plot_opts_vanilla <- list(
 #' Set the default ggplot2 aesthetics to grattan branding
 #'
 #' A wrapper for a bunch of other functions to set ggplot2 default aesthetics.
+#' @importFrom utils getFromNamespace
 .set_grattan_aesthetics <- function() {
 
   # Skip this for ggplot2 4.0.0+ as geoms now use from_theme() expressions
@@ -173,18 +177,19 @@ plot_opts_vanilla <- list(
 set_aesthetics <- function(type) {
   nice_type <- ifelse(type == "grattan", "grattan", type)
 
-  the_message <- paste(
-    "ggplot2 will use",
-    nice_type,
-    "aesthetics (in the absence of a scale_colour etc function).",
-    "\nRun `set_aesthetics()` again after any more `library()` calls to {ggplot2} extension packages to set the aesthetics of geoms from those packages."
+  rule <- paste(rep("\u2500", 40), collapse = "")
+
+  the_message <- paste0(
+    "\u2500\u2500 Aesthetics ", rule, "\n",
+    "ggplot2 will use ", nice_type, " aesthetics (in the absence of a scale_colour etc function).\n",
+    "Run `set_aesthetics()` again after any more `library()` calls to ggplot2 extension packages to set the aesthetics of geoms from those packages."
   )
 
 
   if (type == "grattan") {
     options(plot_opts_grattan)
     .set_grattan_aesthetics()
-    message(the_message)
+    packageStartupMessage(the_message)
   } else if (type == "vanilla") {
     # Set default aesthetics
     options(plot_opts_vanilla)
@@ -195,7 +200,7 @@ set_aesthetics <- function(type) {
         new = .x
       )
     )
-    message(the_message)
+    packageStartupMessage(the_message)
   } else {
     message("Not a valid type. Nothing changed.")
   }

@@ -9,8 +9,8 @@
 #' @param discrete Boolean indicating whether colour aesthetic is discrete or
 #'   not
 #' @param reverse Boolean indicating whether the palette should be reversed
-#' @param ... Additional arguments passed to \code{\link{discrete_scale}} or
-#'   \code{\link{scale_color_gradientn}}, used respectively when discrete is
+#' @param ... Additional arguments passed to \code{\link[ggplot2]{discrete_scale}} or
+#'   \code{\link[ggplot2]{scale_color_gradientn}}, used respectively when discrete is
 #'   TRUE or FALSE
 #'
 #' @describeIn scale_colour_grattan For colour scales
@@ -89,16 +89,16 @@ scale_fill_grattan <- function(
 #' @param palette Sets the colours that will form the continuous palette when
 #'   discrete = FALSE. One of:
 #'
-#' \itemize{
-##' \item{"full"}{The default. Red, dark orange, light orange, yellow, light
-##' yellow}
-##' \item{"full_f"}{ faded version of "full"}
-##' \item{"light"}{ light
-##' orange, yellow, light yellow}
-##' \item{"dark"}{ red, dark orange, light orange}
-##' \item{"diverging"}{ red, faded red, white, faded light orange, light orange}
-##' \item{"grey"}{ grey 1, grey 2, grey 3, grey 4, grey 5}
-##'}
+#' \describe{
+#'   \item{full}{The default. Red, dark orange, light orange, yellow, light
+#' yellow}
+#'   \item{full_f}{ faded version of "full"}
+#'   \item{light}{ light
+#' orange, yellow, light yellow}
+#'   \item{dark}{ red, dark orange, light orange}
+#'   \item{diverging}{ red, faded red, white, faded light orange, light orange}
+#'   \item{grey}{ grey 1, grey 2, grey 3, grey 4, grey 5}
+#' }
 #'
 #' @param ... arguments passed to ggplot2 scales
 #'
@@ -119,7 +119,7 @@ NULL
 #' @import ggplot2
 #' @export
 
-
+# nocov start
 grattan_colour_manual <- function(n = 0,
                                   reverse = FALSE,
                                   discrete = TRUE,
@@ -177,3 +177,4 @@ grattan_fill_manual <- function(n = 0,
   }
 
 }
+# nocov end

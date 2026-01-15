@@ -63,7 +63,7 @@ test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 
   skip_on_cran()
 
-  add_graph_to_pptx(list(p1), "temp.pptx", "fullslide", num_slides = 1)
+  add_graph_to_pptx(list(p1), "temp.pptx", "fullslide", num_slides = 1, font = "normal")
   expect_true(is_valid_pptx("temp.pptx"))
 
   x <- officer::read_pptx("temp.pptx")
@@ -120,4 +120,19 @@ test_that("grattan_save_pptx works when labels are present / absent", {
   expect_equal(no_slides("temp_fullslide.pptx"), 1)
   unlink("temp", recursive = T, force = T)
 
+})
+
+test_that("grattan_save_pptx creates pptx with rich_subtitle = TRUE", {
+
+  skip_on_cran()
+
+  grattan_save_pptx(p = p1,
+                    filename = "temp_rich.pptx",
+                    type = "fullslide",
+                    rich_subtitle = TRUE)
+
+  expect_true(is_valid_pptx("temp_rich_fullslide.pptx"))
+  expect_equal(no_slides("temp_rich_fullslide.pptx"), 1)
+
+  unlink("temp_rich", recursive = TRUE, force = TRUE)
 })

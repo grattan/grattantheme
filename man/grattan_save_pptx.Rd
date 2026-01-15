@@ -9,7 +9,8 @@ grattan_save_pptx(
   p = ggplot2::last_plot(),
   type = "fullslide",
   rich_subtitle = FALSE,
-  png_dpi = 300
+  png_dpi = 300,
+  font = NULL
 )
 }
 \arguments{
@@ -25,6 +26,10 @@ files will be created, with the type added to the filename.}
 \item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.}
 
 \item{png_dpi}{Integer. The DPI of the PNG image saved when `rich_subtitle = TRUE`.}
+
+\item{font}{Either "slide", "normal", or NULL (default). NULL automatically
+uses "slide" for fullslide chart types and "normal" for other types.
+"slide" uses Avenir Next for body text (if available). "normal" uses Arial.}
 }
 \description{
 `grattan_save_pptx()` creates a Grattan-style Powerpoint
@@ -34,7 +39,7 @@ Speaker notes are included, which include the file path to the R script
 from which you called `grattan_save_pptx()`. If you supply a list of plots,
 your Powerpoint presentation will include multiple slides -- one per plot.
 If you specify multiple types, multiple PPTX files will be created. This
-function is usually best called by running `grattan_save(..., save_pptx = T)` 
+function is usually best called by running `grattan_save(..., save_pptx = T)`
 or `grattan_save_all()`, rather than calling it directly.
 }
 \examples{

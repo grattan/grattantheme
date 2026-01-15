@@ -27,7 +27,9 @@ add white space equal to the whole area of your data.}
 white space is added to the top of your chart. Increase to add more white
 space.}
 
-\item{...}{arguments passed to scale_y_continuous or scale_x_continuous}
+\item{...}{arguments passed to scale_y_continuous or scale_x_continuous. Note
+that if you provide a custom `labels` argument, it will override the default
+behavior of hiding the '0' label.}
 
 \item{expand_left}{default is 0. This will ensure your y-axis is at the
 lowest value of your plotted value.}
@@ -36,8 +38,7 @@ lowest value of your plotted value.}
 white space is added to the right of your chart.}
 }
 \description{
-Ensure your y- and x-axis are Grattan style guide-consistent and doesn't hang
-off the edge of the chart.
+These functions also hide the '0' label when the axis starts at 0.
 }
 \examples{
 
@@ -73,7 +74,7 @@ p
 # Alternatively, set the limits of the chart (in this example we'll set
 # the lower limit to 0, but you could use some other value
 # like 10 in this case).Note that by setting the second value of limits
-# to NA, we're telling ggplot2 to calculate theupper limit as usual based
+# to NA, we're telling ggplot2 to calculate the upper limit as usual based
 # on the data. All the usual arguments of `scale_y_continuous()`
 # (limits, breaks, labels, etc.) can be used.
 

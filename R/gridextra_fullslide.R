@@ -1,11 +1,16 @@
 #' Legacy function, used for animation, because you can't animate patchwork plots
+#' @name gridextra_fullslide
 #' @keywords internal
-#' @import gridExtra
 
+# nocov start
 gridextra_fullslide <- function(object,
                              type = "fullslide",
                              height = NULL,
                              print_object = FALSE) {
+
+  lifecycle::deprecate_warn(when = "1.3.0",
+                            what = "gridextra_fullslide()",
+                            details = "This function is no longer maintained.")
 
   fullslide_types <- chart_types$type[chart_types$class == "fullslide"]
 
@@ -184,3 +189,5 @@ gridextra_fullslide <- function(object,
   total
 
 }
+
+# nocov end

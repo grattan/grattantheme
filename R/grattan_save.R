@@ -19,22 +19,29 @@
 #' @param type Sets height and width to Grattan defaults. The following chart
 #'   types are available:
 #'
-#' \itemize{
-#'   \item{"normal"}{ The default. Use for normal Grattan report charts,
+#' \describe{
+#'   \item{normal}{ The default. Use for normal Grattan report charts,
 #'    or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.}
-#'   \item{"normal_169"}{ Useful for pasting into a 16:9 format Grattan
-#'   Powerpoint slide. Width: 30cm, height: 14.5cm.}
-#'   \item{"tiny"}{ Fills the width of a column in a Grattan report,
-#'   but is shorter than usual. Width: 22.2cm, height: 11.1cm.}
-#'   \item{"wholecolumn"}{ Takes up a whole column in a Grattan report.
+#'   \item{wholecolumn}{ Takes up a whole column in a Grattan report.
 #'   Width: 22.2cm, height: 22.2cm.}
-#'   \item{"fullpage"}{ Fills a whole page of a Grattan report.
+#'   \item{fullpage}{ Fills a whole page of a Grattan report.
 #'   Width: 44.3cm, height: 22.2cm.}
-#'   \item{"fullslide}{ A 16:9 Grattan
+#'   \item{fullslide}{ A 16:9 Grattan
 #'   Powerpoint slide, complete with logo. Use this to drop into standard
-#'   presentations. Width: 33.9cm, height: 19.0cm}
-#'   \item{"blog"}{"Creates a 4:3 image that looks like a Grattan Powerpoint
-#'   slide, but with less border whitespace than `fullslide`."}
+#'   presentations. Total slide size: 33.9cm x 19.0cm. Chart size: 31.5cm x 11.9cm.}
+#'   \item{fullslide_narrow}{ A Grattan
+#'   Powerpoint slide with logo, but a narrower chart.
+#'   Use this to allow space for annotations in powerpoint Chart size: 23cm x 11.9cm.}
+#'   \item{fullslide_half}{ A Grattan
+#'   Powerpoint slide with logo, but a half-width chart.
+#'   Use this to manually create side-by-side charts or
+#'   allow space for a half-slide of text in powerpoint. Chart size: 15.3cm x 11.9cm.}
+#'   \item{blog}{ Deprecated. Creates a 4:3 image that looks like a Grattan Powerpoint
+#'   slide, but with less border whitespace than `fullslide`.}
+#'   \item{normal_169}{ Deprecated. Useful for pasting into a 16:9 format Grattan
+#'   Powerpoint slide. Width: 30cm, height: 14.5cm.}
+#'   \item{tiny}{ Deprecated. Fills the width of a column in a Grattan report,
+#'   but is shorter than usual. Width: 22.2cm, height: 11.1cm.}
 #' }
 #' Set type = "all" to save your chart in all available sizes or use
 #' `grattan_save_all()`.
@@ -52,6 +59,8 @@
 #'   your image, but with a .xlsx extension.
 #' @param select_data Logical. Default is TRUE. Removes any columns that are not
 #' used in ggplot mappings and facets from the exported chart data.
+#' @param round Numeric, optional. Round numbers in chart data to this number of
+#' decimal places. Default is NULL, which does not round numbers.
 #' @param force_labs Logical. By default, `grattan_save()` will remove your
 #'   title, subtitle, and caption (if present) from your graph before saving it,
 #'   unless `type` = "fullslide". By setting `force_labs` to TRUE, your
@@ -69,6 +78,10 @@
 #' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a PNG
 #' image and inserted into the slide. This is mainly intended for folks using
 #' markdown text in the subtitles and plots.
+#' @param font Either "slide" or "normal". Default is NULL, which automatically
+#' uses "slide" for fullslide types and PowerPoint output, and "normal" for
+#' other types. "slide" uses DM Serif Display for titles and Avenir Next for
+#' body text (if available). "normal" uses Arial.
 #' @param device The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.
 #' @param ... Any additional arguments passed to `ggsave()`.
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
@@ -144,6 +157,7 @@ grattan_save <- function(filename,
                          save_pptx = FALSE,
                          save_data = FALSE,
                          select_data = TRUE,
+                         round = NULL,
                          force_labs = FALSE,
                          watermark = NULL,
                          latex = FALSE,
@@ -151,6 +165,7 @@ grattan_save <- function(filename,
                          ignore_long_title = FALSE,
                          no_new_folder = FALSE,
                          rich_subtitle = FALSE,
+                         font = NULL,
                          device = cairo_pdf,
                          ...) {
 
@@ -205,7 +220,8 @@ grattan_save <- function(filename,
                        object = object,
                        type = type,
                        height = height,
-                       select_data = select_data)
+                       select_data = select_data,
+                       round = round)
     }
     ## export single pptx
     if (isTRUE(save_pptx)) {
@@ -216,10 +232,12 @@ grattan_save <- function(filename,
         warning("Cannot save Powerpoint for type '", type, "'.")
       } else {
 
+        # Pass font through - grattan_save_pptx will handle NULL appropriately
         grattan_save_pptx(p = object,
                           type = type,
                           filename = file.path(dir, paste0(file_name, ".pptx")),
-                          rich_subtitle = rich_subtitle)
+                          rich_subtitle = rich_subtitle,
+                          font = font)
       }
     }
     ## export single image
@@ -231,6 +249,7 @@ grattan_save <- function(filename,
                   dpi = dpi,
                   save_pptx = save_pptx,
                   ignore_long_title = ignore_long_title,
+                  font = font,
                   device = device,
                   ...)
   }
@@ -249,7 +268,8 @@ grattan_save <- function(filename,
                      object = object,
                      type = "normal",
                      select_data = select_data,
-                     height = height)
+                     height = height,
+                     round = round)
     }
 
     ## export pptx
@@ -258,10 +278,12 @@ grattan_save <- function(filename,
       template_exists <- !is.na(template)
       valid_pptx_types <- all_chart_types[template_exists]
 
+      # Pass font through - grattan_save_pptx will handle NULL appropriately
       grattan_save_pptx(p = object,
                         filename = file.path(dir, paste0(file_name, ".pptx")),
                         type = valid_pptx_types,
-                        rich_subtitle = rich_subtitle)
+                        rich_subtitle = rich_subtitle,
+                        font = font)
 
     }
 
@@ -275,6 +297,7 @@ grattan_save <- function(filename,
                  dpi = dpi,
                  save_pptx = save_pptx,
                  ignore_long_title = ignore_long_title,
+                 font = font,
                  device = device,
                  ...)
 
@@ -296,6 +319,7 @@ grattan_save_ <- function(filename,
                           dpi,
                           save_pptx,
                           ignore_long_title,
+                          font,
                           device,
                           ...) {
 
@@ -307,8 +331,11 @@ grattan_save_ <- function(filename,
 
     object <- wrap_labs(object, type, ignore_long_title = ignore_long_title)
 
+    # Use "slide" font for fullslide types if font is NULL
+    fullslide_font <- if (is.null(font)) "slide" else font
     object <- create_fullslide(plot = object,
-                               type = type)
+                               type = type,
+                               font = fullslide_font)
 
   } else { # following code only applies if type != "fullslide"
 
@@ -331,14 +358,66 @@ grattan_save_ <- function(filename,
 
   width <- chart_types$width[chart_types$type == type]
 
+  # Store whether height was manually specified before setting default
+  height_was_null <- is.null(height)
+
   if (is.null(height)) {
     height <- chart_types$height[chart_types$type == type]
   }
 
+  # For fullslide charts, adjust dimensions to account for the full slide size
+  # including margins that were added by create_fullslide()
+  if (plot_class == "fullslide") {
+    left_border <- chart_types$left_border[chart_types$type == type]
+    right_border <- chart_types$right_border[chart_types$type == type]
+    top_border <- chart_types$top_border[chart_types$type == type]
+    bottom_border <- chart_types$bottom_border[chart_types$type == type]
 
-  ggplot2::ggsave(filename, object,
-                  width = width, height = height, units = "cm",
-                  dpi = dpi, device = device, ...)
+    # Full slide width = chart width + borders
+    width <- width + left_border + right_border
+
+    # Full slide height = all components
+    # The height from chart_types is the chart panel only
+    # We need to add: header (3.2cm) + subtitle (variable) + caption (variable)
+    # For standard fullslide, use the defined slide height (16:9 slide)
+    # Only override height if it was not manually specified
+    if (height_was_null) {
+      height <- fullslide_slide_height
+    }
+  }
+
+  # Determine the appropriate device based on file extension
+
+  # For PDF files, use the provided device (default cairo_pdf)
+  # For raster formats (PNG, JPEG, TIFF), use ragg which supports systemfonts
+  file_ext <- tolower(tools::file_ext(filename))
+
+  if (file_ext == "pdf") {
+    # Use cairo_pdf for PDF output
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = device, ...)
+  } else if (file_ext == "png") {
+    # Use ragg for PNG (supports systemfonts-registered fonts)
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = ragg::agg_png, ...)
+  } else if (file_ext %in% c("jpg", "jpeg")) {
+    # Use ragg for JPEG
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = ragg::agg_jpeg, ...)
+  } else if (file_ext == "tiff") {
+    # Use ragg for TIFF
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = ragg::agg_tiff, ...)
+  } else {
+    # For other formats, use the provided device
+    ggplot2::ggsave(filename, object,
+                    width = width, height = height, units = "cm",
+                    dpi = dpi, device = device, ...)
+  }
 
 }
 
@@ -355,4 +434,71 @@ grattan_save_all <- function(filename,
                save_pptx = TRUE,
                save_data = TRUE,
                ...)
+}
+
+
+
+#' Save chart to Overleaf project directory
+#'
+#' A wrapper around \code{grattan_save()} that saves PDF charts directly to
+#' your Overleaf project's atlas folder via Dropbox sync. On first use, you'll
+#' be prompted to select which Overleaf project to use. This choice is stored
+#' for the current R session, or can be set with \code{set_overleaf_project()}.
+#'
+#' @param filename Filename for the chart, with or without .pdf extension
+#' @param object A ggplot object. Defaults to the last plot created.
+#' @param type Chart type - see \code{?grattan_save} for options. Defaults to "normal".
+#' @param ... Additional arguments passed to \code{grattan_save()}, such as
+#'   \code{height}, \code{dpi}, \code{force_labs}, etc.
+#'
+#' @details The function saves only the PDF version of your chart to the
+#'   \code{atlas} subfolder of your chosen Overleaf project. No PPTX or data
+#'   files are created. Charts are saved directly to the Overleaf directory
+#'   without creating subdirectories.
+#'
+#'   Since the Overleaf project setting only persists for the current R session,
+#'   we recommend calling \code{set_overleaf_project()} in your script (or a
+#'   setup script, if used). This improves reproducibility of your code.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(ggplot2)
+#'
+#' # Set the Overleaf project at the start of your script
+#' set_overleaf_project("Orange")  # Searches for matching project
+#'
+#' # Create and save charts
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+#' grattan_save_overleaf("my_chart.pdf", p)
+#'
+#' # Save with 'wholecolumn' chart type
+#' grattan_save_overleaf("tall_chart.pdf", p, type = 'wholecolumn')
+#'
+#' # Change to a different project
+#' set_overleaf_project("transport-report")
+#' grattan_save_overleaf("another_chart.pdf", p)
+#' }
+grattan_save_overleaf <- function(filename,
+                                  object = ggplot2::last_plot(),
+                                  type = "normal",
+                                  ...) {
+
+  # Get the Overleaf atlas directory
+  overleaf_dir <- get_overleaf_project()
+
+  # Construct full path
+  full_path <- file.path(overleaf_dir, filename)
+
+  # Call grattan_save with appropriate parameters
+  grattan_save(filename = full_path,
+               object = object,
+               type = type,
+               no_new_folder = TRUE,
+               save_pptx = FALSE,
+               save_data = FALSE,
+               ...)
+
+  invisible(full_path)
 }

@@ -102,10 +102,18 @@ plot +
 The final adjustments we can specify with `theme_grattan` are the font size and font family. The defaults meet Grattan formatting requirements, but if we do need to change them we can:
 
 ```{r}
-plot + 
+plot +
   theme_grattan(base_size = 8, base_family = "serif") +
   grattan_y_continuous()
 ```
+
+### Font handling
+
+`grattantheme` automatically detects and uses Grattan's standard fonts when available:
+- For normal charts: uses system sans-serif fonts
+- For slide charts: uses DM Serif Display for titles and Avenir Next for body text
+
+The package checks your system fonts and, if you have Dropbox synced with Grattan's shared font folder, will automatically register fonts from there. When you load the package, you'll see which fonts are being used.
 
 
 \newpage
@@ -177,11 +185,9 @@ The `grattan_save()` function saves your chart in a variety of types. We specify
 * `"normal"`: a standard report chart size, and the default. [**height** = 14.5cm x **width** = 22.16cm]
 * `"wholecolumn`: a taller whole-column chart for reports. [22.16 x 22.16]
 * `"fullpage"`: a full-page chart for reports. [22.16 x 44.32]
-* `"normal_169"`: a standard report chart size, but in 16:9 format.[14.5 x 30]
-* `"tiny"`: a rarely-used short chart for reports. [11.08 x 22.16]
-* `"a4"`: a standard A4 chart size. [29.7 x 21]
-* `"fullslide"` : to produce charts that look like a slide with the Grattan logo. This option allows notes and sources to accompany the saved figure. While this option remains available, it is currently not recommended for use in `.pdf` format, as the Grattan presentation slide format uses fonts that are not reproducible in R, and hence the slide format is out of date.
+* `"fullslide"` : to produce charts that look like a slide with the Grattan logo. This option allows notes and sources to accompany the saved figure. 
 * `"fullslide_narrow"` : as with "fullslide", but with a narrower chart.
+* `"fullslide_half"`: as with "fullslide" but chart is half-size, with space on the right-hand side of the slide for additional annotations.
 
 You can specify `type = "all"` to save in all formats.
 
@@ -262,7 +268,7 @@ grattan_save_pptx(plot_final,
                   type = "fullslide")
 ```
 
-Note that the `grattan_save_pptx` function does not create a new subdirectory for your file, while `grattan_save` will by default.
+Note that the `grattan_save_pptx` function does not create a new subdirectory for your file, while `grattan_save` will by default, unless `no_new_folder` is set.
 
 If your chart includes markdown-formatted text either in chart labels or in the chart subtitle, `officer` will often fail to correctly format the Powerpoint slide output. As a workaround, you can use the option `rich_subtitle = T`, which converts both your chart and subtitle to a `.png` file, which is inserted into the Powerpoint slide. This means the content (including fonts) cannot then be edited in Powerpoint after the fact , but will correctly reflect any markdown formatting.
 
@@ -282,4 +288,37 @@ Or you can use the `save_chartdata` function directly, like this:
 
 ```{r, eval = FALSE}
 save_chartdata("plot_final.xlsx", object = plot_final)
+```
+
+### Saving to an Overleaf atlas
+
+Grattan reports are drafted in Overleaf, with charts saved to an 'atlas' folder. Once this folder has been set up to sync locally via Dropbox, you can save charts directly from R to your Overleaf project using `grattan_save_overleaf()`.
+
+The first time you use `grattan_save_overleaf()` in an R session, you'll be prompted to select which Overleaf project to use from those synced in your Dropbox. Your choice is stored for the current R session only.
+
+For reproducibility, we recommend setting your Overleaf project at the start of your script:
+```{r, eval = FALSE}
+library(grattantheme)
+
+# Set the Overleaf project
+set_overleaf_project("Orange-Book-2025")  # Searches for matching project name
+
+# Create and save your chart
+plot_final <- ggplot(mtcars, aes(x = wt, y = mpg)) + 
+  geom_point() +
+  theme_grattan()
+
+grattan_save_overleaf("my_chart.pdf", plot_final)
+```
+
+The function saves only the PDF version of your chart to the atlas folder. No subfolders, PowerPoint slides, or chart data files are created. You can still specify chart types:
+```{r, eval = FALSE}
+# Save as a taller chart
+grattan_save_overleaf("tall_chart.pdf", plot_final, type = "wholecolumn")
+```
+
+To change which project you're saving to during your session:
+```{r, eval = FALSE}
+set_overleaf_project("transport-report")
+grattan_save_overleaf("another_chart.pdf", plot_final)
 ```

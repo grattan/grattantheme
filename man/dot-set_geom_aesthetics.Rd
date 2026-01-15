@@ -10,7 +10,11 @@
 \item{geom}{Name of geom/stat to modify (like "point" or "bin"), or a
 Geom/Stat object (like GeomPoint or StatBin).}
 
-\item{new}{Named list of aesthetics.}
+\item{new}{One of the following:
+\itemize{
+\item A named list of aesthetics to serve as new defaults.
+\item \code{NULL} to reset the defaults.
+}}
 }
 \description{
 All arguments are passed to \code{ggplot2::update_geom_defaults}, but this

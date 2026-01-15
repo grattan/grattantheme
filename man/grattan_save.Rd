@@ -13,6 +13,7 @@ grattan_save(
   save_pptx = FALSE,
   save_data = FALSE,
   select_data = TRUE,
+  round = NULL,
   force_labs = FALSE,
   watermark = NULL,
   latex = FALSE,
@@ -20,6 +21,7 @@ grattan_save(
   ignore_long_title = FALSE,
   no_new_folder = FALSE,
   rich_subtitle = FALSE,
+  font = NULL,
   device = cairo_pdf,
   ...
 )
@@ -42,22 +44,29 @@ your session.}
 \item{type}{Sets height and width to Grattan defaults. The following chart
   types are available:
 
-\itemize{
-  \item{"normal"}{ The default. Use for normal Grattan report charts,
+\describe{
+  \item{normal}{ The default. Use for normal Grattan report charts,
    or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.}
-  \item{"normal_169"}{ Useful for pasting into a 16:9 format Grattan
-  Powerpoint slide. Width: 30cm, height: 14.5cm.}
-  \item{"tiny"}{ Fills the width of a column in a Grattan report,
-  but is shorter than usual. Width: 22.2cm, height: 11.1cm.}
-  \item{"wholecolumn"}{ Takes up a whole column in a Grattan report.
+  \item{wholecolumn}{ Takes up a whole column in a Grattan report.
   Width: 22.2cm, height: 22.2cm.}
-  \item{"fullpage"}{ Fills a whole page of a Grattan report.
+  \item{fullpage}{ Fills a whole page of a Grattan report.
   Width: 44.3cm, height: 22.2cm.}
-  \item{"fullslide}{ A 16:9 Grattan
+  \item{fullslide}{ A 16:9 Grattan
   Powerpoint slide, complete with logo. Use this to drop into standard
-  presentations. Width: 33.9cm, height: 19.0cm}
-  \item{"blog"}{"Creates a 4:3 image that looks like a Grattan Powerpoint
-  slide, but with less border whitespace than `fullslide`."}
+  presentations. Total slide size: 33.9cm x 19.0cm. Chart size: 31.5cm x 11.9cm.}
+  \item{fullslide_narrow}{ A Grattan
+  Powerpoint slide with logo, but a narrower chart.
+  Use this to allow space for annotations in powerpoint Chart size: 23cm x 11.9cm.}
+  \item{fullslide_half}{ A Grattan
+  Powerpoint slide with logo, but a half-width chart.
+  Use this to manually create side-by-side charts or
+  allow space for a half-slide of text in powerpoint. Chart size: 15.3cm x 11.9cm.}
+  \item{blog}{ Deprecated. Creates a 4:3 image that looks like a Grattan Powerpoint
+  slide, but with less border whitespace than `fullslide`.}
+  \item{normal_169}{ Deprecated. Useful for pasting into a 16:9 format Grattan
+  Powerpoint slide. Width: 30cm, height: 14.5cm.}
+  \item{tiny}{ Deprecated. Fills the width of a column in a Grattan report,
+  but is shorter than usual. Width: 22.2cm, height: 11.1cm.}
 }
 Set type = "all" to save your chart in all available sizes or use
 `grattan_save_all()`.}
@@ -79,6 +88,9 @@ your image, but with a .xlsx extension.}
 
 \item{select_data}{Logical. Default is TRUE. Removes any columns that are not
 used in ggplot mappings and facets from the exported chart data.}
+
+\item{round}{Numeric, optional. Round numbers in chart data to this number of
+decimal places. Default is NULL, which does not round numbers.}
 
 \item{force_labs}{Logical. By default, `grattan_save()` will remove your
 title, subtitle, and caption (if present) from your graph before saving it,
@@ -103,6 +115,11 @@ won't be performed. This is useful if using ggtext syntax within titles.}
 \item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a PNG
 image and inserted into the slide. This is mainly intended for folks using
 markdown text in the subtitles and plots.}
+
+\item{font}{Either "slide" or "normal". Default is NULL, which automatically
+uses "slide" for fullslide types and PowerPoint output, and "normal" for
+other types. "slide" uses DM Serif Display for titles and Avenir Next for
+body text (if available). "normal" uses Arial.}
 
 \item{device}{The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.}
 

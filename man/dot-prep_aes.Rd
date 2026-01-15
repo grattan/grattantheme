@@ -2,7 +2,7 @@
 % Please edit documentation in R/z_default_aesthetics.R
 \name{.prep_aes}
 \alias{.prep_aes}
-\title{Prepare `{ggplot2}` geom_ defaults}
+\title{Prepare \code{ggplot2} geom_ defaults}
 \usage{
 .prep_aes(geom, aes, setting)
 }
@@ -26,5 +26,5 @@ changes settings where the default is not NA; no need for \code{geom_point}
 to have a default font family.
 }
 \details{
-This is used inside `.set_grattab_aesthetics()`
+This is used inside `.set_grattan_aesthetics()`
 }

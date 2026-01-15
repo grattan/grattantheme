@@ -369,15 +369,20 @@ clean_chartdata_ <- function(object,
     used_cols <- unlist(lapply(object$mapping, function(x) as.character(all.vars(x))))
   }
 
-  # Also check mappings in individual layers/geoms
-  if (length(object$layers) > 0) {
-    for (layer in object$layers) {
-      if (!is.null(layer$mapping)) {
-        layer_cols <- unlist(lapply(layer$mapping, function(x) as.character(all.vars(x))))
-        used_cols <- c(used_cols, layer_cols)
+    # Also check mappings in individual layers/geoms
+    if (length(object$layers) > 0) {
+      for (layer in object$layers) {
+        # Skip layers with their own data - these don't use the base chart_data
+        if (!is.null(layer$data) && !identical(layer$data, waiver())) {
+          next
+        }
+
+        if (!is.null(layer$mapping)) {
+          layer_cols <- unlist(lapply(layer$mapping, function(x) as.character(all.vars(x))))
+          used_cols <- c(used_cols, layer_cols)
+        }
       }
     }
-  }
 
   # Find any columns that are used for facets
   if (!is.null(object$facet)) {
@@ -388,25 +393,16 @@ clean_chartdata_ <- function(object,
   # Make sure columns are unique
   used_cols <- unique(used_cols)
 
-    # Check that all of used_cols exist in the underlying data, if not throw a warning and filter only actually existing columns
-    if(length(used_cols) > 0 ){
-
-      missing_cols <- setdiff(used_cols, names(chart_data))
-
-      if (length(missing_cols) > 0) {
-
-        warning(paste("The following columns are not present and have not been exported to chart data:", paste(missing_cols, collapse = ", "), ". Set select_data = FALSE to export all columns to chart data."))
-
-        used_cols <- intersect(used_cols, names(chart_data)) }
-    } else {
-
-      # If no columns are found in mappings, use all columns
-      used_cols <- names(chart_data)
-
-    }
+  # If no columns are found in mappings, use all columns
+  if(length(used_cols) == 0) {
+    used_cols <- names(chart_data)
+  }
 
   } else {
+
+    # If select_data = FALSE, use all columns
     used_cols <- names(chart_data)
+
   }
 
   # Filter the chart data for only the columns used in the ggplot mappings and facets
