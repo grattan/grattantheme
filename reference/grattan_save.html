@@ -20,7 +20,7 @@ Grattan charts. Wrapper around ggsave().
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4</span>
       </span>
     </div>
 
@@ -71,6 +71,7 @@ Grattan charts. Wrapper around ggsave().
 <span>  save_pptx <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  save_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  select_data <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  round <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  force_labs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  watermark <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  latex <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -78,6 +79,7 @@ Grattan charts. Wrapper around ggsave().
 <span>  ignore_long_title <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  no_new_folder <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  rich_subtitle <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  font <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  device <span class="op">=</span> <span class="va">cairo_pdf</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -108,22 +110,48 @@ your session.</p></dd>
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>Sets height and width to Grattan defaults. The following chart
   types are available:</p>
-<ul><li><p>"normal" The default. Use for normal Grattan report charts,
-   or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.</p></li>
-<li><p>"normal_169" Useful for pasting into a 16:9 format Grattan
-  Powerpoint slide. Width: 30cm, height: 14.5cm.</p></li>
-<li><p>"tiny" Fills the width of a column in a Grattan report,
-  but is shorter than usual. Width: 22.2cm, height: 11.1cm.</p></li>
-<li><p>"wholecolumn" Takes up a whole column in a Grattan report.
-  Width: 22.2cm, height: 22.2cm.</p></li>
-<li><p>"fullpage" Fills a whole page of a Grattan report.
-  Width: 44.3cm, height: 22.2cm.</p></li>
-<li><p>"fullslide A 16:9 Grattan
+<dl><dt>normal</dt>
+<dd><p>The default. Use for normal Grattan report charts,
+   or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.</p></dd>
+
+  <dt>wholecolumn</dt>
+<dd><p>Takes up a whole column in a Grattan report.
+  Width: 22.2cm, height: 22.2cm.</p></dd>
+
+  <dt>fullpage</dt>
+<dd><p>Fills a whole page of a Grattan report.
+  Width: 44.3cm, height: 22.2cm.</p></dd>
+
+  <dt>fullslide</dt>
+<dd><p>A 16:9 Grattan
   Powerpoint slide, complete with logo. Use this to drop into standard
-  presentations. Width: 33.9cm, height: 19.0cm</p></li>
-<li><p>"blog""Creates a 4:3 image that looks like a Grattan Powerpoint
-  slide, but with less border whitespace than `fullslide`."</p></li>
-</ul><p>Set type = "all" to save your chart in all available sizes or use
+  presentations. Total slide size: 33.9cm x 19.0cm. Chart size: 31.5cm x 11.9cm.</p></dd>
+
+  <dt>fullslide_narrow</dt>
+<dd><p>A Grattan
+  Powerpoint slide with logo, but a narrower chart.
+  Use this to allow space for annotations in powerpoint Chart size: 23cm x 11.9cm.</p></dd>
+
+  <dt>fullslide_half</dt>
+<dd><p>A Grattan
+  Powerpoint slide with logo, but a half-width chart.
+  Use this to manually create side-by-side charts or
+  allow space for a half-slide of text in powerpoint. Chart size: 15.3cm x 11.9cm.</p></dd>
+
+  <dt>blog</dt>
+<dd><p>Deprecated. Creates a 4:3 image that looks like a Grattan Powerpoint
+  slide, but with less border whitespace than `fullslide`.</p></dd>
+
+  <dt>normal_169</dt>
+<dd><p>Deprecated. Useful for pasting into a 16:9 format Grattan
+  Powerpoint slide. Width: 30cm, height: 14.5cm.</p></dd>
+
+  <dt>tiny</dt>
+<dd><p>Deprecated. Fills the width of a column in a Grattan report,
+  but is shorter than usual. Width: 22.2cm, height: 11.1cm.</p></dd>
+
+
+</dl><p>Set type = "all" to save your chart in all available sizes or use
 `grattan_save_all()`.</p></dd>
 
 
@@ -151,6 +179,11 @@ your image, but with a .xlsx extension.</p></dd>
 <dt id="arg-select-data">select_data<a class="anchor" aria-label="anchor" href="#arg-select-data"></a></dt>
 <dd><p>Logical. Default is TRUE. Removes any columns that are not
 used in ggplot mappings and facets from the exported chart data.</p></dd>
+
+
+<dt id="arg-round">round<a class="anchor" aria-label="anchor" href="#arg-round"></a></dt>
+<dd><p>Numeric, optional. Round numbers in chart data to this number of
+decimal places. Default is NULL, which does not round numbers.</p></dd>
 
 
 <dt id="arg-force-labs">force_labs<a class="anchor" aria-label="anchor" href="#arg-force-labs"></a></dt>
@@ -189,6 +222,13 @@ won't be performed. This is useful if using ggtext syntax within titles.</p></dd
 <dd><p>Logical. If `TRUE`, the plot will be saved as a PNG
 image and inserted into the slide. This is mainly intended for folks using
 markdown text in the subtitles and plots.</p></dd>
+
+
+<dt id="arg-font">font<a class="anchor" aria-label="anchor" href="#arg-font"></a></dt>
+<dd><p>Either "slide" or "normal". Default is NULL, which automatically
+uses "slide" for fullslide types and PowerPoint output, and "normal" for
+other types. "slide" uses DM Serif Display for titles and Avenir Next for
+body text (if available). "normal" uses Arial.</p></dd>
 
 
 <dt id="arg-device">device<a class="anchor" aria-label="anchor" href="#arg-device"></a></dt>

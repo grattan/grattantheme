@@ -20,6 +20,12 @@
 <url><loc>/reference/export_latex_code.html</loc></url>
 <url><loc>/reference/extract_labs.html</loc></url>
 <url><loc>/reference/fct_case_when.html</loc></url>
+<url><loc>/reference/find_overleaf_projects.html</loc></url>
+<url><loc>/reference/get_font_folder_path.html</loc></url>
+<url><loc>/reference/get_font_status_message.html</loc></url>
+<url><loc>/reference/get_grattan_font.html</loc></url>
+<url><loc>/reference/get_overleaf_base_path.html</loc></url>
+<url><loc>/reference/get_overleaf_project.html</loc></url>
 <url><loc>/reference/grattan_arrow.html</loc></url>
 <url><loc>/reference/grattan_axes.html</loc></url>
 <url><loc>/reference/grattan_black.html</loc></url>
@@ -156,6 +162,7 @@
 <url><loc>/reference/grattan_red7.html</loc></url>
 <url><loc>/reference/grattan_red8.html</loc></url>
 <url><loc>/reference/grattan_save.html</loc></url>
+<url><loc>/reference/grattan_save_overleaf.html</loc></url>
 <url><loc>/reference/grattan_save_pptx.html</loc></url>
 <url><loc>/reference/grattan_scale.html</loc></url>
 <url><loc>/reference/grattan_yellow.html</loc></url>
@@ -177,12 +184,15 @@
 <url><loc>/reference/plot_opts_grattan.html</loc></url>
 <url><loc>/reference/plot_opts_vanilla.html</loc></url>
 <url><loc>/reference/register_palette.html</loc></url>
+<url><loc>/reference/register_shared_fonts.html</loc></url>
 <url><loc>/reference/remove_endash.html</loc></url>
 <url><loc>/reference/replace_labs.html</loc></url>
 <url><loc>/reference/return_script_and_chart_location.html</loc></url>
 <url><loc>/reference/save_chartdata.html</loc></url>
 <url><loc>/reference/scale_colour_grattan.html</loc></url>
 <url><loc>/reference/set_aesthetics.html</loc></url>
+<url><loc>/reference/set_overleaf_project.html</loc></url>
+<url><loc>/reference/setup_grattan_fonts.html</loc></url>
 <url><loc>/reference/stitch_pdfs.html</loc></url>
 <url><loc>/reference/str_wrap_factor.html</loc></url>
 <url><loc>/reference/theme_grattan.html</loc></url>
