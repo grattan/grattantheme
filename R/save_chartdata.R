@@ -366,7 +366,7 @@ clean_chartdata_ <- function(object,
 
   # Find the columns used in the ggplot mappings
   if (!is.null(object$mapping)) {
-    used_cols <- unlist(lapply(object$mapping, function(x) as.character(all.vars(x))))
+    used_cols <- unlist(lapply(object$mapping, function(x) as.character(all.vars(x, functions = FALSE))))
   }
 
     # Also check mappings in individual layers/geoms
@@ -378,7 +378,7 @@ clean_chartdata_ <- function(object,
         }
 
         if (!is.null(layer$mapping)) {
-          layer_cols <- unlist(lapply(layer$mapping, function(x) as.character(all.vars(x))))
+          layer_cols <- unlist(lapply(layer$mapping, function(x) as.character(all.vars(x, functions = FALSE))))
           used_cols <- c(used_cols, layer_cols)
         }
       }
@@ -386,7 +386,7 @@ clean_chartdata_ <- function(object,
 
   # Find any columns that are used for facets
   if (!is.null(object$facet)) {
-    facet_cols <- unlist(lapply(object$facet$params$facets, function(x) as.character(all.vars(x))))
+    facet_cols <- unlist(lapply(object$facet$params$facets, function(x) as.character(all.vars(x, functions = FALSE))))
     used_cols <- c(used_cols, facet_cols)
   }
 
