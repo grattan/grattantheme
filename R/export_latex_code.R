@@ -32,7 +32,7 @@ export_latex_code <- function(p = ggplot2::last_plot(),
   ext <- substring(chart_path, nchar(chart_path) - 2)
   export_name <- paste0(name, export_type, ".", ext)
 
-  export_path <- paste(dir, name, export_name, sep = "/")
+  export_path <- paste(dir, export_name, sep = "/")
 
   # label
   lab <- name %>%
@@ -105,7 +105,7 @@ export_latex_code <- function(p = ggplot2::last_plot(),
   paste0("\\begin{figure}\n",
          "\t\\caption{", title, "\\label{fig:", lab,"}}\n",
          "\t\\units{", units, "}\n",
-         "\t\\includegraphics[page= 1, width=1\\columnwidth]{", export_path, "}\n",
+         "\t\\includegraphics{", export_path, "}\n",
          "\t", caption_code, "\n",
          "\\end{figure}")
 
