@@ -32,16 +32,11 @@ If `NULL` (the default), inherits the plot mapping.}
 \item{...}{arguments passed to [ggplot2::geom_point()]}
 }
 \description{
-A wrapper around [ggplot2::geom_point()] that uses a filled shape (21) with
-a white centre by default. Accepts the same arguments as `geom_point()`,
-including `mapping` and `data` as the first two positional arguments.
+A wrapper around [ggplot2::geom_point()] that uses a filled shape with
+a white centre by default.
 }
 \examples{
 library(ggplot2)
 ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
   grattantheme::grattan_point_filled()
-
-# You can pass mapping and data positionally, like geom_point():
-ggplot(mtcars, aes(x = wt, y = mpg)) +
-  grattan_point_filled(aes(colour = factor(cyl)))
 }

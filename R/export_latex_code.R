@@ -16,7 +16,7 @@
 
 export_latex_code <- function(p = ggplot2::last_plot(),
                               chart_path = "atlas/chart.pdf",
-                              export_type = "wholecolumn") {
+                              export_type = "normal") {
 
   if (!requireNamespace("clipr", quietly = TRUE)) {
     message("Package 'clipr' is not installed. LaTeX code will be returned but not copied to clipboard.")
@@ -103,7 +103,7 @@ export_latex_code <- function(p = ggplot2::last_plot(),
   # combine
   code_to_export <-
   paste0("\\begin{figure}\n",
-         "\t\\caption{", title, "\\label{fig:", lab,"}}\n",
+         "\t\\caption{", title, "}\\label{fig:", lab,"}\n",
          "\t\\units{", units, "}\n",
          "\t\\includegraphics{", export_path, "}\n",
          "\t", caption_code, "\n",

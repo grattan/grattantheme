@@ -1,6 +1,8 @@
 # grattantheme 1.5
-* Updated `grattan_point_filled` function signature for consistency with `geom_point`
-
+* Renamed `check_chart_aspect_ratio()` to `check_chart()`.
+* Updated `grattan_point_filled` function signature for consistency with `geom_point`.
+* Updates `export_latex_code` for consistency with `grattan_save_overleaf`.
+* Bug fixes for `save_chartdata` function.
 
 # grattantheme 1.4
 * Updated chart types. Deprecated 'a4', 'tiny', and 'fullslide'. Added 'fullslide_half' chart type.
