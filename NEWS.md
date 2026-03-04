@@ -1,3 +1,7 @@
+# grattantheme 1.5
+* Updated `grattan_point_filled` function signature for consistency with `geom_point`
+
+
 # grattantheme 1.4
 * Updated chart types. Deprecated 'a4', 'tiny', and 'fullslide'. Added 'fullslide_half' chart type.
 * Add new `grattan_save_overleaf` function and associated utilities to identify and save charts to an Overleaf atlas.
