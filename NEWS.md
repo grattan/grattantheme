@@ -1,4 +1,5 @@
 # grattantheme 1.5
+* New `grattan_write_ai_guide()` function writes a style guide for AI coding assistants (Claude, Codex, Gemini) to your project directory.
 * `theme_grattan()` now auto-detects horizontal/flipped charts and applies `flipped = TRUE` automatically. Detection triggers for `coord_flip()` and bar charts (discrete y + continuous x). A message is shown every 8 hours when auto-detection fires. Set `flipped = TRUE` explicitly to silence the message, or `flipped = FALSE` to opt out of auto-detection.
 * Renamed `check_chart_aspect_ratio()` to `check_chart()`.
 * Updated `grattan_point_filled` function signature for consistency with `geom_point`.
