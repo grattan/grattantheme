@@ -39,9 +39,10 @@ test_that("bar chart ticks shown when appropriate", {
   vdiffr::expect_doppelganger("regular bar chart", regular_bar)
 
 
+  # coord_flip() is now auto-detected, so this behaves like flipped = TRUE
   flipped_bar_default <- bar_chart + coord_flip() + theme_grattan()
-  expect_null(flipped_bar_default$theme$axis.ticks.x)
-  expect_is(flipped_bar_default$theme$axis.ticks.y, "element_blank")
+  expect_is(flipped_bar_default$theme$axis.ticks.x, "element_blank")
+  expect_null(flipped_bar_default$theme$axis.ticks.y)
   vdiffr::expect_doppelganger("flipped bar default", flipped_bar_default)
 
   flipped_bar_fliptrue <- bar_chart + coord_flip() + theme_grattan(flipped = T)

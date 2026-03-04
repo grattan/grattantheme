@@ -1,4 +1,5 @@
 # grattantheme 1.5
+* `theme_grattan()` now auto-detects horizontal/flipped charts and applies `flipped = TRUE` automatically. Detection triggers for `coord_flip()` and bar charts (discrete y + continuous x). A message is shown every 8 hours when auto-detection fires. Set `flipped = TRUE` explicitly to silence the message, or `flipped = FALSE` to opt out of auto-detection.
 * Renamed `check_chart_aspect_ratio()` to `check_chart()`.
 * Updated `grattan_point_filled` function signature for consistency with `geom_point`.
 * Updates `export_latex_code` for consistency with `grattan_save_overleaf`.
