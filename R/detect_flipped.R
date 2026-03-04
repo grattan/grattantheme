@@ -8,7 +8,7 @@
 
 #' @importFrom ggplot2 ggplot_add
 #' @export
-ggplot_add.grattan_theme <- function(object, plot, object_name) {
+ggplot_add.grattan_theme <- function(object, plot, ...) {
   args <- attr(object, "grattan_args")
 
   # Only run detection if flipped was left as NULL (the default)
@@ -36,7 +36,7 @@ ggplot_add.grattan_theme <- function(object, plot, object_name) {
   attr(object, "grattan_args") <- NULL
   class(object) <- setdiff(class(object), "grattan_theme")
 
-  ggplot2::ggplot_add(object, plot, object_name)
+  ggplot2::ggplot_add(object, plot, ...)
 }
 
 
