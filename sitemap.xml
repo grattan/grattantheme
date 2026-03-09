@@ -9,7 +9,7 @@
 <url><loc>/news/index.html</loc></url>
 <url><loc>/reference/all_geoms.html</loc></url>
 <url><loc>/reference/chart_types_ext.html</loc></url>
-<url><loc>/reference/check_chart_aspect_ratio.html</loc></url>
+<url><loc>/reference/check_chart.html</loc></url>
 <url><loc>/reference/colour_text.html</loc></url>
 <url><loc>/reference/create_fullslide.html</loc></url>
 <url><loc>/reference/create_pptx_shell.html</loc></url>
@@ -165,6 +165,7 @@
 <url><loc>/reference/grattan_save_overleaf.html</loc></url>
 <url><loc>/reference/grattan_save_pptx.html</loc></url>
 <url><loc>/reference/grattan_scale.html</loc></url>
+<url><loc>/reference/grattan_write_ai_guide.html</loc></url>
 <url><loc>/reference/grattan_yellow.html</loc></url>
 <url><loc>/reference/grattan_yellow1.html</loc></url>
 <url><loc>/reference/grattan_yellow2.html</loc></url>

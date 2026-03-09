@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5</span>
       </span>
     </div>
 
@@ -51,6 +51,16 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.5" id="grattantheme-15">grattantheme 1.5<a class="anchor" aria-label="anchor" href="#grattantheme-15"></a></h2>
+<ul><li>New <code><a href="../reference/grattan_write_ai_guide.html">grattan_write_ai_guide()</a></code> function writes a style guide for AI coding assistants (Claude, Codex, Gemini) to your project directory.</li>
+<li>
+<code><a href="../reference/theme_grattan.html">theme_grattan()</a></code> now auto-detects horizontal/flipped charts and applies <code>flipped = TRUE</code> automatically. Detection triggers for <code><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip()</a></code> and bar charts (discrete y + continuous x). A message is shown every 8 hours when auto-detection fires. Set <code>flipped = TRUE</code> explicitly to silence the message, or <code>flipped = FALSE</code> to opt out of auto-detection.</li>
+<li>Renamed <code><a href="../reference/check_chart.html">check_chart_aspect_ratio()</a></code> to <code><a href="../reference/check_chart.html">check_chart()</a></code>.</li>
+<li>Updated <code>grattan_point_filled</code> function signature for consistency with <code>geom_point</code>.</li>
+<li>Updates <code>export_latex_code</code> for consistency with <code>grattan_save_overleaf</code>.</li>
+<li>Bug fixes for <code>save_chartdata</code> function.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.4" id="grattantheme-14">grattantheme 1.4<a class="anchor" aria-label="anchor" href="#grattantheme-14"></a></h2>
 <ul><li>Updated chart types. Deprecated ‘a4’, ‘tiny’, and ‘fullslide’. Added ‘fullslide_half’ chart type.</li>

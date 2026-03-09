@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5</span>
       </span>
     </div>
 
@@ -61,7 +61,7 @@
 <span>  base_size <span class="op">=</span> <span class="fl">18</span>,</span>
 <span>  base_family <span class="op">=</span> <span class="st">"sans"</span>,</span>
 <span>  chart_type <span class="op">=</span> <span class="st">"normal"</span>,</span>
-<span>  flipped <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  flipped <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  background <span class="op">=</span> <span class="st">"white"</span>,</span>
 <span>  legend <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  panel_borders <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -86,9 +86,12 @@ style guide.</p></dd>
 
 
 <dt id="arg-flipped">flipped<a class="anchor" aria-label="anchor" href="#arg-flipped"></a></dt>
-<dd><p>FALSE by default. Set to TRUE if using coord_flip(). If set to
-TRUE, the theme will show a vertical axis line, ticks &amp; panel grid, while
-hiding the horizontals. Ignored for type = "scatter".</p></dd>
+<dd><p>NULL by default. Set to TRUE if using coord_flip() or creating
+horizontal bar charts. If set to TRUE, the theme will show a vertical axis
+line, ticks &amp; panel grid, while hiding the horizontals. Ignored for
+type = "scatter". When NULL (the default), flipped formatting is
+auto-detected when the theme is added to a plot. Set to FALSE explicitly
+to override auto-detection.</p></dd>
 
 
 <dt id="arg-background">background<a class="anchor" aria-label="anchor" href="#arg-background"></a></dt>
