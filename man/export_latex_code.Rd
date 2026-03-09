@@ -7,7 +7,7 @@
 export_latex_code(
   p = ggplot2::last_plot(),
   chart_path = "atlas/chart.pdf",
-  export_type = "wholecolumn"
+  export_type = "normal"
 )
 }
 \arguments{

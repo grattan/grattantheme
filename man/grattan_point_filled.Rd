@@ -4,9 +4,22 @@
 \alias{grattan_point_filled}
 \title{Convenience function to create large points with white centres}
 \usage{
-grattan_point_filled(size = 3, stroke = 1.5, fill = "white", shape = 21, ...)
+grattan_point_filled(
+  mapping = NULL,
+  data = NULL,
+  size = 3,
+  stroke = 1.5,
+  fill = "white",
+  shape = 21,
+  ...
+)
 }
 \arguments{
+\item{mapping}{Set of aesthetic mappings created by [ggplot2::aes()].
+If `NULL` (the default), inherits the plot mapping.}
+
+\item{data}{A data frame. If `NULL` (the default), inherits the plot data.}
+
 \item{size}{Size of the point}
 
 \item{stroke}{width of the line around the outside of the point}
@@ -16,10 +29,11 @@ grattan_point_filled(size = 3, stroke = 1.5, fill = "white", shape = 21, ...)
 \item{shape}{The shape of the point; default is 21. See
 `vignette("ggplot2-specs")` under `Point` for more about this.}
 
-\item{...}{arguments passed to `ggplot2::geom_point()`}
+\item{...}{arguments passed to [ggplot2::geom_point()]}
 }
 \description{
-Convenience function to create large points with white centres
+A wrapper around [ggplot2::geom_point()] that uses a filled shape with
+a white centre by default.
 }
 \examples{
 library(ggplot2)

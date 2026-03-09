@@ -8,7 +8,7 @@ theme_grattan(
   base_size = 18,
   base_family = "sans",
   chart_type = "normal",
-  flipped = FALSE,
+  flipped = NULL,
   background = "white",
   legend = "none",
   panel_borders = FALSE
@@ -22,9 +22,12 @@ style guide.}
 
 \item{chart_type}{"normal" by detault. Set to "scatter" for scatter plots.}
 
-\item{flipped}{FALSE by default. Set to TRUE if using coord_flip(). If set to
-TRUE, the theme will show a vertical axis line, ticks & panel grid, while
-hiding the horizontals. Ignored for type = "scatter".}
+\item{flipped}{NULL by default. Set to TRUE if using coord_flip() or creating
+horizontal bar charts. If set to TRUE, the theme will show a vertical axis
+line, ticks & panel grid, while hiding the horizontals. Ignored for
+type = "scatter". When NULL (the default), flipped formatting is
+auto-detected when the theme is added to a plot. Set to FALSE explicitly
+to override auto-detection.}
 
 \item{background}{"white" by default. Set to "orange" or "box" if you're
 making a chart to go in a Grattan report box.}

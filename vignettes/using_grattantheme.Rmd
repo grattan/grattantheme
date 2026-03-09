@@ -89,7 +89,7 @@ plot +
 ```
 
 
-The standard Grattan rules for `x` and `y` axes flip if the chart is a horizontal bar chart. The `x` axis then follows the rules of the `y` axis, and vice-versa. If we are using a 'flipped' chart (imlemented with `coord_flipped()`), we can tell `theme_grattan` this is the case using the argument `fillped` set to `TRUE`.
+The standard Grattan rules for `x` and `y` axes flip if the chart is a horizontal bar chart. The `x` axis then follows the rules of the `y` axis, and vice-versa. If we are using a 'flipped' chart (implemented with `coord_flip()`), we can tell `theme_grattan` this is the case using the argument `flipped` set to `TRUE`.
 
 ```{r}
 plot + 

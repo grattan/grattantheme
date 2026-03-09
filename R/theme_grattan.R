@@ -4,9 +4,12 @@
 #'   style guide.
 #' @param base_family Font family for text elements. Defaults to "sans".
 #' @param chart_type "normal" by detault. Set to "scatter" for scatter plots.
-#' @param flipped FALSE by default. Set to TRUE if using coord_flip(). If set to
-#'   TRUE, the theme will show a vertical axis line, ticks & panel grid, while
-#'   hiding the horizontals. Ignored for type = "scatter".
+#' @param flipped NULL by default. Set to TRUE if using coord_flip() or creating
+#'   horizontal bar charts. If set to TRUE, the theme will show a vertical axis
+#'   line, ticks & panel grid, while hiding the horizontals. Ignored for
+#'   type = "scatter". When NULL (the default), flipped formatting is
+#'   auto-detected when the theme is added to a plot. Set to FALSE explicitly
+#'   to override auto-detection.
 #' @param background "white" by default. Set to "orange" or "box" if you're
 #'   making a chart to go in a Grattan report box.
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
@@ -109,7 +112,7 @@
 theme_grattan <- function(base_size = 18,
                           base_family = "sans",
                           chart_type = "normal",
-                          flipped = FALSE,
+                          flipped = NULL,
                           background = "white",
                           legend = "none",
                           panel_borders = FALSE) {
@@ -120,13 +123,17 @@ theme_grattan <- function(base_size = 18,
     chart_type <- "normal"
   }
 
+  # Resolve NULL → FALSE for building the theme; auto-detection
+  # happens later in ggplot_add.grattan_theme() when flipped is NULL
+  flipped_resolved <- isTRUE(flipped)
+
   if (chart_type == "normal") {
     ret <- theme_grattan_normal(base_size = base_size,
                                 base_family = base_family,
                                 background = background,
                                 legend = legend,
                                 panel_borders = panel_borders,
-                                flipped = flipped)
+                                flipped = flipped_resolved)
   }
 
   if (chart_type == "scatter") {
@@ -135,13 +142,26 @@ theme_grattan <- function(base_size = 18,
                                  background = background,
                                  legend = legend,
                                  panel_borders = panel_borders)
-    if (flipped) message("Note that the 'flipped' argument is ignored for scatter plots.")
+    if (isTRUE(flipped)) {
+      message("Note that the 'flipped' argument is ignored for scatter plots.")
+    }
   }
 
   # Call a function that modifies various geom defaults
   grattanify_geom_defaults()
 
-  # Return
+  # Store original arguments (including NULL flipped) for auto-detection
+  attr(ret, "grattan_args") <- list(
+    base_size = base_size,
+    base_family = base_family,
+    chart_type = chart_type,
+    flipped = flipped,
+    background = background,
+    legend = legend,
+    panel_borders = panel_borders
+  )
+  class(ret) <- c("grattan_theme", class(ret))
+
   return(ret)
 
 }

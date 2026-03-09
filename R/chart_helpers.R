@@ -1,11 +1,12 @@
 #' Check that your chart looks alright in the different chart formats
 #'
-#' This function will open your plot in a new window with the aspect ratio of the
-#' chart type selected. For fullslide chart types (fullslide, fullslide_narrow,
+#' Opens your plot in a new window with the aspect ratio of the chart type
+#' selected. For fullslide chart types (fullslide, fullslide_narrow,
 #' fullslide_half), this will show the complete slide with the grey header,
 #' Grattan logo, and properly positioned title/subtitle/caption.
 #'
-#' @inheritParams grattan_save
+#' @param type The chart type (e.g. \code{"normal"}, \code{"fullslide"}).
+#' @param object A ggplot2 plot object. Defaults to the last plot.
 #'
 #' @return NULL
 #' @export
@@ -13,18 +14,18 @@
 #' @examples
 #' \dontrun{
 #' ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
-#' check_chart_aspect_ratio()
+#' check_chart("normal")
 #'
 #' # Check fullslide appearance with title and subtitle
 #' ggplot(mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point() +
 #'   labs(title = "My title", subtitle = "My subtitle") +
 #'   theme_grattan()
-#' check_chart_aspect_ratio(type = "fullslide")
+#' check_chart("fullslide")
 #' }
 #'
-check_chart_aspect_ratio <- function(object = ggplot2::last_plot(),
-                                     type = "normal") {
+check_chart <- function(type = "normal",
+                        object = ggplot2::last_plot()) {
 
   plot_class <- chart_types_inc_deprecated$class[chart_types_inc_deprecated$type == type]
 
@@ -58,6 +59,18 @@ check_chart_aspect_ratio <- function(object = ggplot2::last_plot(),
                   device = ragg::agg_png)
 
   fs::file_show(filename)
+}
+
+#' @rdname check_chart
+#' @export
+check_chart_aspect_ratio <- function(object = ggplot2::last_plot(),
+                                     type = "normal") {
+  lifecycle::deprecate_soft(
+    "1.5.0",
+    "check_chart_aspect_ratio()",
+    "check_chart()"
+  )
+  check_chart(type = type, object = object)
 }
 
 
