@@ -1,3 +1,7 @@
+# grattantheme 1.5.1
+* `grattan_save()` now applies the slide font (Avenir Next) to non-fullslide chart types when `font = "slide"` is explicitly set.
+* Fixed `grattan_label_repel()` border visibility caused by ggrepel switching from `label.size` to `linewidth` aesthetic for border control. Labels now explicitly set `linewidth = 0` to suppress borders.
+
 # grattantheme 1.5
 * New `grattan_write_ai_guide()` function writes a style guide for AI coding assistants (Claude, Codex, Gemini) to your project directory.
 * `theme_grattan()` now auto-detects horizontal/flipped charts and applies `flipped = TRUE` automatically. Detection triggers for `coord_flip()` and bar charts (discrete y + continuous x). A message is shown every 8 hours when auto-detection fires. Set `flipped = TRUE` explicitly to silence the message, or `flipped = FALSE` to opt out of auto-detection.
