@@ -51,8 +51,7 @@ grattan_label(
 )
 ```
 
-Then set `legend.position = "none"` in theme or use `guide = "none"` in
-scale functions.
+Don't use bold or italicised labels unless specifically requested.
 
 ## Core Functions
 
@@ -226,6 +225,11 @@ grattan_point_filled(data = . %>% filter(date == max(date)))
 
 ## Colour Palette
 
+### Colour Scales
+
+Unless requested, leave `grattantheme` to do its own colour scales. Do not make
+your own manual colour palette unless asked. 
+
 ### Core Colours
 
 Primary palette (use in this order for discrete scales):
@@ -246,23 +250,14 @@ Additional colours:
 Each colour has faded variants (1-8), e.g. `grattan_orange3`,
 `grattan_red5`.
 
-### Colour Scales
-
-Generally just leave `grattantheme` to do its own colour scales unless
-you are specifically requested to take another approach.
-
 If you need to create a manual colour palette, you can do as follows:
 
 ``` r
-# For discrete scales (automatic ordering)
-scale_colour_grattan(discrete = TRUE)
-scale_fill_grattan(discrete = TRUE)
-
 # For continuous scales
 scale_colour_grattan(discrete = FALSE, palette = "sequential")
 scale_fill_grattan(discrete = FALSE, palette = "diverging")
 
-# Manual assignment (preferred for control)
+# Manual assignment 
 scale_fill_manual(values = c(
   "Category A" = grattan_yellow,
   "Category B" = grattan_orange,

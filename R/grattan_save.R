@@ -339,6 +339,13 @@ grattan_save_ <- function(filename,
 
   } else { # following code only applies if type != "fullslide"
 
+    # Apply slide font to non-fullslide charts when font = "slide"
+    if (!is.null(font) && font == "slide") {
+      slide_body_font <- get_grattan_font("slide", "body")
+      object <- object +
+        theme(text = element_text(family = slide_body_font))
+    }
+
     if (isFALSE(force_labs)) {
       # Unless force_labs == TRUE (indicating the user wishes
       # to retain their labels)

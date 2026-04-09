@@ -18,8 +18,8 @@
 #' (see \code{?unit::grid}). Default is 0.1.
 #' @param lineheight Height of lines of text - smaller means the lines
 #' of text are closer together. Default is `0.8`.
-#' @param linewidth Size of label border line for `grattan_label`, in mm. Default is `NA`, which means no border.
-#' @param label.size Size of label border line for `grattan_label_repel`, in mm. Default is `NA`, which means no border.
+#' @param linewidth Size of label border line, in mm. Default is `NA`, which means no border.
+#' @param label.size `r lifecycle::badge("deprecated")` Use `linewidth` instead.
 #' @param fill Colour of label background; default is `"white"`.
 #'
 #' @examples
@@ -44,6 +44,7 @@
 #'
 #'
 #' @importFrom ggrepel geom_label_repel
+#' @importFrom lifecycle deprecated is_present deprecate_warn
 #' @name grattan_label_functions
 #'
 
@@ -67,14 +68,24 @@ grattan_label <- function(..., size = 18, padding = 0.1, lineheight = 0.8,
 #' @rdname grattan_label_functions
 #' @export
 grattan_label_repel <- function(..., size = 18, padding = 0.1, lineheight = 0.8,
-                                label.size = NA, fill = "white") {
+                                linewidth = NA, label.size = deprecated(),
+                                fill = "white") {
   .size = size / ggplot2::.pt
 
+  if (lifecycle::is_present(label.size)) {
+    lifecycle::deprecate_warn("1.5.1", "grattan_label_repel(label.size)",
+                              "grattan_label_repel(linewidth)")
+    linewidth <- label.size
+  }
+
+  # ggrepel uses both label.size (geom param) and linewidth (aesthetic) for
+  # border control; set both to ensure no border regardless of ggrepel version
   ggrepel::geom_label_repel(
     ...,
     fill = fill,
     label.padding = unit(padding, "lines"),
-    label.size = label.size,
+    label.size = linewidth,
+    linewidth = if (is.na(linewidth)) 0 else linewidth,
     size = .size,
     lineheight = lineheight
   )
