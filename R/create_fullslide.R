@@ -83,6 +83,9 @@ create_fullslide <- function(plot = last_plot(),
     title_font <- get_grattan_font(font, "title")
     main_font <- get_grattan_font(font, "body")
 
+    # Apply font to text geom layers (annotate, geom_text, geom_label, etc.)
+    p <- apply_font_to_geom_text(p, main_font)
+
     stored_title <- labs$title
     stored_subtitle <- labs$subtitle
     stored_caption <- labs$caption

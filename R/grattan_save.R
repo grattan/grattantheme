@@ -344,6 +344,7 @@ grattan_save_ <- function(filename,
       slide_body_font <- get_grattan_font("slide", "body")
       object <- object +
         theme(text = element_text(family = slide_body_font))
+      object <- apply_font_to_geom_text(object, slide_body_font)
     }
 
     if (isFALSE(force_labs)) {
@@ -426,6 +427,35 @@ grattan_save_ <- function(filename,
                     dpi = dpi, device = device, ...)
   }
 
+}
+
+#' Update text geom layers to use a specified font family
+#'
+#' Iterates through a ggplot object's layers and updates the font family
+#' for text-based geoms (GeomText, GeomLabel, GeomTextRepel, GeomLabelRepel)
+#' where the user has not explicitly set a font family.
+#'
+#' @param plot A ggplot2 object
+#' @param font_family Font family string to apply
+#' @return The modified ggplot2 object
+#' @keywords internal
+apply_font_to_geom_text <- function(plot, font_family) {
+  text_geom_classes <- c("GeomText", "GeomLabel",
+                         "GeomTextRepel", "GeomLabelRepel")
+
+  for (i in seq_along(plot$layers)) {
+    geom_class <- class(plot$layers[[i]]$geom)[1]
+    if (geom_class %in% text_geom_classes) {
+      has_family_mapping <- "family" %in% names(plot$layers[[i]]$mapping)
+      current_family <- plot$layers[[i]]$aes_params$family
+      if (!has_family_mapping &&
+          (is.null(current_family) || current_family == "")) {
+        plot$layers[[i]]$aes_params$family <- font_family
+      }
+    }
+  }
+
+  plot
 }
 
 #' @name grattan_save_all
