@@ -1,4 +1,5 @@
 # grattantheme 1.6
+* Added `grattan_richlegend()`, an on-chart legend that places coloured labels at a chosen panel corner with a white background behind the text so it's readable over gridlines. Inspired by `ggdirectlabel::geom_richlegend()`, in the no-border style of `grattan_label()`.
 * Added `grattan_save_web()`, a wrapper around `grattan_save()` that saves a PNG using the "slide" font (Avenir Next), without creating a PowerPoint or chart data.
 * Resurrected the `"blog"` chart type as an active, square (23.16cm x 23.16cm) format with a grey title bar, Grattan logo, subtitle, chart panel, and caption area. Assembly is handled by the new `create_blog()` function. `type = "blog"` is now included in `type = "all"` exports.
 * Updated font handling so fonts are now applied to all layers of a ggplot, not theme-controlled layers. This ensures annotations are in the appropriate font.
