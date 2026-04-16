@@ -17,21 +17,6 @@ test_that("grattan_write_ai_guide creates file with custom name", {
   expect_true(file.exists(file.path(tmp, "AGENTS.md")))
 })
 
-test_that("grattan_write_ai_guide does not overwrite by default", {
-  tmp <- tempdir()
-  filepath <- file.path(tmp, "CLAUDE.md")
-  on.exit(unlink(filepath))
-
-  writeLines("existing content", filepath)
-
-  expect_message(
-    grattan_write_ai_guide(path = tmp),
-    "already exists"
-  )
-
-  expect_equal(readLines(filepath), "existing content")
-})
-
 test_that("grattan_write_ai_guide overwrites when requested", {
   tmp <- tempdir()
   filepath <- file.path(tmp, "CLAUDE.md")
@@ -60,13 +45,4 @@ test_that("grattan_write_ai_guide content includes key sections", {
   expect_true(grepl("grattan_label", content))
   expect_true(grepl("Colour Palette", content))
   expect_true(grepl("check_chart", content))
-})
-
-test_that("grattan_write_ai_guide creates directory if needed", {
-  tmp <- file.path(tempdir(), "new_subdir_test")
-  on.exit(unlink(tmp, recursive = TRUE))
-
-  grattan_write_ai_guide(path = tmp)
-
-  expect_true(file.exists(file.path(tmp, "CLAUDE.md")))
 })

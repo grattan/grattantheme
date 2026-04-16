@@ -19,6 +19,8 @@
 #' This determines the chart width and positioning within the slide.
 #' @param font Either "slide" (default) or "normal". "slide" uses DM Serif Display
 #' for the title and Avenir Next for body text (if available). "normal" uses Arial.
+#' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
+#' won't be performed. This is useful if using ggtext syntax within titles.
 #'
 #' @return An object of class "patchwork" with full slide dimensions (16:9 PowerPoint slide).
 #'
@@ -43,7 +45,8 @@
 
 create_fullslide <- function(plot = last_plot(),
                              type,
-                             font = c("slide", "normal")) {
+                             font = c("slide", "normal"),
+                             ignore_long_title = FALSE) {
 
     # Check inputs and define plot borders ----
 
@@ -68,8 +71,8 @@ create_fullslide <- function(plot = last_plot(),
     bottom_border <- chosen_chart_type$bottom_border
     left_border <- chosen_chart_type$left_border
 
-    # Create title and subtitle -----
-    p <- plot
+    # Wrap labels and extract -----
+    p <- wrap_labs(plot, type, ignore_long_title = ignore_long_title)
 
     labs <- extract_labs(p)
 
@@ -94,12 +97,8 @@ create_fullslide <- function(plot = last_plot(),
     subtitle_font_size <- 18
     caption_font_size <- 8
 
-    # Wrap title text to fit within available space (max ~52 chars per line)
-    title_is_multiline <- FALSE
-    if (!is.null(stored_title) && nchar(stored_title) > 52) {
-      stored_title <- paste(strwrap(stored_title, width = 52), collapse = "\n")
-      title_is_multiline <- TRUE
-    }
+    # Detect multiline title (already wrapped by wrap_labs)
+    title_is_multiline <- !is.null(stored_title) && grepl("\n", stored_title)
 
     # Create grey box as background for title + logo
     # The grey box needs to extend beyond the plot area into the margins

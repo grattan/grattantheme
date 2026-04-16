@@ -188,6 +188,7 @@ The `grattan_save()` function saves your chart in a variety of types. We specify
 * `"fullslide"` : to produce charts that look like a slide with the Grattan logo. This option allows notes and sources to accompany the saved figure. 
 * `"fullslide_narrow"` : as with "fullslide", but with a narrower chart.
 * `"fullslide_half"`: as with "fullslide" but chart is half-size, with space on the right-hand side of the slide for additional annotations.
+* `"blog"`: a 23.16cm x 23.16cm square image for the Grattan blog, with a grey title bar, logo, subtitle, chart, and caption. Use `grattan_save_web()` to save web-ready PNGs using the slide font.
 
 You can specify `type = "all"` to save in all formats.
 

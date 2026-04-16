@@ -20,8 +20,8 @@
 #'   types are available:
 #'
 #' \describe{
-#'   \item{normal}{ The default. Use for normal Grattan report charts,
-#'    or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.}
+#'   \item{normal}{ The default. Use for normal Grattan report charts.
+#'   Width: 22.2cm, height: 14.5cm.}
 #'   \item{wholecolumn}{ Takes up a whole column in a Grattan report.
 #'   Width: 22.2cm, height: 22.2cm.}
 #'   \item{fullpage}{ Fills a whole page of a Grattan report.
@@ -36,8 +36,8 @@
 #'   Powerpoint slide with logo, but a half-width chart.
 #'   Use this to manually create side-by-side charts or
 #'   allow space for a half-slide of text in powerpoint. Chart size: 15.3cm x 11.9cm.}
-#'   \item{blog}{ Deprecated. Creates a 4:3 image that looks like a Grattan Powerpoint
-#'   slide, but with less border whitespace than `fullslide`.}
+#'   \item{blog}{ A 23.16cm x 23.16cm square image sized for social media,
+#'   with a grey title bar, logo, subtitle, chart, and caption.}
 #'   \item{normal_169}{ Deprecated. Useful for pasting into a 16:9 format Grattan
 #'   Powerpoint slide. Width: 30cm, height: 14.5cm.}
 #'   \item{tiny}{ Deprecated. Fills the width of a column in a Grattan report,
@@ -325,19 +325,26 @@ grattan_save_ <- function(filename,
 
   plot_class <- chart_types$class[chart_types$type == type]
 
-  # create an image the size of a 4:3 Powerpoint slide complete with Grattan
-  # logo
+    # Create an image the size of a 16:9 Powerpoint slide complete with logo
   if (plot_class == "fullslide") {
-
-    object <- wrap_labs(object, type, ignore_long_title = ignore_long_title)
 
     # Use "slide" font for fullslide types if font is NULL
     fullslide_font <- if (is.null(font)) "slide" else font
     object <- create_fullslide(plot = object,
                                type = type,
-                               font = fullslide_font)
+                               font = fullslide_font,
+                               ignore_long_title = ignore_long_title)
 
-  } else { # following code only applies if type != "fullslide"
+    # Create a 'blog' style square slide for use on socials, complete with logo
+  } else if (plot_class == "blog") {
+
+    # Use "slide" font for blog by default (Avenir Next / DM Serif Display)
+    blog_font <- if (is.null(font)) "slide" else font
+    object <- create_blog(plot = object,
+                          font = blog_font,
+                          ignore_long_title = ignore_long_title)
+
+  } else { # following code only applies if type != "fullslide" / "blog"
 
     # Apply slide font to non-fullslide charts when font = "slide"
     if (!is.null(font) && font == "slide") {
@@ -348,9 +355,7 @@ grattan_save_ <- function(filename,
     }
 
     if (isFALSE(force_labs)) {
-      # Unless force_labs == TRUE (indicating the user wishes
-      # to retain their labels)
-      # Remove title, subtitle and caption for type != "fullslide"
+      # Otherwise, unless force_labs == TRUE remove title, subtitle and caption
 
       object <- object +
         theme(plot.title = element_blank(),
@@ -538,4 +543,69 @@ grattan_save_overleaf <- function(filename,
                ...)
 
   invisible(full_path)
+}
+
+
+#' Save a chart as a PNG for web use
+#'
+#' A wrapper around \code{grattan_save()} that saves a chart as a PNG
+#' using the "slide" font (Avenir Next / DM Serif Display) for web-ready
+#' output. No PowerPoint or data files are created, and no subdirectory is
+#' created.
+#'
+#' @param filename Filename for the chart. Must end in \code{.png}
+#'   (the extension is added automatically if missing; an error is thrown if a
+#'   different extension is supplied).
+#' @param object A ggplot object. Defaults to the last plot created.
+#' @param type Chart type - see \code{?grattan_save} for options. Defaults to
+#'   "normal". All valid \code{grattan_save()} types are supported.
+#' @param no_new_folder Default is \code{FALSE}, meaning the chart is
+#'   saved in a new subdirectory named after \code{filename}. If \code{TRUE},
+#'   no subdirectory is created.
+#' @param ... Additional arguments passed to \code{grattan_save()}, such as
+#'   \code{height}, \code{dpi}, \code{force_labs}, etc.
+#'
+#' @details Default labelling behaviour for the chosen \code{type} is
+#'   preserved: \code{grattan_save_web()} does not force labels on or off.
+#'
+#' @examples
+#' \dontrun{
+#' library(ggplot2)
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'   geom_point() +
+#'   theme_grattan() +
+#'   labs(title = "Web-ready chart",
+#'        subtitle = "Saved as a PNG with the slide font",
+#'        caption = "Source: mtcars")
+#'
+#' grattan_save_web("my_chart.png", p, type = "blog")
+#' }
+#'
+#' @export
+grattan_save_web <- function(filename,
+                             object = ggplot2::last_plot(),
+                             type = "normal",
+                             no_new_folder = FALSE,
+                             ...) {
+
+  filename <- as.character(filename)
+  ext <- tolower(tools::file_ext(filename))
+
+  if (ext == "") {
+    filename <- paste0(filename, ".png")
+  } else if (ext != "png") {
+    stop("grattan_save_web() only supports PNG output. ",
+         "Supplied filename has extension '.", ext, "'.")
+  }
+
+  grattan_save(filename = filename,
+               object = object,
+               type = type,
+               font = "slide",
+               save_pptx = FALSE,
+               save_data = FALSE,
+               no_new_folder = no_new_folder,
+               ...)
+
+  invisible(filename)
 }

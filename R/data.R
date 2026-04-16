@@ -10,7 +10,7 @@
 #'   \item{caption}{Number of characters per line of text in the caption for this chart type.}
 #'   \item{title}{Number of characters per line of text in the title for this chart type.}
 #'   \item{subtitle}{Number of characters per line of text in the subtitle for this chart type.}
-#'   \item{class}{There are two "classes" of chart: "normal" and "fullslide". "Normal" charts are those bound for reports - by default they are saved without their labels and sans logo. Fullslide charts look like a Grattan Powerpoint slide, with the logo and orange line.}
+#'   \item{class}{The "class" of chart: "normal", "fullslide", or "blog". "Normal" charts are those bound for reports - by default they are saved without their labels and sans logo. Fullslide charts look like a Grattan Powerpoint slide, with the logo and orange line. Blog charts are square with a grey title bar and logo, sized for socials.}
 #'   \item{pptx_template}{Filename of the Powerpoint corresponding to the chart type. `NA` if none present.}
 #'   \item{top_border}{Top border, in cm.}
 #'   \item{bottom_border}{Bottom border, in cm.}

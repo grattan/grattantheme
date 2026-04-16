@@ -109,7 +109,17 @@ for use, without having to re-run the code.
 - `fullslide` - 16:9 PowerPoint slide with logo
 - `fullslide_narrow` - Narrower chart for annotations
 - `fullslide_half` - Half-width for side-by-side
+- `blog` - Square blog image (23.16cm x 23.16cm) with grey title bar + logo
 - `all` - Save in all formats
+
+### grattan_save_web()
+
+Save a chart as a PNG with the "slide" font (Avenir Next / DM Serif
+Display) for web use. No PowerPoint, xlsx, or subdirectory is created.
+
+``` r
+grattan_save_web("chart.png", my_chart, type = "blog")
+```
 
 ### grattan_save_overleaf()
 

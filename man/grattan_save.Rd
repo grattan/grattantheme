@@ -45,8 +45,8 @@ your session.}
   types are available:
 
 \describe{
-  \item{normal}{ The default. Use for normal Grattan report charts,
-   or to paste into a 4:3 Powerpoint slide. Width: 22.2cm, height: 14.5cm.}
+  \item{normal}{ The default. Use for normal Grattan report charts.
+  Width: 22.2cm, height: 14.5cm.}
   \item{wholecolumn}{ Takes up a whole column in a Grattan report.
   Width: 22.2cm, height: 22.2cm.}
   \item{fullpage}{ Fills a whole page of a Grattan report.
@@ -61,8 +61,8 @@ your session.}
   Powerpoint slide with logo, but a half-width chart.
   Use this to manually create side-by-side charts or
   allow space for a half-slide of text in powerpoint. Chart size: 15.3cm x 11.9cm.}
-  \item{blog}{ Deprecated. Creates a 4:3 image that looks like a Grattan Powerpoint
-  slide, but with less border whitespace than `fullslide`.}
+  \item{blog}{ A 23.16cm x 23.16cm square image sized for social media,
+  with a grey title bar, logo, subtitle, chart, and caption.}
   \item{normal_169}{ Deprecated. Useful for pasting into a 16:9 format Grattan
   Powerpoint slide. Width: 30cm, height: 14.5cm.}
   \item{tiny}{ Deprecated. Fills the width of a column in a Grattan report,

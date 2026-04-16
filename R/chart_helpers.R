@@ -33,12 +33,18 @@ check_chart <- function(type = "normal",
 
   if (plot_class == "fullslide") {
     # For fullslide types, create the full slide with header/logo
-    plot <- wrap_labs(object, type, ignore_long_title = FALSE)
-    plot <- create_fullslide(plot = plot, type = type, font = "slide")
+    plot <- create_fullslide(plot = object, type = type, font = "slide")
 
     # Use full slide dimensions
     width <- fullslide_slide_width
     height <- fullslide_slide_height
+
+  } else if (plot_class == "blog") {
+    # For blog type, create the full square blog image with header/logo
+    plot <- create_blog(plot = object, font = "slide")
+
+    width <- chart_types_inc_deprecated$width[chart_types_inc_deprecated$type == type]
+    height <- chart_types_inc_deprecated$height[chart_types_inc_deprecated$type == type]
 
   } else {
     # For normal chart types, just show the chart without labels
