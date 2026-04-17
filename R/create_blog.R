@@ -67,9 +67,8 @@ create_blog <- function(plot = ggplot2::last_plot(),
   subtitle_font_size <- 18
   caption_font_size <- 8
 
-  # Dimensions (cm)
+  # Dimensions (cm). Total image is 23.16 x 23.16; heights below sum to match.
   total_width <- 23.16
-  total_height <- 23.16
   side_margin <- 0.5
   inner_width <- total_width - 2 * side_margin   # 22.16
 

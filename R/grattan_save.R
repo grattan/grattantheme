@@ -346,11 +346,8 @@ grattan_save_ <- function(filename,
 
   } else { # following code only applies if type != "fullslide" / "blog"
 
-    # Determine body font: slide font if explicitly requested, otherwise normal.
-    # Always call apply_font_to_geom_text so that text geom layers (including
-    # GeomGrattanRichLegend) get an explicit family string rather than leaving
-    # family = "" which can resolve to Avenir Next via systemfonts/ragg on
-    # systems where that font is registered at package load.
+    # Apply explicit body font to text geom layers so they don't inherit the
+    # device default (which can resolve to Avenir Next via systemfonts/ragg).
     if (!is.null(font) && font == "slide") {
       body_font <- get_grattan_font("slide", "body")
       object <- object +

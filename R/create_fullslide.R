@@ -99,9 +99,6 @@ create_fullslide <- function(plot = last_plot(),
     subtitle_font_size <- 18
     caption_font_size <- 8
 
-    # Detect multiline title (already wrapped by wrap_labs)
-    title_is_multiline <- !is.null(stored_title) && grepl("\n", stored_title)
-
     # Create grey box as background for title + logo
     # The grey box needs to extend beyond the plot area into the margins
     # to fill the full slide width, and may need to be offset relative to chart.
@@ -221,9 +218,6 @@ create_fullslide <- function(plot = last_plot(),
     PPP
     CCC
     "
-
-    subtitle_present <- !is.null(stored_subtitle)
-    caption_present <- !is.null(stored_caption) && stored_caption != ""
 
     subtitle_area_height <- 1.82
     caption_area_height <- 2.13
