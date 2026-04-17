@@ -67,9 +67,6 @@ create_blog <- function(plot = ggplot2::last_plot(),
   subtitle_font_size <- 18
   caption_font_size <- 8
 
-  # Detect multiline title (already wrapped by wrap_labs)
-  title_is_multiline <- !is.null(stored_title) && grepl("\n", stored_title)
-
   # Dimensions (cm)
   total_width <- 23.16
   total_height <- 23.16
@@ -83,16 +80,29 @@ create_blog <- function(plot = ggplot2::last_plot(),
 
   logo_width <- 4
 
-  # Grey header: title on left, logo on right
-  grey_box <- grid::rectGrob(gp = grid::gpar(fill = "#F2F2F2",
-                                             col = "#F2F2F2"))
+  # Grey header: title on left, logo on right.
+  # The grey box needs to extend beyond the plot area into the side margins
+  # so it spans the full image width (matching create_fullslide).
+  grey_box_vp <- grid::viewport(x = unit(0.5, "npc"),
+                                y = 0.5,
+                                width = unit(1, "npc") + unit(2 * side_margin, "cm"),
+                                height = unit(1, "npc"),
+                                just = c("centre", "centre"),
+                                clip = "off")
 
-  title_y <- if (title_is_multiline) 0.42 else 0.55
+  grey_box <- grid::editGrob(
+    grid::rectGrob(gp = grid::gpar(fill = "#F2F2F2",
+                                   col = "#F2F2F2")),
+    vp = grey_box_vp
+  )
 
+  # Title text grob — positioned within a viewport so vertical centring
+  # matches the fullslide approach (y=0.56 within a viewport whose centre sits
+  # at y=0.34 of the header area).
   toptitle <- grid::textGrob(
     label = if (is.null(stored_title)) "" else stored_title,
-    x = unit(0.5, "cm"),
-    y = unit(title_y, "npc"),
+    x = unit(0, "npc"),
+    y = 0.56,
     just = c("left", "center"),
     gp = grid::gpar(col = "black",
                     fontsize = title_font_size,
@@ -100,9 +110,21 @@ create_blog <- function(plot = ggplot2::last_plot(),
                     fontfamily = title_font)
   )
 
+  # Title viewport: left-aligned, extends across inner content width minus
+  # logo. Logo viewport: bumped in slightly from right.
+  title_width <- inner_width - logo_width - 0.1
+
+  title_vp <- grid::viewport(
+    x = 0,
+    y = 0.34,
+    width = unit(title_width, "cm"),
+    just = c("left", "center"),
+    clip = "off"
+  )
+
   logo_vp <- grid::viewport(
-    x = unit(1, "npc") - unit(0.5, "cm"),
-    y = unit(0.5, "npc"),
+    x = unit(1, "npc") - unit(side_margin, "cm"),
+    y = 0.4,
     width = unit(logo_width, "cm"),
     just = c("right", "center"),
     clip = "off"
@@ -110,7 +132,7 @@ create_blog <- function(plot = ggplot2::last_plot(),
 
   header_grob <- grid::gTree(children = grid::gList(
     grey_box,
-    toptitle,
+    grid::editGrob(toptitle, vp = title_vp),
     grid::editGrob(logogrob, vp = logo_vp)
   ))
 

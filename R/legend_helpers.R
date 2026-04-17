@@ -172,6 +172,7 @@ grattan_legend_just <- function(legend.position) {
 }
 
 #' @noRd
+#' @importFrom gridtext richtext_grob
 GeomGrattanRichLegend <- ggplot2::ggproto(
   "GeomGrattanRichLegend", ggplot2::Geom,
   required_aes = c("label", "colour"),
@@ -186,6 +187,13 @@ GeomGrattanRichLegend <- ggplot2::ggproto(
     lineheight = 0.8
   ),
   extra_params = c("na.rm", "legend.position", "padding", "fill"),
+  setup_data = function(data, params) {
+    # Dedupe to one row per unique (label, PANEL, colour) combination so the
+    # legend shows one entry per factor level — not one per underlying data
+    # row. Mirrors ggdirectlabel::GeomRichLegend$setup_data.
+    keys <- intersect(c("label", "PANEL", "colour"), names(data))
+    data[!duplicated(data[, keys, drop = FALSE]), , drop = FALSE]
+  },
   draw_panel = function(data, panel_params, coord,
                         legend.position = "topright",
                         padding = 0.2,

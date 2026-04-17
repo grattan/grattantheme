@@ -346,13 +346,19 @@ grattan_save_ <- function(filename,
 
   } else { # following code only applies if type != "fullslide" / "blog"
 
-    # Apply slide font to non-fullslide charts when font = "slide"
+    # Determine body font: slide font if explicitly requested, otherwise normal.
+    # Always call apply_font_to_geom_text so that text geom layers (including
+    # GeomGrattanRichLegend) get an explicit family string rather than leaving
+    # family = "" which can resolve to Avenir Next via systemfonts/ragg on
+    # systems where that font is registered at package load.
     if (!is.null(font) && font == "slide") {
-      slide_body_font <- get_grattan_font("slide", "body")
+      body_font <- get_grattan_font("slide", "body")
       object <- object +
-        theme(text = element_text(family = slide_body_font))
-      object <- apply_font_to_geom_text(object, slide_body_font)
+        theme(text = element_text(family = body_font))
+    } else {
+      body_font <- get_grattan_font("normal", "body")
     }
+    object <- apply_font_to_geom_text(object, body_font)
 
     if (isFALSE(force_labs)) {
       # Otherwise, unless force_labs == TRUE remove title, subtitle and caption
@@ -446,7 +452,8 @@ grattan_save_ <- function(filename,
 #' @keywords internal
 apply_font_to_geom_text <- function(plot, font_family) {
   text_geom_classes <- c("GeomText", "GeomLabel",
-                         "GeomTextRepel", "GeomLabelRepel")
+                         "GeomTextRepel", "GeomLabelRepel",
+                         "GeomGrattanRichLegend")
 
   for (i in seq_along(plot$layers)) {
     geom_class <- class(plot$layers[[i]]$geom)[1]
@@ -562,6 +569,7 @@ grattan_save_overleaf <- function(filename,
 #' @param no_new_folder Default is \code{FALSE}, meaning the chart is
 #'   saved in a new subdirectory named after \code{filename}. If \code{TRUE},
 #'   no subdirectory is created.
+#' @param font Default is "slide", appropriate for web purposes.
 #' @param ... Additional arguments passed to \code{grattan_save()}, such as
 #'   \code{height}, \code{dpi}, \code{force_labs}, etc.
 #'
@@ -585,6 +593,7 @@ grattan_save_overleaf <- function(filename,
 grattan_save_web <- function(filename,
                              object = ggplot2::last_plot(),
                              type = "normal",
+                             font = "slide",
                              no_new_folder = FALSE,
                              ...) {
 
@@ -601,7 +610,7 @@ grattan_save_web <- function(filename,
   grattan_save(filename = filename,
                object = object,
                type = type,
-               font = "slide",
+               font = font,
                save_pptx = FALSE,
                save_data = FALSE,
                no_new_folder = no_new_folder,

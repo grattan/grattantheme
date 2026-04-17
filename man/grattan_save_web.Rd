@@ -8,6 +8,7 @@ grattan_save_web(
   filename,
   object = ggplot2::last_plot(),
   type = "normal",
+  font = "slide",
   no_new_folder = FALSE,
   ...
 )
@@ -21,6 +22,8 @@ different extension is supplied).}
 
 \item{type}{Chart type - see \code{?grattan_save} for options. Defaults to
 "normal". All valid \code{grattan_save()} types are supported.}
+
+\item{font}{Default is "slide", appropriate for web purposes.}
 
 \item{no_new_folder}{Default is \code{FALSE}, meaning the chart is
 saved in a new subdirectory named after \code{filename}. If \code{TRUE},

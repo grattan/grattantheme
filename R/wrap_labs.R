@@ -61,15 +61,6 @@ wrap_labs <- function(object,
 
       char_width_grattan_title <- chart_types$title[chart_types$type == type]
 
-      # add line break to title where necessary
-      if (nchar(stored_title) <= char_width_grattan_title &
-          chart_class == "fullslide" &
-          !grepl("\n", stored_title)) {
-
-        stored_title <- paste0("\n", stored_title)
-      }
-
-
       if (isFALSE(ignore_long_title) & (nchar(stored_title) > 2 * char_width_grattan_title)) {
         # if title > 2 lines, return an informative error that tells users
         # where they need to trim their title to

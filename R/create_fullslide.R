@@ -86,7 +86,9 @@ create_fullslide <- function(plot = last_plot(),
     title_font <- get_grattan_font(font, "title")
     main_font <- get_grattan_font(font, "body")
 
-    # Apply font to text geom layers (annotate, geom_text, geom_label, etc.)
+    # Apply body font to theme text elements (axis labels, ticks, etc.) and
+    # to any explicit text geom layers (annotate, geom_text, geom_label, etc.)
+    p <- p + ggplot2::theme(text = ggplot2::element_text(family = main_font))
     p <- apply_font_to_geom_text(p, main_font)
 
     stored_title <- labs$title
@@ -118,12 +120,9 @@ create_fullslide <- function(plot = last_plot(),
     )
 
     # Create the title text grob
-    # Adjust vertical position based on whether title is single or multi-line
-    title_y <- if (title_is_multiline) 0.42 else 0.55
-
     toptitle <- grid::textGrob(label = stored_title,
                                x = 0,
-                               y = title_y,
+                               y = 0.56,
                                just = c("left", "center"),
                                gp = gpar(col = "black",
                                          fontsize = title_font_size,
@@ -149,7 +148,7 @@ create_fullslide <- function(plot = last_plot(),
     # Create viewport for title
     title_vp <- grid::viewport(
       x = unit(0, "npc") + unit(title_logo_x_offset, "cm"),
-      y = 0.5,
+      y = 0.34,
       width = unit(title_width, "cm"),
       just = c("left", "center"),
       clip = "off"
@@ -158,7 +157,7 @@ create_fullslide <- function(plot = last_plot(),
     # Create viewport for logo
     logo_vp <- grid::viewport(
       x = unit(0, "npc") + unit(title_logo_x_offset + standard_fullslide_width, "cm"),
-      y = 0.35,
+      y = 0.4,
       width = unit(logo_width, "cm"),
       just = c("right", "center"),
       clip = "off"
