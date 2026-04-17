@@ -2,17 +2,21 @@
 base_plot <- ggplot(mtcars, aes(x = mpg, y = wt)) +
   geom_point()
 
-test_that("long title fails", {
+test_that("long title warns (throttled) rather than erroring", {
+  # rlang throttles warnings by .frequency_id; reset so the warning fires
+  rlang::reset_warning_verbosity("grattantheme_long_title_fullslide")
+  rlang::reset_warning_verbosity("grattantheme_long_subtitle_fullslide")
+
   p <-  base_plot +
     labs(title = "This is a really long title that should fail wrap_labs with an error because it flows onto more than two lines, so it should definitely fail blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah")
 
-  expect_error(wrap_labs(p, type = "fullslide", ignore_long_title = FALSE))
+  expect_warning(wrap_labs(p, type = "fullslide", ignore_long_title = FALSE))
 
   p <- base_plot +
     labs(title = "Regular title",
          subtitle = "Extremely long subtitle that should fail wrap_labs with an error, it'll take up too many lines even for a monster chart etc etc etc etc lorem ipsum lorem ipsum blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah")
 
-  expect_error(wrap_labs(p, type = "fullslide", ignore_long_title = FALSE))
+  expect_warning(wrap_labs(p, type = "fullslide", ignore_long_title = FALSE))
 
 })
 

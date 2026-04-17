@@ -63,7 +63,7 @@ create_blog <- function(plot = ggplot2::last_plot(),
   stored_subtitle <- labs$subtitle
   stored_caption <- labs$caption
 
-  title_font_size <- 32
+  title_font_size <- 28
   subtitle_font_size <- 18
   caption_font_size <- 8
 
