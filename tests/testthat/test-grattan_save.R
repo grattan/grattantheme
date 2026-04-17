@@ -412,7 +412,9 @@ test_that("grattan_save_all() works", {
 
 test_that("grattan_save(ignore_long_titles = TRUE) successfully ignores long titles", {
 
-  expect_error(
+  rlang::reset_warning_verbosity("grattantheme_long_title_fullslide")
+  rlang::reset_warning_verbosity("grattantheme_long_subtitle_fullslide")
+  expect_warning(
     grattan_save(filename = "default_height.png",
                object = test_plot_longlabs,
                type = "fullslide")
