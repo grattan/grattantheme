@@ -109,8 +109,8 @@ create_blog <- function(plot = ggplot2::last_plot(),
                     fontfamily = title_font)
   )
 
-  # Title viewport: left-aligned, extends across inner content width minus
-  # logo. Logo viewport: bumped in slightly from right.
+  # Title viewport: left-aligned, extends across inner content width minus logo
+  # Logo viewport: right-aligned.
   title_width <- inner_width - logo_width - 0.1
 
   title_vp <- grid::viewport(
@@ -122,7 +122,7 @@ create_blog <- function(plot = ggplot2::last_plot(),
   )
 
   logo_vp <- grid::viewport(
-    x = unit(1, "npc") - unit(side_margin, "cm"),
+    x = unit(1, "npc"),
     y = 0.4,
     width = unit(logo_width, "cm"),
     just = c("right", "center"),
