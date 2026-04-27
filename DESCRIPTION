@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 1.5
+Version: 1.6
 Authors@R: c(
     person("Matt", "Cowgill", 
                 role = c("aut")),
@@ -20,6 +20,7 @@ Imports:
     ggplot2 (>= 4.0.0),
     glue,
     grDevices,
+    gridtext,
     fs,
     jsonlite,
     lifecycle,
@@ -43,6 +44,7 @@ Suggests:
     assertthat,
     clipr,
     covr,
+    ggtext,
     gridExtra,
     knitr,
     magick,

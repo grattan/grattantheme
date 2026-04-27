@@ -19,6 +19,8 @@
 #' This determines the chart width and positioning within the slide.
 #' @param font Either "slide" (default) or "normal". "slide" uses DM Serif Display
 #' for the title and Avenir Next for body text (if available). "normal" uses Arial.
+#' @param ignore_long_title Default is FALSE. If TRUE, the check on a long title
+#' won't be performed. This is useful if using ggtext syntax within titles.
 #'
 #' @return An object of class "patchwork" with full slide dimensions (16:9 PowerPoint slide).
 #'
@@ -43,7 +45,8 @@
 
 create_fullslide <- function(plot = last_plot(),
                              type,
-                             font = c("slide", "normal")) {
+                             font = c("slide", "normal"),
+                             ignore_long_title = FALSE) {
 
     # Check inputs and define plot borders ----
 
@@ -68,8 +71,8 @@ create_fullslide <- function(plot = last_plot(),
     bottom_border <- chosen_chart_type$bottom_border
     left_border <- chosen_chart_type$left_border
 
-    # Create title and subtitle -----
-    p <- plot
+    # Wrap labels and extract -----
+    p <- wrap_labs(plot, type, ignore_long_title = ignore_long_title)
 
     labs <- extract_labs(p)
 
@@ -83,6 +86,11 @@ create_fullslide <- function(plot = last_plot(),
     title_font <- get_grattan_font(font, "title")
     main_font <- get_grattan_font(font, "body")
 
+    # Apply body font to theme text elements (axis labels, ticks, etc.) and
+    # to any explicit text geom layers (annotate, geom_text, geom_label, etc.)
+    p <- p + ggplot2::theme(text = ggplot2::element_text(family = main_font))
+    p <- apply_font_to_geom_text(p, main_font)
+
     stored_title <- labs$title
     stored_subtitle <- labs$subtitle
     stored_caption <- labs$caption
@@ -90,13 +98,6 @@ create_fullslide <- function(plot = last_plot(),
     title_font_size <- 32
     subtitle_font_size <- 18
     caption_font_size <- 8
-
-    # Wrap title text to fit within available space (max ~52 chars per line)
-    title_is_multiline <- FALSE
-    if (!is.null(stored_title) && nchar(stored_title) > 52) {
-      stored_title <- paste(strwrap(stored_title, width = 52), collapse = "\n")
-      title_is_multiline <- TRUE
-    }
 
     # Create grey box as background for title + logo
     # The grey box needs to extend beyond the plot area into the margins
@@ -116,12 +117,9 @@ create_fullslide <- function(plot = last_plot(),
     )
 
     # Create the title text grob
-    # Adjust vertical position based on whether title is single or multi-line
-    title_y <- if (title_is_multiline) 0.42 else 0.55
-
     toptitle <- grid::textGrob(label = stored_title,
                                x = 0,
-                               y = title_y,
+                               y = 0.56,
                                just = c("left", "center"),
                                gp = gpar(col = "black",
                                          fontsize = title_font_size,
@@ -147,7 +145,7 @@ create_fullslide <- function(plot = last_plot(),
     # Create viewport for title
     title_vp <- grid::viewport(
       x = unit(0, "npc") + unit(title_logo_x_offset, "cm"),
-      y = 0.5,
+      y = 0.34,
       width = unit(title_width, "cm"),
       just = c("left", "center"),
       clip = "off"
@@ -156,7 +154,7 @@ create_fullslide <- function(plot = last_plot(),
     # Create viewport for logo
     logo_vp <- grid::viewport(
       x = unit(0, "npc") + unit(title_logo_x_offset + standard_fullslide_width, "cm"),
-      y = 0.35,
+      y = 0.4,
       width = unit(logo_width, "cm"),
       just = c("right", "center"),
       clip = "off"
@@ -220,9 +218,6 @@ create_fullslide <- function(plot = last_plot(),
     PPP
     CCC
     "
-
-    subtitle_present <- !is.null(stored_subtitle)
-    caption_present <- !is.null(stored_caption) && stored_caption != ""
 
     subtitle_area_height <- 1.82
     caption_area_height <- 2.13

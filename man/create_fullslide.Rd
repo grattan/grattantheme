@@ -4,7 +4,12 @@
 \alias{create_fullslide}
 \title{Assemble a chart featuring the Grattan logo and grey header}
 \usage{
-create_fullslide(plot = last_plot(), type, font = c("slide", "normal"))
+create_fullslide(
+  plot = last_plot(),
+  type,
+  font = c("slide", "normal"),
+  ignore_long_title = FALSE
+)
 }
 \arguments{
 \item{plot}{A ggplot2 plot}
@@ -14,6 +19,9 @@ This determines the chart width and positioning within the slide.}
 
 \item{font}{Either "slide" (default) or "normal". "slide" uses DM Serif Display
 for the title and Avenir Next for body text (if available). "normal" uses Arial.}
+
+\item{ignore_long_title}{Default is FALSE. If TRUE, the check on a long title
+won't be performed. This is useful if using ggtext syntax within titles.}
 }
 \value{
 An object of class "patchwork" with full slide dimensions (16:9 PowerPoint slide).

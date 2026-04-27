@@ -107,14 +107,12 @@ gridextra_fullslide <- function(object,
     height <- chart_types$height[chart_types$type == type]
   }
 
-  blog_border <- 0.15
-
-  top_border_height <- ifelse(type == "blog", blog_border, 0.70)
+  top_border_height <- 0.70
   header_height <- 1.75
   linegrob_height <- 0.1
   subtitle_height <- ifelse(is.null(stored_subtitle), 0.21,
                             ifelse(subtitle_lines == 1, 1.76 / 2, 1.76))
-  bottom_border_height <- ifelse(type == "blog", blog_border, 0.24)
+  bottom_border_height <- 0.24
 
   non_plot_height <- sum(top_border_height, header_height, linegrob_height,
                          subtitle_height, bottom_border_height)
@@ -128,13 +126,11 @@ gridextra_fullslide <- function(object,
     22.16
   } else if (type == "fullslide_169") {
     30
-  } else if (type == "blog") {
-    width - (blog_border * 2)
+  } else {
+    width
   }
 
-  width_leftborder <- ifelse(grepl("fullslide", type),
-                             (width - plot_width) / 2,
-                             blog_border)
+  width_leftborder <- (width - plot_width) / 2
 
   width_rightborder <- width_leftborder
 

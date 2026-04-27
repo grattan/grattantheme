@@ -1,3 +1,11 @@
+# grattantheme 1.6
+* Added `grattan_richlegend()`, an on-chart legend that places coloured labels at a chosen panel corner with a white background behind the text so it's readable over gridlines. Inspired by `ggdirectlabel::geom_richlegend()`, in the no-border style of `grattan_label()`.
+* Added `grattan_save_web()`, a wrapper around `grattan_save()` that saves a PNG using the "slide" font (Avenir Next), without creating a PowerPoint or chart data.
+* Resurrected the `"blog"` chart type as an active, square (23.16cm x 23.16cm) format with a grey title bar, Grattan logo, subtitle, chart panel, and caption area. Assembly is handled by the new `create_blog()` function. `type = "blog"` is now included in `type = "all"` exports.
+* Updated font handling so fonts are now applied to all layers of a ggplot, not theme-controlled layers. This ensures annotations are in the appropriate font.
+* Label wrapping for fullslide and blog types is now handled entirely within `create_fullslide()` and `create_blog()`, rather than in `grattan_save()`.
+* Fixed the Grattan logo in `create_fullslide()` and `create_blog()` to render with a white background instead of a transparent one, as per the powerpoint formatting.
+
 # grattantheme 1.5.1
 * `grattan_save()` now applies the slide font (Avenir Next) to non-fullslide chart types when `font = "slide"` is explicitly set.
 * Fixed `grattan_label_repel()` border visibility caused by ggrepel switching from `label.size` to `linewidth` aesthetic for border control. Labels now explicitly set `linewidth = 0` to suppress borders.

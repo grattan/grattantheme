@@ -46,6 +46,7 @@ test_that("grattan_save() saves charts (no powerpoint)", {
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_fullpage.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_normal.png")))
   expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_wholecolumn.png")))
+  expect_true(file.exists(file.path(test_dir, "test_plot", "test_plot_blog.png")))
 
   expect_false(file.exists(file.path(test_dir, "test_plot", "test_plot_normal_169.png")))
   expect_false(file.exists(file.path(test_dir, "test_plot", "test_plot_a4.png")))
@@ -54,6 +55,21 @@ test_that("grattan_save() saves charts (no powerpoint)", {
   expect_false(file.exists(file.path(test_dir, "test_plot.png", "test_plot_blog_half.png")))
 
   unlink(test_dir, recursive = TRUE)
+})
+
+test_that("grattan_save() works standalone for type = 'blog'", {
+  test_dir <- file.path(tempdir(), "grattan_save_blog_test")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(test_dir, recursive = TRUE), add = TRUE)
+
+  grattan_save(filename = file.path(test_dir, "blog_plot.png"),
+               object = test_plot,
+               type = "blog",
+               save_pptx = FALSE,
+               save_data = FALSE,
+               no_new_folder = TRUE)
+
+  expect_true(file.exists(file.path(test_dir, "blog_plot_blog.png")))
 })
 
 test_that("grattan_save() saves charts (with powerpoint)", {
@@ -396,7 +412,9 @@ test_that("grattan_save_all() works", {
 
 test_that("grattan_save(ignore_long_titles = TRUE) successfully ignores long titles", {
 
-  expect_error(
+  rlang::reset_warning_verbosity("grattantheme_long_title_fullslide")
+  rlang::reset_warning_verbosity("grattantheme_long_subtitle_fullslide")
+  expect_warning(
     grattan_save(filename = "default_height.png",
                object = test_plot_longlabs,
                type = "fullslide")

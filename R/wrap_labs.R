@@ -4,7 +4,8 @@
 #' onto multiple lines, left-align them, and split 'notes' and 'source' onto
 #' multiple lines. Note that this is done automatically for you if you use
 #' `grattan_save()` - there is no need to use `wrap_labs()` if you also plan to
-#' use `grattan_save()`.
+#' use `grattan_save()`. The function will warn if the title is too long for
+#' the chart format chosen.
 #'
 #' @name wrap_labs
 #' @param object Name of the ggplot2 chart object with the labels you wish to
@@ -53,6 +54,8 @@ wrap_labs <- function(object,
 
   # Wrap title ----
 
+  max_title_lines <- if (identical(type, "blog")) 3 else 2
+
   if (isTRUE(wrap_title)) {
 
     stored_title <- labs$title
@@ -61,37 +64,28 @@ wrap_labs <- function(object,
 
       char_width_grattan_title <- chart_types$title[chart_types$type == type]
 
-      # add line break to title where necessary
-      if (nchar(stored_title) <= char_width_grattan_title &
-          chart_class == "fullslide" &
-          !grepl("\n", stored_title)) {
+      if (isFALSE(ignore_long_title) & (nchar(stored_title) > max_title_lines * char_width_grattan_title)) {
+        # if title exceeds the allowed number of lines, emit a throttled
+        # warning
 
-        stored_title <- paste0("\n", stored_title)
-      }
-
-
-      if (isFALSE(ignore_long_title) & (nchar(stored_title) > 2 * char_width_grattan_title)) {
-        # if title > 2 lines, return an informative error that tells users
-        # where they need to trim their title to
-
-        # code to figure out the final 2 chunks of text before the title limit
-        trimmed_title <- strtrim(stored_title, 2 * char_width_grattan_title)
+        trimmed_title <- strtrim(stored_title, max_title_lines * char_width_grattan_title)
         trimmed_title_final_words <- paste0(utils::tail(strsplit(trimmed_title, split = " ")[[1]], 2), collapse = " ")
 
-        # return an error and tell the user where the useable string ends
-        stop("Your chart title is too long for a Grattan chart of type ",
-             type,
-             ". Please reduce the length of the title.\nEverything after '",
-             trimmed_title_final_words,
-             "' cannot fit onto the slide.")
+        rlang::warn(
+          paste0("Your chart title is too long for a Grattan chart of type ",
+                 type,
+                 ". Please reduce the length of the title.\nEverything after '",
+                 trimmed_title_final_words,
+                 "' cannot fit onto the slide."),
+          .frequency = "regularly",
+          .frequency_id = paste0("grattantheme_long_title_", type)
+        )
       }
 
-      if (nchar(stored_title) <= 2 * char_width_grattan_title &
-          nchar(stored_title) > char_width_grattan_title) {
+      if (nchar(stored_title) > char_width_grattan_title) {
 
-        stored_title <- paste0(strwrap(stored_title, char_width_grattan_title)[1],
-                               "\n",
-                               strwrap(stored_title, char_width_grattan_title)[2])
+        wrapped_title <- strwrap(stored_title, char_width_grattan_title)
+        stored_title <- paste0(wrapped_title, collapse = "\n")
       }
 
       labs$title <- stored_title
@@ -109,17 +103,19 @@ wrap_labs <- function(object,
 
 
       if (isFALSE(ignore_long_title) & nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
-        # code to figure out the final 2 chunks of text before the title limit
+        # code to figure out the final 2 chunks of text before the subtitle limit
         trimmed_subtitle <- strtrim(stored_subtitle, 2 * char_width_grattan_subtitle)
         trimmed_subtitle_final_words <- paste0(utils::tail(strsplit(trimmed_subtitle, split = " ")[[1]],2), collapse = " ")
-        # return an error and tell the user where the useable string ends
-        stop("Your chart subtitle is too long for a Grattan Powerpoint slide of type ",
-             type,
-             ". Please reduce subtitle length.\nEverything after '",
-             trimmed_subtitle_final_words,
-             "' cannot fit onto the slide.")
 
-
+        rlang::warn(
+          paste0("Your chart subtitle is too long for a Grattan Powerpoint slide of type ",
+                 type,
+                 ". Please reduce subtitle length.\nEverything after '",
+                 trimmed_subtitle_final_words,
+                 "' cannot fit onto the slide."),
+          .frequency = "regularly",
+          .frequency_id = paste0("grattantheme_long_subtitle_", type)
+        )
       }
 
       if (nchar(stored_subtitle) <= 2 * char_width_grattan_subtitle &
@@ -162,11 +158,11 @@ wrap_labs <- function(object,
         notes <- notes_and_source[[1]][1]
         source <- paste0("Source", notes_and_source[[1]][2])
 
-        # notes <- paste0(strwrap(notes, char_width_grattan_caption),
-        #                 collapse = "\n")
-        #
-        # source <- paste0(strwrap(source, char_width_grattan_caption),
-        #                  collapse = "\n")
+        notes <- paste0(strwrap(notes, char_width_grattan_caption),
+                        collapse = "\n")
+
+        source <- paste0(strwrap(source, char_width_grattan_caption),
+                         collapse = "\n")
 
         stored_caption <- paste0(notes, "\n", source)
       }

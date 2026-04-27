@@ -390,8 +390,9 @@ clean_chartdata_ <- function(object,
     used_cols <- c(used_cols, facet_cols)
   }
 
-  # Make sure columns are unique
+  # Keep only real columns (all.vars() can return function names)
   used_cols <- unique(used_cols)
+  used_cols <- used_cols[used_cols %in% names(chart_data)]
 
   # If no columns are found in mappings, use all columns
   if(length(used_cols) == 0) {

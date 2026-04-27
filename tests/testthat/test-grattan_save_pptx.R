@@ -71,7 +71,7 @@ test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 
   expect_identical(summ_x$text[3], "My title")
   expect_identical(summ_x$text[1], "My subtitle")
-  expect_identical(summ_x$text[4], "Notes: notes. \nSource: source")
+  expect_identical(summ_x$text[4], "Notes: notes.\nSource: source")
   expect_identical(summ_x$text[2], "1015202530352345wtmpg")
 })
 

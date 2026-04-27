@@ -2,6 +2,11 @@ library(devtools)
 library(dplyr)
 
 logo <- magick::image_read("data-raw/GrattanPNGlogo.png")
+logo <- magick::image_flatten(c(magick::image_blank(
+  magick::image_info(logo)$width,
+  magick::image_info(logo)$height,
+  color = "white"
+), logo))
 
 logogrob <- grid::rasterGrob(logo)
 
@@ -13,12 +18,12 @@ chart_types <- tibble::tribble(
                    "fullslide",     "active",    31.7,    11.9,    240,     55,         95, "fullslide", "template_fullslide.pptx",
             "fullslide_narrow",     "active",    23.0,    11.9,    175,     55,         95, "fullslide", "template_fullslide_narrow.pptx",
               "fullslide_half",     "active",    15.3,    11.9,    120,     55,         47, "fullslide", "template_fullslide_half.pptx",
+                        "blog",     "active",   23.16,   23.16,    120,     46,         65, "blog",      "template_blog.pptx",
 
                   "normal_169", "deprecated",   30.00,   14.50,    180,     95,        100, "normal",    NA_character_,
                         "tiny", "deprecated",   22.16,   11.08,    120,     70,         75, "normal",    NA_character_,
                "fullslide_old", "deprecated",   33.87,   19.05,    175,     55,         95, "fullslide", "template_169.pptx",
                 "fullslide_43", "deprecated",   25.40,   19.05,    140,     55,         70, "fullslide", "template_43.pptx",
-                        "blog", "deprecated",   25.40,   19.05,    155,     62,         85, "fullslide", "template_blog.pptx",
                           "a4", "deprecated",   21.00,   29.70,    114,     66,         62, "fullslide", NA_character_,
                 "fullslide_44", "deprecated",   25.40,   25.40,    140,     55,         95, "fullslide", NA_character_,
                    "blog_half", "deprecated",   25.4/2,  19.05,    155,     62,         85, "fullslide", "template_blog_half.pptx",
@@ -26,32 +31,35 @@ chart_types <- tibble::tribble(
 )
 
 
-blog_border <- 0.15
+blog_half_border <- 0.15
 
 chart_types <- chart_types %>%
   dplyr::mutate(top_border = dplyr::case_when(class == "normal" ~ 0,
-                                grepl("blog", type) ~ blog_border,
+                                class == "blog" ~ 0,
+                                type == "blog_half" ~ blog_half_border,
                                 type == "fullslide_old169" ~ 0.5,
                                 type %in% c("fullslide",
                                             "fullslide_narrow",
                                             "fullslide_half") ~ 0,
                                 TRUE ~ 0.7),
          bottom_border = dplyr::case_when(class == "normal" ~ 0,
+                                  class == "blog" ~ 0,
                                   type %in% c("fullslide",
                                               "fullslide_narrow",
                                               "fullslide_half") ~ 0,
-                                   grepl("blog", type) ~ 0.05,
+                                   type == "blog_half" ~ 0.05,
                                    type %in% c("fullslide",
                                                "fullslide_44") ~ 0.24,
                                    TRUE ~ 0.05),
          left_border = dplyr::case_when(class == "normal" ~ 0,
+                                 class == "blog" ~ 0,
                                  type %in% c("fullslide_43",
                                              "fullslide_44") ~ (width - 22.16) / 2,
                                  type %in% c("fullslide", "fullslide_narrow") ~ (33.87 - width) / 2,
                                  type ==  "fullslide_half" ~ 1.085,
                                  type == "a4" ~ (width - 19) / 2,
                                  type == "fullslide_old169" ~ (width - 22.64) / 2,
-                                 grepl("blog", type) ~ blog_border),
+                                 type == "blog_half" ~ blog_half_border),
          right_border = if_else(
            type == "fullslide_half", 17.485, # Position toward left of chart
            left_border
