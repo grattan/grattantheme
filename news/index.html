@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6</span>
       </span>
     </div>
 
@@ -51,6 +51,15 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.6" id="grattantheme-16">grattantheme 1.6<a class="anchor" aria-label="anchor" href="#grattantheme-16"></a></h2>
+<ul><li>Added <code><a href="../reference/grattan_richlegend.html">grattan_richlegend()</a></code>, an on-chart legend that places coloured labels at a chosen panel corner with a white background behind the text so it’s readable over gridlines. Inspired by <code>ggdirectlabel::geom_richlegend()</code>, in the no-border style of <code><a href="../reference/grattan_label_functions.html">grattan_label()</a></code>.</li>
+<li>Added <code><a href="../reference/grattan_save_web.html">grattan_save_web()</a></code>, a wrapper around <code><a href="../reference/grattan_save.html">grattan_save()</a></code> that saves a PNG using the “slide” font (Avenir Next), without creating a PowerPoint or chart data.</li>
+<li>Resurrected the <code>"blog"</code> chart type as an active, square (23.16cm x 23.16cm) format with a grey title bar, Grattan logo, subtitle, chart panel, and caption area. Assembly is handled by the new <code><a href="../reference/create_blog.html">create_blog()</a></code> function. <code>type = "blog"</code> is now included in <code>type = "all"</code> exports.</li>
+<li>Updated font handling so fonts are now applied to all layers of a ggplot, not theme-controlled layers. This ensures annotations are in the appropriate font.</li>
+<li>Label wrapping for fullslide and blog types is now handled entirely within <code><a href="../reference/create_fullslide.html">create_fullslide()</a></code> and <code><a href="../reference/create_blog.html">create_blog()</a></code>, rather than in <code><a href="../reference/grattan_save.html">grattan_save()</a></code>.</li>
+<li>Fixed the Grattan logo in <code><a href="../reference/create_fullslide.html">create_fullslide()</a></code> and <code><a href="../reference/create_blog.html">create_blog()</a></code> to render with a white background instead of a transparent one, as per the powerpoint formatting.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.5.1" id="grattantheme-151">grattantheme 1.5.1<a class="anchor" aria-label="anchor" href="#grattantheme-151"></a></h2>
 <ul><li>
