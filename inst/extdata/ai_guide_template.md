@@ -26,13 +26,13 @@ Grattan Institute style guide using the `grattantheme` R package.
 ### Use direct labelling instead of legends
 
 Prefer direct labelling with coloured text over traditional legends. Use
-`annotate()` or `grattan_label()` to place text labels in the chart
-area, coloured to match the data series:
+`grattan_richlegend()` for a simple on-chart legend, or `grattan_label()` to 
+place text labels in the chart area, coloured to match the data series:
 
 ``` r
 
-# EXAMPLE: Using ggdirectlabel for a on-chart 'legend'
-geom_richlegend(aes(label = city),
+# EXAMPLE: Using grattan_richlegend for a on-chart 'legend'
+grattan_richlegend(aes(label = city),
                 legend.position = 'bottomright')
 
 # EXAMPLE: Using annotate for manual positioning

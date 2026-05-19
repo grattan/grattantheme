@@ -14,6 +14,7 @@ grattan_save(
   save_data = FALSE,
   select_data = TRUE,
   round = NULL,
+  sheet_name = "data",
   force_labs = FALSE,
   watermark = NULL,
   latex = FALSE,
@@ -91,6 +92,9 @@ used in ggplot mappings and facets from the exported chart data.}
 
 \item{round}{Numeric, optional. Round numbers in chart data to this number of
 decimal places. Default is NULL, which does not round numbers.}
+
+\item{sheet_name}{Character. Name of the worksheet in the exported chart-data
+Excel file. Only used when `save_data = TRUE`. Defaults to `"data"`.}
 
 \item{force_labs}{Logical. By default, `grattan_save()` will remove your
 title, subtitle, and caption (if present) from your graph before saving it,

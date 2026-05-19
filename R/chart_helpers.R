@@ -55,6 +55,11 @@ check_chart <- function(type = "normal",
       ggplot2::theme(plot.title = ggplot2::element_blank(),
                      plot.subtitle = ggplot2::element_blank(),
                      plot.caption = ggplot2::element_blank())
+
+    # Mirror grattan_save(): force text geoms (incl. grattan_label) to the
+    # normal body font so the preview matches the saved output instead of
+    # picking up the device default.
+    plot <- apply_font_to_geom_text(plot, get_grattan_font("normal", "body"))
   }
 
   ggplot2::ggsave(filename,
