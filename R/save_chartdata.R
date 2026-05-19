@@ -23,6 +23,8 @@
 #' used in ggplot mappings and facets from the exported chart data.
 #' @param round Numeric, optional. Round numbers in the chart data to this
 #' number of decimal places. Default is NULL, which does not round numbers.
+#' @param sheet_name Character. Name of the worksheet in the Excel file.
+#' Defaults to `"data"`.
 #'
 #' @export
 #' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage
@@ -50,7 +52,8 @@ save_chartdata <- function(filename,
                            type = "normal",
                            height = NULL,
                            select_data = TRUE,
-                           round = NULL) {
+                           round = NULL,
+                           sheet_name = "data") {
 
   if (tools::file_ext(filename) != "xlsx") {
     stop(filename, " is not a valid filename; filename must end in .xlsx")
@@ -67,11 +70,8 @@ save_chartdata <- function(filename,
          " see ?grattan_save for types.")
   }
 
-
-  obj_name <- deparse(substitute(object))
-
-  if (obj_name == "ggplot2::last_plot()") {
-    obj_name <- "plot"
+  if (!is.character(sheet_name) || length(sheet_name) != 1 || !nzchar(sheet_name)) {
+    stop("`sheet_name` must be a single non-empty string.")
   }
 
   # Expand height of graph if not set manually & labels are present
@@ -164,7 +164,7 @@ save_chartdata <- function(filename,
   wb <- openxlsx::createWorkbook()
 
   openxlsx::addWorksheet(wb,
-                         sheetName = obj_name,
+                         sheetName = sheet_name,
                          gridLines = FALSE)
 
   openxlsx::writeData(wb = wb,

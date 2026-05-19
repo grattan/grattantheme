@@ -61,6 +61,8 @@
 #' used in ggplot mappings and facets from the exported chart data.
 #' @param round Numeric, optional. Round numbers in chart data to this number of
 #' decimal places. Default is NULL, which does not round numbers.
+#' @param sheet_name Character. Name of the worksheet in the exported chart-data
+#' Excel file. Only used when `save_data = TRUE`. Defaults to `"data"`.
 #' @param force_labs Logical. By default, `grattan_save()` will remove your
 #'   title, subtitle, and caption (if present) from your graph before saving it,
 #'   unless `type` = "fullslide". By setting `force_labs` to TRUE, your
@@ -158,6 +160,7 @@ grattan_save <- function(filename,
                          save_data = FALSE,
                          select_data = TRUE,
                          round = NULL,
+                         sheet_name = "data",
                          force_labs = FALSE,
                          watermark = NULL,
                          latex = FALSE,
@@ -221,7 +224,8 @@ grattan_save <- function(filename,
                        type = type,
                        height = height,
                        select_data = select_data,
-                       round = round)
+                       round = round,
+                       sheet_name = sheet_name)
     }
     ## export single pptx
     if (isTRUE(save_pptx)) {
@@ -269,7 +273,8 @@ grattan_save <- function(filename,
                      type = "normal",
                      select_data = select_data,
                      height = height,
-                     round = round)
+                     round = round,
+                     sheet_name = sheet_name)
     }
 
     ## export pptx

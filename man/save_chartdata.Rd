@@ -10,7 +10,8 @@ save_chartdata(
   type = "normal",
   height = NULL,
   select_data = TRUE,
-  round = NULL
+  round = NULL,
+  sheet_name = "data"
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ used in ggplot mappings and facets from the exported chart data.}
 
 \item{round}{Numeric, optional. Round numbers in the chart data to this
 number of decimal places. Default is NULL, which does not round numbers.}
+
+\item{sheet_name}{Character. Name of the worksheet in the Excel file.
+Defaults to `"data"`.}
 }
 \description{
 Grattan reports are accompanied by Excel workbooks containing the data used

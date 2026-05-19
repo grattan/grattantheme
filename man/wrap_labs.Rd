@@ -31,7 +31,8 @@ Use `wrap_labs()` to wrap the title, subtitle, and caption of a ggplot2 chart
 onto multiple lines, left-align them, and split 'notes' and 'source' onto
 multiple lines. Note that this is done automatically for you if you use
 `grattan_save()` - there is no need to use `wrap_labs()` if you also plan to
-use `grattan_save()`.
+use `grattan_save()`. The function will warn if the title is too long for
+the chart format chosen.
 }
 \examples{
 
