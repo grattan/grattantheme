@@ -72,6 +72,7 @@ Grattan charts. Wrapper around ggsave().
 <span>  save_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  select_data <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  round <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sheet_name <span class="op">=</span> <span class="st">"data"</span>,</span>
 <span>  force_labs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  watermark <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  latex <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -184,6 +185,11 @@ used in ggplot mappings and facets from the exported chart data.</p></dd>
 <dt id="arg-round">round<a class="anchor" aria-label="anchor" href="#arg-round"></a></dt>
 <dd><p>Numeric, optional. Round numbers in chart data to this number of
 decimal places. Default is NULL, which does not round numbers.</p></dd>
+
+
+<dt id="arg-sheet-name">sheet_name<a class="anchor" aria-label="anchor" href="#arg-sheet-name"></a></dt>
+<dd><p>Character. Name of the worksheet in the exported chart-data
+Excel file. Only used when `save_data = TRUE`. Defaults to `"data"`.</p></dd>
 
 
 <dt id="arg-force-labs">force_labs<a class="anchor" aria-label="anchor" href="#arg-force-labs"></a></dt>

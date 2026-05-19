@@ -71,7 +71,8 @@ be properly displayed in the spreadsheet.</p>
 <span>  type <span class="op">=</span> <span class="st">"normal"</span>,</span>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  select_data <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  round <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  round <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sheet_name <span class="op">=</span> <span class="st">"data"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -110,6 +111,11 @@ used in ggplot mappings and facets from the exported chart data.</p></dd>
 <dt id="arg-round">round<a class="anchor" aria-label="anchor" href="#arg-round"></a></dt>
 <dd><p>Numeric, optional. Round numbers in the chart data to this
 number of decimal places. Default is NULL, which does not round numbers.</p></dd>
+
+
+<dt id="arg-sheet-name">sheet_name<a class="anchor" aria-label="anchor" href="#arg-sheet-name"></a></dt>
+<dd><p>Character. Name of the worksheet in the Excel file.
+Defaults to `"data"`.</p></dd>
 
 </dl></div>
 
