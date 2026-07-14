@@ -1,12 +1,9 @@
 library(devtools)
 library(dplyr)
 
+# Keep the logo's transparency so it sits on whatever background it is placed
+# on (the grey header in blog/fullslide charts) rather than a white box.
 logo <- magick::image_read("data-raw/GrattanPNGlogo.png")
-logo <- magick::image_flatten(c(magick::image_blank(
-  magick::image_info(logo)$width,
-  magick::image_info(logo)$height,
-  color = "white"
-), logo))
 
 logogrob <- grid::rasterGrob(logo)
 
@@ -18,7 +15,7 @@ chart_types <- tibble::tribble(
                    "fullslide",     "active",    31.7,    11.9,    240,     55,         95, "fullslide", "template_fullslide.pptx",
             "fullslide_narrow",     "active",    23.0,    11.9,    175,     55,         95, "fullslide", "template_fullslide_narrow.pptx",
               "fullslide_half",     "active",    15.3,    11.9,    120,     55,         47, "fullslide", "template_fullslide_half.pptx",
-                        "blog",     "active",   23.16,   23.16,    120,     46,         65, "blog",      "template_blog.pptx",
+                        "blog",     "active",   23.16,   23.16,    120,     40,         65, "blog",      "template_blog.pptx",
 
                   "normal_169", "deprecated",   30.00,   14.50,    180,     95,        100, "normal",    NA_character_,
                         "tiny", "deprecated",   22.16,   11.08,    120,     70,         75, "normal",    NA_character_,
