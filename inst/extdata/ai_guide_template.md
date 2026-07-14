@@ -18,7 +18,8 @@ Grattan Institute style guide using the `grattantheme` R package.
 -   **Caption**: If required, should include a "Notes:" section (clarifying key
     points about the data). Must include a "Source:" section (e.g. "Grattan
     analysis of ABS Census microdata (2021)"). Do NOT separate these with a
-    newline as `grattantheme` will insert linebreaks automatically.
+    newline, or use `paste` to combine lines, as `grattantheme` will insert 
+    linebreaks automatically.
 -   **Axis title**: The y-axis title is generally blank if not a
     scatterplot. The x-axis title can be blank if the units are self-evident
     (e.g. 2020, 2025) or otherwise explained in the subtitle.
@@ -393,11 +394,13 @@ ggplot(data, aes(x = date, y = value, colour = series)) +
   geom_line() +
   grattan_point_filled(data = . %>% filter(date == max(date))) +
   grattan_y_continuous(labels = scales::label_percent()) +
+  grattan_x_continuous(expand_right = 0.1) + # Adjust as required
   grattan_label(
     data = . %>% filter(date == max(date)),
     aes(label = series),
     hjust = 0
-  )
+  ) +
+  theme_grattan()
 ```
 
 ### Maps
