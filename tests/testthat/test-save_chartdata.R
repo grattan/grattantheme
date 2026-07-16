@@ -82,6 +82,71 @@ test_that("save_chartdata works with patchwork plots", {
   }
 })
 
+test_that("save_chartdata recovers data supplied directly to a geom", {
+
+  df <- data.frame(x = 1:5, y = c(2, 4, 3, 5, 6))
+
+  # No data in the ggplot() call - it all lives in the geom
+  p_geom <- ggplot() +
+    geom_point(data = df, aes(x, y)) +
+    theme_grattan()
+
+  expect_warning(save_chartdata("geom_only.xlsx", p_geom),
+                 "extracted from the data supplied directly")
+
+  expect_true(file.exists("geom_only.xlsx"))
+
+  saved <- openxlsx::read.xlsx("geom_only.xlsx", rows = 3:8, cols = 2:3)
+  names(saved) <- tolower(names(saved))
+  expect_equal(saved, df)
+
+  unlink("geom_only.xlsx")
+  if (file.exists("Rplots.pdf")) unlink("Rplots.pdf")
+})
+
+test_that("save_chartdata writes a block per distinct geom data table", {
+
+  df1 <- data.frame(x = 1:5, y = c(2, 4, 3, 5, 6))
+  df2 <- data.frame(a = 1:3, b = c(9, 8, 7))
+
+  p_multi <- ggplot() +
+    geom_point(data = df1, aes(x, y)) +
+    geom_line(data = df2, aes(a, b)) +
+    theme_grattan()
+
+  expect_warning(save_chartdata("geom_multi.xlsx", p_multi, select_data = FALSE),
+                 "2 different data tables")
+
+  expect_true(file.exists("geom_multi.xlsx"))
+
+  # First block: df1 at rows 3:8, cols 2:3
+  block1 <- openxlsx::read.xlsx("geom_multi.xlsx", rows = 3:8, cols = 2:3)
+  names(block1) <- tolower(names(block1))
+  expect_equal(block1, df1)
+
+  # Second block starts 2 rows after the first block ends
+  second_start <- 3 + nrow(df1) + 2
+  block2 <- openxlsx::read.xlsx("geom_multi.xlsx",
+                                rows = second_start:(second_start + nrow(df2)),
+                                cols = 2:3)
+  names(block2) <- tolower(names(block2))
+  expect_equal(block2, df2)
+
+  unlink("geom_multi.xlsx")
+  if (file.exists("Rplots.pdf")) unlink("Rplots.pdf")
+})
+
+test_that("save_chartdata still errors when there is no data anywhere", {
+
+  p_empty <- ggplot() + theme_grattan()
+
+  expect_error(save_chartdata("no_data.xlsx", p_empty),
+               "No valid data found")
+
+  if (file.exists("no_data.xlsx")) unlink("no_data.xlsx")
+  if (file.exists("Rplots.pdf")) unlink("Rplots.pdf")
+})
+
 test_that("save_chartdata handles patchwork without proper annotations", {
 
   p1 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
