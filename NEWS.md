@@ -1,6 +1,8 @@
 # grattantheme 1.6.3
 * `save_chartdata()` (and `grattan_save(save_data = TRUE)` / `grattan_save_all()`) now fail gracefully when the main `ggplot()` call carries no data because it was all supplied directly to the geoms. The data is recovered from the geom layers, with a warning; distinct data tables across geoms are written out as separate blocks. A chart with no data anywhere still errors as before.
 * `grattan_richlegend()` now works on faceted charts. By default the legend is drawn only on the top-left panel; use `facet = "all"` to repeat it on every panel, or pass a numeric vector of panel numbers to choose specific panels. This also fixes a crash that previously occurred whenever `grattan_richlegend()` was combined with faceting.
+* Updated the AI style guide written by `grattan_write_ai_guide()` to cover `grattan_richlegend()` on faceted charts, and to suggest some preferred coding behaviour.
+* Length of fullslide chart titles has been reduced to avoid clipping with grattan logo.
 
 # grattantheme 1.6.2
 * Reverted the Grattan logo in `create_fullslide()` and `create_blog()` back to a transparent background so the grey title bar shows through, rather than sitting in a white box that clipped the chart title.
