@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
       </span>
     </div>
 
@@ -51,6 +51,15 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.6.3" id="grattantheme-163">grattantheme 1.6.3<a class="anchor" aria-label="anchor" href="#grattantheme-163"></a></h2>
+<ul><li>
+<code><a href="../reference/save_chartdata.html">save_chartdata()</a></code> (and <code>grattan_save(save_data = TRUE)</code> / <code><a href="../reference/grattan_save.html">grattan_save_all()</a></code>) now fail gracefully when the main <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code> call carries no data because it was all supplied directly to the geoms. The data is recovered from the geom layers, with a warning; distinct data tables across geoms are written out as separate blocks. A chart with no data anywhere still errors as before.</li>
+<li>
+<code><a href="../reference/grattan_richlegend.html">grattan_richlegend()</a></code> now works on faceted charts. By default the legend is drawn only on the top-left panel; use <code>facet = "all"</code> to repeat it on every panel, or pass a numeric vector of panel numbers to choose specific panels. This also fixes a crash that previously occurred whenever <code><a href="../reference/grattan_richlegend.html">grattan_richlegend()</a></code> was combined with faceting.</li>
+<li>Updated the AI style guide written by <code><a href="../reference/grattan_write_ai_guide.html">grattan_write_ai_guide()</a></code> to cover <code><a href="../reference/grattan_richlegend.html">grattan_richlegend()</a></code> on faceted charts, and to suggest some preferred coding behaviour.</li>
+<li>Length of fullslide chart titles has been reduced to avoid clipping with grattan logo.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.6.2" id="grattantheme-162">grattantheme 1.6.2<a class="anchor" aria-label="anchor" href="#grattantheme-162"></a></h2>
 <ul><li>Reverted the Grattan logo in <code><a href="../reference/create_fullslide.html">create_fullslide()</a></code> and <code><a href="../reference/create_blog.html">create_blog()</a></code> back to a transparent background so the grey title bar shows through, rather than sitting in a white box that clipped the chart title.</li>
