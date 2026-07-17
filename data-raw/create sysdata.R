@@ -12,9 +12,9 @@ chart_types <- tibble::tribble(
                       "normal",     "active",   22.16,   14.50,    120,     70,         75, "normal",    "template_normal.pptx",
                  "wholecolumn",     "active",   22.16,   22.16,    120,     70,         75, "normal",    "template_wholecolumn.pptx",
                     "fullpage",     "active",   44.32,   22.16,    240,    140,        150, "normal",    "template_fullpage.pptx",
-                   "fullslide",     "active",    31.7,    11.9,    240,     55,         95, "fullslide", "template_fullslide.pptx",
-            "fullslide_narrow",     "active",    23.0,    11.9,    175,     55,         95, "fullslide", "template_fullslide_narrow.pptx",
-              "fullslide_half",     "active",    15.3,    11.9,    120,     55,         47, "fullslide", "template_fullslide_half.pptx",
+                   "fullslide",     "active",    31.7,    11.9,    240,     50,         95, "fullslide", "template_fullslide.pptx",
+            "fullslide_narrow",     "active",    23.0,    11.9,    175,     50,         95, "fullslide", "template_fullslide_narrow.pptx",
+              "fullslide_half",     "active",    15.3,    11.9,    120,     50,         47, "fullslide", "template_fullslide_half.pptx",
                         "blog",     "active",   23.16,   23.16,    120,     40,         65, "blog",      "template_blog.pptx",
 
                   "normal_169", "deprecated",   30.00,   14.50,    180,     95,        100, "normal",    NA_character_,

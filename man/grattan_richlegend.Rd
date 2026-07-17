@@ -12,6 +12,7 @@ grattan_richlegend(
   padding = 0.2,
   lineheight = 0.8,
   fill = "white",
+  facet = NULL,
   na.rm = FALSE,
   inherit.aes = TRUE,
   ...
@@ -37,6 +38,12 @@ panel. Defaults to `"topright"`.}
 \item{lineheight}{Line height between legend entries. Default is `0.8`.}
 
 \item{fill}{Background fill colour. Default is `"white"`.}
+
+\item{facet}{Controls which panel the legend is drawn on when the chart is
+faceted. Either `NULL` (the default) to draw the legend only on the
+top-left panel, `"all"` to draw it on every panel, or a numeric vector of
+panel numbers (counting left-to-right, top-to-bottom) to draw it on
+specific panels. Ignored for un-faceted charts, which have a single panel.}
 
 \item{na.rm}{If `FALSE` (default) missing values are removed with a warning.}
 
@@ -67,6 +74,15 @@ df <- data.frame(
 ggplot(df, aes(year, value, colour = series)) +
   geom_line() +
   grattan_richlegend(aes(label = series)) +
+  theme_grattan()
+
+# On a faceted chart the legend appears only on the top-left panel by
+# default. Use `facet = "all"` to repeat it on every panel, or pass panel
+# numbers to choose specific panels.
+ggplot(df, aes(year, value, colour = series)) +
+  geom_line() +
+  grattan_richlegend(aes(label = series), facet = "all") +
+  facet_wrap(~series) +
   theme_grattan()
 }
 

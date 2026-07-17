@@ -63,6 +63,11 @@ colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
 #'   "lines". Default is `0.2`.
 #' @param lineheight Line height between legend entries. Default is `0.8`.
 #' @param fill Background fill colour. Default is `"white"`.
+#' @param facet Controls which panel the legend is drawn on when the chart is
+#'   faceted. Either `NULL` (the default) to draw the legend only on the
+#'   top-left panel, `"all"` to draw it on every panel, or a numeric vector of
+#'   panel numbers (counting left-to-right, top-to-bottom) to draw it on
+#'   specific panels. Ignored for un-faceted charts, which have a single panel.
 #' @param na.rm If `FALSE` (default) missing values are removed with a warning.
 #' @param inherit.aes If `FALSE`, overrides the default aesthetics rather
 #'   than combining with them.
@@ -84,6 +89,15 @@ colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
 #'   geom_line() +
 #'   grattan_richlegend(aes(label = series)) +
 #'   theme_grattan()
+#'
+#' # On a faceted chart the legend appears only on the top-left panel by
+#' # default. Use `facet = "all"` to repeat it on every panel, or pass panel
+#' # numbers to choose specific panels.
+#' ggplot(df, aes(year, value, colour = series)) +
+#'   geom_line() +
+#'   grattan_richlegend(aes(label = series), facet = "all") +
+#'   facet_wrap(~series) +
+#'   theme_grattan()
 #' }
 #'
 #' @export
@@ -94,6 +108,7 @@ grattan_richlegend <- function(mapping = NULL,
                                padding = 0.2,
                                lineheight = 0.8,
                                fill = "white",
+                               facet = NULL,
                                na.rm = FALSE,
                                inherit.aes = TRUE,
                                ...) {
@@ -112,6 +127,7 @@ grattan_richlegend <- function(mapping = NULL,
       padding = padding,
       lineheight = lineheight,
       fill = fill,
+      facet = facet,
       ...
     )
   )
@@ -186,7 +202,7 @@ GeomGrattanRichLegend <- ggplot2::ggproto(
     fontface = 1,
     lineheight = 0.8
   ),
-  extra_params = c("na.rm", "legend.position", "padding", "fill"),
+  extra_params = c("na.rm", "legend.position", "padding", "fill", "facet"),
   setup_data = function(data, params) {
     # Dedupe to one row per unique (label, PANEL, colour) combination so the
     # legend shows one entry per factor level — not one per underlying data
@@ -197,7 +213,30 @@ GeomGrattanRichLegend <- ggplot2::ggproto(
   draw_panel = function(data, panel_params, coord,
                         legend.position = "topright",
                         padding = 0.2,
-                        fill = "white") {
+                        fill = "white",
+                        facet = NULL) {
+
+    # Decide whether the legend should be drawn on this panel. `data$PANEL` is a
+    # factor whose integer level is the panel number (1 = top-left, counting
+    # left-to-right then top-to-bottom). For an un-faceted chart there is a
+    # single panel, so the default (top-left only) still draws it.
+    panel_id <- as.integer(as.character(data$PANEL[1]))
+
+    draw_here <- if (is.null(facet)) {
+      panel_id == 1L
+    } else if (is.character(facet) && length(facet) == 1L && facet == "all") {
+      TRUE
+    } else if (is.numeric(facet)) {
+      panel_id %in% as.integer(facet)
+    } else {
+      stop("`facet` must be NULL, \"all\", or a numeric vector of panel numbers.",
+           call. = FALSE)
+    }
+
+    if (!isTRUE(draw_here) || nrow(data) == 0) {
+      return(grid::nullGrob())
+    }
+
     flipped <- inherits(coord, "CoordFlip")
     xy <- grattan_legend_pos_to_xy(
       legend.position, panel_params$x.range, panel_params$y.range, flipped
@@ -216,11 +255,13 @@ GeomGrattanRichLegend <- ggplot2::ggproto(
     data$x <- xy[1]
     data$y <- xy[2]
 
-    data <- do.call(rbind, lapply(split(data, data$PANEL), function(d) {
-      out <- d[1, , drop = FALSE]
-      out$label <- paste(d$label, collapse = "<br>")
-      out
-    }))
+    # `draw_panel()` is called once per panel, so all rows in `data` belong to
+    # this panel: collapse them into a single stacked rich-text label. (Splitting
+    # by PANEL here would create empty groups for a faceted plot's unused factor
+    # levels, whose all-NA placeholder rows crash gridtext.)
+    out <- data[1, , drop = FALSE]
+    out$label <- paste(data$label, collapse = "<br>")
+    data <- out
     data$colour <- "#000000"
 
     data <- coord$transform(data, panel_params)

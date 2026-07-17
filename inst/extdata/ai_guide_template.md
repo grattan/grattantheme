@@ -15,11 +15,18 @@ Grattan Institute style guide using the `grattantheme` R package.
     that need further explanation (e.g. Growth in rents, December 2019
     to March 2025), include that here, but otherwise units are usually
     included directly on the axis labels (e.g. '\$20k' or '100%').
--   **Caption**: If required, should include a "Notes:" section (clarifying key
-    points about the data). Must include a "Source:" section (e.g. "Grattan
-    analysis of ABS Census microdata (2021)"). Do NOT separate these with a
-    newline, or use `paste` to combine lines, as `grattantheme` will insert 
-    linebreaks automatically.
+-   **Caption**: Always write the caption as a **single character string**. If
+    there are any notes, the string starts with "Notes:" (clarifying key points
+    about the data); it must always end with "Source:" (e.g. "Grattan analysis
+    of ABS Census microdata (2021)"). When both are present, put the notes
+    first, then the source, in the one string, e.g.
+    `caption = "Notes: Excludes part-year workers. Source: Grattan analysis of ABS Census microdata (2021)"`.
+    Generally do NOT use `paste0()`, `paste()`, `glue()`, or similar to
+    stitch the notes and source together. The only exception is where captions 
+    are varied dynamically using previously defined variables, e.g. 
+    `caption = glue("Notes: Data cover", n_councils, "across Melbourne.")`.
+    Do NOT separate captions with a newline - `grattantheme` splits "Notes:" 
+    and "Source:" onto their own lines and inserts linebreaks automatically. 
 -   **Axis title**: The y-axis title is generally blank if not a
     scatterplot. The x-axis title can be blank if the units are self-evident
     (e.g. 2020, 2025) or otherwise explained in the subtitle.
@@ -35,6 +42,15 @@ place text labels in the chart area, coloured to match the data series:
 # EXAMPLE: Using grattan_richlegend for a on-chart 'legend'
 grattan_richlegend(aes(label = city),
                 legend.position = 'bottomright')
+
+# EXAMPLE: grattan_richlegend on a faceted chart
+# By default the legend is drawn only on the top-left panel, which is usually
+# what you want. Use facet = "all" to repeat it on every panel, or pass a
+# numeric vector of panel numbers (counting left-to-right, top-to-bottom) to
+# place it on specific panels.
+grattan_richlegend(aes(label = city),
+                legend.position = 'topright',
+                facet = "all")     # or facet = c(1, 3) for chosen panels
 
 # EXAMPLE: Using annotate for manual positioning
 # You must adjust x/y coordinates to match your chart's data range
@@ -454,6 +470,25 @@ status updates, or confirmations - let the code run silently.
 
 Use `tidyverse` tools and the standard pipe (`%>%`) operator where
 applicable for clean, readable analysis code.
+
+Where data manipulation is limited, write the data wrangling and the chart as a 
+single pipe, flowing the data straight into `ggplot()` rather than creating an
+intermediate object. E.g.
+
+``` r
+data %>%
+  filter(year == max(year)) %>%
+  mutate(share = count / sum(count)) %>%
+  ggplot(aes(x = region, y = share)) +
+  geom_col() +
+  theme_grattan()
+```
+
+Generally only break the pipe when the data wrangling takes many steps, or when
+the wrangled data is genuinely reused by more than one chart or layer 
+(for example, a `label_data` frame shared across `grattan_label()` calls).
+
+Unless requested, do NOT create boutique functions for one-off chart creation.
 
 ## Project setup
 

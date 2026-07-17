@@ -117,6 +117,13 @@ save_chartdata <- function(filename,
     # Filter out any NULL entries, e.g. those caused by plot_spacer
     chart_data <- Filter(Negate(is.null), chart_data)
 
+    # A subplot whose geoms carry several data tables returns its own list of
+    # data frames; flatten these so `chart_data` is a flat list of data frames.
+    chart_data <- unlist(
+      lapply(chart_data, function(x) if (is.data.frame(x)) list(x) else x),
+      recursive = FALSE
+    )
+
     # Stop if no chart data is found.
     if (length(chart_data) == 0) {
       stop("No valid data found in any of the charts in the patchwork object.")
@@ -128,16 +135,18 @@ save_chartdata <- function(filename,
     }
   }
 
-  # Find total number of columns and rows across all data frames
+  # Find total number of columns and rows across all data frames. `chart_data`
+  # is a single data frame for a simple plot, or a list of data frames for a
+  # patchwork plot or a plot whose geoms carry several different data tables.
 
-  if(patchwork) {
+  if (is.data.frame(chart_data)) {
+    max_data_columns <- ncol(chart_data)
+    max_data_rows <- nrow(chart_data)
+  } else {
     # For multiple data frames, find the maximum number of columns...
     max_data_columns <- max(unlist(map(chart_data, ncol)))
     # ...and find the total number of rows, including space between
     max_data_rows <- sum(unlist(map(chart_data, ~nrow(.x) + 1))) - 1
-  } else {
-    max_data_columns <- ncol(chart_data)
-    max_data_rows <- nrow(chart_data)
   }
 
   # Extract subtitle and caption from the ggplot or patchwork objects
@@ -349,44 +358,100 @@ clean_chartdata_ <- function(object,
 
   chart_data <- object$data
 
-  # Check dataframe
-  if (is.null(chart_data) | !is.data.frame(chart_data)) {
-    if (patchwork) {
-      # Create message if chart is patchwork and some the charts are missing data.
-      # Main function will report an error if instead there is no data in any plot object.
-      message(sprintf("No chartdata found for patchwork plot %s. This can occur when plot_spacer() is used.", index))
+  # Check dataframe. A ggplot built without data in the main ggplot() call
+  # leaves object$data as a `waiver()` (or NULL). In that case, try to recover
+  # the data supplied directly to the geoms/layers instead.
+  if (is.null(chart_data) || !is.data.frame(chart_data)) {
+
+    layer_frames <- layer_chartdata_(object)
+
+    if (length(layer_frames) == 0) {
+      if (patchwork) {
+        # Create message if chart is patchwork and some the charts are missing data.
+        # Main function will report an error if instead there is no data in any plot object.
+        message(sprintf("No chartdata found for patchwork plot %s. This can occur when plot_spacer() is used.", index))
+      }
+      return(NULL)
     }
-    return(NULL)
+
+    warning("No data found in the main ggplot() call; the chart data was ",
+            "extracted from the data supplied directly to the ",
+            if (length(layer_frames) == 1) "geom layer." else "geom layers. ",
+            if (length(layer_frames) > 1)
+              paste0("Because the geoms use ", length(layer_frames),
+                     " different data tables, each has been written out ",
+                     "as a separate block.")
+            else "",
+            call. = FALSE)
+
+    cleaned <- lapply(layer_frames, function(lf) {
+      used_cols <- chartdata_used_cols_(lf$data,
+                                        list(object$mapping, lf$mapping),
+                                        object$facet,
+                                        select_data)
+      finalise_chartdata_(lf$data, used_cols, round)
+    })
+
+    if (length(cleaned) == 1) {
+      return(cleaned[[1]])
+    }
+    return(cleaned)
   }
 
+  # Data is present in the main ggplot() call - use it, but also account for
+  # mappings declared in layers that inherit the base data.
   if (select_data) {
 
-  # Initialise used_cols as empty vector
-    used_cols <- character(0)
+    # Start with the base plot mapping.
+    mappings <- list(object$mapping)
 
-  # Find the columns used in the ggplot mappings
-  if (!is.null(object$mapping)) {
-    used_cols <- unlist(lapply(object$mapping, function(x) as.character(all.vars(x, functions = FALSE))))
-  }
-
-    # Also check mappings in individual layers/geoms
+    # Also check mappings in individual layers/geoms, skipping layers with their
+    # own data - those don't use the base chart_data.
     if (length(object$layers) > 0) {
       for (layer in object$layers) {
-        # Skip layers with their own data - these don't use the base chart_data
         if (!is.null(layer$data) && !identical(layer$data, waiver())) {
           next
         }
-
-        if (!is.null(layer$mapping)) {
-          layer_cols <- unlist(lapply(layer$mapping, function(x) as.character(all.vars(x, functions = FALSE))))
-          used_cols <- c(used_cols, layer_cols)
-        }
+        mappings <- c(mappings, list(layer$mapping))
       }
     }
 
+    used_cols <- chartdata_used_cols_(chart_data, mappings, object$facet,
+                                      select_data)
+
+  } else {
+
+    # If select_data = FALSE, use all columns
+    used_cols <- names(chart_data)
+
+  }
+
+  finalise_chartdata_(chart_data, used_cols, round)
+
+}
+
+
+### chartdata_used_cols_ works out which columns of `chart_data` are actually
+### used by a set of aesthetic mappings and (optionally) the facet spec.
+
+chartdata_used_cols_ <- function(chart_data, mappings, facet, select_data) {
+
+  if (!select_data) {
+    return(names(chart_data))
+  }
+
+  used_cols <- character(0)
+
+  for (mapping in mappings) {
+    if (!is.null(mapping)) {
+      used_cols <- c(used_cols,
+                     unlist(lapply(mapping, function(x) as.character(all.vars(x, functions = FALSE)))))
+    }
+  }
+
   # Find any columns that are used for facets
-  if (!is.null(object$facet)) {
-    facet_cols <- unlist(lapply(object$facet$params$facets, function(x) as.character(all.vars(x, functions = FALSE))))
+  if (!is.null(facet)) {
+    facet_cols <- unlist(lapply(facet$params$facets, function(x) as.character(all.vars(x, functions = FALSE))))
     used_cols <- c(used_cols, facet_cols)
   }
 
@@ -395,16 +460,52 @@ clean_chartdata_ <- function(object,
   used_cols <- used_cols[used_cols %in% names(chart_data)]
 
   # If no columns are found in mappings, use all columns
-  if(length(used_cols) == 0) {
+  if (length(used_cols) == 0) {
     used_cols <- names(chart_data)
   }
 
-  } else {
+  used_cols
+}
 
-    # If select_data = FALSE, use all columns
-    used_cols <- names(chart_data)
 
+### layer_chartdata_ collects the distinct data frames supplied directly to a
+### plot's geoms/layers, along with each layer's mapping. Used as a fallback
+### when the main ggplot() call carries no data of its own.
+
+layer_chartdata_ <- function(object) {
+
+  frames <- list()
+
+  if (length(object$layers) == 0) {
+    return(frames)
   }
+
+  for (layer in object$layers) {
+    ld <- layer$data
+    if (is.null(ld) || inherits(ld, "waiver") || !is.data.frame(ld) || nrow(ld) == 0) {
+      next
+    }
+
+    # De-duplicate identical data tables shared across several geoms so we don't
+    # write the same block out more than once.
+    already_seen <- any(vapply(frames, function(f) isTRUE(all.equal(f$data, ld)),
+                               logical(1)))
+    if (already_seen) {
+      next
+    }
+
+    frames[[length(frames) + 1]] <- list(data = ld, mapping = layer$mapping)
+  }
+
+  frames
+}
+
+
+### finalise_chartdata_ takes a data frame plus the columns to keep and applies
+### the shared cleaning steps (column selection, sf removal, date formatting,
+### rounding, and title-casing of column names).
+
+finalise_chartdata_ <- function(chart_data, used_cols, round) {
 
   # Filter the chart data for only the columns used in the ggplot mappings and facets
   chart_data <- chart_data %>%
@@ -432,7 +533,6 @@ clean_chartdata_ <- function(object,
 
   names(chart_data) <- tools::toTitleCase(names(chart_data))
 
-  return(chart_data)
-
+  chart_data
 }
 
