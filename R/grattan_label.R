@@ -55,14 +55,22 @@ grattan_label <- function(..., size = 18, padding = 0.1, lineheight = 0.8,
                           linewidth = NA, fill = "white") {
   .size = size / ggplot2::.pt
 
-  ggplot2::geom_label(
-    ...,
+  dots <- list(...)
+
+  args <- list(
     fill = fill,
-    label.padding = unit(padding, "lines"),
     linewidth = linewidth,
     size = .size,
     lineheight = lineheight
   )
+
+  # Only apply the `padding` default if the user hasn't passed `label.padding`
+  # directly through `...` - otherwise it would be matched twice.
+  if (!"label.padding" %in% names(dots)) {
+    args$label.padding <- unit(padding, "lines")
+  }
+
+  do.call(ggplot2::geom_label, c(dots, args))
 }
 
 #' @rdname grattan_label_functions
@@ -78,15 +86,23 @@ grattan_label_repel <- function(..., size = 18, padding = 0.1, lineheight = 0.8,
     linewidth <- label.size
   }
 
+  dots <- list(...)
+
   # ggrepel uses both label.size (geom param) and linewidth (aesthetic) for
   # border control; set both to ensure no border regardless of ggrepel version
-  ggrepel::geom_label_repel(
-    ...,
+  args <- list(
     fill = fill,
-    label.padding = unit(padding, "lines"),
     label.size = linewidth,
     linewidth = if (is.na(linewidth)) 0 else linewidth,
     size = .size,
     lineheight = lineheight
   )
+
+  # Only apply the `padding` default if the user hasn't passed `label.padding`
+  # directly through `...` - otherwise it would be matched twice.
+  if (!"label.padding" %in% names(dots)) {
+    args$label.padding <- unit(padding, "lines")
+  }
+
+  do.call(ggrepel::geom_label_repel, c(dots, args))
 }
