@@ -83,3 +83,20 @@ test_that("wrap_labs() only wraps the label you want it to", {
   expect_false(grepl("\n", caption_only$labels$subtitle))
 
 })
+
+test_that("wrap_labs allows legacy Powerpoint types but not other deprecated ones", {
+
+  p <- ggplot2::ggplot(mtcars, ggplot2::aes(x = wt, y = mpg)) +
+    ggplot2::geom_point() +
+    ggplot2::labs(caption = "Notes: some notes. Source: a source.")
+
+  # fullslide_old is reachable via grattan_save_pptx(), so must wrap
+  expect_no_error(wrap_labs(p, "fullslide_old"))
+
+  # and must wrap to its own width, not one word per line
+  wrapped <- extract_labs(wrap_labs(p, "fullslide_old"))$caption
+  expect_equal(wrapped, "Notes: some notes.\nSource: a source.")
+
+  expect_error(wrap_labs(p, "tiny"), "not a valid chart type")
+  expect_error(wrap_labs(p, "not_a_type"), "not a valid chart type")
+})

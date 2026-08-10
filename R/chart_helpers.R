@@ -27,7 +27,11 @@
 check_chart <- function(type = "normal",
                         object = ggplot2::last_plot()) {
 
-  plot_class <- chart_types_inc_deprecated$class[chart_types_inc_deprecated$type == type]
+  if (!type %in% all_chart_types) {
+    stop(check_chart_type_message(type))
+  }
+
+  plot_class <- chart_types$class[chart_types$type == type]
 
   filename <- file.path(tempdir(), "temp.png")
 
@@ -43,13 +47,13 @@ check_chart <- function(type = "normal",
     # For blog type, create the full square blog image with header/logo
     plot <- create_blog(plot = object, font = "slide")
 
-    width <- chart_types_inc_deprecated$width[chart_types_inc_deprecated$type == type]
-    height <- chart_types_inc_deprecated$height[chart_types_inc_deprecated$type == type]
+    width <- chart_types$width[chart_types$type == type]
+    height <- chart_types$height[chart_types$type == type]
 
   } else {
     # For normal chart types, just show the chart without labels
-    height <- chart_types_inc_deprecated$height[chart_types_inc_deprecated$type == type]
-    width <- chart_types_inc_deprecated$width[chart_types_inc_deprecated$type == type]
+    height <- chart_types$height[chart_types$type == type]
+    width <- chart_types$width[chart_types$type == type]
 
     plot <- object +
       ggplot2::theme(plot.title = ggplot2::element_blank(),
@@ -82,6 +86,35 @@ check_chart_aspect_ratio <- function(object = ggplot2::last_plot(),
     "check_chart()"
   )
   check_chart(type = type, object = object)
+}
+
+
+#' Build the error message for an invalid chart type
+#'
+#' A single message used by every function that takes a `type`, so that the
+#' deprecated Powerpoint-only types get a useful explanation rather than being
+#' lumped in with typos.
+#'
+#' @param type the chart type supplied by the user
+#'
+#' @return a character
+#' @noRd
+check_chart_type_message <- function(type) {
+
+  msg <- paste0("'", paste(type, collapse = "', '"),
+                "' is not a valid chart type.\n",
+                "Valid types are: ", paste(all_chart_types, collapse = ", "),
+                ".\nSee ?grattan_save for details.")
+
+  if (any(type %in% pptx_legacy_types)) {
+    msg <- paste0(msg,
+                  "\n'", paste(intersect(type, pptx_legacy_types),
+                               collapse = "', '"),
+                  "' is deprecated and can only be used with ",
+                  "grattan_save_pptx(), to regenerate an old Powerpoint deck.")
+  }
+
+  msg
 }
 
 

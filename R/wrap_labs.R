@@ -44,7 +44,17 @@ wrap_labs <- function(object,
 
   p <- object
 
-  chart_class <- chart_types$class[chart_types$type == type]
+  # The legacy Powerpoint types are allowed here because `grattan_save_pptx()`
+  # calls this. Widths are looked up in the full table, rather than the
+  # active-only one, so that those types get their proper widths rather than a
+  # zero-length width, which strwrap() turns into one word per line
+  if (!type %in% c(all_chart_types, pptx_legacy_types)) {
+    stop(check_chart_type_message(type))
+  }
+
+  type_row <- chart_types_inc_deprecated$type == type
+
+  chart_class <- chart_types_inc_deprecated$class[type_row]
 
   wrap_title <- ifelse("title" %in% labs_to_wrap, TRUE, FALSE)
   wrap_subtitle <- ifelse("subtitle" %in% labs_to_wrap, TRUE, FALSE)
@@ -62,7 +72,7 @@ wrap_labs <- function(object,
 
     if (isFALSE(is.null(stored_title))) {
 
-      char_width_grattan_title <- chart_types$title[chart_types$type == type]
+      char_width_grattan_title <- chart_types_inc_deprecated$title[type_row]
 
       if (isFALSE(ignore_long_title) & (nchar(stored_title) > max_title_lines * char_width_grattan_title)) {
         # if title exceeds the allowed number of lines, emit a throttled
@@ -99,7 +109,7 @@ wrap_labs <- function(object,
 
     if (isFALSE(is.null(stored_subtitle))) {
 
-      char_width_grattan_subtitle <- chart_types$subtitle[chart_types$type == type]
+      char_width_grattan_subtitle <- chart_types_inc_deprecated$subtitle[type_row]
 
 
       if (isFALSE(ignore_long_title) & nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
@@ -139,7 +149,7 @@ wrap_labs <- function(object,
 
     if (isFALSE(is.null(stored_caption))) {
 
-      char_width_grattan_caption  <- chart_types$caption[chart_types$type == type]
+      char_width_grattan_caption  <- chart_types_inc_deprecated$caption[type_row]
 
       contains_notes_and_source <- grepl("notes?:", tolower(stored_caption)) & grepl("sources?:", tolower(stored_caption))
 
@@ -175,4 +185,40 @@ wrap_labs <- function(object,
   p <- replace_labs(p, labs)
 
   p
+}
+
+
+#' Split a caption's 'notes' and 'source' onto separate lines, without wrapping
+#'
+#' Used for PowerPoint exports, where the caption goes into a text box that
+#' wraps text itself. Wrapping the lines ourselves produces lines that are
+#' slightly too wide for the placeholder, which PowerPoint then re-wraps,
+#' orphaning the last word or two of every line.
+#'
+#' @param p a ggplot2 object
+#'
+#' @return a ggplot2 object
+#' @noRd
+split_notes_and_source <- function(p) {
+
+  labs <- extract_labs(p)
+
+  if (is.null(labs$caption)) {
+    return(p)
+  }
+
+  contains_notes_and_source <- grepl("notes?:", tolower(labs$caption)) &
+    grepl("sources?:", tolower(labs$caption))
+
+  if (isFALSE(contains_notes_and_source)) {
+    return(p)
+  }
+
+  notes_and_source <- strsplit(labs$caption, split = "Source")[[1]]
+
+  labs$caption <- paste0(trimws(notes_and_source[1]),
+                         "\n",
+                         trimws(paste0("Source", notes_and_source[2])))
+
+  replace_labs(p, labs)
 }

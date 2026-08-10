@@ -1,12 +1,15 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 1.6.3
+Version: 1.6.4
 Authors@R: c(
     person("Matt", "Cowgill", 
                 role = c("aut")),
     person(given = "Will", family = "Mackey",
                 role = c("aut")),
+    person(given = "Matthew", family = "Bowes",
+                email = "matthew.bowes@grattaninstitute.edu.au",
+                role = c("ctb")),
     person(given = "Grattan Institute",
                 email = "info@grattan.edu.au",
                 role = c("cre")))

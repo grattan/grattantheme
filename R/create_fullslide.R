@@ -59,9 +59,9 @@ create_fullslide <- function(plot = last_plot(),
       type <- "fullslide"
     }
 
-    if (!type %in% fullslide_chart_types_inc_deprecated) {
+    if (!type %in% fullslide_chart_types) {
       stop(type,
-           " is not a valid chart type.\nMust be one of: ",
+           " is not a valid fullslide chart type.\nMust be one of: ",
            paste(fullslide_chart_types, collapse = ", "))
     }
 

@@ -64,10 +64,8 @@ save_chartdata <- function(filename,
     stop("`object` is not a ggplot2 object")
   }
 
-  if (!type %in% chart_types$type) {
-    stop(type,
-         " is not a recognised chart type;",
-         " see ?grattan_save for types.")
+  if (!type %in% all_chart_types) {
+    stop(check_chart_type_message(type))
   }
 
   if (!is.character(sheet_name) || length(sheet_name) != 1 || !nzchar(sheet_name)) {
