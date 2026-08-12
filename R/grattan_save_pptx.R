@@ -64,9 +64,9 @@ grattan_save_pptx <- function(filename,
 
   # Deprecated types are still accepted here - and only here - so that an old
   # Powerpoint deck can be regenerated in its original format
-  pptx_types_inc_deprecated <- chart_types_inc_deprecated$type[!is.na(chart_types_inc_deprecated$pptx_template)]
+  pptx_types <- chart_types_all$type[!is.na(chart_types_all$pptx_template)]
 
-  allowed_types <- c(pptx_types_inc_deprecated, "all")
+  allowed_types <- c(pptx_types, "all")
 
   non_conforming_types <- type[!type %in% allowed_types]
 
@@ -130,7 +130,7 @@ grattan_save_pptx <- function(filename,
     if (!is.null(font)) {
       return(font)
     }
-    type_class <- chart_types_inc_deprecated$class[chart_types_inc_deprecated$type == t]
+    type_class <- chart_types_all$class[chart_types_all$type == t]
     if (type_class == "fullslide") "slide" else "normal"
   })
 
@@ -163,7 +163,7 @@ add_graph_to_pptx <- function(p,
 
   # Get path to appropriate PPTX template
   template_filename <- system.file("extdata",
-                                   chart_types_inc_deprecated$pptx_template[chart_types_inc_deprecated$type == type],
+                                   chart_types_all$pptx_template[chart_types_all$type == type],
                                    package = "grattantheme")
 
   # Get PowerPoint dimensions
@@ -348,7 +348,7 @@ create_pptx_shell <- function(p,
 
   # Get path to appropriate PPTX template from `grattantheme`
   template_filename <- system.file("extdata",
-                                   chart_types_inc_deprecated$pptx_template[chart_types_inc_deprecated$type == type],
+                                   chart_types_all$pptx_template[chart_types_all$type == type],
                                    package = "grattantheme")
 
   if (isFALSE(file.exists(template_filename))) {

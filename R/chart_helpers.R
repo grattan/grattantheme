@@ -92,7 +92,7 @@ check_chart_aspect_ratio <- function(object = ggplot2::last_plot(),
 #' Build the error message for an invalid chart type
 #'
 #' A single message used by every function that takes a `type`, so that the
-#' deprecated Powerpoint-only types get a useful explanation rather than being
+#' deprecated and defunct types get a useful explanation rather than being
 #' lumped in with typos.
 #'
 #' @param type the chart type supplied by the user
@@ -110,8 +110,15 @@ check_chart_type_message <- function(type) {
     msg <- paste0(msg,
                   "\n'", paste(intersect(type, pptx_legacy_types),
                                collapse = "', '"),
-                  "' is deprecated and can only be used with ",
-                  "grattan_save_pptx(), to regenerate an old Powerpoint deck.")
+                  "' is a deprecated chart type.",
+                  "It is only able to be used through grattan_save_pptx().")
+  }
+
+  if (any(type %in% defunct_chart_types)) {
+    msg <- paste0(msg,
+                  "\n'", paste(intersect(type, defunct_chart_types),
+                               collapse = "', '"),
+                  "' is a defunct chart type that is no longer supported.")
   }
 
   msg

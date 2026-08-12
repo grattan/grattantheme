@@ -17,19 +17,24 @@ chart_types <- tibble::tribble(
               "fullslide_half",     "active",    15.3,    11.9,    120,     50,         47, "fullslide", "template_fullslide_half.pptx",
                         "blog",     "active",   23.16,   23.16,    120,     40,         65, "blog",      "template_blog.pptx",
 
-# Deprecated types are kept here for the record, but are only usable where a
-# .pptx template still exists in inst/extdata - `grattan_save_pptx()` accepts
-# those so that an old deck can be regenerated in its original format. The
-# templates for blog_half and fullslide_old169 were deleted in 1.0.0, so those
-# types carry no template and are not valid anywhere.
-                  "normal_169", "deprecated",   30.00,   14.50,    180,     95,        100, "normal",    NA_character_,
-                        "tiny", "deprecated",   22.16,   11.08,    120,     70,         75, "normal",    NA_character_,
+# Following the `lifecycle` convention, 'deprecated' types still work but warn:
+# they have a surviving .pptx template in inst/extdata, so `grattan_save_pptx()`
+# accepts them and an old deck can be regenerated in its original format.
                "fullslide_old", "deprecated",   33.87,   19.05,    175,     55,         95, "fullslide", "template_169.pptx",
                 "fullslide_43", "deprecated",   25.40,   19.05,    140,     55,         70, "fullslide", "template_43.pptx",
-                          "a4", "deprecated",   21.00,   29.70,    114,     66,         62, "fullslide", NA_character_,
-                "fullslide_44", "deprecated",   25.40,   25.40,    140,     55,         95, "fullslide", NA_character_,
-                   "blog_half", "deprecated",   25.4/2,  19.05,    155,     62,         85, "fullslide", NA_character_,
-            "fullslide_old169", "deprecated",   25.40,   14.29,    140,     55,         70, "fullslide", NA_character_,
+
+# 'defunct' types are not accepted anywhere. Their Powerpoint templates were
+# deleted in 1.0.0; nothing stops an image being drawn at these dimensions, but
+# a chart type that can't reach a slide isn't worth maintaining, so support was
+# withdrawn rather than removed on technical grounds. They are kept here so
+# their dimensions stay on the record, and so an old script that names one gets
+# a useful error rather than a bare "not a valid chart type".
+                  "normal_169",   "defunct",   30.00,   14.50,    180,     95,        100, "normal",    NA_character_,
+                        "tiny",   "defunct",   22.16,   11.08,    120,     70,         75, "normal",    NA_character_,
+                          "a4",   "defunct",   21.00,   29.70,    114,     66,         62, "fullslide", NA_character_,
+                "fullslide_44",   "defunct",   25.40,   25.40,    140,     55,         95, "fullslide", NA_character_,
+                   "blog_half",   "defunct",   25.4/2,  19.05,    155,     62,         85, "fullslide", NA_character_,
+            "fullslide_old169",   "defunct",   25.40,   14.29,    140,     55,         70, "fullslide", NA_character_,
 )
 
 
@@ -69,17 +74,16 @@ chart_types <- chart_types %>%
 
 # The full table, used only by `grattan_save_pptx()` and the label helpers it
 # calls. Everything else validates against the active-only `chart_types`.
-chart_types_inc_deprecated <- chart_types
+chart_types_all <- chart_types
 chart_types <- chart_types[chart_types$status == "active", ]
 
 all_chart_types <- chart_types$type
 
-# Deprecated types that can still be exported to Powerpoint, and nothing else.
-# The remaining deprecated types have no template and so are not usable at all
-pptx_legacy_types <- chart_types_inc_deprecated$type[
-  chart_types_inc_deprecated$status == "deprecated" &
-    !is.na(chart_types_inc_deprecated$pptx_template)
-]
+# Deprecated types can still be exported to Powerpoint, and nothing else
+pptx_legacy_types <- chart_types_all$type[chart_types_all$status == "deprecated"]
+
+# Defunct types cannot be used anywhere, and are named only in error messages
+defunct_chart_types <- chart_types_all$type[chart_types_all$status == "defunct"]
 
 fullslide_chart_types <- chart_types$type[chart_types$class == "fullslide"]
 
@@ -92,9 +96,10 @@ fullslide_slide_height <- 19.05  # cm
 
 usethis::use_data(logogrob,
          chart_types,
-         chart_types_inc_deprecated,
+         chart_types_all,
          all_chart_types,
          pptx_legacy_types,
+         defunct_chart_types,
          fullslide_chart_types,
          web_chart_types,
          fullslide_slide_width,

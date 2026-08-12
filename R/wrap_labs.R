@@ -52,9 +52,9 @@ wrap_labs <- function(object,
     stop(check_chart_type_message(type))
   }
 
-  type_row <- chart_types_inc_deprecated$type == type
+  type_row <- chart_types_all$type == type
 
-  chart_class <- chart_types_inc_deprecated$class[type_row]
+  chart_class <- chart_types_all$class[type_row]
 
   wrap_title <- ifelse("title" %in% labs_to_wrap, TRUE, FALSE)
   wrap_subtitle <- ifelse("subtitle" %in% labs_to_wrap, TRUE, FALSE)
@@ -72,7 +72,7 @@ wrap_labs <- function(object,
 
     if (isFALSE(is.null(stored_title))) {
 
-      char_width_grattan_title <- chart_types_inc_deprecated$title[type_row]
+      char_width_grattan_title <- chart_types_all$title[type_row]
 
       if (isFALSE(ignore_long_title) & (nchar(stored_title) > max_title_lines * char_width_grattan_title)) {
         # if title exceeds the allowed number of lines, emit a throttled
@@ -109,7 +109,7 @@ wrap_labs <- function(object,
 
     if (isFALSE(is.null(stored_subtitle))) {
 
-      char_width_grattan_subtitle <- chart_types_inc_deprecated$subtitle[type_row]
+      char_width_grattan_subtitle <- chart_types_all$subtitle[type_row]
 
 
       if (isFALSE(ignore_long_title) & nchar(stored_subtitle) > 2 * char_width_grattan_subtitle) {
@@ -149,7 +149,7 @@ wrap_labs <- function(object,
 
     if (isFALSE(is.null(stored_caption))) {
 
-      char_width_grattan_caption  <- chart_types_inc_deprecated$caption[type_row]
+      char_width_grattan_caption  <- chart_types_all$caption[type_row]
 
       contains_notes_and_source <- grepl("notes?:", tolower(stored_caption)) & grepl("sources?:", tolower(stored_caption))
 

@@ -174,7 +174,13 @@ test_that("deprecated chart types are only accepted by grattan_save_pptx", {
   expect_error(create_fullslide(plot = p1, type = "fullslide_old"),
                "not a valid fullslide chart type")
 
-  # Types dropped altogether are not recognised at all
+  # Defunct types are not accepted anywhere, including here
   expect_error(grattan_save_pptx(p = p1, filename = "x.pptx", type = "tiny"),
                "not one of the allowed types")
+
+  # ... and the error says why, rather than treating them as a typo
+  expect_error(grattan_save(filename = file.path(tempdir(), "x.pdf"),
+                            object = p1,
+                            type = "tiny"),
+               "defunct")
 })
