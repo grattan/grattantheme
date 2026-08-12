@@ -10,9 +10,9 @@
 grattan_palette_set <- list(
   `full`  = c(grattan_red,
               grattan_darkorange,
-              grattan_lightorange,
+              grattan_orange,
               grattan_yellow,
-              grattan_lightyellow),
+              grattan_yellow),
 
   `full_f`  = c(grattan_red_f,
                 grattan_darkorange_f,
@@ -20,12 +20,12 @@ grattan_palette_set <- list(
                 grattan_yellow_f,
                 grattan_lightyellow_f),
 
-  `light`  = c(grattan_lightorange,
+  `light`  = c(grattan_orange,
                grattan_yellow,
-               grattan_lightyellow),
+               grattan_yellow),
 
   `dark`   = c(grattan_red, grattan_darkorange,
-               grattan_lightorange),
+               grattan_orange),
 
   `diverging` = c(grattan_red, grattan_red_f,
                   "white",

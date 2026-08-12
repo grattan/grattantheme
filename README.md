@@ -71,12 +71,12 @@ The colours that will be used in your plot are:
 
 <img src="man/figures/README-show-cols-image-1.png" alt="" width="75%" />
 
-A range of colours from the style guide (such as `grattan_lightorange`,
+A range of colours from the style guide (such as `grattan_orange`,
 `grattan_darkred`, and so on) are defined for your convenience. Each
-colour has eight tints available, e.g. `grattan_lightorange` has lighter
-variants `grattan_lightorange1` through `grattan_lightorange8` (closest
-to white). These can be used to allow highlighting or when filling in
-block colours behind text, such as when designing tables.
+colour has eight tints available, e.g. `grattan_orange` has lighter
+variants `grattan_orange1` through `grattan_orange8` (closest to white).
+These can be used to allow highlighting or when filling in block colours
+behind text, such as when designing tables.
 
 Use `theme_grattan(background = "box")` to create a chart for a Grattan
 report box.

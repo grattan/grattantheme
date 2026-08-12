@@ -272,7 +272,7 @@ Additional colours:
 - `grattan_blue`, `grattan_darkblue`
 - `grattan_grey1` through `grattan_grey5`
 - `grattan_black`
-- `grattan_box` / `grattan_orange_alpha` - For box backgrounds
+- `grattan_orange_alpha` - For box backgrounds
 
 Each colour has faded variants (1-8), e.g. `grattan_orange3`,
 `grattan_red5`.

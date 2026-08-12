@@ -1,190 +1,71 @@
 # Define grattan colours =======================================================
-base_yellow <<- dplyr::if_else(options("grattan_palette") == "old", "#FFE07F", "#3E0E39")
-base_darkyellow <- dplyr::if_else(options("grattan_palette") == "old", "#FFC35A", "#F5B50C")
+# Old chart colours included light yellow that's no longer used
+# base_lightyellow <- dplyr::if_else(options("grattan_palette") == "old", "#FFE07F", "")
+base_yellow <- dplyr::if_else(options("grattan_palette") == "old", "#FFC35A", "#F5B50C")
 base_orange <-  dplyr::if_else(options("grattan_palette") == "old", "#F68B33", "#EF7900")
-base_darkorange <- "#D4582A" #unchanged
+base_darkorange <- "#D4582A"
 base_red <- dplyr::if_else(options("grattan_palette") == "old", "#A02226", "#A1253E")
 base_darkred <- dplyr::if_else(options("grattan_palette") == "old", "#621214", "#611633")
 base_blue <- dplyr::if_else(options("grattan_palette") == "old", "#A3C7DF", "#6A99C4")
 base_darkblue <- dplyr::if_else(options("grattan_palette") == "old", "#3E81CE", "#4371A1")
 
-# Yellow light ----
-yellow_palette <- grDevices::colorRampPalette(c(base_yellow, "white"))(10)
-
-#' grattan_lightyellow
-#'
-#' @export
-#'
-grattan_lightyellow <- yellow_palette[1]
-
-#' grattan_lightyellow1
-#'
-#' @export
-#'
-grattan_lightyellow1 <- yellow_palette[2]
-
-#' grattan_lightyellow2
-#'
-#' @export
-#'
-grattan_lightyellow2 <- yellow_palette[3]
-
-#' grattan_lightyellow3
-#'
-#' @export
-#'
-grattan_lightyellow3 <- yellow_palette[4]
-
-#' grattan_lightyellow4
-#'
-#' @export
-#'
-grattan_lightyellow4 <- yellow_palette[5]
-
-#' grattan_lightyellow5
-#'
-#' @export
-#'
-grattan_lightyellow5 <- yellow_palette[6]
-#' grattan_lightyellow6
-#'
-#' @export
-#'
-grattan_lightyellow6 <- yellow_palette[7]
-
-#' grattan_lightyellow7
-#'
-#' @export
-#'
-grattan_lightyellow7 <- yellow_palette[8]
-
-#' grattan_lightyellow8
-#'
-#' @export
-#'
-grattan_lightyellow8 <- yellow_palette[9]
 
 # Yellow dark ----
-darkyellow_palette <- grDevices::colorRampPalette(c(base_darkyellow, "white"))(10)
+yellow_palette <- grDevices::colorRampPalette(c(base_yellow, "white"))(10)
 
 #' '
 #'
 #' @export
 #'
-grattan_darkyellow <- darkyellow_palette[1]
+grattan_yellow <- yellow_palette[1]
 
 #' '
 #'
 #' @export
 #'
-grattan_darkyellow1 <- darkyellow_palette[2]
+grattan_yellow1 <- yellow_palette[2]
 
 #' '
 #'
 #' @export
 #'
-grattan_darkyellow2 <- darkyellow_palette[3]
+grattan_yellow2 <- yellow_palette[3]
 
 #' '
 #'
 #' @export
 #'
-grattan_darkyellow3 <- darkyellow_palette[4]
+grattan_yellow3 <- yellow_palette[4]
 
 #' '
 #'
 #' @export
 #'
-grattan_darkyellow4 <- darkyellow_palette[5]
+grattan_yellow4 <- yellow_palette[5]
 
 #' '
 #'
 #' @export
 #'
-grattan_darkyellow5 <- darkyellow_palette[6]
+grattan_yellow5 <- yellow_palette[6]
 
 #' '
 #'
 #' @export
 #'
-grattan_darkyellow6 <- darkyellow_palette[7]
+grattan_yellow6 <- yellow_palette[7]
 
 #' '
 #'
 #' @export
 #'
-grattan_darkyellow7 <- darkyellow_palette[8]
+grattan_yellow7 <- yellow_palette[8]
 
 #' '
 #'
 #' @export
 #'
-grattan_darkyellow8 <- darkyellow_palette[9]
-
-
-
-#' '
-#'
-#' @export
-#'
-grattan_yellow <- grattan_darkyellow
-
-
-#' '
-#'
-#' @export
-#'
-grattan_yellow1 <- grattan_darkyellow1
-
-
-#' '
-#'
-#' @export
-#'
-grattan_yellow2 <- grattan_darkyellow2
-
-
-#' '
-#'
-#' @export
-#'
-grattan_yellow3 <- grattan_darkyellow3
-
-
-#' '
-#'
-#' @export
-#'
-grattan_yellow4 <- grattan_darkyellow4
-
-
-#' '
-#'
-#' @export
-#'
-grattan_yellow5 <- grattan_darkyellow5
-
-
-#' '
-#'
-#' @export
-#'
-grattan_yellow6 <- grattan_darkyellow6
-
-
-#' '
-#'
-#' @export
-#'
-grattan_yellow7 <- grattan_darkyellow7
-
-
-#' '
-#'
-#' @export
-#'
-grattan_yellow8 <- grattan_darkyellow8
-
+grattan_yellow8 <- yellow_palette[9]
 
 # Orange light ----------
 orange_palette <- grDevices::colorRampPalette(c(base_orange, "white"))(10)
@@ -193,110 +74,55 @@ orange_palette <- grDevices::colorRampPalette(c(base_orange, "white"))(10)
 #'
 #' @export
 #'
-grattan_lightorange <- orange_palette[1]
+grattan_orange <- orange_palette[1]
 
 #' '
 #'
 #' @export
 #'
-grattan_lightorange1 <- orange_palette[2]
+grattan_orange1 <- orange_palette[2]
 
 #' '
 #'
 #' @export
 #'
-grattan_lightorange2 <- orange_palette[3]
+grattan_orange2 <- orange_palette[3]
 
 #' '
 #'
 #' @export
 #'
-grattan_lightorange3 <- orange_palette[4]
+grattan_orange3 <- orange_palette[4]
 
 #' '
 #'
 #' @export
 #'
-grattan_lightorange4 <- orange_palette[5]
+grattan_orange4 <- orange_palette[5]
 
 #' '
 #'
 #' @export
 #'
-grattan_lightorange5 <- orange_palette[6]
+grattan_orange5 <- orange_palette[6]
 
 #' '
 #'
 #' @export
 #'
-grattan_lightorange6 <- orange_palette[7]
+grattan_orange6 <- orange_palette[7]
 
 #' '
 #'
 #' @export
 #'
-grattan_lightorange7 <- orange_palette[8]
+grattan_orange7 <- orange_palette[8]
 
 #' '
 #'
 #' @export
 #'
-grattan_lightorange8 <- orange_palette[9]
-
-
-#' '
-#'
-#' @export
-#'
-grattan_orange <- grattan_lightorange
-
-#' '
-#'
-#' @export
-#'
-grattan_orange1 <- grattan_lightorange1
-
-#' '
-#'
-#' @export
-#'
-grattan_orange2 <- grattan_lightorange2
-
-#' '
-#'
-#' @export
-#'
-grattan_orange3 <- grattan_lightorange3
-
-#' '
-#'
-#' @export
-#'
-grattan_orange4 <- grattan_lightorange4
-
-#' '
-#'
-#' @export
-#'
-grattan_orange5 <- grattan_lightorange5
-
-#' '
-#'
-#' @export
-#'
-grattan_orange6 <- grattan_lightorange6
-
-#' '
-#'
-#' @export
-#'
-grattan_orange7 <- grattan_lightorange7
-
-#' '
-#'
-#' @export
-#'
-grattan_orange8 <- grattan_lightorange8
+grattan_orange8 <- orange_palette[9]
 
 
 # dark:
@@ -368,7 +194,6 @@ grattan_darkorange8 <- darkorange_palette[9]
 
 
 # Red --------------
-# light:
 red_palette <- grDevices::colorRampPalette(c(base_red, "white"))(10)
 
 
@@ -376,127 +201,63 @@ red_palette <- grDevices::colorRampPalette(c(base_red, "white"))(10)
 #'
 #' @export
 #'
-grattan_lightred <- red_palette[1]
+grattan_red <- red_palette[1]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightred1 <- red_palette[2]
+grattan_red1 <- red_palette[2]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightred2 <- red_palette[3]
+grattan_red2 <- red_palette[3]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightred3 <- red_palette[4]
+grattan_red3 <- red_palette[4]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightred4 <- red_palette[5]
+grattan_red4 <- red_palette[5]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightred5 <- red_palette[6]
+grattan_red5 <- red_palette[6]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightred6 <- red_palette[7]
+grattan_red6 <- red_palette[7]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightred7 <- red_palette[8]
+grattan_red7 <- red_palette[8]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightred8 <- red_palette[9]
-
-
-
-#' '
-#'
-#' @export
-#'
-grattan_red <- grattan_lightred
-
-
-#' '
-#'
-#' @export
-#'
-grattan_red1 <- grattan_lightred1
-
-
-#' '
-#'
-#' @export
-#'
-grattan_red2 <- grattan_lightred2
-
-
-#' '
-#'
-#' @export
-#'
-grattan_red3 <- grattan_lightred3
-
-
-#' '
-#'
-#' @export
-#'
-grattan_red4 <- grattan_lightred4
-
-
-#' '
-#'
-#' @export
-#'
-grattan_red5 <- grattan_lightred5
-
-
-#' '
-#'
-#' @export
-#'
-grattan_red6 <- grattan_lightred6
-
-
-#' '
-#'
-#' @export
-#'
-grattan_red7 <- grattan_lightred7
-
-
-#' '
-#'
-#' @export
-#'
-grattan_red8 <- grattan_lightred8
+grattan_red8 <- red_palette[9]
 
 
 
@@ -565,7 +326,6 @@ grattan_darkred7 <- darkred_palette[8]
 grattan_darkred8 <- darkred_palette[9]
 
 # Blue -------------------------------------------------------------------------
-# light:
 blue_palette <- grDevices::colorRampPalette(c(base_blue, "white"))(10)
 
 
@@ -573,126 +333,63 @@ blue_palette <- grDevices::colorRampPalette(c(base_blue, "white"))(10)
 #'
 #' @export
 #'
-grattan_lightblue <- blue_palette[1]
+grattan_blue <- blue_palette[1]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightblue1 <- blue_palette[2]
+grattan_blue1 <- blue_palette[2]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightblue2 <- blue_palette[3]
+grattan_blue2 <- blue_palette[3]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightblue3 <- blue_palette[4]
+grattan_blue3 <- blue_palette[4]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightblue4 <- blue_palette[5]
+grattan_blue4 <- blue_palette[5]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightblue5 <- blue_palette[6]
+grattan_blue5 <- blue_palette[6]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightblue6 <- blue_palette[7]
+grattan_blue6 <- blue_palette[7]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightblue7 <- blue_palette[8]
+grattan_blue7 <- blue_palette[8]
 
 
 #' '
 #'
 #' @export
 #'
-grattan_lightblue8 <- blue_palette[9]
-
-
-#' '
-#'
-#' @export
-#'
-grattan_blue <- grattan_lightblue
-
-
-#' '
-#'
-#' @export
-#'
-grattan_blue1 <- grattan_lightblue1
-
-
-#' '
-#'
-#' @export
-#'
-grattan_blue2 <- grattan_lightblue2
-
-
-#' '
-#'
-#' @export
-#'
-grattan_blue3 <- grattan_lightblue3
-
-
-#' '
-#'
-#' @export
-#'
-grattan_blue4 <- grattan_lightblue4
-
-
-#' '
-#'
-#' @export
-#'
-grattan_blue5 <- grattan_lightblue5
-
-
-#' '
-#'
-#' @export
-#'
-grattan_blue6 <- grattan_lightblue6
-
-
-#' '
-#'
-#' @export
-#'
-grattan_blue7 <- grattan_lightblue7
-
-
-#' '
-#'
-#' @export
-#'
-grattan_blue8 <- grattan_lightblue8
+grattan_blue8 <- blue_palette[9]
 
 
 
@@ -929,13 +626,329 @@ grattan_gridlinegrey <- "#C3C7CB"
 #'
 #' @export
 #'
-grattan_orange_alpha <- "#FEF0DE"
+grattan_orange_alpha <- "#FFF3E6"
+
+
+# Legacy colour names ----------------------------------------------------------
+# The palette no longer distinguishes light and dark variants of yellow, orange,
+# red and blue. These names are kept as aliases so that existing chart scripts
+# keep working; each is identical to the colour it points at.
+
 
 #' '
 #'
 #' @export
 #'
-grattan_box <- "#FEF0DE"
+grattan_lightyellow <- grattan_yellow
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightyellow1 <- grattan_yellow1
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightyellow2 <- grattan_yellow2
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightyellow3 <- grattan_yellow3
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightyellow4 <- grattan_yellow4
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightyellow5 <- grattan_yellow5
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightyellow6 <- grattan_yellow6
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightyellow7 <- grattan_yellow7
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightyellow8 <- grattan_yellow8
+
+
+#' '
+#'
+#' @export
+#'
+grattan_darkyellow <- grattan_yellow
+
+
+#' '
+#'
+#' @export
+#'
+grattan_darkyellow1 <- grattan_yellow1
+
+
+#' '
+#'
+#' @export
+#'
+grattan_darkyellow2 <- grattan_yellow2
+
+
+#' '
+#'
+#' @export
+#'
+grattan_darkyellow3 <- grattan_yellow3
+
+
+#' '
+#'
+#' @export
+#'
+grattan_darkyellow4 <- grattan_yellow4
+
+
+#' '
+#'
+#' @export
+#'
+grattan_darkyellow5 <- grattan_yellow5
+
+
+#' '
+#'
+#' @export
+#'
+grattan_darkyellow6 <- grattan_yellow6
+
+
+#' '
+#'
+#' @export
+#'
+grattan_darkyellow7 <- grattan_yellow7
+
+
+#' '
+#'
+#' @export
+#'
+grattan_darkyellow8 <- grattan_yellow8
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightorange <- grattan_orange
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightorange1 <- grattan_orange1
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightorange2 <- grattan_orange2
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightorange3 <- grattan_orange3
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightorange4 <- grattan_orange4
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightorange5 <- grattan_orange5
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightorange6 <- grattan_orange6
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightorange7 <- grattan_orange7
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightorange8 <- grattan_orange8
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightred <- grattan_red
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightred1 <- grattan_red1
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightred2 <- grattan_red2
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightred3 <- grattan_red3
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightred4 <- grattan_red4
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightred5 <- grattan_red5
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightred6 <- grattan_red6
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightred7 <- grattan_red7
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightred8 <- grattan_red8
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightblue <- grattan_blue
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightblue1 <- grattan_blue1
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightblue2 <- grattan_blue2
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightblue3 <- grattan_blue3
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightblue4 <- grattan_blue4
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightblue5 <- grattan_blue5
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightblue6 <- grattan_blue6
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightblue7 <- grattan_blue7
+
+
+#' '
+#'
+#' @export
+#'
+grattan_lightblue8 <- grattan_blue8
+
 
 # Add legacy items
 grattan_lightyellow_f <- "#FFE79F"

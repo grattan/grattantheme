@@ -54,8 +54,9 @@
 #' for each type for which a Powerpoint template exists.
 #' @param save_web Logical. Default is FALSE. If `TRUE`, a web-ready PNG using
 #' the "slide" font is created alongside your image. If `type = "all"`, PNGs are
-#' created for the "normal" and "blog" types; otherwise a PNG is created for
-#' your chosen type. This is the same output as `grattan_save_web()`. Note that
+#' created for every chart type that isn't a Powerpoint slide - currently
+#' "normal", "wholecolumn", "fullpage" and "blog"; otherwise a PNG is created
+#' for your chosen type. This is the same output as `grattan_save_web()`. Note that
 #' if you are also saving your chart as a .png, the web-ready version will
 #' replace the standard one, since they share a filename.
 #' @param save_data Logical. Default is FALSE. If set to
@@ -326,7 +327,7 @@ grattan_save <- function(filename,
     if (filetype == "png") {
       warning("Saving as .png means the web-ready charts have the same ",
               "filenames as the standard charts, so the ",
-              paste(web_types, collapse = " and "),
+              paste(web_types, collapse = ", "),
               " chart(s) will use the web ('slide') font. ",
               "Save as .pdf to keep both versions.",
               call. = FALSE)

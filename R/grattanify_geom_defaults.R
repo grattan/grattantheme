@@ -9,28 +9,28 @@ grattanify_geom_defaults <- function() {
     #in favour of a new
     # way to update geom defaults; when this happens, replace the code below
     update_geom_defaults("point",
-                         list(colour = grattantheme::grattan_lightorange,
+                         list(colour = grattantheme::grattan_orange,
                               size = 6 / .pt))
     update_geom_defaults("bar",
                          list(colour = "white",
-                              fill = grattantheme::grattan_lightorange,
+                              fill = grattantheme::grattan_orange,
                               size = 0.75 / .pt))
     update_geom_defaults("col",
                          list(colour = "white",
-                              fill = grattantheme::grattan_lightorange,
+                              fill = grattantheme::grattan_orange,
                               size = 0.75 / .pt))
     update_geom_defaults("line",
-                         list(colour = grattantheme::grattan_lightorange,
+                         list(colour = grattantheme::grattan_orange,
                               size = 3 / .pt))
     update_geom_defaults("text",
                          list(colour = "black",
                               size = 18 / .pt))
     update_geom_defaults("smooth",
-                         list(colour = grattantheme::grattan_lightorange,
-                              fill = grattantheme::grattan_lightorange))
+                         list(colour = grattantheme::grattan_orange,
+                              fill = grattantheme::grattan_orange))
 
     update_geom_defaults("path",
-                         list(colour = grattantheme::grattan_lightorange,
+                         list(colour = grattantheme::grattan_orange,
                               size = 3 / .pt))
 
     update_geom_defaults(ggrepel::GeomTextRepel,
@@ -40,58 +40,58 @@ grattanify_geom_defaults <- function() {
     update_geom_defaults(ggrepel::GeomLabelRepel,
                          list(size = 18 / .pt,
                               fill = "white",
-                              colour = grattantheme::grattan_lightorange))
+                              colour = grattantheme::grattan_orange))
 
     update_geom_defaults("label",
                          list(size = 18 / .pt,
                               fill = "white",
-                              colour = grattantheme::grattan_lightorange))
+                              colour = grattantheme::grattan_orange))
 
     update_geom_defaults("area",
-                         list(fill = grattantheme::grattan_lightorange,
-                              col = grattantheme::grattan_lightorange))
+                         list(fill = grattantheme::grattan_orange,
+                              col = grattantheme::grattan_orange))
 
     update_geom_defaults("density",
-                         list(fill = grattantheme::grattan_lightorange,
-                              col = grattantheme::grattan_lightorange))
+                         list(fill = grattantheme::grattan_orange,
+                              col = grattantheme::grattan_orange))
 
     update_geom_defaults("dotplot",
-                         list(fill = grattantheme::grattan_lightorange,
-                              col = grattantheme::grattan_lightorange))
+                         list(fill = grattantheme::grattan_orange,
+                              col = grattantheme::grattan_orange))
 
     update_geom_defaults("polygon",
-                         list(fill = grattantheme::grattan_lightorange,
-                              col = grattantheme::grattan_lightorange))
+                         list(fill = grattantheme::grattan_orange,
+                              col = grattantheme::grattan_orange))
 
     update_geom_defaults("path",
-                         list(col = grattantheme::grattan_lightorange))
+                         list(col = grattantheme::grattan_orange))
 
     update_geom_defaults("ribbon",
-                         list(fill = grattantheme::grattan_lightorange,
-                              col = grattantheme::grattan_lightorange))
+                         list(fill = grattantheme::grattan_orange,
+                              col = grattantheme::grattan_orange))
 
     update_geom_defaults("rect",
-                         list(fill = grattantheme::grattan_lightorange,
-                              col = grattantheme::grattan_lightorange))
+                         list(fill = grattantheme::grattan_orange,
+                              col = grattantheme::grattan_orange))
 
     update_geom_defaults("boxplot",
                          list(fill = grattantheme::grattan_orange_alpha,
-                              col = grattantheme::grattan_lightorange))
+                              col = grattantheme::grattan_orange))
 
     update_geom_defaults("crossbar",
-                         list(fill = grattantheme::grattan_lightorange,
-                              col = grattantheme::grattan_lightorange))
+                         list(fill = grattantheme::grattan_orange,
+                              col = grattantheme::grattan_orange))
 
     update_geom_defaults("errorbar",
-                         list(col = grattantheme::grattan_lightorange))
+                         list(col = grattantheme::grattan_orange))
 
     update_geom_defaults("linerange",
-                         list(col = grattantheme::grattan_lightorange))
+                         list(col = grattantheme::grattan_orange))
 
     update_geom_defaults("pointrange",
-                         list(col = grattantheme::grattan_lightorange))
+                         list(col = grattantheme::grattan_orange))
 
     update_geom_defaults("tile",
                          list(col = "white",
-                              fill = grattantheme::grattan_lightorange))
+                              fill = grattantheme::grattan_orange))
 }

@@ -71,7 +71,7 @@ make_col_tibble <- function(n) {
   
 }
 
-grattan_colours <- map_dfr(c(1:10), make_col_tibble)
+grattan_colours <- map_dfr(seq_along(grattan_palettes$graph), make_col_tibble)
 
 grattan_colours$col <- factor(grattan_colours$col)
 
@@ -97,7 +97,7 @@ col_plot
 
 ```
 
-A range of colours from the style guide (such as `grattan_lightorange`, `grattan_darkred`, and so on) are defined for your convenience. Each colour has eight tints available, e.g. `grattan_lightorange` has lighter variants `grattan_lightorange1` through `grattan_lightorange8` (closest to white). These can be used to allow highlighting or when filling in block colours behind text, such as when designing tables.
+A range of colours from the style guide (such as `grattan_orange`, `grattan_darkred`, and so on) are defined for your convenience. Each colour has eight tints available, e.g. `grattan_orange` has lighter variants `grattan_orange1` through `grattan_orange8` (closest to white). These can be used to allow highlighting or when filling in block colours behind text, such as when designing tables.
 
 Use `theme_grattan(background = "box")` to create a chart for a Grattan report box. 
 

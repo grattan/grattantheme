@@ -87,8 +87,9 @@ defunct_chart_types <- chart_types_all$type[chart_types_all$status == "defunct"]
 
 fullslide_chart_types <- chart_types$type[chart_types$class == "fullslide"]
 
-# Types exported as web-ready PNGs by `grattan_save(save_web = TRUE)`
-web_chart_types <- c("normal", "blog")
+# Types exported as web-ready PNGs by `grattan_save(save_web = TRUE)`: the
+# 'normal' class plus 'blog', i.e. everything that isn't a Powerpoint slide
+web_chart_types <- chart_types$type[chart_types$class != "fullslide"]
 
 # Define standard fullslide slide dimensions (16:9 PowerPoint slide)
 fullslide_slide_width <- 33.87   # cm

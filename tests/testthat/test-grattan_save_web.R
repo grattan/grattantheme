@@ -103,7 +103,7 @@ test_that("grattan_save_all() writes web PNGs for the normal and blog types", {
   out_dir <- file.path(test_dir, "chart")
 
   expect_equal(sort(list.files(out_dir, pattern = "\\.png$")),
-               c("chart_blog.png", "chart_normal.png"))
+               sort(paste0("chart_", grattantheme:::web_chart_types, ".png")))
 
   # The other formats are unaffected
   expect_length(list.files(out_dir, pattern = "\\.pdf$"),

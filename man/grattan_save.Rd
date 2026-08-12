@@ -84,8 +84,9 @@ for each type for which a Powerpoint template exists.}
 
 \item{save_web}{Logical. Default is FALSE. If `TRUE`, a web-ready PNG using
 the "slide" font is created alongside your image. If `type = "all"`, PNGs are
-created for the "normal" and "blog" types; otherwise a PNG is created for
-your chosen type. This is the same output as `grattan_save_web()`. Note that
+created for every chart type that isn't a Powerpoint slide - currently
+"normal", "wholecolumn", "fullpage" and "blog"; otherwise a PNG is created
+for your chosen type. This is the same output as `grattan_save_web()`. Note that
 if you are also saving your chart as a .png, the web-ready version will
 replace the standard one, since they share a filename.}
 

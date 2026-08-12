@@ -233,7 +233,7 @@ save_chartdata <- function(filename,
                                                wrapText = TRUE)
 
   grattan_border <- function(border,
-                             border_colour = grattantheme::grattan_lightorange,
+                             border_colour = grattantheme::grattan_orange,
                              border_style = "thick") {
     openxlsx::createStyle(border = border,
                           borderColour = border_colour,

@@ -2,10 +2,10 @@
 % Please edit documentation in R/create_grattan_colours.R
 \name{grattan_lightyellow4}
 \alias{grattan_lightyellow4}
-\title{grattan_lightyellow4}
+\title{'}
 \usage{
 grattan_lightyellow4
 }
 \description{
-grattan_lightyellow4
+'
 }
