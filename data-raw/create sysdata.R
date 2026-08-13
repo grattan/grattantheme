@@ -17,14 +17,24 @@ chart_types <- tibble::tribble(
               "fullslide_half",     "active",    15.3,    11.9,    120,     50,         47, "fullslide", "template_fullslide_half.pptx",
                         "blog",     "active",   23.16,   23.16,    120,     40,         65, "blog",      "template_blog.pptx",
 
-                  "normal_169", "deprecated",   30.00,   14.50,    180,     95,        100, "normal",    NA_character_,
-                        "tiny", "deprecated",   22.16,   11.08,    120,     70,         75, "normal",    NA_character_,
+# Following the `lifecycle` convention, 'deprecated' types still work but warn:
+# they have a surviving .pptx template in inst/extdata, so `grattan_save_pptx()`
+# accepts them and an old deck can be regenerated in its original format.
                "fullslide_old", "deprecated",   33.87,   19.05,    175,     55,         95, "fullslide", "template_169.pptx",
                 "fullslide_43", "deprecated",   25.40,   19.05,    140,     55,         70, "fullslide", "template_43.pptx",
-                          "a4", "deprecated",   21.00,   29.70,    114,     66,         62, "fullslide", NA_character_,
-                "fullslide_44", "deprecated",   25.40,   25.40,    140,     55,         95, "fullslide", NA_character_,
-                   "blog_half", "deprecated",   25.4/2,  19.05,    155,     62,         85, "fullslide", "template_blog_half.pptx",
-            "fullslide_old169", "deprecated",   25.40,   14.29,    140,     55,         70, "fullslide", "template_old_169.pptx",
+
+# 'defunct' types are not accepted anywhere. Their Powerpoint templates were
+# deleted in 1.0.0; nothing stops an image being drawn at these dimensions, but
+# a chart type that can't reach a slide isn't worth maintaining, so support was
+# withdrawn rather than removed on technical grounds. They are kept here so
+# their dimensions stay on the record, and so an old script that names one gets
+# a useful error rather than a bare "not a valid chart type".
+                  "normal_169",   "defunct",   30.00,   14.50,    180,     95,        100, "normal",    NA_character_,
+                        "tiny",   "defunct",   22.16,   11.08,    120,     70,         75, "normal",    NA_character_,
+                          "a4",   "defunct",   21.00,   29.70,    114,     66,         62, "fullslide", NA_character_,
+                "fullslide_44",   "defunct",   25.40,   25.40,    140,     55,         95, "fullslide", NA_character_,
+                   "blog_half",   "defunct",   25.4/2,  19.05,    155,     62,         85, "fullslide", NA_character_,
+            "fullslide_old169",   "defunct",   25.40,   14.29,    140,     55,         70, "fullslide", NA_character_,
 )
 
 
@@ -62,14 +72,24 @@ chart_types <- chart_types %>%
            left_border
          ))
 
-chart_types_inc_deprecated <- chart_types
+# The full table, used only by `grattan_save_pptx()` and the label helpers it
+# calls. Everything else validates against the active-only `chart_types`.
+chart_types_all <- chart_types
 chart_types <- chart_types[chart_types$status == "active", ]
 
-all_chart_types <- chart_types$type[chart_types$status == "active"]
-all_chart_types_inc_deprecated <- chart_types$type
+all_chart_types <- chart_types$type
 
-fullslide_chart_types <- chart_types$type[chart_types$class == "fullslide" & chart_types$status == "active"]
-fullslide_chart_types_inc_deprecated <- chart_types$type[chart_types$class == "fullslide"]
+# Deprecated types can still be exported to Powerpoint, and nothing else
+pptx_legacy_types <- chart_types_all$type[chart_types_all$status == "deprecated"]
+
+# Defunct types cannot be used anywhere, and are named only in error messages
+defunct_chart_types <- chart_types_all$type[chart_types_all$status == "defunct"]
+
+fullslide_chart_types <- chart_types$type[chart_types$class == "fullslide"]
+
+# Types exported as web-ready PNGs by `grattan_save(save_web = TRUE)`: the
+# 'normal' class plus 'blog', i.e. everything that isn't a Powerpoint slide
+web_chart_types <- chart_types$type[chart_types$class != "fullslide"]
 
 # Define standard fullslide slide dimensions (16:9 PowerPoint slide)
 fullslide_slide_width <- 33.87   # cm
@@ -77,11 +97,12 @@ fullslide_slide_height <- 19.05  # cm
 
 usethis::use_data(logogrob,
          chart_types,
-         chart_types_inc_deprecated,
+         chart_types_all,
          all_chart_types,
-         all_chart_types_inc_deprecated,
+         pptx_legacy_types,
+         defunct_chart_types,
          fullslide_chart_types,
-         fullslide_chart_types_inc_deprecated,
+         web_chart_types,
          fullslide_slide_width,
          fullslide_slide_height,
          internal = TRUE,

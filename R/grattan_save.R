@@ -3,7 +3,7 @@
 #' Save ggplot2 object as an image in the correct size and resolution for
 #' Grattan charts. Wrapper around ggsave().
 #' `grattan_save_all()` is a wrapper around `grattan_save()` with `type = "all"`,
-#' `save_pptx = TRUE`, `save_data = TRUE`.
+#' `save_pptx = TRUE`, `save_web = TRUE`, `save_data = TRUE`.
 #'
 #' @name grattan_save
 #' @param filename Required. The filename (including path
@@ -38,11 +38,10 @@
 #'   allow space for a half-slide of text in powerpoint. Chart size: 15.3cm x 11.9cm.}
 #'   \item{blog}{ A 23.16cm x 23.16cm square image sized for social media,
 #'   with a grey title bar, logo, subtitle, chart, and caption.}
-#'   \item{normal_169}{ Deprecated. Useful for pasting into a 16:9 format Grattan
-#'   Powerpoint slide. Width: 30cm, height: 14.5cm.}
-#'   \item{tiny}{ Deprecated. Fills the width of a column in a Grattan report,
-#'   but is shorter than usual. Width: 22.2cm, height: 11.1cm.}
 #' }
+#' The older `fullslide_old` and `fullslide_43` types are deprecated. They are
+#' not valid here, and are accepted only by `grattan_save_pptx()`, so that a
+#' Powerpoint deck built in one of those formats can be regenerated.
 #' Set type = "all" to save your chart in all available sizes or use
 #' `grattan_save_all()`.
 #' @param height Numeric, optional. NULL by default. Controls the height (in cm)
@@ -53,6 +52,13 @@
 #' not available for all chart types. If `type = "all"`,
 #' Powerpoint presentations will be created
 #' for each type for which a Powerpoint template exists.
+#' @param save_web Logical. Default is FALSE. If `TRUE`, a web-ready PNG using
+#' the "slide" font is created alongside your image. If `type = "all"`, PNGs are
+#' created for every chart type that isn't a Powerpoint slide - currently
+#' "normal", "wholecolumn", "fullpage" and "blog"; otherwise a PNG is created
+#' for your chosen type. This is the same output as `grattan_save_web()`. Note that
+#' if you are also saving your chart as a .png, the web-ready version will
+#' replace the standard one, since they share a filename.
 #' @param save_data Logical. Default is FALSE. If set to
 #'   TRUE, a properly-formatted .xlsx file will be created containing the
 #'   dataframe you passed to ggplot(). The filename and path will be the same as
@@ -157,6 +163,7 @@ grattan_save <- function(filename,
                          type = "normal",
                          height = NULL,
                          save_pptx = FALSE,
+                         save_web = FALSE,
                          save_data = FALSE,
                          select_data = TRUE,
                          round = NULL,
@@ -173,10 +180,8 @@ grattan_save <- function(filename,
                          ...) {
 
   # param checks
-  if (!type %in% c("all", all_chart_types_inc_deprecated)) {
-    stop(type,
-         "is not a valid chart type.\n",
-         "See ?grattan_save for valid types.")
+  if (!type %in% c("all", all_chart_types)) {
+    stop(check_chart_type_message(type))
   }
 
   if (isFALSE(inherits(object, "gg"))) {
@@ -194,6 +199,10 @@ grattan_save <- function(filename,
 
   if (!is.logical(save_pptx)) {
     stop("save_pptx must be either TRUE or FALSE.")
+  }
+
+  if (!is.logical(save_web)) {
+    stop("save_web must be either TRUE or FALSE.")
   }
 
 
@@ -229,7 +238,7 @@ grattan_save <- function(filename,
     }
     ## export single pptx
     if (isTRUE(save_pptx)) {
-      template <- chart_types_inc_deprecated$pptx_template[chart_types_inc_deprecated$type == type]
+      template <- chart_types$pptx_template[chart_types$type == type]
       template_exists <- ifelse(is.na(template), FALSE, TRUE)
 
       if (isFALSE(template_exists)) {
@@ -306,6 +315,39 @@ grattan_save <- function(filename,
                  device = device,
                  ...)
 
+  }
+
+  ## export web-ready pngs. This runs last so that where the requested filetype
+  ## is also png, the explicitly-requested web version is the one kept. Note it
+  ## calls grattan_save_() rather than grattan_save_web(), which is itself a
+  ## wrapper around grattan_save()
+  if (isTRUE(save_web)) {
+    web_types <- if (type == "all") web_chart_types else type
+
+    if (filetype == "png") {
+      warning("Saving as .png means the web-ready charts have the same ",
+              "filenames as the standard charts, so the ",
+              paste(web_types, collapse = ", "),
+              " chart(s) will use the web ('slide') font. ",
+              "Save as .pdf to keep both versions.",
+              call. = FALSE)
+    }
+
+    purrr::walk(web_types, function(web_type) {
+      grattan_save_(filename = file.path(dir,
+                                         paste0(file_name, "_", web_type,
+                                                ".png")),
+                    object = object,
+                    type = web_type,
+                    height = height,
+                    force_labs = force_labs,
+                    dpi = dpi,
+                    save_pptx = FALSE,
+                    ignore_long_title = ignore_long_title,
+                    font = "slide",
+                    device = ragg::agg_png,
+                    ...)
+    })
   }
 
   ggplot2::set_last_plot(original_object)
@@ -483,6 +525,7 @@ grattan_save_all <- function(filename,
                object = object,
                type = "all",
                save_pptx = TRUE,
+               save_web = TRUE,
                save_data = TRUE,
                ...)
 }

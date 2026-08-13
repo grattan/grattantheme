@@ -20,7 +20,6 @@ export(grattan_blue5)
 export(grattan_blue6)
 export(grattan_blue7)
 export(grattan_blue8)
-export(grattan_box)
 export(grattan_colour_manual)
 export(grattan_darkblue)
 export(grattan_darkblue1)
@@ -185,48 +184,66 @@ import(ggplot2)
 import(ggrepel)
 import(grid)
 import(stringr)
-importFrom(dplyr,across)
-importFrom(dplyr,all_of)
-importFrom(dplyr,mutate)
-importFrom(dplyr,select)
-importFrom(dplyr,where)
-importFrom(ggplot2,.pt)
-importFrom(ggplot2,expand_scale)
-importFrom(ggplot2,ggplot_add)
-importFrom(ggplot2,last_plot)
-importFrom(ggplot2,scale_y_continuous)
-importFrom(ggplot2,update_geom_defaults)
+importFrom(dplyr,
+  across,
+  all_of,
+  mutate,
+  select,
+  where
+)
+importFrom(ggplot2,
+  .pt,
+  expand_scale,
+  ggplot_add,
+  last_plot,
+  scale_y_continuous,
+  update_geom_defaults
+)
 importFrom(ggrepel,geom_label_repel)
-importFrom(grid,arrow)
-importFrom(grid,convertX)
+importFrom(grid,
+  arrow,
+  convertX
+)
 importFrom(gridtext,richtext_grob)
 importFrom(jsonlite,fromJSON)
-importFrom(lifecycle,deprecate_warn)
-importFrom(lifecycle,deprecated)
-importFrom(lifecycle,is_present)
-importFrom(openxlsx,addStyle)
-importFrom(openxlsx,addWorksheet)
-importFrom(openxlsx,createStyle)
-importFrom(openxlsx,createWorkbook)
-importFrom(openxlsx,insertImage)
-importFrom(openxlsx,saveWorkbook)
-importFrom(openxlsx,setColWidths)
-importFrom(openxlsx,writeData)
-importFrom(patchwork,plot_annotation)
-importFrom(patchwork,plot_spacer)
-importFrom(patchwork,wrap_elements)
-importFrom(patchwork,wrap_plots)
-importFrom(purrr,map)
-importFrom(purrr,walk)
-importFrom(purrr,walk2)
+importFrom(lifecycle,
+  deprecate_warn,
+  deprecated,
+  is_present
+)
+importFrom(openxlsx,
+  addStyle,
+  addWorksheet,
+  createStyle,
+  createWorkbook,
+  insertImage,
+  saveWorkbook,
+  setColWidths,
+  writeData
+)
+importFrom(patchwork,
+  plot_annotation,
+  plot_spacer,
+  wrap_elements,
+  wrap_plots
+)
+importFrom(purrr,
+  map,
+  walk,
+  walk2
+)
 importFrom(rlang,quo_get_expr)
 importFrom(rstudioapi,getActiveDocumentContext)
-importFrom(systemfonts,font_feature)
-importFrom(systemfonts,register_font)
-importFrom(systemfonts,register_variant)
-importFrom(systemfonts,registry_fonts)
-importFrom(systemfonts,system_fonts)
+importFrom(systemfonts,
+  font_feature,
+  register_font,
+  register_variant,
+  registry_fonts,
+  system_fonts
+)
 importFrom(tools,file_path_sans_ext)
-importFrom(utils,getFromNamespace)
-importFrom(utils,menu)
-importFrom(utils,tail)
+importFrom(utils,
+  getFromNamespace,
+  menu,
+  tail
+)

@@ -119,11 +119,40 @@ The package checks your system fonts and, if you have Dropbox synced with Gratta
 \newpage
 ## Using Grattan colours
 
-Grattan's colours are loaded with `grattantheme`. The HEX codes for individual Grattan colours can be called using `grattan_[colourname]`, eg `grattan_lightorange`. Colours names are taken from the chart-guide and are:
+Grattan's colours are loaded with `grattantheme`. The HEX codes for individual Grattan colours can be called using `grattan_[colourname]`, eg `grattan_orange`. Colours names are taken from the chart-guide and are:
 
-```{r, out.width = "250px", echo = FALSE}
-knitr::include_graphics("grattan_pal.pdf")
+```{r, echo = FALSE, fig.height = 3.5, fig.width = 6}
+# Drawn from the colour objects themselves, so this stays correct if the
+# palette changes
+named_colours <- c("grattan_yellow", "grattan_orange", "grattan_darkorange",
+                   "grattan_red", "grattan_darkred", "grattan_blue",
+                   "grattan_darkblue", "grattan_grey1", "grattan_grey2",
+                   "grattan_grey3", "grattan_grey4", "grattan_grey5",
+                   "grattan_black")
+
+n_rows <- ceiling(length(named_colours) / 2)
+
+swatches <- data.frame(
+  name = named_colours,
+  hex = vapply(named_colours, get, character(1), USE.NAMES = FALSE),
+  column = rep(c(1, 2), each = n_rows)[seq_along(named_colours)],
+  row = rep(seq_len(n_rows), times = 2)[seq_along(named_colours)]
+)
+
+ggplot(swatches, aes(x = column, y = -row)) +
+  geom_tile(aes(fill = hex), width = 0.3, height = 0.75) +
+  geom_text(aes(label = name), hjust = 0, nudge_x = 0.2, size = 3) +
+  scale_fill_identity() +
+  coord_cartesian(xlim = c(0.8, 2.85), clip = "off") +
+  theme_void()
 ```
+
+Each of these has eight lighter tints, numbered from `1` (barely lighter) to `8`
+(closest to white) -- so `grattan_orange3` is a light orange. The older
+`grattan_lightyellow`, `grattan_darkyellow`, `grattan_lightorange`,
+`grattan_lightred` and `grattan_lightblue` names still work, but they are now
+just aliases: the palette no longer distinguishes a light and a dark version of
+those colours.
 
 We can call single colours:
 

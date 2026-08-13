@@ -382,8 +382,13 @@ test_that("grattan_save_all() works", {
   test_dir <- file.path(tempdir(), "grattan_save_test")
   dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
 
-  grattan_save_all(filename = file.path(test_dir, "test_plot.png"),
-                   object = test_plot)
+  # Saving as .png warns, because the web-ready normal and blog charts share
+  # their filenames with the standard versions
+  expect_warning(
+    grattan_save_all(filename = file.path(test_dir, "test_plot.png"),
+                     object = test_plot),
+    "same filenames"
+  )
 
   output_dir <- file.path(test_dir, "test_plot")
 

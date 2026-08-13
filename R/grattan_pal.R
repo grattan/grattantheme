@@ -9,7 +9,6 @@ grattan_palettes <- list(
               grattan_yellow,
               grattan_darkorange,
               grattan_darkred,
-              grattan_lightyellow,
               grattan_blue,
               grattan_darkblue,
               grattan_lightgrey,
@@ -27,7 +26,6 @@ grattan_palettes <- list(
 palette_order <- list(
   `old` =
                                 c(
-                                  grattan_lightyellow,
                                   grattan_yellow,
                                   grattan_orange,
                                   grattan_darkorange,
@@ -45,7 +43,6 @@ palette_order <- list(
                                   grattan_darkorange,
                                   grattan_red,
                                   grattan_darkred,
-                                  grattan_lightyellow,
                                   grattan_blue,
                                   grattan_darkblue,
                                   grattan_lightgrey,
@@ -113,8 +110,8 @@ make_grattan_pal <- function(palette = "sequential",
 #'
 #' @export
 make_grattan_pal_discrete <- function(n) {
-  assertthat::assert_that(n <= 10,
-                          msg = "Chart requires more than 10 colours. Consider a continuous palette or make a palette with more colours own using `make_grattan_pal(palette = 'graph')` e.g. `scale_colour_manual(values = make_grattan_pal(palette = 'graph')(29))")
+  assertthat::assert_that(n <= length(grattan_palettes[["graph"]]),
+                          msg = "Chart requires more colours than the graph palette holds. Consider a continuous palette or make a palette with more colours own using `make_grattan_pal(palette = 'graph')` e.g. `scale_colour_manual(values = make_grattan_pal(palette = 'graph')(29))")
   pal <- grattan_palettes[["graph"]][1:n]
 
   order_name <- dplyr::if_else(options("grattan_palette") == "old", "old", "new")
@@ -214,9 +211,9 @@ grattan_pal <- function(n = 0,
     "Your chart will probably look better if you specify n in grattan_pal()."
   }
 
-  if (n > 10 & n != "2a") {
+  if (n > 9 & n != "2a") {
     stop(paste0("You've requested ", n,
-                " colours; grattan_pal() only supports up to 10."))
+                " colours; grattan_pal() only supports up to 9."))
   }
 
   palette <- get_palette(n, faded_level)
@@ -233,71 +230,26 @@ get_palette <- function(n, f) {
   if (n == 1) {
     palette <- "orange"
   } else if (n == "2a") {
-    palette <- c("orange",
-                         "darkorange")
+    palette <- c("orange", "darkorange")
   } else if (n == 2) {
-    palette <- c("orange",
-                         "red")
+    palette <- c("orange", "red")
   } else if (n == 3) {
-    palette <- c("yellow",
-                         "orange",
-                         "red")
+    palette <- c("yellow", "orange", "red")
   } else if (n == 4) {
-    palette <- c("yellow",
-                         "orange",
-                         "darkorange",
-                         "red")
+    palette <- c("yellow", "orange", "darkorange", "red")
   } else if (n == 5) {
-    palette <- c("yellow",
-                         "orange",
-                         "darkorange",
-                         "red",
-                         "darkred")
+    palette <- c("yellow", "orange", "darkorange", "red", "darkred")
   } else if (n == 6) {
-    palette <- c("lightyellow",
-                              "yellow",
-                              "orange",
-                              "darkorange",
-                              "red",
-                              "darkred")
+    palette <- c("yellow", "orange", "darkorange", "red", "darkred", "blue")
   } else if (n == 7) {
-    palette <- c("lightyellow",
-                              "yellow",
-                              "lightorange",
-                              "darkorange",
-                              "red",
-                              "darkred",
-                              "blue")
+    palette <- c("yellow", "orange", "darkorange", "red", "darkred", "blue",
+                 "darkblue")
   } else if (n == 8) {
-    palette <- c("lightyellow",
-                              "yellow",
-                              "lightorange",
-                              "darkorange",
-                              "red",
-                              "darkred",
-                              "blue",
-                              "darkblue")
+    palette <- c("yellow", "orange", "darkorange", "red", "darkred", "blue",
+                 "darkblue", "lightgrey")
   } else if (n == 9) {
-    palette <- c("lightyellow",
-                              "yellow",
-                              "lightorange",
-                              "darkorange",
-                              "red",
-                              "darkred",
-                              "blue",
-                              "darkblue",
-                              "lightgrey")
-  } else if (n == 10) {
-    palette <- c("lightyellow",
-                              "yellow",
-                              "lightorange",
-                              "darkorange",
-                              "red",
-                              "darkred",
-                              "blue",
-                              "darkblue",
-                              "lightgrey",
-                              "darkgrey")
+    palette <- c("yellow", "orange", "darkorange", "red", "darkred", "blue",
+                 "darkblue", "lightgrey", "darkgrey")
   }
 
   if (f == 0) f <- ""

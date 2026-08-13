@@ -15,7 +15,11 @@
 #' Powerpoint presentation.
 #' @param type Chart type. If you specify multiple types, as
 #' in `type = c("fullslide", "wholecolumn")` or `type = "all"`, multiple
-#' files will be created, with the type added to the filename.
+#' files will be created, with the type added to the filename. `type = "all"`
+#' covers the current chart types only. The deprecated `fullslide_old` and
+#' `fullslide_43` types are also accepted, with a warning, so that a Powerpoint
+#' deck built in one of those formats can be regenerated; they are not valid
+#' anywhere else in the package.
 #' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.
 #' @param png_dpi Integer. The DPI of the PNG image saved when `rich_subtitle = TRUE`.
 #' @param font Either "slide", "normal", or NULL (default). NULL automatically
@@ -58,9 +62,11 @@ grattan_save_pptx <- function(filename,
 
   plot <- p
 
-  pptx_types_inc_deprecated <- chart_types_inc_deprecated$type[!is.na(chart_types_inc_deprecated$pptx_template)]
+  # Deprecated types are still accepted here - and only here - so that an old
+  # Powerpoint deck can be regenerated in its original format
+  pptx_types <- chart_types_all$type[!is.na(chart_types_all$pptx_template)]
 
-  allowed_types <- c(pptx_types_inc_deprecated, "all")
+  allowed_types <- c(pptx_types, "all")
 
   non_conforming_types <- type[!type %in% allowed_types]
 
@@ -68,6 +74,18 @@ grattan_save_pptx <- function(filename,
     stop("Type ", paste(non_conforming_types, collapse = ", "),
          " is not one of the allowed types: ",
          paste(allowed_types, collapse = ", "), ".")
+  }
+
+  legacy_types <- intersect(type, pptx_legacy_types)
+
+  if (length(legacy_types) > 0) {
+    warning("Chart type ", paste(legacy_types, collapse = ", "),
+            " is deprecated and is retained only so that older Powerpoint",
+            " decks can be regenerated.\nUse one of ",
+            paste(chart_types$type[!is.na(chart_types$pptx_template)],
+                  collapse = ", "),
+            " for new charts.",
+            call. = FALSE)
   }
 
   multiple_types <- if (length(type) > 1) {
@@ -112,7 +130,7 @@ grattan_save_pptx <- function(filename,
     if (!is.null(font)) {
       return(font)
     }
-    type_class <- chart_types_inc_deprecated$class[chart_types_inc_deprecated$type == t]
+    type_class <- chart_types_all$class[chart_types_all$type == t]
     if (type_class == "fullslide") "slide" else "normal"
   })
 
@@ -145,7 +163,7 @@ add_graph_to_pptx <- function(p,
 
   # Get path to appropriate PPTX template
   template_filename <- system.file("extdata",
-                                   chart_types_inc_deprecated$pptx_template[chart_types_inc_deprecated$type == type],
+                                   chart_types_all$pptx_template[chart_types_all$type == type],
                                    package = "grattantheme")
 
   # Get PowerPoint dimensions
@@ -156,12 +174,9 @@ add_graph_to_pptx <- function(p,
   width_mm <- slide_size$width * 25.4
   height_mm <- slide_size$height * 25.4
 
-  p <- purrr::map(
-      .x = p,
-      .f = wrap_labs,
-      type = type,
-      labs_to_wrap = "caption"
-    )
+  # The caption goes into a PowerPoint text box, which wraps text itself, so
+  # only split 'notes' from 'source' here and leave line wrapping to PowerPoint
+  p <- purrr::map(.x = p, .f = split_notes_and_source)
 
   master <- dplyr::if_else(type == "fullslide_old", "Charts for overheads", "Office Theme")
   x <- pptx
@@ -333,7 +348,7 @@ create_pptx_shell <- function(p,
 
   # Get path to appropriate PPTX template from `grattantheme`
   template_filename <- system.file("extdata",
-                                   chart_types_inc_deprecated$pptx_template[chart_types_inc_deprecated$type == type],
+                                   chart_types_all$pptx_template[chart_types_all$type == type],
                                    package = "grattantheme")
 
   if (isFALSE(file.exists(template_filename))) {

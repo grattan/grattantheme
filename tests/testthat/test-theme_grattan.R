@@ -33,7 +33,7 @@ test_that("theme_grattan() arguments work",{
 
   p_orange <- base_plot + theme_grattan(background = "orange")
 
-  expect_equal(p_orange$theme$rect$fill, "#FEF0DE")
+  expect_equal(p_orange$theme$rect$fill, "#FFF3E6")
 
   expect_equal(p$theme$legend.position, "none")
 

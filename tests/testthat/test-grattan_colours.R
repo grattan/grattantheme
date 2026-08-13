@@ -16,9 +16,12 @@ test_that("grattan colour functions work as expected", {
   expect_length(make_grattan_pal(palette = "diverging")(6), 6)
 
   expect_length(make_grattan_pal_discrete(6), 6)
-  expect_length(make_grattan_pal_discrete(10), 10)
 
-  expect_error(make_grattan_pal_discrete(11))
+  # The graph palette holds 9 colours, since yellow no longer has a light and a
+  # dark variant
+  expect_length(make_grattan_pal_discrete(9), 9)
+
+  expect_error(make_grattan_pal_discrete(10))
 
   expect_equal(make_grattan_pal_discrete(n = 5),
                c(grattan_yellow,
@@ -89,4 +92,17 @@ test_that("grattan continuous palette functions work as expected (fill)", {
   vdiffr::expect_doppelganger("plot with fill palette",
                               plot_fill)
 
+})
+
+test_that("legacy colour names alias their replacement", {
+
+  # Kept so old chart scripts keep working
+  expect_equal(grattan_lightorange, grattan_orange)
+  expect_equal(grattan_lightorange3, grattan_orange3)
+  expect_equal(grattan_lightyellow, grattan_yellow)
+  expect_equal(grattan_lightyellow5, grattan_yellow5)
+  expect_equal(grattan_darkyellow, grattan_yellow)
+  expect_equal(grattan_darkyellow5, grattan_yellow5)
+  expect_equal(grattan_lightred, grattan_red)
+  expect_equal(grattan_lightblue8, grattan_blue8)
 })

@@ -78,7 +78,12 @@ test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 test_that("grattan_save_pptx works in various configurations", {
 
   skip_on_cran()
-  grattan_save_pptx(p = p1, filename = "temp.pptx", type = "fullslide_43")
+
+  # fullslide_43 is deprecated, and warns, but must still export
+  expect_warning(
+    grattan_save_pptx(p = p1, filename = "temp.pptx", type = "fullslide_43"),
+    "deprecated"
+  )
   expect_true(is_valid_pptx("temp_fullslide_43.pptx"))
   expect_equal(no_slides("temp_fullslide_43.pptx"), 1)
   unlink("temp", recursive = T, force = T)
@@ -89,8 +94,11 @@ test_that("grattan_save_pptx works in various configurations", {
   unlink("temp", recursive = T, force = T)
 
 
-  grattan_save_pptx(p = list(p1, p2), filename = "multi_slide.pptx",
-                    type = c("fullslide_43", "fullslide"))
+  expect_warning(
+    grattan_save_pptx(p = list(p1, p2), filename = "multi_slide.pptx",
+                      type = c("fullslide_43", "fullslide")),
+    "deprecated"
+  )
   expect_false(file.exists("multi_slide.pptx"))
   expect_true(is_valid_pptx("multi_slide_fullslide.pptx"))
   expect_true(is_valid_pptx("multi_slide_fullslide_43.pptx"))
@@ -135,4 +143,44 @@ test_that("grattan_save_pptx creates pptx with rich_subtitle = TRUE", {
   expect_equal(no_slides("temp_rich_fullslide.pptx"), 1)
 
   unlink("temp_rich", recursive = TRUE, force = TRUE)
+})
+
+test_that("deprecated chart types are only accepted by grattan_save_pptx", {
+
+  skip_on_cran()
+
+  # Accepted here, with a warning, so old decks can be regenerated
+  expect_warning(
+    grattan_save_pptx(p = p1, filename = "legacy.pptx", type = "fullslide_old"),
+    "deprecated"
+  )
+  expect_true(is_valid_pptx("legacy_fullslide_old.pptx"))
+  unlink("legacy_fullslide_old.pptx", force = TRUE)
+
+  # Rejected everywhere else, with a message pointing at grattan_save_pptx()
+  expect_error(grattan_save(filename = file.path(tempdir(), "x.pdf"),
+                            object = p1,
+                            type = "fullslide_old"),
+               "grattan_save_pptx")
+
+  expect_error(save_chartdata(filename = file.path(tempdir(), "x.xlsx"),
+                              object = p1,
+                              type = "fullslide_old"),
+               "grattan_save_pptx")
+
+  expect_error(check_chart(type = "fullslide_old", object = p1),
+               "grattan_save_pptx")
+
+  expect_error(create_fullslide(plot = p1, type = "fullslide_old"),
+               "not a valid fullslide chart type")
+
+  # Defunct types are not accepted anywhere, including here
+  expect_error(grattan_save_pptx(p = p1, filename = "x.pptx", type = "tiny"),
+               "not one of the allowed types")
+
+  # ... and the error says why, rather than treating them as a typo
+  expect_error(grattan_save(filename = file.path(tempdir(), "x.pdf"),
+                            object = p1,
+                            type = "tiny"),
+               "defunct")
 })

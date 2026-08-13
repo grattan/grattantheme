@@ -21,7 +21,11 @@ Powerpoint presentation.}
 
 \item{type}{Chart type. If you specify multiple types, as
 in `type = c("fullslide", "wholecolumn")` or `type = "all"`, multiple
-files will be created, with the type added to the filename.}
+files will be created, with the type added to the filename. `type = "all"`
+covers the current chart types only. The deprecated `fullslide_old` and
+`fullslide_43` types are also accepted, with a warning, so that a Powerpoint
+deck built in one of those formats can be regenerated; they are not valid
+anywhere else in the package.}
 
 \item{rich_subtitle}{Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.}
 

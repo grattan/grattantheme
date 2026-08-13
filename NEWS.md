@@ -1,3 +1,11 @@
+# grattantheme 1.6.4
+* Updates to colour palette to ensure consistency with Grattan branding. Notably, the `graph` palette now holds 9 colours rather than 10, since yellow no longer occupies two slots. `make_grattan_pal_discrete()` accepts `n` up to 9, and the deprecated `grattan_pal()` up to 9.
+* Updated the light orange shading used by `theme_grattan(background = "box")` and `theme_grattan(background = "orange")`.
+* `grattan_save()` gains a `save_web` argument, which writes a web-ready PNG using the "slide" font alongside your image. `grattan_save_all()` now sets it, so it produces web-ready PNGs of the `normal`, `wholecolumn`, `fullpage` and `blog` formats in addition to the existing outputs. 
+* Fixes to powerpoint slide captions in .pptx format to ensure wrapping across lines is done automatically by the slide template.
+* Old chart types are now treated consistently across use-cases, and split into two states following the `lifecycle` convention. Chart styles that are no longer supported are *defunct*, while those that are only partially supported are *deprecated*. 
+* Package documentation is now generated with roxygen2 8.1.0.
+
 # grattantheme 1.6.3
 * `save_chartdata()` (and `grattan_save(save_data = TRUE)` / `grattan_save_all()`) now fail gracefully when the main `ggplot()` call carries no data because it was all supplied directly to the geoms. The data is recovered from the geom layers, with a warning; distinct data tables across geoms are written out as separate blocks. A chart with no data anywhere still errors as before.
 * `grattan_richlegend()` now works on faceted charts. By default the legend is drawn only on the top-left panel; use `facet = "all"` to repeat it on every panel, or pass a numeric vector of panel numbers to choose specific panels. This also fixes a crash that previously occurred whenever `grattan_richlegend()` was combined with faceting.

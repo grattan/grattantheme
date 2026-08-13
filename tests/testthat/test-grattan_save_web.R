@@ -71,3 +71,67 @@ test_that("grattan_save_web() appends .png when extension missing", {
                    no_new_folder = TRUE)
   expect_true(file.exists(file.path(test_dir, "chart_normal.png")))
 })
+
+test_that("grattan_save(save_web = TRUE) writes a web-ready PNG", {
+
+  test_dir <- file.path(tempdir(), "grattan_save_web_wired")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(test_dir, recursive = TRUE), add = TRUE)
+
+  grattan_save(file.path(test_dir, "chart.pdf"),
+               object = web_test_plot,
+               type = "blog",
+               save_web = TRUE)
+
+  out_dir <- file.path(test_dir, "chart")
+
+  expect_true(file.exists(file.path(out_dir, "chart_blog.png")))
+  # The web PNG is additional to, not a replacement for, the main image
+  expect_true(file.exists(file.path(out_dir, "chart_blog.pdf")))
+})
+
+test_that("grattan_save_all() writes web PNGs for the normal and blog types", {
+
+  skip_on_cran()
+
+  test_dir <- file.path(tempdir(), "grattan_save_all_web")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(test_dir, recursive = TRUE), add = TRUE)
+
+  grattan_save_all(file.path(test_dir, "chart.pdf"), object = web_test_plot)
+
+  out_dir <- file.path(test_dir, "chart")
+
+  expect_equal(sort(list.files(out_dir, pattern = "\\.png$")),
+               sort(paste0("chart_", grattantheme:::web_chart_types, ".png")))
+
+  # The other formats are unaffected
+  expect_length(list.files(out_dir, pattern = "\\.pdf$"),
+                length(grattantheme:::all_chart_types))
+  expect_true(file.exists(file.path(out_dir, "chart.xlsx")))
+})
+
+test_that("grattan_save() errors on a non-logical save_web", {
+  expect_error(grattan_save(file.path(tempdir(), "x.pdf"),
+                            object = web_test_plot,
+                            save_web = "yes"),
+               "save_web must be either TRUE or FALSE")
+})
+
+test_that("grattan_save() warns when the web png would replace a standard png", {
+
+  test_dir <- file.path(tempdir(), "grattan_save_web_clash")
+  dir.create(test_dir, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(test_dir, recursive = TRUE), add = TRUE)
+
+  expect_warning(
+    grattan_save(file.path(test_dir, "chart.png"),
+                 object = web_test_plot,
+                 type = "normal",
+                 save_web = TRUE),
+    "same filenames"
+  )
+
+  # No .pdf is produced, and the single png is the web version
+  expect_equal(list.files(file.path(test_dir, "chart")), "chart_normal.png")
+})

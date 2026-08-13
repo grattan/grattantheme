@@ -11,6 +11,7 @@ grattan_save(
   type = "normal",
   height = NULL,
   save_pptx = FALSE,
+  save_web = FALSE,
   save_data = FALSE,
   select_data = TRUE,
   round = NULL,
@@ -64,11 +65,10 @@ your session.}
   allow space for a half-slide of text in powerpoint. Chart size: 15.3cm x 11.9cm.}
   \item{blog}{ A 23.16cm x 23.16cm square image sized for social media,
   with a grey title bar, logo, subtitle, chart, and caption.}
-  \item{normal_169}{ Deprecated. Useful for pasting into a 16:9 format Grattan
-  Powerpoint slide. Width: 30cm, height: 14.5cm.}
-  \item{tiny}{ Deprecated. Fills the width of a column in a Grattan report,
-  but is shorter than usual. Width: 22.2cm, height: 11.1cm.}
 }
+The older `fullslide_old` and `fullslide_43` types are deprecated. They are
+not valid here, and are accepted only by `grattan_save_pptx()`, so that a
+Powerpoint deck built in one of those formats can be regenerated.
 Set type = "all" to save your chart in all available sizes or use
 `grattan_save_all()`.}
 
@@ -81,6 +81,14 @@ containing your graph will be created. Note that Powerpoint templates are
 not available for all chart types. If `type = "all"`,
 Powerpoint presentations will be created
 for each type for which a Powerpoint template exists.}
+
+\item{save_web}{Logical. Default is FALSE. If `TRUE`, a web-ready PNG using
+the "slide" font is created alongside your image. If `type = "all"`, PNGs are
+created for every chart type that isn't a Powerpoint slide - currently
+"normal", "wholecolumn", "fullpage" and "blog"; otherwise a PNG is created
+for your chosen type. This is the same output as `grattan_save_web()`. Note that
+if you are also saving your chart as a .png, the web-ready version will
+replace the standard one, since they share a filename.}
 
 \item{save_data}{Logical. Default is FALSE. If set to
 TRUE, a properly-formatted .xlsx file will be created containing the
@@ -134,7 +142,7 @@ For `grattan_save_all()`, the `...` are passed to `grattan_save()`.}
 Save ggplot2 object as an image in the correct size and resolution for
 Grattan charts. Wrapper around ggsave().
 `grattan_save_all()` is a wrapper around `grattan_save()` with `type = "all"`,
-`save_pptx = TRUE`, `save_data = TRUE`.
+`save_pptx = TRUE`, `save_web = TRUE`, `save_data = TRUE`.
 }
 \examples{
 library(ggplot2)
