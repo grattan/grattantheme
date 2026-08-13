@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.4</span>
       </span>
     </div>
 
@@ -186,9 +186,18 @@ used.</p>
 </h2>
 <p>Grattan’s colours are loaded with <code>grattantheme</code>. The HEX
 codes for individual Grattan colours can be called using
-<code>grattan_[colourname]</code>, eg <code>grattan_lightorange</code>.
+<code>grattan_[colourname]</code>, eg <code>grattan_orange</code>.
 Colours names are taken from the chart-guide and are:</p>
-<embed src="grattan_pal.pdf" width="250px" style="display: block; margin: auto;" type="application/pdf"></embed><p>We can call single colours:</p>
+<p><img src="using_grattantheme_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
+<p>Each of these has eight lighter tints, numbered from <code>1</code>
+(barely lighter) to <code>8</code> (closest to white) – so
+<code>grattan_orange3</code> is a light orange. The older
+<code>grattan_lightyellow</code>, <code>grattan_darkyellow</code>,
+<code>grattan_lightorange</code>, <code>grattan_lightred</code> and
+<code>grattan_lightblue</code> names still work, but they are now just
+aliases: the palette no longer distinguishes a light and a dark version
+of those colours.</p>
+<p>We can call single colours:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">3</span>, colour <span class="op">=</span> <span class="va">grattan_orange</span><span class="op">)</span> <span class="op">+</span></span>

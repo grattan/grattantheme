@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.4</span>
       </span>
     </div>
 
@@ -82,10 +82,11 @@
 <div class="section level2">
 <h2 id="install-grattantheme">Install grattantheme<a class="anchor" aria-label="anchor" href="#install-grattantheme"></a>
 </h2>
-<p>The grattantheme package needs to be downloaded and installed from Github. The easiest way to do this is with the devtools package. If you don’t have the devtools package, install it:</p>
-<p><code>install.packages("devtools")</code></p>
-<p>Once devtools is installed, you can download and install grattantheme as follows:</p>
-<p><code>devtools::install_github("grattan/grattantheme", dependencies = TRUE, upgrade = "always")</code></p>
+<p>The grattantheme package needs to be downloaded and installed from Github. The easiest way to do this is with the pak package. If you don’t have the pak package, install it:</p>
+<p><code>install.packages("pak")</code></p>
+<p>Once pak is installed, you can download and install grattantheme as follows:</p>
+<p><code>pak::pak("grattan/grattantheme")</code></p>
+<p><code>pak</code> installs the package’s dependencies for you, and will upgrade them where grattantheme needs a newer version.</p>
 <p>Once grattantheme is installed, you can load it the same way you normally load an R package:</p>
 <p><code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(grattantheme)</a></code></p>
 </div>
@@ -93,20 +94,35 @@
 <h2 id="make-your-charts-look-nice">Make your charts look nice<a class="anchor" aria-label="anchor" href="#make-your-charts-look-nice"></a>
 </h2>
 <p>See the <a href="https://grattan.github.io/grattantheme/articles/using_grattantheme.html" class="external-link">grattantheme vignette</a> for a more complete guide.</p>
-<p>Use <code><a href="reference/theme_grattan.html">theme_grattan()</a></code> to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots, <code>theme_grattan(chart_type = "scatter")</code> provides a black y-axis.</p>
-<p>Use <code><a href="reference/grattan_axes.html">grattan_y_continuous()</a></code> to set default values for your vertical axis that will work well with most Grattan charts.</p>
-<p>Use <code>grattan_colour_manual(n)</code> or <code>grattan_fill_manual(n)</code> to format the <code>n</code> coloured elements of your <code>ggplot2</code> plot. These functions will choose appropriately-spaced Grattan colours, ordered from either light to dark or the reverse.</p>
+<p>Use <code><a href="reference/theme_grattan.html">theme_grattan()</a></code> to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots, <code>theme_grattan(chart_type = "scatter")</code> provides a black y-axis. For charts with discrete values on the y axis, <code>theme_grattan(flipped = 'TRUE')</code> provides a vertical axis line and rotates gridlines.</p>
+<p>Use <code><a href="reference/grattan_axes.html">scale_y_continuous_grattan()</a></code> (or <code>scale_x_continuous_grattan</code> if flipped) to set default values for your vertical axis that will work well with most Grattan charts.</p>
 <p>The colours that will be used in your plot are:</p>
-<p><img src="reference/figures/README-show-cols-image-1.png" width="75%"></p>
-<p>A range of colours from the style guide (such as <code>grattan_lightorange</code>, <code>grattan_darkred</code>, and so on) are defined for your convenience. Each colour has eight tints available, e.g. <code>grattan_lightorange</code> has lighter variants <code>grattan_lightorange1</code> through <code>grattan_lightorange8</code> (closest to white). These can be used to allow highlighting or when filling in block colours behind text, such as when designing tables.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#&gt; grattantheme: Auto-detected a horizontal/flipped chart and applied `flipped = TRUE`. Set `theme_grattan(flipped = TRUE)` explicitly to silence this message.</span></span></code></pre></div>
+<p><img src="reference/figures/README-show-cols-image-1.png" alt="" width="75%"></p>
+<p>A range of colours from the style guide (such as <code>grattan_orange</code>, <code>grattan_darkred</code>, and so on) are defined for your convenience. Each colour has eight tints available, e.g. <code>grattan_orange</code> has lighter variants <code>grattan_orange1</code> through <code>grattan_orange8</code> (closest to white). These can be used to allow highlighting or when filling in block colours behind text, such as when designing tables.</p>
+<p>Use <code>theme_grattan(background = "box")</code> to create a chart for a Grattan report box.</p>
+</div>
+<div class="section level2">
+<h2 id="add-chart-annotations-and-notes">Add chart annotations and notes<a class="anchor" aria-label="anchor" href="#add-chart-annotations-and-notes"></a>
+</h2>
+<p>Use <code><a href="reference/grattan_label_functions.html">grattan_label()</a></code>, <code><a href="reference/grattan_label_functions.html">grattan_label_repel()</a></code>, or <code><a href="reference/grattan_arrow.html">grattan_arrow()</a></code> to add style-guide consistent annotations to your chart.</p>
+<p>Use <code><a href="reference/grattan_richlegend.html">grattan_richlegend()</a></code> to put a coloured legend directly on your chart, rather than off to one side. Set <code>legend.position</code> to choose a corner of the panel, e.g. <code>grattan_richlegend(aes(label = series), legend.position = "topright")</code>. On a faceted chart the legend appears on the top-left panel by default; use <code>facet = "all"</code> to repeat it on every panel, or pass panel numbers such as <code>facet = c(1, 3)</code>.</p>
+<p>Use <code>labs(caption = "Notes: Your notes. Source: Your source.")</code> to add notes and sources, with text appropriately wrapped.</p>
+</div>
+<div class="section level2">
+<h2 id="check-how-your-chart-looks">Check how your chart looks<a class="anchor" aria-label="anchor" href="#check-how-your-chart-looks"></a>
+</h2>
+<p>Use <code><a href="reference/check_chart.html">check_chart()</a></code> to create a temporary pop-up chart to inspect chart appearances at different aspect ratios.</p>
 </div>
 <div class="section level2">
 <h2 id="save-your-nice-looking-charts">Save your nice looking charts<a class="anchor" aria-label="anchor" href="#save-your-nice-looking-charts"></a>
 </h2>
-<p>Use <code><a href="reference/grattan_save.html">grattan_save()</a></code> to save your ggplot2 charts (eg. as <code>.png</code> or <code>.pdf</code> files) for use elsewhere, such as in Powerpoint, LaTeX, or the Grattan Blog, with the size and resolution set to style guide-consistent values. You can save your charts in a variety of sizes and styles (see <code>?grattan_save()</code> for a list).</p>
+<p>Use <code><a href="reference/grattan_save.html">grattan_save()</a></code> to save your ggplot2 charts (eg. as <code>.png</code> or <code>.pdf</code> files) for use elsewhere, such as in Powerpoint or LaTeX with the size and resolution set to style guide-consistent values. You can save your charts in a variety of sizes and styles (see <code>?grattan_save()</code> for a list).</p>
 <p>Want to save your chart as a Powerpoint file? Use <code>grattan_save(save_pptx = TRUE)</code> or the standalone <code><a href="reference/grattan_save_pptx.html">grattan_save_pptx()</a></code> function.</p>
 <p>Want to save your chart and accompanying data as a properly-formatted .xlsx workbook? Use <code>grattan_save(save_data = TRUE)</code> or the standalone <code><a href="reference/save_chartdata.html">save_chartdata()</a></code> function.</p>
+<p>Want a web-ready .png, using the fonts from the slide template? Use <code>grattan_save(save_web = TRUE)</code> or the standalone <code><a href="reference/grattan_save_web.html">grattan_save_web()</a></code> function.</p>
 <p>Save your chart in all Grattan formats - along with chart data - using <code><a href="reference/grattan_save.html">grattan_save_all()</a></code>.</p>
+<p>Use <code>set_overleaf_project("project_name")</code> and then <code><a href="reference/grattan_save_overleaf.html">grattan_save_overleaf()</a></code> to conveniently save your chart to an ongoing Overleaf report project.</p>
 </div>
 <div class="section level2">
 <h2 id="save-animated-charts">Save animated charts<a class="anchor" aria-label="anchor" href="#save-animated-charts"></a>
@@ -155,6 +171,7 @@
 <li><a href="https://codecov.io/gh/grattan/grattantheme?branch=master" class="external-link"><img src="https://codecov.io/gh/grattan/grattantheme/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://github.com/grattan/grattantheme/actions" class="external-link"><img src="https://github.com/grattan/grattantheme/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
+<li><a href="https://github.com/grattan/grattantheme/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/grattan/grattantheme/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 

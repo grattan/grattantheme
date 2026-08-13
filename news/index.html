@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.4</span>
       </span>
     </div>
 
@@ -51,6 +51,16 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.6.4" id="grattantheme-164">grattantheme 1.6.4<a class="anchor" aria-label="anchor" href="#grattantheme-164"></a></h2>
+<ul><li>Updates to colour palette to ensure consistency with Grattan branding. Notably, the <code>graph</code> palette now holds 9 colours rather than 10, since yellow no longer occupies two slots. <code><a href="../reference/make_grattan_pal_discrete.html">make_grattan_pal_discrete()</a></code> accepts <code>n</code> up to 9, and the deprecated <code><a href="../reference/grattan_pal.html">grattan_pal()</a></code> up to 9.</li>
+<li>Updated the light orange shading used by <code>theme_grattan(background = "box")</code> and <code>theme_grattan(background = "orange")</code>.</li>
+<li>
+<code><a href="../reference/grattan_save.html">grattan_save()</a></code> gains a <code>save_web</code> argument, which writes a web-ready PNG using the “slide” font alongside your image. <code><a href="../reference/grattan_save.html">grattan_save_all()</a></code> now sets it, so it produces web-ready PNGs of the <code>normal</code>, <code>wholecolumn</code>, <code>fullpage</code> and <code>blog</code> formats in addition to the existing outputs.</li>
+<li>Fixes to powerpoint slide captions in .pptx format to ensure wrapping across lines is done automatically by the slide template.</li>
+<li>Old chart types are now treated consistently across use-cases, and split into two states following the <code>lifecycle</code> convention. Chart styles that are no longer supported are <em>defunct</em>, while those that are only partially supported are <em>deprecated</em>.</li>
+<li>Package documentation is now generated with roxygen2 8.1.0.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.6.3" id="grattantheme-163">grattantheme 1.6.3<a class="anchor" aria-label="anchor" href="#grattantheme-163"></a></h2>
 <ul><li>

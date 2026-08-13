@@ -25,7 +25,7 @@ or `grattan_save_all()`, rather than calling it directly."><!-- mathjax --><scri
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.4</span>
       </span>
     </div>
 
@@ -99,7 +99,11 @@ Powerpoint presentation.</p></dd>
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>Chart type. If you specify multiple types, as
 in `type = c("fullslide", "wholecolumn")` or `type = "all"`, multiple
-files will be created, with the type added to the filename.</p></dd>
+files will be created, with the type added to the filename. `type = "all"`
+covers the current chart types only. The deprecated `fullslide_old` and
+`fullslide_43` types are also accepted, with a warning, so that a Powerpoint
+deck built in one of those formats can be regenerated; they are not valid
+anywhere else in the package.</p></dd>
 
 
 <dt id="arg-rich-subtitle">rich_subtitle<a class="anchor" aria-label="anchor" href="#arg-rich-subtitle"></a></dt>
