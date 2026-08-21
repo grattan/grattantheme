@@ -1,3 +1,6 @@
+# grattantheme 1.6.5
+* `grattan_save_pptx()` now uses the "slide" font (Avenir Next) for `blog` charts, matching the font used in the PNG. Previously blog Powerpoint charts fell back to the "normal" font (Arial).
+
 # grattantheme 1.6.4
 * Updates to colour palette to ensure consistency with Grattan branding. Notably, the `graph` palette now holds 9 colours rather than 10, since yellow no longer occupies two slots. `make_grattan_pal_discrete()` accepts `n` up to 9, and the deprecated `grattan_pal()` up to 9.
 * Updated the light orange shading used by `theme_grattan(background = "box")` and `theme_grattan(background = "orange")`.

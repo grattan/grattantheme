@@ -32,8 +32,9 @@ anywhere else in the package.}
 \item{png_dpi}{Integer. The DPI of the PNG image saved when `rich_subtitle = TRUE`.}
 
 \item{font}{Either "slide", "normal", or NULL (default). NULL automatically
-uses "slide" for fullslide chart types and "normal" for other types.
-"slide" uses Avenir Next for body text (if available). "normal" uses Arial.}
+uses "slide" for fullslide and blog chart types and "normal" for other
+types. "slide" uses Avenir Next for body text (if available). "normal" uses
+Arial.}
 }
 \description{
 `grattan_save_pptx()` creates a Grattan-style Powerpoint
