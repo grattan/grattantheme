@@ -16,7 +16,8 @@ The modified ggplot2 object
 }
 \description{
 Iterates through a ggplot object's layers and updates the font family
-for text-based geoms (GeomText, GeomLabel, GeomTextRepel, GeomLabelRepel)
-where the user has not explicitly set a font family.
+for text-based geoms (GeomText, GeomLabel, GeomTextRepel, GeomLabelRepel,
+and the `ggtext` geoms GeomRichText and GeomTextBox) where the user has not
+explicitly set a font family.
 }
 \keyword{internal}
