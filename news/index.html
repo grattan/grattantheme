@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.5</span>
       </span>
     </div>
 
@@ -51,6 +51,14 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.6.5" id="grattantheme-165">grattantheme 1.6.5<a class="anchor" aria-label="anchor" href="#grattantheme-165"></a></h2>
+<ul><li>Fixed the fonts used for on-chart annotations when <code><a href="../reference/grattan_save.html">grattan_save_all()</a></code> or <code>grattan_save(type = "all")</code> are used.</li>
+<li>
+<code><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html" class="external-link">ggtext::geom_richtext()</a></code> and <code><a href="https://wilkelab.org/ggtext/reference/geom_textbox.html" class="external-link">ggtext::geom_textbox()</a></code> annotations now use the chart’s body font, as the other text geoms do.</li>
+<li>
+<code><a href="../reference/grattan_save_pptx.html">grattan_save_pptx()</a></code> now uses the “slide” font (Avenir Next) for <code>blog</code> charts, matching the font used in the PNG.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.6.4" id="grattantheme-164">grattantheme 1.6.4<a class="anchor" aria-label="anchor" href="#grattantheme-164"></a></h2>
 <ul><li>Updates to colour palette to ensure consistency with Grattan branding. Notably, the <code>graph</code> palette now holds 9 colours rather than 10, since yellow no longer occupies two slots. <code><a href="../reference/make_grattan_pal_discrete.html">make_grattan_pal_discrete()</a></code> accepts <code>n</code> up to 9, and the deprecated <code><a href="../reference/grattan_pal.html">grattan_pal()</a></code> up to 9.</li>
