@@ -487,8 +487,9 @@ grattan_save_ <- function(filename,
 #' Update text geom layers to use a specified font family
 #'
 #' Iterates through a ggplot object's layers and updates the font family
-#' for text-based geoms (GeomText, GeomLabel, GeomTextRepel, GeomLabelRepel)
-#' where the user has not explicitly set a font family.
+#' for text-based geoms (GeomText, GeomLabel, GeomTextRepel, GeomLabelRepel,
+#' and the `ggtext` geoms GeomRichText and GeomTextBox) where the user has not
+#' explicitly set a font family.
 #'
 #' @param plot A ggplot2 object
 #' @param font_family Font family string to apply
@@ -497,7 +498,8 @@ grattan_save_ <- function(filename,
 apply_font_to_geom_text <- function(plot, font_family) {
   text_geom_classes <- c("GeomText", "GeomLabel",
                          "GeomTextRepel", "GeomLabelRepel",
-                         "GeomGrattanRichLegend")
+                         "GeomGrattanRichLegend",
+                         "GeomRichText", "GeomTextBox")
 
   for (i in seq_along(plot$layers)) {
     geom_class <- class(plot$layers[[i]]$geom)[1]
@@ -506,12 +508,33 @@ apply_font_to_geom_text <- function(plot, font_family) {
       current_family <- plot$layers[[i]]$aes_params$family
       if (!has_family_mapping &&
           (is.null(current_family) || current_family == "")) {
+        # Layers are environments, so they are shared between a plot and its
+        # copies; copy this one before setting the font so the caller's plot
+        # keeps whatever font it had. Otherwise the first chart type saved
+        # would fix the font for every type saved after it.
+        plot$layers[[i]] <- copy_layer(plot$layers[[i]])
         plot$layers[[i]]$aes_params$family <- font_family
       }
     }
   }
 
   plot
+}
+
+#' Copy a ggplot2 layer
+#'
+#' Layers are ggproto objects, which are environments, so assigning to a
+#' layer's fields changes every plot that holds that layer. This makes a copy
+#' that can be modified on its own.
+#'
+#' @param layer A ggplot2 layer
+#' @return A copy of the layer
+#' @keywords internal
+copy_layer <- function(layer) {
+  copy <- list2env(as.list.environment(layer, all.names = TRUE),
+                   parent = parent.env(layer))
+  class(copy) <- class(layer)
+  copy
 }
 
 #' @name grattan_save_all

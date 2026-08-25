@@ -23,8 +23,9 @@
 #' @param rich_subtitle Logical. If `TRUE`, the plot will be saved as a high-quality PNG image and inserted into the slide. This is mainly intended for folks using a lot of markdown text in the subtitles and plots.
 #' @param png_dpi Integer. The DPI of the PNG image saved when `rich_subtitle = TRUE`.
 #' @param font Either "slide", "normal", or NULL (default). NULL automatically
-#' uses "slide" for fullslide chart types and "normal" for other types.
-#' "slide" uses Avenir Next for body text (if available). "normal" uses Arial.
+#' uses "slide" for fullslide and blog chart types and "normal" for other
+#' types. "slide" uses Avenir Next for body text (if available). "normal" uses
+#' Arial.
 #' @examples
 #' \dontrun{
 #' library(ggplot2)
@@ -124,15 +125,15 @@ grattan_save_pptx <- function(filename,
 
   num_slides <- length(plot)
 
-  # Determine font for each type: fullslide types use "slide", others use "normal"
-  # User-specified font overrides the default
-  fonts <- purrr::map_chr(type, function(t) {
-    if (!is.null(font)) {
-      return(font)
-    }
-    type_class <- chart_types_all$class[chart_types_all$type == t]
-    if (type_class == "fullslide") "slide" else "normal"
-  })
+  # Fullslide and blog charts use the "slide" font, as they do in
+  # `grattan_save()`; everything else uses "normal". A user-specified font
+  # overrides that default.
+  type_class <- chart_types_all$class[match(type, chart_types_all$type)]
+  fonts <- if (!is.null(font)) {
+    rep(font, length(type))
+  } else {
+    dplyr::if_else(type_class %in% c("fullslide", "blog"), "slide", "normal")
+  }
 
   purrr::pwalk(
     list(filenames, type, fonts),

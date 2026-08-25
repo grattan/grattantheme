@@ -1,3 +1,8 @@
+# grattantheme 1.6.5
+* Fixed the fonts used for on-chart annotations when `grattan_save_all()` or `grattan_save(type = "all")` are used.
+* `ggtext::geom_richtext()` and `ggtext::geom_textbox()` annotations now use the chart's body font, as the other text geoms do.
+* `grattan_save_pptx()` now uses the "slide" font (Avenir Next) for `blog` charts, matching the font used in the PNG.
+
 # grattantheme 1.6.4
 * Updates to colour palette to ensure consistency with Grattan branding. Notably, the `graph` palette now holds 9 colours rather than 10, since yellow no longer occupies two slots. `make_grattan_pal_discrete()` accepts `n` up to 9, and the deprecated `grattan_pal()` up to 9.
 * Updated the light orange shading used by `theme_grattan(background = "box")` and `theme_grattan(background = "orange")`.

@@ -37,6 +37,17 @@ no_slides <- function(filename) {
   length(x)
 }
 
+# The fonts used by the chart itself are recorded in the slide's DrawingML
+pptx_typefaces <- function(filename) {
+  slide_dir <- file.path(tempdir(), "pptx_typefaces")
+  unlink(slide_dir, recursive = TRUE)
+  utils::unzip(filename, exdir = slide_dir)
+  xml <- readLines(file.path(slide_dir, "ppt", "slides", "slide1.xml"),
+                   warn = FALSE)
+  matches <- regmatches(xml, gregexpr('typeface="[^"]*"', xml))
+  unique(gsub('typeface="|"', "", unlist(matches)))
+}
+
 test_that("create_pptx_shell creates an empty pptx document with the appropriate number of slides", {
   skip("Deprecated")
 
@@ -183,4 +194,18 @@ test_that("deprecated chart types are only accepted by grattan_save_pptx", {
                             object = p1,
                             type = "tiny"),
                "defunct")
+})
+
+test_that("blog pptx charts use the slide body font", {
+
+  skip_on_cran()
+  skip_if(get_grattan_font("slide", "body") == "sans",
+          "slide font not available")
+
+  pptx <- file.path(tempdir(), "font.pptx")
+  grattan_save_pptx(pptx, p2, type = "blog")
+
+  typefaces <- pptx_typefaces(file.path(tempdir(), "font_blog.pptx"))
+  expect_true(get_grattan_font("slide", "body") %in% typefaces)
+  expect_false("Arial" %in% typefaces)
 })
