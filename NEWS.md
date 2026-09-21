@@ -1,3 +1,9 @@
+# grattantheme 1.7.0
+* `grattan_save_overleaf()` can now sync charts to Overleaf over Overleaf's git integration, as well as via Dropbox. Which one you get depends on how you set the project: give `set_overleaf_project()` your project's URL (copied from your browser while the project is open in Overleaf) and charts are committed and pushed straight to Overleaf; give it a project name, as before, and charts are written to your Dropbox. Saving a chart is unchanged either way, and existing scripts keep working.
+* Added `set_overleaf_token()`, which stores the Overleaf git authentication token needed for git syncing. This is a one-off step per computer; one token covers every Overleaf project you can open.
+* Added `overleaf_push()`, for sending charts to Overleaf in a batch. `grattan_save_overleaf()` gains a `push` argument: save a run of charts with `push = FALSE` and call `overleaf_push()` once at the end, which is quicker than contacting Overleaf for each chart.
+* Added `overleaf_cache_dir()` and `overleaf_clear_cache()`. Git syncing keeps a local clone of each Overleaf project in R's per-package cache directory; these report where that is and delete it.
+
 # grattantheme 1.6.5
 * Fixed the fonts used for on-chart annotations when `grattan_save_all()` or `grattan_save(type = "all")` are used.
 * `ggtext::geom_richtext()` and `ggtext::geom_textbox()` annotations now use the chart's body font, as the other text geoms do.

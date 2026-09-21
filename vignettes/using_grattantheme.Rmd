@@ -322,11 +322,56 @@ save_chartdata("plot_final.xlsx", object = plot_final)
 
 ### Saving to an Overleaf atlas
 
-Grattan reports are drafted in Overleaf, with charts saved to an 'atlas' folder. Once this folder has been set up to sync locally via Dropbox, you can save charts directly from R to your Overleaf project using `grattan_save_overleaf()`.
+Grattan reports are drafted in Overleaf, with charts saved to an 'atlas' folder. You can save charts directly from R to your Overleaf project using `grattan_save_overleaf()`.
 
-The first time you use `grattan_save_overleaf()` in an R session, you'll be prompted to select which Overleaf project to use from those synced in your Dropbox. Your choice is stored for the current R session only.
+Charts get to Overleaf one of two ways, and you choose which by how you set the project with `set_overleaf_project()`:
 
-For reproducibility, we recommend setting your Overleaf project at the start of your script:
+* **Over git**, by giving it your project's URL. Charts are pushed straight to Overleaf, so nothing needs to be synced to your computer.
+* **Via Dropbox**, by giving it a project name. Charts are written to the project folder in your Dropbox, which Dropbox syncs to Overleaf.
+
+Saving a chart works the same either way.
+
+#### Syncing over git
+
+Copy your project's URL out of your browser's address bar while the project is open in Overleaf, and hand it to `set_overleaf_project()`:
+
+```{r, eval = FALSE}
+library(grattantheme)
+
+# Set the Overleaf project
+set_overleaf_project("https://www.overleaf.com/project/0123456789abcdef01234567")
+
+# Create and save your chart
+plot_final <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  theme_grattan()
+
+grattan_save_overleaf("my_chart.pdf", plot_final)
+```
+
+Putting that URL in your script is worth doing: it travels with your code, so a colleague who runs your script saves to the same Overleaf project without setting anything up.
+
+The one-off bit of setup is a token. Overleaf's git integration authenticates with a personal token rather than your password, so the first time you do this on a computer, generate one at [overleaf.com/user/settings](https://www.overleaf.com/user/settings) (under 'Git integration') and store it:
+
+```{r, eval = FALSE}
+set_overleaf_token()
+```
+
+That saves the token to your `.Renviron`, so you won't be asked again. One token covers every Overleaf project you can open, and they last a year.
+
+If you're saving a batch of charts, push them in one go rather than one at a time:
+
+```{r, eval = FALSE}
+grattan_save_overleaf("chart1.pdf", plot1, push = FALSE)
+grattan_save_overleaf("chart2.pdf", plot2, push = FALSE)
+
+overleaf_push()
+```
+
+#### Syncing via Dropbox
+
+If your Overleaf project's folder syncs locally via Dropbox, give `set_overleaf_project()` a project name instead of a URL, or nothing at all to pick from a menu of the projects in your Dropbox:
+
 ```{r, eval = FALSE}
 library(grattantheme)
 
@@ -334,7 +379,7 @@ library(grattantheme)
 set_overleaf_project("Orange-Book-2025")  # Searches for matching project name
 
 # Create and save your chart
-plot_final <- ggplot(mtcars, aes(x = wt, y = mpg)) + 
+plot_final <- ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point() +
   theme_grattan()
 

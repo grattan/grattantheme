@@ -7,13 +7,17 @@
 set_overleaf_project(project = NULL)
 }
 \arguments{
-\item{project}{Either a project name fragment (like "Orange Book"), a full
-project name (like "Orange-Book-2025"), or a full file path
-to an Overleaf project folder. If NULL (the default), you will be prompted
-to select from available projects.}
+\item{project}{One of: an Overleaf project URL (like
+\code{"https://www.overleaf.com/project/0123456789abcdef01234567"}), a
+project name fragment (like "Orange Book"), a full project name (like
+"Orange-Book-2025"), or a full file path to an Overleaf project folder. If
+NULL (the default), you will be prompted to select from available Dropbox
+projects.}
 }
 \value{
 The full path to the selected Overleaf project folder, invisibly.
+  For git projects this is the local clone, which the package manages for
+  you; see \code{\link{overleaf_cache_dir}}.
 }
 \description{
 Set or reset the Overleaf project location
@@ -23,18 +27,33 @@ This function lets you choose which Overleaf project to save charts
   to when using \code{grattan_save_overleaf()}. The setting is stored as an
   environment variable for the current R session only.
 
-  If you don't provide a project, you'll see a menu of available Overleaf
-  projects to choose from. If you provide a project name or fragment, it will
-  search for matching projects (case-insensitive). If you provide a full file
-  path, it will use that path directly.
+  Charts can reach Overleaf two ways, and which one you get depends on what
+  you pass to this function:
+
+  \describe{
+    \item{Git}{Give it the URL of your project, copied from your browser's
+    address bar while the project is open in Overleaf. Charts are committed
+    and pushed to Overleaf directly, and nothing needs to be synced to your
+    computer. This needs a one-off token: see
+    \code{\link{set_overleaf_token}}.}
+    \item{Dropbox}{Give it a project name, a fragment of one, or a path, or
+    nothing at all to pick from a menu. Charts are written to the project
+    folder in your Dropbox, and Dropbox syncs them to Overleaf.}
+  }
 
   Since this setting only persists for the current R session, we recommend
   calling \code{set_overleaf_project()} at the beginning of your script, or
-  in a project setup script or .Renv file, to improve reproducibility.
+  in a project setup script or .Renv file, to improve reproducibility. This
+  is especially worthwhile with a project URL, since the URL then travels
+  with your code: colleagues who run your script save to the same Overleaf
+  project without having to set anything up.
 }
 \examples{
 \dontrun{
-# Prompt to select from available projects
+# Sync via git, using the URL from your browser
+set_overleaf_project("https://www.overleaf.com/project/0123456789abcdef01234567")
+
+# Prompt to select from available Dropbox projects
 set_overleaf_project()
 
 # Search for a project by name fragment
@@ -50,4 +69,8 @@ set_overleaf_project("/Users/you/Dropbox/yourname/Apps/Overleaf/My Report")
 set_overleaf_project("transport-report")
 # ... rest of your script
 }
+}
+\seealso{
+\code{\link{set_overleaf_token}} to store your Overleaf git token,
+  \code{\link{overleaf_push}} to send saved charts to Overleaf
 }

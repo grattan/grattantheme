@@ -1,7 +1,7 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 1.6.5
+Version: 1.7.0
 Authors@R: c(
     person("Matt", "Cowgill", 
                 role = c("aut")),
@@ -40,9 +40,11 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 Suggests:
+    askpass,
     assertthat,
     clipr,
     covr,
+    gert,
     ggtext,
     gridExtra,
     knitr,
@@ -50,5 +52,6 @@ Suggests:
     png,
     rmarkdown (>= 1.12),
     testthat (>= 3.0.0),
-    vdiffr
+    vdiffr,
+    withr
 Config/roxygen2/version: 8.1.0
