@@ -4,6 +4,7 @@
 * Added `overleaf_push()`, for sending charts to Overleaf in a batch. `grattan_save_overleaf()` gains a `push` argument: save a run of charts with `push = FALSE` and call `overleaf_push()` once at the end, which is quicker than contacting Overleaf for each chart.
 * Added `overleaf_cache_dir()` and `overleaf_clear_cache()`. Git syncing keeps a local clone of each Overleaf project in R's per-package cache directory; these report where that is and delete it.
 * `grattan_y_continuous()`, `grattan_x_continuous()` and their `scale_*_continuous_grattan()` aliases now have `labels` as a named argument. This fixes an error when the argument was abbreviated, as in `grattan_y_continuous(label = scales::label_percent())`, which works in `ggplot2::scale_y_continuous()`.
+* `grattan_y_continuous()`, `grattan_x_continuous()` and their aliases gain an `expand` argument, so you can set the axis expansion the usual ggplot2 way (e.g. `expand = expansion(mult = c(0, 0.05))`) as an alternative to `expand_bottom`/`expand_top` or `expand_left`/`expand_right`. Previously a supplied `expand` was silently ignored.
 
 # grattantheme 1.6.5
 * Fixed the fonts used for on-chart annotations when `grattan_save_all()` or `grattan_save(type = "all")` are used.

@@ -11,6 +11,7 @@ off the edge of the chart.}
 grattan_y_continuous(
   expand_bottom = 0,
   expand_top = 0.015,
+  expand = NULL,
   labels = grattan_label_hide_zero,
   ...
 )
@@ -18,6 +19,7 @@ grattan_y_continuous(
 scale_y_continuous_grattan(
   expand_bottom = 0,
   expand_top = 0.015,
+  expand = NULL,
   labels = grattan_label_hide_zero,
   ...
 )
@@ -25,6 +27,7 @@ scale_y_continuous_grattan(
 grattan_x_continuous(
   expand_left = 0,
   expand_right = 0.015,
+  expand = NULL,
   labels = grattan_label_hide_zero,
   ...
 )
@@ -32,6 +35,7 @@ grattan_x_continuous(
 scale_x_continuous_grattan(
   expand_left = 0,
   expand_right = 0.015,
+  expand = NULL,
   labels = grattan_label_hide_zero,
   ...
 )
@@ -46,6 +50,12 @@ add white space equal to the whole area of your data.}
 \item{expand_top}{default is 0.015. This will ensure that a small amount of
 white space is added to the top of your chart. Increase to add more white
 space.}
+
+\item{expand}{a vector of expansion constants, as you would pass to
+`scale_y_continuous()` or `scale_x_continuous()`, typically created with
+`ggplot2::expansion()`. Defaults to NULL, in which case the expansion is
+set by `expand_bottom` and `expand_top` (or `expand_left` and
+`expand_right`). If you supply `expand`, those arguments are ignored.}
 
 \item{labels}{labels for the axis breaks, passed to `scale_y_continuous()`
 or `scale_x_continuous()`. The default uses comma formatting and hides the

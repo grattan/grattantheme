@@ -15,6 +15,11 @@
 #'   lowest value of your plotted value.
 #' @param expand_right default is 0.015. This will ensure that a small amount of
 #'   white space is added to the right of your chart.
+#' @param expand a vector of expansion constants, as you would pass to
+#'   `scale_y_continuous()` or `scale_x_continuous()`, typically created with
+#'   `ggplot2::expansion()`. Defaults to NULL, in which case the expansion is
+#'   set by `expand_bottom` and `expand_top` (or `expand_left` and
+#'   `expand_right`). If you supply `expand`, those arguments are ignored.
 #' @param labels labels for the axis breaks, passed to `scale_y_continuous()`
 #'   or `scale_x_continuous()`. The default uses comma formatting and hides the
 #'   '0' label when the axis starts at 0. Supplying your own labels (such as
@@ -87,30 +92,25 @@ grattan_label_hide_zero <- function(x) {
 
 grattan_y_continuous <- function(expand_bottom = 0,
                                  expand_top = 0.015,
+                                 expand = NULL,
                                  labels = grattan_label_hide_zero,
                                  ...) {
 
-  ggplot2::scale_y_continuous(
-    labels = labels,
-    expand = ggplot2::expansion(mult = c(expand_bottom, expand_top)),
-    ...
-  )
+  if (is.null(expand)) {
+    expand <- ggplot2::expansion(mult = c(expand_bottom, expand_top))
+  } else if (!missing(expand_bottom) || !missing(expand_top)) {
+    warning("`expand` was supplied, so `expand_bottom` and `expand_top` ",
+            "are ignored.", call. = FALSE)
+  }
+
+  ggplot2::scale_y_continuous(labels = labels, expand = expand, ...)
 }
 
 
 #' @rdname grattan_axes
 #' @export
 
-scale_y_continuous_grattan <- function(expand_bottom = 0,
-                                       expand_top = 0.015,
-                                       labels = grattan_label_hide_zero,
-                                       ...) {
-
-  grattan_y_continuous(expand_bottom = expand_bottom,
-                       expand_top = expand_top,
-                       labels = labels,
-                       ...)
-}
+scale_y_continuous_grattan <- grattan_y_continuous
 
 #' @rdname grattan_axes
 #' @importFrom ggplot2 scale_y_continuous expand_scale
@@ -118,26 +118,21 @@ scale_y_continuous_grattan <- function(expand_bottom = 0,
 
 grattan_x_continuous <- function(expand_left = 0,
                                  expand_right = 0.015,
+                                 expand = NULL,
                                  labels = grattan_label_hide_zero,
                                  ...) {
 
-  ggplot2::scale_x_continuous(
-    labels = labels,
-    expand = ggplot2::expansion(mult = c(expand_left, expand_right)),
-    ...
-  )
+  if (is.null(expand)) {
+    expand <- ggplot2::expansion(mult = c(expand_left, expand_right))
+  } else if (!missing(expand_left) || !missing(expand_right)) {
+    warning("`expand` was supplied, so `expand_left` and `expand_right` ",
+            "are ignored.", call. = FALSE)
+  }
+
+  ggplot2::scale_x_continuous(labels = labels, expand = expand, ...)
 }
 
 #' @rdname grattan_axes
 #' @export
 
-scale_x_continuous_grattan <- function(expand_left = 0,
-                                       expand_right = 0.015,
-                                       labels = grattan_label_hide_zero,
-                                       ...) {
-
-  grattan_x_continuous(expand_left = expand_left,
-                       expand_right = expand_right,
-                       labels = labels,
-                       ...)
-}
+scale_x_continuous_grattan <- grattan_x_continuous

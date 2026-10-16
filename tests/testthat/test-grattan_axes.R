@@ -159,3 +159,40 @@ test_that("scale_*_continuous_grattan pass labels through", {
   expect_equal(y_scale$get_labels(c(0, 50)), c("0%", "50%"))
   expect_equal(x_scale$get_labels(c(0, 50)), c("0%", "50%"))
 })
+
+test_that("expand argument sets the axis expansion", {
+  custom_expand <- ggplot2::expansion(mult = c(0.1, 0.2))
+
+  expect_equal(grattan_y_continuous(expand = custom_expand)$expand,
+               custom_expand)
+  expect_equal(grattan_x_continuous(expand = custom_expand)$expand,
+               custom_expand)
+  expect_equal(scale_y_continuous_grattan(expand = custom_expand)$expand,
+               custom_expand)
+  expect_equal(scale_x_continuous_grattan(expand = custom_expand)$expand,
+               custom_expand)
+})
+
+test_that("expand_* arguments still work and are used by default", {
+  expect_equal(grattan_y_continuous()$expand,
+               ggplot2::expansion(mult = c(0, 0.015)))
+  expect_equal(scale_x_continuous_grattan(expand_left = 0.1)$expand,
+               ggplot2::expansion(mult = c(0.1, 0.015)))
+})
+
+test_that("supplying expand with expand_* warns, and expand wins", {
+  custom_expand <- ggplot2::expansion(mult = c(0.1, 0.2))
+
+  expect_warning(y_scale <- grattan_y_continuous(expand_top = 0.5,
+                                                 expand = custom_expand),
+                 "ignored")
+  expect_equal(y_scale$expand, custom_expand)
+
+  expect_warning(scale_x_continuous_grattan(expand_left = 0.5,
+                                            expand = custom_expand),
+                 "ignored")
+
+  # The aliases shouldn't warn just because they pass expand_* along
+  expect_no_warning(scale_y_continuous_grattan(expand = custom_expand))
+  expect_no_warning(scale_x_continuous_grattan(expand = custom_expand))
+})
