@@ -8,13 +8,33 @@
 \title{Ensure your y- and x-axis are Grattan style guide-consistent and doesn't hang
 off the edge of the chart.}
 \usage{
-grattan_y_continuous(expand_bottom = 0, expand_top = 0.015, ...)
+grattan_y_continuous(
+  expand_bottom = 0,
+  expand_top = 0.015,
+  labels = grattan_label_hide_zero,
+  ...
+)
 
-scale_y_continuous_grattan(expand_bottom = 0, expand_top = 0.015, ...)
+scale_y_continuous_grattan(
+  expand_bottom = 0,
+  expand_top = 0.015,
+  labels = grattan_label_hide_zero,
+  ...
+)
 
-grattan_x_continuous(expand_left = 0, expand_right = 0.015, ...)
+grattan_x_continuous(
+  expand_left = 0,
+  expand_right = 0.015,
+  labels = grattan_label_hide_zero,
+  ...
+)
 
-scale_x_continuous_grattan(expand_left = 0, expand_right = 0.015, ...)
+scale_x_continuous_grattan(
+  expand_left = 0,
+  expand_right = 0.015,
+  labels = grattan_label_hide_zero,
+  ...
+)
 }
 \arguments{
 \item{expand_bottom}{default is 0. This will ensure that your x-axis is at
@@ -27,9 +47,13 @@ add white space equal to the whole area of your data.}
 white space is added to the top of your chart. Increase to add more white
 space.}
 
-\item{...}{arguments passed to scale_y_continuous or scale_x_continuous. Note
-that if you provide a custom `labels` argument, it will override the default
-behavior of hiding the '0' label.}
+\item{labels}{labels for the axis breaks, passed to `scale_y_continuous()`
+or `scale_x_continuous()`. The default uses comma formatting and hides the
+'0' label when the axis starts at 0. Supplying your own labels (such as
+`scales::label_percent()`) replaces this, so the '0' label will be shown.}
+
+\item{...}{other arguments passed to `scale_y_continuous()` or
+`scale_x_continuous()`, such as `limits` and `breaks`.}
 
 \item{expand_left}{default is 0. This will ensure your y-axis is at the
 lowest value of your plotted value.}

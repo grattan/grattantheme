@@ -142,3 +142,20 @@ test_that("non-zero starting axes show all labels including zero if present", {
     expect_true(zero_label != "")
   }
 })
+
+test_that("abbreviated label argument is matched to labels", {
+  y_scale <- grattan_y_continuous(label = scales::label_percent(scale = 1),
+                                  limits = c(0, 100))
+  x_scale <- grattan_x_continuous(label = scales::label_percent(scale = 1))
+
+  expect_equal(y_scale$get_labels(c(0, 50, 100)), c("0%", "50%", "100%"))
+  expect_equal(x_scale$get_labels(c(0, 50, 100)), c("0%", "50%", "100%"))
+})
+
+test_that("scale_*_continuous_grattan pass labels through", {
+  y_scale <- scale_y_continuous_grattan(label = scales::label_percent(scale = 1))
+  x_scale <- scale_x_continuous_grattan(labels = scales::label_percent(scale = 1))
+
+  expect_equal(y_scale$get_labels(c(0, 50)), c("0%", "50%"))
+  expect_equal(x_scale$get_labels(c(0, 50)), c("0%", "50%"))
+})
