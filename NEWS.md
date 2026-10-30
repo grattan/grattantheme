@@ -5,6 +5,8 @@
 * Added `overleaf_cache_dir()` and `overleaf_clear_cache()`. Git syncing keeps a local clone of each Overleaf project in R's per-package cache directory; these report where that is and delete it.
 * `grattan_y_continuous()`, `grattan_x_continuous()` and their `scale_*_continuous_grattan()` aliases now have `labels` as a named argument. This fixes an error when the argument was abbreviated, as in `grattan_y_continuous(label = scales::label_percent())`, which works in `ggplot2::scale_y_continuous()`.
 * `grattan_y_continuous()`, `grattan_x_continuous()` and their aliases gain an `expand` argument, so you can set the axis expansion the usual ggplot2 way (e.g. `expand = expansion(mult = c(0, 0.05))`) as an alternative to `expand_bottom`/`expand_top` or `expand_left`/`expand_right`. Previously a supplied `expand` was silently ignored.
+* `grattan_save()` no longer includes the title, subtitle and caption when saving a patchwork chart made with `patchwork::plot_annotation()` (unless `force_labs = TRUE`). Previously these were left in the PDF/PNG.
+* Fonts are now applied to every plot in a patchwork chart, not just the last one. This fixes mixed fonts in Powerpoint (`grattan_save_pptx()` / `save_pptx = TRUE`) and in fullslide, blog and web-ready charts made from patchwork plots.
 
 # grattantheme 1.6.5
 * Fixed the fonts used for on-chart annotations when `grattan_save_all()` or `grattan_save(type = "all")` are used.

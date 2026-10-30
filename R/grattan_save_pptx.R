@@ -201,6 +201,13 @@ add_graph_to_pptx <- function(p,
     plot <- p[[slide]]
     labs <- extract_labs(plot)
 
+    # Set the body font on every part of the chart - for a patchwork plot,
+    # that means each of its plots, not just the last one
+    body_font <- get_grattan_font(font, "body")
+    plot <- add_theme_to_all(plot,
+                             theme(text = element_text(family = body_font)))
+    plot <- apply_font_to_geom_text(plot, body_font)
+
     x <- x %>%
       officer::add_slide(layout="Two Content", master = master) %>%
       officer::set_notes(value = notes, officer::notes_location_type(type = "body"))
@@ -210,16 +217,12 @@ add_graph_to_pptx <- function(p,
     }
 
     if (rich_subtitle) {
-      # Get the font family to use
-      body_font <- get_grattan_font(font, "body")
-
       # Save as high-quality PNG using ragg (uses systemfonts)
       png_file <- file.path(temp_dir, paste0("slide_", slide, ".png"))
 
-      plot <- plot +
-        theme(plot.title = element_blank(),
-              plot.caption = element_blank(),
-              text = element_text(family = body_font))
+      plot <- add_theme_to_all(plot,
+                               theme(plot.title = element_blank(),
+                                     plot.caption = element_blank()))
 
       ragg::agg_png(png_file,
                     width = image_width_in,
@@ -246,7 +249,6 @@ add_graph_to_pptx <- function(p,
 
       # Build font mapping for rvg::dml()
       # Note: rvg uses gdtools for fonts, which only sees system-installed fonts
-      body_font <- get_grattan_font(font, "body")
       pptx_fonts <- if (body_font == "sans") list() else list(sans = body_font)
 
       x <- officer::ph_with(x,

@@ -397,8 +397,8 @@ grattan_save_ <- function(filename,
     # device default (which can resolve to Avenir Next via systemfonts/ragg).
     if (!is.null(font) && font == "slide") {
       body_font <- get_grattan_font("slide", "body")
-      object <- object +
-        theme(text = element_text(family = body_font))
+      object <- add_theme_to_all(object,
+                                 theme(text = element_text(family = body_font)))
     } else {
       body_font <- get_grattan_font("normal", "body")
     }
@@ -407,10 +407,10 @@ grattan_save_ <- function(filename,
     if (isFALSE(force_labs)) {
       # Otherwise, unless force_labs == TRUE remove title, subtitle and caption
 
-      object <- object +
-        theme(plot.title = element_blank(),
-                plot.subtitle = element_blank(),
-                plot.caption = element_blank())
+      object <- add_theme_to_all(object,
+                                 theme(plot.title = element_blank(),
+                                       plot.subtitle = element_blank(),
+                                       plot.caption = element_blank()))
 
     } else {
     # non-fullslide, force_labs = TRUE
@@ -489,13 +489,22 @@ grattan_save_ <- function(filename,
 #' Iterates through a ggplot object's layers and updates the font family
 #' for text-based geoms (GeomText, GeomLabel, GeomTextRepel, GeomLabelRepel,
 #' and the `ggtext` geoms GeomRichText and GeomTextBox) where the user has not
-#' explicitly set a font family.
+#' explicitly set a font family. For patchwork plots, every component plot is
+#' updated, not just the last one.
 #'
 #' @param plot A ggplot2 object
 #' @param font_family Font family string to apply
 #' @return The modified ggplot2 object
 #' @keywords internal
 apply_font_to_geom_text <- function(plot, font_family) {
+  # A patchwork object is its last plot, with the other plots stored in
+  # `patches$plots`
+  if (inherits(plot, "patchwork")) {
+    plot$patches$plots <- lapply(plot$patches$plots,
+                                 apply_font_to_geom_text,
+                                 font_family = font_family)
+  }
+
   text_geom_classes <- c("GeomText", "GeomLabel",
                          "GeomTextRepel", "GeomLabelRepel",
                          "GeomGrattanRichLegend",
@@ -519,6 +528,25 @@ apply_font_to_geom_text <- function(plot, font_family) {
   }
 
   plot
+}
+
+#' Add a theme to a plot, including every part of a patchwork plot
+#'
+#' Adding a theme to a patchwork plot with `+` only changes its last plot, and
+#' leaves the other plots and the `plot_annotation()` title, subtitle and
+#' caption as they were. This uses `&` for patchwork plots, which changes all
+#' of them, and `+` for other plots.
+#'
+#' @param plot A ggplot2 object
+#' @param theme A ggplot2 theme
+#' @return The modified ggplot2 object
+#' @keywords internal
+add_theme_to_all <- function(plot, theme) {
+  if (inherits(plot, "patchwork")) {
+    plot & theme
+  } else {
+    plot + theme
+  }
 }
 
 #' Copy a ggplot2 layer

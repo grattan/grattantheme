@@ -18,6 +18,7 @@ The modified ggplot2 object
 Iterates through a ggplot object's layers and updates the font family
 for text-based geoms (GeomText, GeomLabel, GeomTextRepel, GeomLabelRepel,
 and the `ggtext` geoms GeomRichText and GeomTextBox) where the user has not
-explicitly set a font family.
+explicitly set a font family. For patchwork plots, every component plot is
+updated, not just the last one.
 }
 \keyword{internal}

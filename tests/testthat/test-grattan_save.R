@@ -430,3 +430,33 @@ test_that("grattan_save(ignore_long_titles = TRUE) successfully ignores long tit
                type = "fullslide",
                ignore_long_title = TRUE)
 })
+
+test_that("add_theme_to_all() reaches every part of a patchwork plot", {
+
+  pw_p1 <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point() + theme_grattan()
+  pw_p2 <- ggplot(mtcars, aes(x = hp, y = mpg)) + geom_point() + theme_grattan()
+  pw <- (pw_p1 + pw_p2) +
+    patchwork::plot_annotation(title = "Patchwork title")
+
+  pw <- add_theme_to_all(pw, theme(plot.title = element_blank(),
+                                   text = element_text(family = "mono")))
+
+  # The plot_annotation() title is drawn using the annotation theme
+  expect_s3_class(pw$patches$annotation$theme$plot.title, "element_blank")
+  expect_equal(pw$theme$text$family, "mono")
+  expect_equal(pw$patches$plots[[1]]$theme$text$family, "mono")
+})
+
+test_that("apply_font_to_geom_text() updates every plot in a patchwork plot", {
+
+  pw_p1 <- ggplot(mtcars, aes(x = wt, y = mpg, label = cyl)) + geom_text()
+  pw_p2 <- ggplot(mtcars, aes(x = hp, y = mpg, label = gear)) + geom_text()
+  pw <- pw_p1 + pw_p2
+
+  pw <- apply_font_to_geom_text(pw, "mono")
+
+  expect_equal(pw$layers[[1]]$aes_params$family, "mono")
+  expect_equal(pw$patches$plots[[1]]$layers[[1]]$aes_params$family, "mono")
+  # The original plot is unchanged
+  expect_null(pw_p1$layers[[1]]$aes_params$family)
+})

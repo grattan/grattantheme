@@ -209,3 +209,23 @@ test_that("blog pptx charts use the slide body font", {
   expect_true(get_grattan_font("slide", "body") %in% typefaces)
   expect_false("Arial" %in% typefaces)
 })
+
+test_that("all plots in a patchwork pptx chart use the same font", {
+
+  skip_on_cran()
+
+  pw_p1 <- ggplot(mtcars, aes(x = wt, y = mpg, label = cyl)) +
+    geom_text() +
+    theme_grattan(base_family = "mono")
+  pw_p2 <- ggplot(mtcars, aes(x = hp, y = mpg, label = gear)) +
+    geom_text() +
+    theme_grattan()
+  pw <- (pw_p1 + pw_p2) +
+    patchwork::plot_annotation(title = "title", subtitle = "subtitle")
+
+  pptx <- file.path(tempdir(), "patchwork.pptx")
+  grattan_save_pptx(pptx, pw, type = "fullslide")
+
+  typefaces <- pptx_typefaces(file.path(tempdir(), "patchwork_fullslide.pptx"))
+  expect_length(typefaces, 1)
+})
