@@ -11,7 +11,8 @@ save_chartdata(
   height = NULL,
   select_data = TRUE,
   round = NULL,
-  sheet_name = "data"
+  sheet_name = "data",
+  author = "Grattan Institute"
 )
 }
 \arguments{
@@ -38,6 +39,10 @@ number of decimal places. Default is NULL, which does not round numbers.}
 
 \item{sheet_name}{Character. Name of the worksheet in the Excel file.
 Defaults to `"data"`.}
+
+\item{author}{Character. The name recorded as both the author and the
+"last modified by" name in the Excel file's document properties. Defaults
+to `"Grattan Institute"`. Use `""` to leave both blank.}
 }
 \description{
 Grattan reports are accompanied by Excel workbooks containing the data used

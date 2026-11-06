@@ -223,6 +223,7 @@ importFrom(openxlsx,
   insertImage,
   saveWorkbook,
   setColWidths,
+  setLastModifiedBy,
   writeData
 )
 importFrom(patchwork,

@@ -69,6 +69,10 @@
 #' decimal places. Default is NULL, which does not round numbers.
 #' @param sheet_name Character. Name of the worksheet in the exported chart-data
 #' Excel file. Only used when `save_data = TRUE`. Defaults to `"data"`.
+#' @param author Character. The name recorded as both the author and the
+#' "last modified by" name in the document properties of any Powerpoint and
+#' Excel files created (with `save_pptx = TRUE` or `save_data = TRUE`).
+#' Defaults to `"Grattan Institute"`. Use `""` to leave both blank.
 #' @param force_labs Logical. By default, `grattan_save()` will remove your
 #'   title, subtitle, and caption (if present) from your graph before saving it,
 #'   unless `type` = "fullslide". By setting `force_labs` to TRUE, your
@@ -168,6 +172,7 @@ grattan_save <- function(filename,
                          select_data = TRUE,
                          round = NULL,
                          sheet_name = "data",
+                         author = "Grattan Institute",
                          force_labs = FALSE,
                          watermark = NULL,
                          latex = FALSE,
@@ -205,6 +210,8 @@ grattan_save <- function(filename,
     stop("save_web must be either TRUE or FALSE.")
   }
 
+  check_author(author)
+
 
   # create subdirectory
   if (!no_new_folder) {
@@ -234,7 +241,8 @@ grattan_save <- function(filename,
                        height = height,
                        select_data = select_data,
                        round = round,
-                       sheet_name = sheet_name)
+                       sheet_name = sheet_name,
+                       author = author)
     }
     ## export single pptx
     if (isTRUE(save_pptx)) {
@@ -250,7 +258,8 @@ grattan_save <- function(filename,
                           type = type,
                           filename = file.path(dir, paste0(file_name, ".pptx")),
                           rich_subtitle = rich_subtitle,
-                          font = font)
+                          font = font,
+                          author = author)
       }
     }
     ## export single image
@@ -283,7 +292,8 @@ grattan_save <- function(filename,
                      select_data = select_data,
                      height = height,
                      round = round,
-                     sheet_name = sheet_name)
+                     sheet_name = sheet_name,
+                     author = author)
     }
 
     ## export pptx
@@ -297,7 +307,8 @@ grattan_save <- function(filename,
                         filename = file.path(dir, paste0(file_name, ".pptx")),
                         type = valid_pptx_types,
                         rich_subtitle = rich_subtitle,
-                        font = font)
+                        font = font,
+                        author = author)
 
     }
 

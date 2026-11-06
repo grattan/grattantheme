@@ -26,6 +26,9 @@
 #' uses "slide" for fullslide and blog chart types and "normal" for other
 #' types. "slide" uses Avenir Next for body text (if available). "normal" uses
 #' Arial.
+#' @param author Character. The name recorded as both the author and the
+#' "last modified by" name in the Powerpoint file's document properties.
+#' Defaults to `"Grattan Institute"`. Use `""` to leave both blank.
 #' @examples
 #' \dontrun{
 #' library(ggplot2)
@@ -59,7 +62,10 @@ grattan_save_pptx <- function(filename,
                               type = "fullslide",
                               rich_subtitle = FALSE,
                               png_dpi = 300,
-                              font = NULL) {
+                              font = NULL,
+                              author = "Grattan Institute") {
+
+  check_author(author)
 
   plot <- p
 
@@ -144,7 +150,8 @@ grattan_save_pptx <- function(filename,
                         num_slides = num_slides,
                         rich_subtitle = rich_subtitle,
                         png_dpi = png_dpi,
-                        font = fnt)
+                        font = fnt,
+                        author = author)
     }
   )
 
@@ -158,7 +165,8 @@ add_graph_to_pptx <- function(p,
                               num_slides,
                               rich_subtitle = FALSE,
                               png_dpi = 300,
-                              font = "slide") {
+                              font = "slide",
+                              author = "Grattan Institute") {
 
   message(glue::glue("Making {type}"))
 
@@ -269,7 +277,7 @@ add_graph_to_pptx <- function(p,
 
   }
 
-  print(x, filename)
+  save_pptx_with_author(x, target = filename, author = author)
 }
 
 

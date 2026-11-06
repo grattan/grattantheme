@@ -10,7 +10,8 @@ grattan_save_pptx(
   type = "fullslide",
   rich_subtitle = FALSE,
   png_dpi = 300,
-  font = NULL
+  font = NULL,
+  author = "Grattan Institute"
 )
 }
 \arguments{
@@ -35,6 +36,10 @@ anywhere else in the package.}
 uses "slide" for fullslide and blog chart types and "normal" for other
 types. "slide" uses Avenir Next for body text (if available). "normal" uses
 Arial.}
+
+\item{author}{Character. The name recorded as both the author and the
+"last modified by" name in the Powerpoint file's document properties.
+Defaults to `"Grattan Institute"`. Use `""` to leave both blank.}
 }
 \description{
 `grattan_save_pptx()` creates a Grattan-style Powerpoint

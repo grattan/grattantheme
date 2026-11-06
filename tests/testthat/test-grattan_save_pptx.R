@@ -229,3 +229,49 @@ test_that("all plots in a patchwork pptx chart use the same font", {
   typefaces <- pptx_typefaces(file.path(tempdir(), "patchwork_fullslide.pptx"))
   expect_length(typefaces, 1)
 })
+
+# Read the author and "last modified by" fields from an Office file's
+# document properties (docProps/core.xml inside the zip archive)
+doc_authors <- function(filename) {
+  dir <- tempfile("core_")
+  utils::unzip(filename, files = "docProps/core.xml", exdir = dir)
+  core <- paste(readLines(file.path(dir, "docProps", "core.xml"),
+                          warn = FALSE), collapse = "")
+  unlink(dir, recursive = TRUE)
+  field <- function(tag) {
+    sub(paste0(".*<", tag, ">(.*?)</", tag, ">.*"), "\\1", core, perl = TRUE)
+  }
+  c(creator = field("dc:creator"), last_modified_by = field("cp:lastModifiedBy"))
+}
+
+test_that("grattan_save_pptx records Grattan Institute as the author", {
+  user_before <- Sys.getenv("USER", unset = NA)
+  filename <- file.path(tempdir(), "author.pptx")
+
+  grattan_save_pptx(p = p1, filename = filename, type = "fullslide")
+
+  expect_equal(doc_authors(file.path(tempdir(), "author_fullslide.pptx")),
+               c(creator = "Grattan Institute",
+                 last_modified_by = "Grattan Institute"))
+  # The USER environment variable is restored after saving
+  expect_identical(Sys.getenv("USER", unset = NA), user_before)
+})
+
+test_that("grattan_save_pptx accepts a custom or blank author", {
+  filename <- file.path(tempdir(), "author_custom.pptx")
+
+  grattan_save_pptx(p = p1, filename = filename, type = "fullslide",
+                    author = "Someone Else")
+  expect_equal(doc_authors(file.path(tempdir(), "author_custom_fullslide.pptx")),
+               c(creator = "Someone Else", last_modified_by = "Someone Else"))
+
+  grattan_save_pptx(p = p1, filename = filename, type = "fullslide",
+                    author = "")
+  expect_false(any(grepl("Cowgill|Clay|Reysenbach|Bowes",
+                         doc_authors(file.path(tempdir(),
+                                               "author_custom_fullslide.pptx")))))
+
+  expect_error(grattan_save_pptx(p = p1, filename = filename,
+                                 type = "fullslide", author = c("a", "b")),
+               "`author` must be a single string")
+})
