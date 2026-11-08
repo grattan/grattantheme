@@ -251,21 +251,7 @@ overleaf_token <- function() {
 #' @examples
 #' overleaf_cache_dir()
 overleaf_cache_dir <- function() {
-
-  # Mostly an escape hatch for tests
-  user_set <- Sys.getenv("GRATTANTHEME_OVERLEAF_CACHE", unset = "")
-
-  if (user_set != "") {
-    return(user_set)
-  }
-
-  base <- if (getRversion() >= "4.0.0") {
-    tools::R_user_dir("grattantheme", "cache")
-  } else {
-    file.path(path.expand("~"), ".grattantheme")
-  }
-
-  file.path(base, "overleaf")
+  file.path(tools::R_user_dir("grattantheme", "cache"), "overleaf")
 }
 
 
@@ -313,20 +299,6 @@ overleaf_clear_cache <- function(project = NULL) {
 }
 
 
-#' Check that gert is available
-#'
-#' @return Nothing, called for its side effect.
-#'
-#' @keywords internal
-check_gert <- function() {
-  if (!requireNamespace("gert", quietly = TRUE)) {
-    stop("Syncing charts to Overleaf over git needs the 'gert' package. ",
-         "Install it with install.packages(\"gert\").")
-  }
-  invisible(NULL)
-}
-
-
 #' Make sure a local clone of an Overleaf project exists
 #'
 #' @param path Where the clone should live. The folder is named after the
@@ -344,7 +316,7 @@ overleaf_ensure_clone <- function(path,
                                                   basename(path)),
                                   token = overleaf_token()) {
 
-  check_gert()
+  rlang::check_installed("gert", "to sync charts to Overleaf over git.")
 
   if (dir.exists(file.path(path, ".git"))) {
     return(invisible(path))
