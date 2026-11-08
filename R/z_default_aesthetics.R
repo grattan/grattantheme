@@ -1,16 +1,6 @@
 # Suppress R CMD check NOTE about internal data objects
 utils::globalVariables("vanilla_geom_aesthetics")
 
-#' A vector of geoms
-#'
-#' A vector of geoms exported from \code{ggplot2} and extension packages. This
-#' vector is iterated on to set the default aesthetics for each geom, allowing
-#' the grattan colours to be plotted automatically.
-#'
-#' @format A vector
-"all_geoms"
-
-
 #' A list of plot options reflecting the Grattan brand
 #'
 plot_opts_grattan <- list(
@@ -55,112 +45,6 @@ plot_opts_vanilla <- list(
 
 .safe_set_geom_aesthetics <- purrr::safely(.set_geom_aesthetics) # nolint
 
-#' Prepare \code{ggplot2} geom_ defaults
-#'
-#' ggplot2 geoms have default aesthetics which can be changed for each
-#' session. This function is a generalised way to set geom defaults. It only
-#' changes settings where the default is not NA; no need for \code{geom_point}
-#' to have a default font family.
-#'
-#' This is used inside `.set_grattan_aesthetics()`
-#'
-#' @param geom (character) the geom to change (e.g. \code{point} or
-#'   \code{line})
-#' @param aes (character) the aesthetic to change (e.g. \code{colour} or
-#'   \code{alpha})
-#' @param setting (various) what to set the aesthetic (e.g. a colour or a
-#'   number)
-#'
-#' @return the default aesthetic ready to be set
-.prep_aes <- function(geom, aes, setting) {
-  # Check if the geom inherits from elsewhere
-  if (is.null(geom)) {
-    return(NULL)
-  }
-
-  # Check if the setting exists for this geom
-  if (is.null(geom[[aes]])) {
-    return(geom)
-  }
-
-  # Change the setting only if it's not NA
-  if (!is.na(geom[[aes]])) {
-    geom[[aes]] <- setting
-  }
-
-  return(geom)
-}
-
-
-#' Set the default ggplot2 aesthetics to grattan branding
-#'
-#' A wrapper for a bunch of other functions to set ggplot2 default aesthetics.
-#' @importFrom utils getFromNamespace
-.set_grattan_aesthetics <- function() {
-
-  # Skip this for ggplot2 4.0.0+ as geoms now use from_theme() expressions
-  # which properly respect theme settings. The grattanify_geom_defaults()
-  # function will handle setting appropriate defaults.
-  if (utils::packageVersion("ggplot2") >= "4.0.0") {
-    return(invisible(NULL))
-  }
-
-  # Get Geom objects directly
-  get_geom_aes <- function(geom_name) {
-    tryCatch({
-      geom_class <- paste0("Geom", tools::toTitleCase(geom_name))
-      geom_obj <- getFromNamespace(geom_class, "ggplot2")
-      if (inherits(geom_obj, "Geom")) {
-        return(geom_obj$default_aes)
-      }
-      NULL
-    }, error = function(e) NULL)
-  }
-
-  current_aesthetics <- grattantheme::all_geoms %>%
-    purrr::map(get_geom_aes) %>%
-    purrr::set_names(grattantheme::all_geoms)
-
-  # Overwrite elements of the current_aesthetics to use theme settings
-  # Just font family to inter (if available) and col/fill to QND blue stone
-  grattan_aesthetics <- current_aesthetics %>%
-    # purrr::map(
-    #   # We use .prep_aes() (defined above) to handle NULLS and NAs
-    #   .prep_aes,
-    #   aes = "family",
-    #   setting = qnd_font()
-    # ) %>%
-    purrr::map(
-      .prep_aes,
-      aes = "colour",
-      setting <- grattan_orange
-    ) %>%
-    purrr::map(
-      .prep_aes,
-      aes = "fill",
-      setting <- grattan_orange
-    )
-
-  # nolint start
-  purrr::iwalk(
-    grattan_aesthetics,
-    ~ .safe_set_geom_aesthetics(
-      geom = .y,
-      new = .x
-    )
-  )
-  # nolint end
-
-  # Explicit setting of geom_sf defaults
-  ggplot2::update_geom_defaults(
-    geom = "sf",
-    new = list(
-      col = grattan_orange,
-      fill = grattan_orange
-    )
-  )
-}
-
 #' Set \code{ggplot2} default aesthetics
 #'
 #' Sets global options for \code{ggplot2}. If \code{type = "grattan"}, grattan brand
@@ -187,8 +71,9 @@ set_aesthetics <- function(type) {
 
 
   if (type == "grattan") {
+    # Geom colours and sizes are set by grattanify_geom_defaults(), which
+    # theme_grattan() calls
     options(plot_opts_grattan)
-    .set_grattan_aesthetics()
     packageStartupMessage(the_message)
   } else if (type == "vanilla") {
     # Set default aesthetics

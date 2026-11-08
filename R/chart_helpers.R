@@ -131,7 +131,6 @@ check_chart_type_message <- function(type) {
 #' ANZSIC classifications are compliance with Paul's standards.
 #'
 #' @param classification (character) the industry classification to be paulified
-#' @param remove_services (logical) whether to remove the word services in the classification
 #'
 #' @return a character
 #' @export
@@ -143,14 +142,12 @@ check_chart_type_message <- function(type) {
 #'        mutate(industry = paulify_classifications(anzsic_division))
 #' }
 #'
-paulify_classifications <- function(classification, remove_services = FALSE) {
+paulify_classifications <- function(classification) {
 
   classification <- classification %>%
     as.character() %>%
     stringr::str_to_sentence() %>%
     stringr::str_replace("(I|i)ct(?=[\\s,])", "ICT")
-
-  if (remove_services) x <- str_remove(x, " services$")
 
   # add oxford comma
   needs_oxford_comma <- ".*[,]+.*and.*"

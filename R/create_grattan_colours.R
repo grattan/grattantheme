@@ -1,14 +1,11 @@
 # Define grattan colours =======================================================
-# Old chart colours included light yellow that's no longer used
-# base_lightyellow <- dplyr::if_else(options("grattan_palette") == "old", "#FFE07F", "")
-base_yellow <- dplyr::if_else(options("grattan_palette") == "old", "#FFC35A", "#F5B50C")
-base_orange <-  dplyr::if_else(options("grattan_palette") == "old", "#F68B33", "#EF7900")
+base_yellow <- "#F5B50C"
+base_orange <- "#EF7900"
 base_darkorange <- "#D4582A"
-base_red <- dplyr::if_else(options("grattan_palette") == "old", "#A02226", "#A1253E")
-base_darkred <- dplyr::if_else(options("grattan_palette") == "old", "#621214", "#611633")
-base_blue <- dplyr::if_else(options("grattan_palette") == "old", "#A3C7DF", "#6A99C4")
-base_darkblue <- dplyr::if_else(options("grattan_palette") == "old", "#3E81CE", "#4371A1")
-
+base_red <- "#A1253E"
+base_darkred <- "#611633"
+base_blue <- "#6A99C4"
+base_darkblue <- "#4371A1"
 
 # Yellow dark ----
 yellow_palette <- grDevices::colorRampPalette(c(base_yellow, "white"))(10)

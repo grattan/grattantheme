@@ -4,12 +4,10 @@
 \alias{paulify_classifications}
 \title{Make the ANZSIC and ANZSCO classifications Paul-compliant}
 \usage{
-paulify_classifications(classification, remove_services = FALSE)
+paulify_classifications(classification)
 }
 \arguments{
 \item{classification}{(character) the industry classification to be paulified}
-
-\item{remove_services}{(logical) whether to remove the word services in the classification}
 }
 \value{
 a character

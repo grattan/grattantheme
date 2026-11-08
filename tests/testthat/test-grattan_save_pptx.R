@@ -1,5 +1,9 @@
 library(ggplot2)
 
+# Run every test in this file from a temporary directory, so the Powerpoint
+# files they write don't end up in the package source
+withr::local_dir(withr::local_tempdir())
+
 base_p1 <- mtcars %>%
   ggplot(aes(x = wt, y = mpg)) +
   geom_point()
@@ -47,28 +51,6 @@ pptx_typefaces <- function(filename) {
   matches <- regmatches(xml, gregexpr('typeface="[^"]*"', xml))
   unique(gsub('typeface="|"', "", unlist(matches)))
 }
-
-test_that("create_pptx_shell creates an empty pptx document with the appropriate number of slides", {
-  skip("Deprecated")
-
-  # Plot argument to create_pptx_shell() must be a list of ggplot2 object(s)
-  expect_error(create_pptx_shell(p1,
-                                 "test.pptx",
-                                 type = "fullslide_43"))
-
-  create_pptx_shell(list(p1, p2), "temp.pptx", "fullslide_43")
-  on.exit(unlink("temp.pptx"))
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 2)
-
-  create_pptx_shell(list(p1, p2), "temp.pptx", "fullslide")
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 2)
-
-  create_pptx_shell(list(p1), "temp.pptx", "fullslide")
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 1)
-})
 
 test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 

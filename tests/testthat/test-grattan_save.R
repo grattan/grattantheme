@@ -419,13 +419,16 @@ test_that("grattan_save(ignore_long_titles = TRUE) successfully ignores long tit
 
   rlang::reset_warning_verbosity("grattantheme_long_title_fullslide")
   rlang::reset_warning_verbosity("grattantheme_long_subtitle_fullslide")
+  long_title_file <- file.path(tempdir(), "long_title", "long_title.png")
+  on.exit(unlink(dirname(long_title_file), recursive = TRUE))
+
   expect_warning(
-    grattan_save(filename = "default_height.png",
+    grattan_save(filename = long_title_file,
                object = test_plot_longlabs,
                type = "fullslide")
   )
 
-  grattan_save(filename = "default_height.png",
+  grattan_save(filename = long_title_file,
                object = test_plot_longlabs,
                type = "fullslide",
                ignore_long_title = TRUE)

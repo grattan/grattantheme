@@ -113,7 +113,7 @@ grattan_y_continuous <- function(expand_bottom = 0,
 scale_y_continuous_grattan <- grattan_y_continuous
 
 #' @rdname grattan_axes
-#' @importFrom ggplot2 scale_y_continuous expand_scale
+#' @importFrom ggplot2 scale_y_continuous
 #' @export
 
 grattan_x_continuous <- function(expand_left = 0,

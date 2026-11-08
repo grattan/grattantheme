@@ -361,7 +361,7 @@ overleaf_set_identity <- function(repo) {
 
   if (!gert::user_is_configured(repo = repo)) {
     gert::git_config_set("user.name", "grattantheme", repo = repo)
-    gert::git_config_set("user.email", "noreply@grattaninstitute.edu.au",
+    gert::git_config_set("user.email", "info@grattan.edu.au",
                          repo = repo)
   }
 

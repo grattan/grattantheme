@@ -169,7 +169,6 @@ export(overleaf_clear_cache)
 export(overleaf_push)
 export(palette_order)
 export(paulify_classifications)
-export(register_palette)
 export(remove_endash)
 export(save_chartdata)
 export(scale_colour_grattan)
@@ -197,7 +196,6 @@ importFrom(dplyr,
 )
 importFrom(ggplot2,
   .pt,
-  expand_scale,
   ggplot_add,
   last_plot,
   scale_y_continuous,
@@ -238,7 +236,6 @@ importFrom(purrr,
   walk2
 )
 importFrom(rlang,quo_get_expr)
-importFrom(rstudioapi,getActiveDocumentContext)
 importFrom(systemfonts,
   font_feature,
   register_font,
@@ -248,7 +245,6 @@ importFrom(systemfonts,
 )
 importFrom(tools,file_path_sans_ext)
 importFrom(utils,
-  getFromNamespace,
   menu,
   tail
 )
