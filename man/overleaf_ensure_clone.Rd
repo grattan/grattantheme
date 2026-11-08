@@ -4,12 +4,19 @@
 \alias{overleaf_ensure_clone}
 \title{Make sure a local clone of an Overleaf project exists}
 \usage{
-overleaf_ensure_clone(path, remote, token = overleaf_token())
+overleaf_ensure_clone(
+  path,
+  remote = paste0("https://git.overleaf.com/", basename(path)),
+  token = overleaf_token()
+)
 }
 \arguments{
-\item{path}{Where the clone should live.}
+\item{path}{Where the clone should live. The folder is named after the
+project ID.}
 
-\item{remote}{The git remote to clone from.}
+\item{remote}{The git remote to clone from. Defaults to the project's
+Overleaf git URL, without credentials: the token is added only while
+Overleaf is being contacted.}
 
 \item{token}{The Overleaf git authentication token.}
 }

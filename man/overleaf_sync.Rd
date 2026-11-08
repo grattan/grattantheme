@@ -2,15 +2,13 @@
 % Please edit documentation in R/overleaf_git.R
 \name{overleaf_sync}
 \alias{overleaf_sync}
-\title{Commit and push charts to Overleaf}
+\title{Send changed charts to Overleaf}
 \usage{
-overleaf_sync(push = TRUE, commit_message = NULL)
+overleaf_sync(push = TRUE)
 }
 \arguments{
-\item{push}{Logical. Should the commit be pushed to Overleaf?}
-
-\item{commit_message}{Commit message. If \code{NULL}, one is generated from
-the files that changed.}
+\item{push}{Logical. If \code{FALSE}, the chart stays in the local clone
+until \code{overleaf_push()} is called.}
 }
 \value{
 \code{TRUE} if charts were pushed, otherwise \code{FALSE},
@@ -18,6 +16,13 @@ the files that changed.}
 }
 \description{
 Called by \code{grattan_save_overleaf()} after a chart is
-  written. Does nothing unless the Overleaf project is synced over git.
+  written, and by \code{overleaf_push()}. Does nothing unless the Overleaf
+  project is synced over git.
+
+  The clone is managed by the package and never edited by hand, so there is
+  never anything to merge. Charts that have changed since the last push are
+  noted, the clone is moved onto whatever Overleaf has now, and just those
+  charts are committed on top and pushed. If someone edits the project in
+  between, the push is rejected and this is tried again.
 }
 \keyword{internal}

@@ -2,17 +2,21 @@
 % Please edit documentation in R/overleaf_git.R
 \name{overleaf_project_id}
 \alias{overleaf_project_id}
-\title{Extract the project ID from an Overleaf URL}
+\title{Get the project ID from an Overleaf project URL}
 \usage{
 overleaf_project_id(x)
 }
 \arguments{
-\item{x}{An Overleaf project URL or bare project ID.}
+\item{x}{A character string, such as the argument given to
+\code{set_overleaf_project()}.}
 }
 \value{
-The 24-character project ID.
+The 24-character project ID if \code{x} is an Overleaf project URL
+  (like \code{https://www.overleaf.com/project/0123456789abcdef01234567}) or
+  a bare project ID, otherwise \code{NULL} - for instance, for a Dropbox
+  project name.
 }
 \description{
-Extract the project ID from an Overleaf URL
+Get the project ID from an Overleaf project URL
 }
 \keyword{internal}

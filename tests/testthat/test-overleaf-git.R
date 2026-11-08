@@ -3,38 +3,45 @@ context("Check that Overleaf git syncing works correctly")
 # Helpers ---------------------------------------------------------------------
 
 # A bare repo standing in for the Overleaf git bridge, seeded with an atlas
-# folder so it looks like a real project.
+# folder so it looks like a real project. `seed` is a second clone that plays
+# a colleague editing the project in Overleaf.
 make_fake_overleaf <- function(env = parent.frame()) {
+  skip_on_cran()
+  skip_if_not_installed("gert")
+  skip_if_not_installed("withr")
 
-  remote <- file.path(tempfile("overleaf-remote-"))
+  remote <- tempfile("overleaf-remote-")
+  seed <- tempfile("overleaf-seed-")
+  withr::defer(unlink(c(remote, seed), recursive = TRUE), envir = env)
+
   gert::git_init(remote, bare = TRUE)
-
-  seed <- file.path(tempfile("overleaf-seed-"))
   gert::git_clone(remote, seed, verbose = FALSE)
   gert::git_config_set("user.name", "Seed", repo = seed)
   gert::git_config_set("user.email", "seed@example.com", repo = seed)
 
   dir.create(file.path(seed, "atlas"))
   writeLines("\\documentclass{article}", file.path(seed, "main.tex"))
-  writeLines("placeholder", file.path(seed, "atlas", "existing.txt"))
-
-  gert::git_add(c("main.tex", "atlas"), repo = seed)
-  gert::git_commit("Initial commit", repo = seed)
-  gert::git_push(repo = seed, verbose = FALSE)
-
-  withr::defer(unlink(c(remote, seed), recursive = TRUE), envir = env)
+  writeLines("original", file.path(seed, "atlas", "existing.pdf"))
+  edit_in_overleaf(seed, "Initial commit")
 
   list(remote = remote, seed = seed)
+}
+
+# Commit and push whatever has changed in the seed clone
+edit_in_overleaf <- function(seed, message = "Edit in Overleaf") {
+  gert::git_add(".", repo = seed)
+  gert::git_commit(message, repo = seed)
+  gert::git_push(repo = seed, verbose = FALSE)
 }
 
 # Point the package at a fake project, as set_overleaf_project() would
 use_fake_project <- function(remote, env = parent.frame()) {
 
-  cache <- file.path(tempfile("overleaf-cache-"))
+  cache <- tempfile("overleaf-cache-")
   clone <- file.path(cache, "fakeproject")
+  withr::defer(unlink(cache, recursive = TRUE), envir = env)
 
   withr::local_envvar(
-    GRATTANTHEME_OVERLEAF_CACHE = cache,
     GRATTANTHEME_OVERLEAF_BACKEND = "git",
     GRATTANTHEME_OVERLEAF_PROJECT = "fakeproject",
     GRATTANTHEME_OVERLEAF_PROJECT_PATH = clone,
@@ -44,250 +51,143 @@ use_fake_project <- function(remote, env = parent.frame()) {
 
   overleaf_ensure_clone(path = clone, remote = remote)
 
-  withr::defer(unlink(cache, recursive = TRUE), envir = env)
-
   clone
 }
 
-# What does the remote actually contain?
-remote_atlas_files <- function(remote) {
-  check <- file.path(tempfile("overleaf-check-"))
+# What does the remote's atlas folder hold? Returns each file's first line,
+# named by file
+remote_atlas <- function(remote) {
+  check <- tempfile("overleaf-check-")
   on.exit(unlink(check, recursive = TRUE))
   gert::git_clone(remote, check, verbose = FALSE)
-  list.files(file.path(check, "atlas"))
+  files <- list.files(file.path(check, "atlas"), full.names = TRUE)
+  first_line <- function(f) suppressWarnings(readLines(f, n = 1))
+  stats::setNames(vapply(files, first_line, character(1)), basename(files))
 }
 
 
-# Recognising project URLs ----------------------------------------------------
+# Project URLs and credentials ------------------------------------------------
 
-test_that("is_overleaf_project recognises URLs and IDs", {
+test_that("overleaf_project_id finds IDs in project URLs, and only there", {
 
-  expect_true(is_overleaf_project(
-    "https://www.overleaf.com/project/0123456789abcdef01234567"))
-  expect_true(is_overleaf_project(
-    "http://overleaf.com/project/0123456789abcdef01234567"))
-  expect_true(is_overleaf_project(
-    "https://www.overleaf.com/project/0123456789abcdef01234567/edit"))
-  expect_true(is_overleaf_project(
-    "https://git.overleaf.com/0123456789abcdef01234567"))
-  expect_true(is_overleaf_project("0123456789abcdef01234567"))
+  id <- "0123456789abcdef01234567"
+
+  expect_equal(overleaf_project_id(
+    paste0("https://www.overleaf.com/project/", id, "/edit?x=1")), id)
+  expect_equal(overleaf_project_id(id), id)
+
+  # Dropbox project names and paths aren't Overleaf URLs
+  expect_null(overleaf_project_id("Orange-Book-2025"))
+  expect_null(overleaf_project_id("/Users/me/Dropbox/Apps/Overleaf/My Report"))
+  expect_null(overleaf_project_id(NULL))
 })
 
-test_that("is_overleaf_project ignores Dropbox project names and paths", {
+test_that("overleaf_auth_url adds and strips credentials", {
 
-  expect_false(is_overleaf_project("Orange"))
-  expect_false(is_overleaf_project("Orange-Book-2025"))
-  expect_false(is_overleaf_project("/Users/me/Dropbox/Apps/Overleaf/My Report"))
-  expect_false(is_overleaf_project(NULL))
-  expect_false(is_overleaf_project(NA))
-  expect_false(is_overleaf_project(c("a", "b")))
+  url <- "https://git.overleaf.com/0123456789abcdef01234567"
+  with_token <- "https://git:olp_abc@git.overleaf.com/0123456789abcdef01234567"
+
+  expect_equal(overleaf_auth_url(url, "olp_abc"), with_token)
+  # The bare 'git@' stored by earlier versions is replaced, not doubled up
+  expect_equal(overleaf_auth_url(sub("//", "//git@", url), "olp_abc"),
+               with_token)
+  expect_equal(overleaf_auth_url(with_token), url)
+  # Local paths, as used in these tests, are left alone
+  expect_equal(overleaf_auth_url("/tmp/remote", "olp_abc"), "/tmp/remote")
 })
 
-test_that("overleaf_project_id extracts the ID", {
+test_that("with_overleaf_auth leaves no token in the clone's config", {
+  skip_if_not_installed("gert")
 
-  expect_equal(
-    overleaf_project_id("https://www.overleaf.com/project/0123456789abcdef01234567"),
-    "0123456789abcdef01234567")
+  repo <- tempfile("overleaf-auth-")
+  on.exit(unlink(repo, recursive = TRUE))
+  gert::git_init(repo)
+  url <- "https://git.overleaf.com/0123456789abcdef01234567"
+  gert::git_remote_add(url, name = "origin", repo = repo)
 
-  expect_equal(
-    overleaf_project_id("https://www.overleaf.com/project/0123456789abcdef01234567/edit?x=1"),
-    "0123456789abcdef01234567")
+  origin_url <- function() gert::git_remote_info("origin", repo = repo)$url
 
-  expect_equal(overleaf_project_id("0123456789abcdef01234567"),
-               "0123456789abcdef01234567")
-
-  expect_error(overleaf_project_id("Orange-Book"),
-               "Could not find an Overleaf project ID")
+  # The token is there while git runs, and gone afterwards even if git fails
+  expect_match(with_overleaf_auth(repo, "olp_abc", origin_url()), "olp_abc")
+  expect_error(with_overleaf_auth(repo, "olp_abc", stop("push failed")),
+               "push failed")
+  expect_equal(origin_url(), url)
 })
-
-test_that("overleaf_remote_url builds the git bridge URL", {
-  expect_equal(overleaf_remote_url("0123456789abcdef01234567"),
-               "https://git@git.overleaf.com/0123456789abcdef01234567")
-})
-
-
-# Commit messages -------------------------------------------------------------
 
 test_that("overleaf_commit_message names charts, then counts them", {
-
-  expect_equal(overleaf_commit_message("atlas/figure1_normal.pdf"),
-               "Update figure1_normal.pdf (grattantheme)")
-
   expect_equal(overleaf_commit_message(c("atlas/a.pdf", "atlas/b.pdf")),
                "Update a.pdf, b.pdf (grattantheme)")
-
   expect_equal(overleaf_commit_message(paste0("atlas/chart", 1:5, ".pdf")),
                "Update 5 charts (grattantheme)")
 })
 
 
-# Cloning and syncing ---------------------------------------------------------
+# Syncing ---------------------------------------------------------------------
 
-test_that("overleaf_ensure_clone clones once and reuses the clone", {
-  skip_on_cran()
-  skip_if_not_installed("gert")
-  skip_if_not_installed("withr")
+test_that("grattan_save_overleaf pushes a chart, and re-saving it is a no-op", {
 
   fake <- make_fake_overleaf()
   clone <- use_fake_project(fake$remote)
-
-  expect_true(dir.exists(file.path(clone, ".git")))
-  expect_true(file.exists(file.path(clone, "atlas", "existing.txt")))
-
-  # A second call is a no-op rather than a re-clone
-  marker <- file.path(clone, "marker.txt")
-  writeLines("still here", marker)
-  overleaf_ensure_clone(path = clone, remote = fake$remote)
-  expect_true(file.exists(marker))
-})
-
-test_that("overleaf_sync pushes a new chart to the remote", {
-  skip_on_cran()
-  skip_if_not_installed("gert")
-  skip_if_not_installed("withr")
-
-  fake <- make_fake_overleaf()
-  clone <- use_fake_project(fake$remote)
-
-  writeLines("chart", file.path(clone, "atlas", "figure1_normal.pdf"))
-
-  expect_true(overleaf_sync())
-  expect_true("figure1_normal.pdf" %in% remote_atlas_files(fake$remote))
-})
-
-test_that("overleaf_sync does nothing when the chart hasn't changed", {
-  skip_on_cran()
-  skip_if_not_installed("gert")
-  skip_if_not_installed("withr")
-
-  fake <- make_fake_overleaf()
-  clone <- use_fake_project(fake$remote)
-
-  writeLines("chart", file.path(clone, "atlas", "figure1_normal.pdf"))
-  overleaf_sync()
-
-  commits_before <- nrow(gert::git_log(repo = clone))
-
-  # Saving an identical chart shouldn't produce a commit
-  writeLines("chart", file.path(clone, "atlas", "figure1_normal.pdf"))
-  expect_false(overleaf_sync())
-  expect_equal(nrow(gert::git_log(repo = clone)), commits_before)
-})
-
-test_that("overleaf_sync(push = FALSE) commits but doesn't push", {
-  skip_on_cran()
-  skip_if_not_installed("gert")
-  skip_if_not_installed("withr")
-
-  fake <- make_fake_overleaf()
-  clone <- use_fake_project(fake$remote)
-
-  writeLines("chart", file.path(clone, "atlas", "figure1_normal.pdf"))
-
-  expect_false(suppressMessages(overleaf_sync(push = FALSE)))
-  expect_false("figure1_normal.pdf" %in% remote_atlas_files(fake$remote))
-
-  # ... and overleaf_push() sends it
-  expect_true(overleaf_push())
-  expect_true("figure1_normal.pdf" %in% remote_atlas_files(fake$remote))
-})
-
-test_that("overleaf_push batches several charts into one push", {
-  skip_on_cran()
-  skip_if_not_installed("gert")
-  skip_if_not_installed("withr")
-
-  fake <- make_fake_overleaf()
-  clone <- use_fake_project(fake$remote)
-
-  for (i in 1:3) {
-    writeLines("chart", file.path(clone, "atlas", paste0("figure", i, ".pdf")))
-    suppressMessages(overleaf_sync(push = FALSE))
-  }
-
-  expect_true(overleaf_push())
-  expect_true(all(paste0("figure", 1:3, ".pdf") %in%
-                    remote_atlas_files(fake$remote)))
-})
-
-
-# Concurrent edits ------------------------------------------------------------
-
-test_that("a chart still reaches Overleaf when the project has moved on", {
-  skip_on_cran()
-  skip_if_not_installed("gert")
-  skip_if_not_installed("withr")
-
-  fake <- make_fake_overleaf()
-  clone <- use_fake_project(fake$remote)
-
-  # Someone edits the project in Overleaf after we cloned it
-  writeLines("edited in Overleaf", file.path(fake$seed, "main.tex"))
-  writeLines("someone else's chart",
-             file.path(fake$seed, "atlas", "their_chart.pdf"))
-  gert::git_add(c("main.tex", "atlas"), repo = fake$seed)
-  gert::git_commit("Edit in Overleaf", repo = fake$seed)
-  gert::git_push(repo = fake$seed, verbose = FALSE)
-
-  # Our push is rejected, so we reset onto their work and try again
-  writeLines("chart", file.path(clone, "atlas", "figure1_normal.pdf"))
-  expect_true(overleaf_sync())
-
-  on_remote <- remote_atlas_files(fake$remote)
-
-  # Both our chart and their work survive
-  expect_true("figure1_normal.pdf" %in% on_remote)
-  expect_true("their_chart.pdf" %in% on_remote)
-})
-
-test_that("charts win over a stale copy of the same chart in Overleaf", {
-  skip_on_cran()
-  skip_if_not_installed("gert")
-  skip_if_not_installed("withr")
-
-  fake <- make_fake_overleaf()
-  clone <- use_fake_project(fake$remote)
-
-  # The same chart is changed on both sides
-  writeLines("their version", file.path(fake$seed, "atlas", "figure1.pdf"))
-  gert::git_add("atlas", repo = fake$seed)
-  gert::git_commit("Their chart", repo = fake$seed)
-  gert::git_push(repo = fake$seed, verbose = FALSE)
-
-  writeLines("our version", file.path(clone, "atlas", "figure1.pdf"))
-  expect_true(overleaf_sync())
-
-  check <- file.path(tempfile("overleaf-check-"))
-  on.exit(unlink(check, recursive = TRUE))
-  gert::git_clone(fake$remote, check, verbose = FALSE)
-
-  expect_equal(readLines(file.path(check, "atlas", "figure1.pdf")),
-               "our version")
-})
-
-
-# Saving charts end to end ----------------------------------------------------
-
-test_that("grattan_save_overleaf pushes a chart over git", {
-  skip_on_cran()
-  skip_if_not_installed("gert")
-  skip_if_not_installed("withr")
-
-  fake <- make_fake_overleaf()
-  use_fake_project(fake$remote)
 
   p <- ggplot2::ggplot(mtcars, ggplot2::aes(x = wt, y = mpg)) +
     ggplot2::geom_point()
 
   grattan_save_overleaf("test_chart.pdf", object = p)
+  expect_true("test_chart_normal.pdf" %in% names(remote_atlas(fake$remote)))
 
-  expect_true("test_chart_normal.pdf" %in% remote_atlas_files(fake$remote))
+  commits <- nrow(gert::git_log(repo = clone))
+  expect_false(overleaf_sync())
+  expect_equal(nrow(gert::git_log(repo = clone)), commits)
 })
 
+test_that("push = FALSE holds charts back until overleaf_push()", {
 
-# The Dropbox backend is unaffected -------------------------------------------
+  fake <- make_fake_overleaf()
+  clone <- use_fake_project(fake$remote)
+
+  for (chart in c("figure1.pdf", "figure2.pdf")) {
+    writeLines("chart", file.path(clone, "atlas", chart))
+    expect_message(overleaf_sync(push = FALSE), "overleaf_push")
+  }
+  expect_false("figure1.pdf" %in% names(remote_atlas(fake$remote)))
+
+  expect_true(overleaf_push())
+  expect_true(all(c("figure1.pdf", "figure2.pdf") %in%
+                    names(remote_atlas(fake$remote))))
+})
+
+test_that("pushing keeps a colleague's newer work in Overleaf", {
+
+  fake <- make_fake_overleaf()
+  clone <- use_fake_project(fake$remote)
+
+  # After we cloned, a colleague edits the text, updates a chart we haven't
+  # touched, and uploads a version of the chart we're about to save
+  writeLines("edited", file.path(fake$seed, "main.tex"))
+  writeLines("their update", file.path(fake$seed, "atlas", "existing.pdf"))
+  writeLines("their version", file.path(fake$seed, "atlas", "figure1.pdf"))
+  edit_in_overleaf(fake$seed)
+
+  # We save a chart. A stray edit outside atlas/ must never be sent.
+  writeLines("our version", file.path(clone, "atlas", "figure1.pdf"))
+  writeLines("stray local edit", file.path(clone, "main.tex"))
+  expect_true(overleaf_sync())
+
+  # Our chart wins; nothing else of theirs is overwritten
+  atlas <- remote_atlas(fake$remote)
+  expect_equal(atlas[["figure1.pdf"]], "our version")
+  expect_equal(atlas[["existing.pdf"]], "their update")
+
+  # The commit we pushed changes our chart and nothing else
+  check <- tempfile("overleaf-check-")
+  on.exit(unlink(check, recursive = TRUE))
+  gert::git_clone(fake$remote, check, verbose = FALSE)
+  expect_equal(gert::git_diff("HEAD", repo = check)$new, "atlas/figure1.pdf")
+  expect_equal(readLines(file.path(check, "main.tex")), "edited")
+})
 
 test_that("overleaf_sync is a no-op for Dropbox projects", {
+  skip_if_not_installed("withr")
 
   withr::local_envvar(GRATTANTHEME_OVERLEAF_BACKEND = "dropbox")
 

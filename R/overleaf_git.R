@@ -5,72 +5,96 @@
 # folder by grattan_save_overleaf(), and this file commits and pushes them.
 #
 # The clone is managed by the package and never edited by hand, so there is no
-# need to merge: if a push is rejected because someone edited the project in
-# Overleaf, we reset the clone to the remote, put our charts back on top, and
-# push again.
+# need to merge: before pushing, the clone is moved onto whatever Overleaf has
+# now and only the charts that changed are committed on top.
 
 
 # Project IDs -----------------------------------------------------------------
 
-overleaf_id_pattern <- "[0-9a-f]{24}"
-
-
-#' Is this an Overleaf project URL or ID?
+#' Get the project ID from an Overleaf project URL
 #'
 #' @param x A character string, such as the argument given to
 #'   \code{set_overleaf_project()}.
 #'
-#' @return \code{TRUE} if \code{x} is an Overleaf project URL (like
-#'   \code{https://www.overleaf.com/project/0123456789abcdef01234567}) or a bare
-#'   24-character project ID, otherwise \code{FALSE}.
-#'
-#' @keywords internal
-is_overleaf_project <- function(x) {
-
-  if (!is.character(x) || length(x) != 1 || is.na(x)) {
-    return(FALSE)
-  }
-
-  # A bare project ID, or any Overleaf URL containing one
-  grepl(paste0("^", overleaf_id_pattern, "$"), x) ||
-    (grepl("overleaf\\.com", x, ignore.case = TRUE) &&
-       grepl(overleaf_id_pattern, x))
-}
-
-
-#' Extract the project ID from an Overleaf URL
-#'
-#' @param x An Overleaf project URL or bare project ID.
-#'
-#' @return The 24-character project ID.
+#' @return The 24-character project ID if \code{x} is an Overleaf project URL
+#'   (like \code{https://www.overleaf.com/project/0123456789abcdef01234567}) or
+#'   a bare project ID, otherwise \code{NULL} - for instance, for a Dropbox
+#'   project name.
 #'
 #' @keywords internal
 overleaf_project_id <- function(x) {
 
-  ids <- regmatches(x, gregexpr(overleaf_id_pattern, x))[[1]]
-
-  if (length(ids) == 0) {
-    stop("Could not find an Overleaf project ID in '", x, "'. ",
-         "Project URLs look like ",
-         "https://www.overleaf.com/project/0123456789abcdef01234567")
+  if (!is.character(x) || length(x) != 1 || is.na(x) ||
+      !grepl("overleaf\\.com|^[0-9a-f]{24}$", x, ignore.case = TRUE)) {
+    return(NULL)
   }
 
-  # Take the last match, so trailing path segments can't be mistaken for the ID
-  ids[length(ids)]
+  id <- regmatches(x, regexpr("[0-9a-f]{24}", x))
+  if (length(id) == 1) id else NULL
 }
 
 
-#' The git remote for an Overleaf project
+#' Add Overleaf credentials to a git remote URL
 #'
-#' @param id A 24-character Overleaf project ID.
+#' @description Overleaf's git bridge wants username "git" and the token as the
+#'   password. These have to go in the URL itself: gert's password callback
+#'   isn't reliable here, because a URL holding only a username gets rejected
+#'   by Overleaf without the challenge libgit2 needs before it asks for a
+#'   password, and gert drops the username if it isn't in the URL.
 #'
-#' @return The HTTPS URL of the project's git remote. The username is embedded
-#'   in the URL, as Overleaf requires; the token is supplied separately so it is
-#'   never written to the clone's git config.
+#' @param url A remote URL. Anything other than an HTTPS URL (like the local
+#'   paths used in tests) is returned unchanged.
+#' @param token The Overleaf git authentication token, or \code{NULL} to strip
+#'   any credentials from the URL.
+#'
+#' @return A character string.
 #'
 #' @keywords internal
-overleaf_remote_url <- function(id) {
-  paste0("https://git@git.overleaf.com/", id)
+overleaf_auth_url <- function(url, token = NULL) {
+
+  if (!grepl("^https://", url)) {
+    return(url)
+  }
+
+  # Drop any credentials already in the URL, such as the bare 'git@' that
+  # earlier versions of grattantheme stored
+  bare <- sub("^https://[^@/]*@", "https://", url)
+
+  if (is.null(token) || !nzchar(token)) {
+    return(bare)
+  }
+
+  sub("^https://",
+      paste0("https://git:", utils::URLencode(token, reserved = TRUE), "@"),
+      bare)
+}
+
+
+#' Run git commands with Overleaf credentials in the remote URL
+#'
+#' @description Puts the token into the clone's \code{origin} URL for as long
+#'   as \code{code} runs, then takes it out again - even if \code{code}
+#'   errors - so it isn't left in the clone's git config.
+#'
+#' @param repo Path to the clone.
+#' @param token The Overleaf git authentication token.
+#' @param code The git commands to run.
+#'
+#' @return The value of \code{code}.
+#'
+#' @keywords internal
+with_overleaf_auth <- function(repo, token, code) {
+
+  remotes <- gert::git_remote_list(repo = repo)
+  url <- remotes$url[remotes$name == "origin"]
+
+  gert::git_remote_set_url(overleaf_auth_url(url, token), remote = "origin",
+                           repo = repo)
+  on.exit(gert::git_remote_set_url(overleaf_auth_url(url), remote = "origin",
+                                   repo = repo),
+          add = TRUE)
+
+  force(code)
 }
 
 
@@ -268,10 +292,14 @@ overleaf_cache_dir <- function() {
 #' }
 overleaf_clear_cache <- function(project = NULL) {
 
-  path <- if (is.null(project)) {
-    overleaf_cache_dir()
-  } else {
-    file.path(overleaf_cache_dir(), overleaf_project_id(project))
+  path <- overleaf_cache_dir()
+
+  if (!is.null(project)) {
+    id <- overleaf_project_id(project)
+    if (is.null(id)) {
+      stop("'", project, "' isn't an Overleaf project URL.")
+    }
+    path <- file.path(path, id)
   }
 
   if (dir.exists(path)) {
@@ -301,14 +329,20 @@ check_gert <- function() {
 
 #' Make sure a local clone of an Overleaf project exists
 #'
-#' @param path Where the clone should live.
-#' @param remote The git remote to clone from.
+#' @param path Where the clone should live. The folder is named after the
+#'   project ID.
+#' @param remote The git remote to clone from. Defaults to the project's
+#'   Overleaf git URL, without credentials: the token is added only while
+#'   Overleaf is being contacted.
 #' @param token The Overleaf git authentication token.
 #'
 #' @return \code{path}, invisibly.
 #'
 #' @keywords internal
-overleaf_ensure_clone <- function(path, remote, token = overleaf_token()) {
+overleaf_ensure_clone <- function(path,
+                                  remote = paste0("https://git.overleaf.com/",
+                                                  basename(path)),
+                                  token = overleaf_token()) {
 
   check_gert()
 
@@ -321,12 +355,16 @@ overleaf_ensure_clone <- function(path, remote, token = overleaf_token()) {
 
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
 
-  tryCatch(
-    gert::git_clone(url = remote, path = path, password = token,
-                    verbose = FALSE),
+  tryCatch({
+    gert::git_clone(url = overleaf_auth_url(remote, token), path = path,
+                    verbose = FALSE)
+    # Keep the token out of the clone's git config
+    gert::git_remote_set_url(overleaf_auth_url(remote), remote = "origin",
+                             repo = path)
+  },
     error = function(e) {
       unlink(path, recursive = TRUE)
-      stop(overleaf_git_error_message(e, remote), call. = FALSE)
+      stop(overleaf_git_error_message(e), call. = FALSE)
     }
   )
 
@@ -349,19 +387,8 @@ overleaf_ensure_clone <- function(path, remote, token = overleaf_token()) {
 #' @keywords internal
 overleaf_set_identity <- function(repo) {
 
-  config <- tryCatch(gert::git_config(repo = repo),
-                     error = function(e) NULL)
-
-  is_set <- function(name) {
-    !is.null(config) &&
-      any(config$name == name & !is.na(config$value) & nzchar(config$value))
-  }
-
-  if (!is_set("user.name")) {
+  if (!gert::user_is_configured(repo = repo)) {
     gert::git_config_set("user.name", "grattantheme", repo = repo)
-  }
-
-  if (!is_set("user.email")) {
     gert::git_config_set("user.email", "noreply@grattaninstitute.edu.au",
                          repo = repo)
   }
@@ -373,25 +400,25 @@ overleaf_set_identity <- function(repo) {
 #' Turn a git error into something a chart-maker can act on
 #'
 #' @param e The condition raised by gert.
-#' @param remote The remote being contacted.
 #'
 #' @return A character string.
 #'
 #' @keywords internal
-overleaf_git_error_message <- function(e, remote = NULL) {
+overleaf_git_error_message <- function(e) {
 
   msg <- conditionMessage(e)
 
-  if (grepl("authentication|401|credentials|password", msg, ignore.case = TRUE)) {
-    return(paste0("Overleaf rejected your git token. Tokens expire after a ",
-                  "year - generate a new one at ",
+  if (grepl("authentication|401|403|credentials", msg, ignore.case = TRUE)) {
+    return(paste0("Overleaf refused access. Either your git token has ",
+                  "expired (they last a year - generate a new one at ",
                   "https://www.overleaf.com/user/settings and run ",
-                  "set_overleaf_token().\n(git said: ", msg, ")"))
+                  "set_overleaf_token()), or you don't have git access to ",
+                  "this project.\n(git said: ", msg, ")"))
   }
 
   if (grepl("404|not found|repository", msg, ignore.case = TRUE)) {
-    return(paste0("Couldn't find that Overleaf project (", remote, "). Check ",
-                  "the project URL, and that you can open the project in ",
+    return(paste0("Couldn't find that Overleaf project. Check the project ",
+                  "URL, and that you can open the project in ",
                   "Overleaf.\n(git said: ", msg, ")"))
   }
 
@@ -407,115 +434,103 @@ overleaf_git_error_message <- function(e, remote = NULL) {
 #'
 #' @keywords internal
 overleaf_backend <- function() {
-  backend <- Sys.getenv("GRATTANTHEME_OVERLEAF_BACKEND", unset = "dropbox")
-  if (backend == "") "dropbox" else backend
+  if (Sys.getenv("GRATTANTHEME_OVERLEAF_BACKEND") == "git") "git" else "dropbox"
 }
 
 
-#' Commit and push charts to Overleaf
+#' Send changed charts to Overleaf
 #'
 #' @description Called by \code{grattan_save_overleaf()} after a chart is
-#'   written. Does nothing unless the Overleaf project is synced over git.
+#'   written, and by \code{overleaf_push()}. Does nothing unless the Overleaf
+#'   project is synced over git.
 #'
-#' @param push Logical. Should the commit be pushed to Overleaf?
-#' @param commit_message Commit message. If \code{NULL}, one is generated from
-#'   the files that changed.
+#'   The clone is managed by the package and never edited by hand, so there is
+#'   never anything to merge. Charts that have changed since the last push are
+#'   noted, the clone is moved onto whatever Overleaf has now, and just those
+#'   charts are committed on top and pushed. If someone edits the project in
+#'   between, the push is rejected and this is tried again.
+#'
+#' @param push Logical. If \code{FALSE}, the chart stays in the local clone
+#'   until \code{overleaf_push()} is called.
 #'
 #' @return \code{TRUE} if charts were pushed, otherwise \code{FALSE},
 #'   invisibly.
 #'
 #' @keywords internal
-overleaf_sync <- function(push = TRUE, commit_message = NULL) {
+overleaf_sync <- function(push = TRUE) {
 
   if (overleaf_backend() != "git") {
     return(invisible(FALSE))
   }
 
-  check_gert()
+  repo <- dirname(get_overleaf_project())
 
-  repo <- Sys.getenv("GRATTANTHEME_OVERLEAF_PROJECT_PATH", unset = "")
+  # Charts that differ from what we last pushed. Re-saving an unchanged chart
+  # finds nothing, so costs no trip to Overleaf.
+  # Only ever files in atlas/: nothing else in the project is ours to change
+  gert::git_add("atlas", repo = repo)
+  charts <- gert::git_status(staged = TRUE, repo = repo)$file
+  charts <- charts[startsWith(charts, "atlas/")]
 
-  if (repo == "" || !dir.exists(file.path(repo, ".git"))) {
-    stop("No Overleaf clone found. Call set_overleaf_project() with your ",
-         "project's URL.")
+  if (length(charts) == 0) {
+    return(invisible(FALSE))
   }
-
-  committed <- overleaf_commit(repo, commit_message)
 
   if (!isTRUE(push)) {
-    if (committed) {
-      message("Chart committed locally. Call overleaf_push() to send your ",
-              "charts to Overleaf.")
+    message("Chart saved locally. Call overleaf_push() to send your charts ",
+            "to Overleaf.")
+    return(invisible(FALSE))
+  }
+
+  token <- overleaf_token()
+  remote_branch <- paste0("origin/", gert::git_branch(repo = repo))
+
+  for (attempt in 1:3) {
+
+    # Move onto Overleaf's latest, leaving our charts in the working tree,
+    # then commit only our charts so nobody else's work is overwritten
+    tryCatch(
+      with_overleaf_auth(repo, token,
+                         gert::git_fetch(repo = repo, verbose = FALSE)),
+      error = function(e) stop(overleaf_git_error_message(e), call. = FALSE)
+    )
+    gert::git_reset_mixed(remote_branch, repo = repo)
+    gert::git_add(charts, repo = repo)
+
+    if (nrow(gert::git_status(staged = TRUE, repo = repo)) == 0) {
+      # Overleaf already has these exact charts
+      gert::git_reset_hard(remote_branch, repo = repo)
+      return(invisible(FALSE))
     }
-    return(invisible(FALSE))
+
+    gert::git_commit(overleaf_commit_message(charts), repo = repo)
+    # Bring everything else in the clone up to date with Overleaf
+    gert::git_reset_hard("HEAD", repo = repo)
+
+    result <- tryCatch({
+      with_overleaf_auth(repo, token,
+                         gert::git_push(repo = repo, verbose = FALSE))
+      TRUE
+    }, error = function(e) e)
+
+    if (isTRUE(result)) {
+      return(invisible(TRUE))
+    }
+
+    if (grepl("authentication|401|403|credentials", conditionMessage(result),
+              ignore.case = TRUE)) {
+      stop(overleaf_git_error_message(result), call. = FALSE)
+    }
   }
 
-  # Re-saving an unchanged chart shouldn't cost a trip to Overleaf
-  if (!committed && !overleaf_has_unpushed(repo)) {
-    return(invisible(FALSE))
-  }
+  # Leave the charts uncommitted, so overleaf_push() picks them up next time
+  gert::git_reset_mixed(remote_branch, repo = repo)
 
-  overleaf_push_commits(repo)
-}
+  warning("Couldn't push your charts to Overleaf (",
+          conditionMessage(result), "). They are saved locally - ",
+          "call overleaf_push() to try again.")
 
-
-#' Are there commits the remote hasn't got?
-#'
-#' @param repo Path to the clone.
-#'
-#' @return \code{TRUE} if the clone is ahead of Overleaf, or if we can't tell.
-#'
-#' @keywords internal
-overleaf_has_unpushed <- function(repo) {
-
-  status <- tryCatch(gert::git_ahead_behind(repo = repo),
-                     error = function(e) NULL)
-
-  # gert omits `ahead` entirely when there's nothing to push
-  if (is.null(status)) {
-    return(TRUE)
-  }
-
-  isTRUE(status$ahead > 0)
-}
-
-
-#' Stage and commit everything in the clone's atlas folder
-#'
-#' @description The clone is only ever written to by the package, so staging the
-#'   whole atlas folder is safe: anything in there either came from Overleaf or
-#'   was put there by \code{grattan_save_overleaf()}. Git works out what has
-#'   actually changed, so re-saving an identical chart produces no commit.
-#'
-#' @param repo Path to the clone.
-#' @param commit_message Commit message, or \code{NULL} to generate one.
-#'
-#' @return \code{TRUE} if a commit was made, otherwise \code{FALSE}.
-#'
-#' @keywords internal
-overleaf_commit <- function(repo, commit_message = NULL) {
-
-  atlas <- file.path(repo, "atlas")
-
-  if (!dir.exists(atlas)) {
-    return(FALSE)
-  }
-
-  gert::git_add("atlas", repo = repo)
-
-  staged <- gert::git_status(staged = TRUE, repo = repo)
-
-  if (nrow(staged) == 0) {
-    return(FALSE)
-  }
-
-  if (is.null(commit_message)) {
-    commit_message <- overleaf_commit_message(staged$file)
-  }
-
-  gert::git_commit(commit_message, repo = repo)
-
-  TRUE
+  invisible(FALSE)
 }
 
 
@@ -537,95 +552,6 @@ overleaf_commit_message <- function(files) {
   }
 
   paste0("Update ", what, " (grattantheme)")
-}
-
-
-#' Push commits to Overleaf, retrying if the project has moved on
-#'
-#' @description If someone edited the project in Overleaf since we cloned it,
-#'   the push is rejected. Rather than merging, we reset the clone to whatever
-#'   Overleaf now has, put our charts back on top, and try again.
-#'
-#' @param repo Path to the clone.
-#' @param token The Overleaf git authentication token.
-#' @param attempts How many times to try.
-#'
-#' @return \code{TRUE} if the push succeeded, otherwise \code{FALSE},
-#'   invisibly.
-#'
-#' @keywords internal
-overleaf_push_commits <- function(repo, token = overleaf_token(), attempts = 3) {
-
-  for (attempt in seq_len(attempts)) {
-
-    result <- tryCatch({
-      gert::git_push(repo = repo, password = token, verbose = FALSE)
-      TRUE
-    }, error = function(e) e)
-
-    if (isTRUE(result)) {
-      return(invisible(TRUE))
-    }
-
-    # No point retrying a bad token
-    if (grepl("authentication|401|credentials", conditionMessage(result),
-              ignore.case = TRUE)) {
-      stop(overleaf_git_error_message(result), call. = FALSE)
-    }
-
-    if (attempt < attempts) {
-      overleaf_rebuild_on_remote(repo, token)
-    }
-  }
-
-  warning("Couldn't push your charts to Overleaf (",
-          conditionMessage(result), "). They are saved locally - ",
-          "call overleaf_push() to try again.")
-
-  invisible(FALSE)
-}
-
-
-#' Reset the clone to the remote, keeping our charts
-#'
-#' @description Fetches what Overleaf now has and discards local history, then
-#'   restores the atlas folder from the working tree and commits it again.
-#'
-#'   Keeping the whole atlas folder means a chart deleted in Overleaf could
-#'   reappear, which is a fair trade for never losing a chart and never having
-#'   to resolve a conflict between two PDFs.
-#'
-#' @param repo Path to the clone.
-#' @param token The Overleaf git authentication token.
-#'
-#' @return Nothing, called for its side effect.
-#'
-#' @keywords internal
-overleaf_rebuild_on_remote <- function(repo, token) {
-
-  atlas <- file.path(repo, "atlas")
-
-  kept <- file.path(tempfile("overleaf-atlas-"))
-  dir.create(kept, recursive = TRUE)
-
-  if (dir.exists(atlas)) {
-    file.copy(list.files(atlas, full.names = TRUE), kept,
-              overwrite = TRUE, recursive = TRUE)
-  }
-
-  gert::git_fetch(repo = repo, password = token, verbose = FALSE)
-  gert::git_reset_hard(paste0("origin/", gert::git_branch(repo = repo)),
-                       repo = repo)
-
-  dir.create(atlas, recursive = TRUE, showWarnings = FALSE)
-  file.copy(list.files(kept, full.names = TRUE), atlas,
-            overwrite = TRUE, recursive = TRUE)
-
-  unlink(kept, recursive = TRUE)
-
-  overleaf_commit(repo)
-
-  invisible(NULL)
 }
 
 

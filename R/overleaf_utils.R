@@ -127,8 +127,9 @@ find_overleaf_projects <- function(overleaf_base_path) {
 set_overleaf_project <- function(project = NULL) {
 
   # A project URL or ID means the project is synced over git, not Dropbox
-  if (is_overleaf_project(project)) {
-    return(invisible(set_overleaf_project_git(project)))
+  id <- overleaf_project_id(project)
+  if (!is.null(id)) {
+    return(invisible(set_overleaf_project_git(id)))
   }
 
   if (is.null(project)) {
@@ -205,18 +206,16 @@ set_overleaf_project <- function(project = NULL) {
 #'   URL or a missing token is reported here rather than part-way through a
 #'   script full of charts.
 #'
-#' @param project An Overleaf project URL or bare project ID.
+#' @param id A 24-character Overleaf project ID.
 #'
 #' @return The path to the local clone, invisibly.
 #'
 #' @keywords internal
-set_overleaf_project_git <- function(project) {
+set_overleaf_project_git <- function(id) {
 
-  id <- overleaf_project_id(project)
   project_path <- file.path(overleaf_cache_dir(), id)
 
-  overleaf_ensure_clone(path = project_path,
-                        remote = overleaf_remote_url(id))
+  overleaf_ensure_clone(project_path)
 
   Sys.setenv(GRATTANTHEME_OVERLEAF_BACKEND = "git")
   Sys.setenv(GRATTANTHEME_OVERLEAF_PROJECT = id)
@@ -278,7 +277,7 @@ get_overleaf_project <- function() {
     current_project <- Sys.getenv("GRATTANTHEME_OVERLEAF_PROJECT")
   }
 
-  # Check if we should show reminder (every 72 hours)
+  # Remind which project is in use once a day
   last_message_str <- Sys.getenv("GRATTANTHEME_OVERLEAF_LAST_MESSAGE", unset = "")
 
   if (last_message_str != "") {
@@ -297,8 +296,7 @@ get_overleaf_project <- function() {
 
   if (overleaf_backend() == "git") {
     # The clone is the project; re-create it if the cache has been cleared
-    overleaf_ensure_clone(path = project_full_path,
-                          remote = overleaf_remote_url(current_project))
+    overleaf_ensure_clone(project_full_path)
 
   } else if (project_full_path == "") {
     # Reconstruct from base path and project name

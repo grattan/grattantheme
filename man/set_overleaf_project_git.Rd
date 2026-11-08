@@ -4,10 +4,10 @@
 \alias{set_overleaf_project_git}
 \title{Point at an Overleaf project that syncs over git}
 \usage{
-set_overleaf_project_git(project)
+set_overleaf_project_git(id)
 }
 \arguments{
-\item{project}{An Overleaf project URL or bare project ID.}
+\item{id}{A 24-character Overleaf project ID.}
 }
 \value{
 The path to the local clone, invisibly.

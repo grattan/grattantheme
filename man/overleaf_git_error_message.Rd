@@ -4,12 +4,10 @@
 \alias{overleaf_git_error_message}
 \title{Turn a git error into something a chart-maker can act on}
 \usage{
-overleaf_git_error_message(e, remote = NULL)
+overleaf_git_error_message(e)
 }
 \arguments{
 \item{e}{The condition raised by gert.}
-
-\item{remote}{The remote being contacted.}
 }
 \value{
 A character string.
