@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -51,6 +51,30 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.0" id="grattantheme-170">grattantheme 1.7.0<a class="anchor" aria-label="anchor" href="#grattantheme-170"></a></h2>
+<ul><li>Powerpoint and Excel files created by <code><a href="../reference/grattan_save_pptx.html">grattan_save_pptx()</a></code>, <code><a href="../reference/save_chartdata.html">save_chartdata()</a></code>, <code><a href="../reference/grattan_save.html">grattan_save()</a></code> and <code><a href="../reference/grattan_save.html">grattan_save_all()</a></code> now record “Grattan Institute” as their author, rather than the template’s original author.</li>
+<li>
+<code><a href="../reference/grattan_save_overleaf.html">grattan_save_overleaf()</a></code> can now sync charts to Overleaf over Overleaf’s git integration, as well as via Dropbox. Which one you get depends on how you set up the project: give <code><a href="../reference/set_overleaf_project.html">set_overleaf_project()</a></code> an Overleaf project URL and charts are committed and pushed straight to Overleaf; give it a project name, as before, and charts are written to your local Dropbox folder. Saving a chart otherwise works the same way.
+<ul><li>Added <code><a href="../reference/set_overleaf_token.html">set_overleaf_token()</a></code>, which stores the Overleaf git authentication token needed for git syncing.</li>
+<li>Added <code><a href="../reference/overleaf_push.html">overleaf_push()</a></code>, for sending charts to Overleaf in a batch. <code><a href="../reference/grattan_save_overleaf.html">grattan_save_overleaf()</a></code> gains a <code>push</code> argument: save a run of charts locally with <code>push = FALSE</code> and call <code><a href="../reference/overleaf_push.html">overleaf_push()</a></code> once at the end, which is quicker than pushing to Overleaf for each chart.</li>
+<li>Added <code><a href="../reference/overleaf_cache_dir.html">overleaf_cache_dir()</a></code> and <code><a href="../reference/overleaf_clear_cache.html">overleaf_clear_cache()</a></code>. Git syncing keeps a local clone of each Overleaf project in R’s per-package cache directory; these report where that is and delete it.</li>
+<li>Added <code><a href="../reference/write_overleaf_tex.html">write_overleaf_tex()</a></code>, which writes a single number or piece of text to the Overleaf atlas, ready to <code>\input{}</code> into the report. It fits at the end of a pipe, writes numbers in full (or rounded, with <code>accuracy</code>), and ends the file with a <code>%</code> so LaTeX doesn’t add a space after the value. Like <code><a href="../reference/grattan_save_overleaf.html">grattan_save_overleaf()</a></code>, it pushes to Overleaf unless <code>push = FALSE</code>.</li>
+<li>Added <code><a href="../reference/fetch_overleaf_report.html">fetch_overleaf_report()</a></code>, which copies the text of the report (the main file, chapters, bibliography and atlas <code>.tex</code> files) into a read-only <code>report_cache/</code> folder in your working directory, for reading alongside your analysis. Nothing in the copy is ever sent back to Overleaf.</li>
+</ul></li>
+<li>
+<code><a href="../reference/grattan_axes.html">grattan_y_continuous()</a></code>, <code><a href="../reference/grattan_axes.html">grattan_x_continuous()</a></code> and their <code>scale_*_continuous_grattan()</code> aliases now have <code>labels</code> as a named argument. This fixes an error when the argument was abbreviated, as in <code>grattan_y_continuous(label = scales::label_percent())</code>, which works in <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_y_continuous()</a></code>.</li>
+<li>
+<code><a href="../reference/grattan_axes.html">grattan_y_continuous()</a></code>, <code><a href="../reference/grattan_axes.html">grattan_x_continuous()</a></code> and their aliases gain an <code>expand</code> argument, so you can set the axis expansion the usual ggplot2 way (e.g. <code>expand = expansion(mult = c(0, 0.05))</code>) as an alternative to <code>expand_bottom</code>/<code>expand_top</code> or <code>expand_left</code>/<code>expand_right</code>. Previously a supplied <code>expand</code> was silently ignored.</li>
+<li>
+<code><a href="../reference/grattan_save.html">grattan_save()</a></code> no longer includes the title, subtitle and caption when saving a patchwork chart made with <code><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">patchwork::plot_annotation()</a></code> (unless <code>force_labs = TRUE</code>). Previously these were left in the PDF/PNG.</li>
+<li>Fonts are now applied to every plot in a patchwork chart, not just the last one. This fixes mixed fonts in Powerpoint (<code><a href="../reference/grattan_save_pptx.html">grattan_save_pptx()</a></code> / <code>save_pptx = TRUE</code>) and in fullslide, blog and web-ready charts made from patchwork plots.</li>
+<li>Removed the internal geom-aesthetics code that only ran on ggplot2 versions earlier than 4.0.0 (which grattantheme no longer supports), along with the <code>all_geoms</code> data object.</li>
+<li>Removed the defunct internal functions <code>create_pptx_shell()</code> and <code>create_slide_shell()</code>. <code>rmarkdown</code> is no longer needed to use the package.</li>
+<li>Various other unused code components removed as part of package tidy-up.</li>
+<li>Update handling of fonts and improve start-up message in cases where key fonts are not installed.</li>
+<li>File locations in Powerpoint speaker notes are now shortened for SharePoint and OneDrive folders.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.6.5" id="grattantheme-165">grattantheme 1.6.5<a class="anchor" aria-label="anchor" href="#grattantheme-165"></a></h2>
 <ul><li>Fixed the fonts used for on-chart annotations when <code><a href="../reference/grattan_save.html">grattan_save_all()</a></code> or <code>grattan_save(type = "all")</code> are used.</li>
@@ -341,7 +365,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Matt Cowgill, Will Mackey, Grattan Institute.</p>
+  <p></p><p>Developed by Matt Cowgill, Will Mackey, Matthew Bowes, Grattan Institute.</p>
 </div>
 
 <div class="pkgdown">

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -65,34 +65,60 @@
 
 
 <dl><dt id="arg-project">project<a class="anchor" aria-label="anchor" href="#arg-project"></a></dt>
-<dd><p>Either a project name fragment (like "Orange Book"), a full
-project name (like "Orange-Book-2025"), or a full file path
-to an Overleaf project folder. If NULL (the default), you will be prompted
-to select from available projects.</p></dd>
+<dd><p>One of: an Overleaf project URL (like
+<code>"https://www.overleaf.com/project/0123456789abcdef01234567"</code>), a
+project name fragment (like "Orange Book"), a full project name (like
+"Orange-Book-2025"), or a full file path to an Overleaf project folder. If
+NULL (the default), you will be prompted to select from available Dropbox
+projects.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The full path to the selected Overleaf project folder, invisibly.</p>
+    <p>The full path to the selected Overleaf project folder, invisibly.
+  For git projects this is the local clone, which the package manages for
+  you; see <code><a href="overleaf_cache_dir.html">overleaf_cache_dir</a></code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
     <p>This function lets you choose which Overleaf project to save charts
   to when using <code><a href="grattan_save_overleaf.html">grattan_save_overleaf()</a></code>. The setting is stored as an
   environment variable for the current R session only.</p>
-<p>If you don't provide a project, you'll see a menu of available Overleaf
-  projects to choose from. If you provide a project name or fragment, it will
-  search for matching projects (case-insensitive). If you provide a full file
-  path, it will use that path directly.</p>
-<p>Since this setting only persists for the current R session, we recommend
+<p>Charts can reach Overleaf two ways, and which one you get depends on what
+  you pass to this function:</p>
+<p></p><dl><dt>Git</dt>
+<dd><p>Give it the URL of your project, copied from your browser's
+    address bar while the project is open in Overleaf. Charts are committed
+    and pushed to Overleaf directly, and nothing needs to be synced to your
+    computer. This needs a one-off token: see
+    <code><a href="set_overleaf_token.html">set_overleaf_token</a></code>.</p></dd>
+
+    <dt>Dropbox</dt>
+<dd><p>Give it a project name, a fragment of one, or a path, or
+    nothing at all to pick from a menu. Charts are written to the project
+    folder in your Dropbox, and Dropbox syncs them to Overleaf.</p></dd>
+
+
+</dl><p>Since this setting only persists for the current R session, we recommend
   calling <code>set_overleaf_project()</code> at the beginning of your script, or
-  in a project setup script or .Renv file, to improve reproducibility.</p>
+  in a project setup script or .Renv file, to improve reproducibility. This
+  is especially worthwhile with a project URL, since the URL then travels
+  with your code: colleagues who run your script save to the same Overleaf
+  project without having to set anything up.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><code><a href="set_overleaf_token.html">set_overleaf_token</a></code> to store your Overleaf git token,
+  <code><a href="overleaf_push.html">overleaf_push</a></code> to send saved charts to Overleaf</p></div>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Prompt to select from available projects</span></span></span>
+<span class="r-in"><span><span class="co"># Sync via git, using the URL from your browser</span></span></span>
+<span class="r-in"><span><span class="fu">set_overleaf_project</span><span class="op">(</span><span class="st">"https://www.overleaf.com/project/0123456789abcdef01234567"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Prompt to select from available Dropbox projects</span></span></span>
 <span class="r-in"><span><span class="fu">set_overleaf_project</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Search for a project by name fragment</span></span></span>
@@ -118,7 +144,7 @@ to select from available projects.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Matt Cowgill, Will Mackey, Grattan Institute.</p>
+  <p></p><p>Developed by Matt Cowgill, Will Mackey, Matthew Bowes, Grattan Institute.</p>
 </div>
 
 <div class="pkgdown">

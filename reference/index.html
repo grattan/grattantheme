@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -55,10 +55,6 @@
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="all_geoms.html">all_geoms</a></code> </p>
-        </td>
-        <td><p>A vector of geoms</p></td>
-      </tr><tr><td>
           <p><code><a href="chart_types_ext.html">chart_types_ext</a></code> </p>
         </td>
         <td><p>Grattan chart types</p></td>
@@ -79,17 +75,9 @@
         </td>
         <td><p>Assemble a chart featuring the Grattan logo and grey header</p></td>
       </tr><tr><td>
-          <p><code><a href="dot-prep_aes.html">.prep_aes()</a></code> </p>
-        </td>
-        <td><p>Prepare <code>ggplot2</code> geom_ defaults</p></td>
-      </tr><tr><td>
           <p><code><a href="dot-set_geom_aesthetics.html">.set_geom_aesthetics()</a></code> </p>
         </td>
         <td><p>Set default geom aesthetics</p></td>
-      </tr><tr><td>
-          <p><code><a href="dot-set_grattan_aesthetics.html">.set_grattan_aesthetics()</a></code> </p>
-        </td>
-        <td><p>Set the default ggplot2 aesthetics to grattan branding</p></td>
       </tr><tr><td>
           <p><code><a href="export_latex_code.html">export_latex_code()</a></code> </p>
         </td>
@@ -102,6 +90,10 @@
           <p><code><a href="fct_case_when.html">fct_case_when()</a></code> </p>
         </td>
         <td><p>Case when that orders the factors as you order the case when</p></td>
+      </tr><tr><td>
+          <p><code><a href="fetch_overleaf_report.html">fetch_overleaf_report()</a></code> </p>
+        </td>
+        <td><p>Make a read-only copy of your Overleaf report</p></td>
       </tr><tr><td>
           <p><code><a href="get_overleaf_project.html">get_overleaf_project()</a></code> </p>
         </td>
@@ -715,9 +707,21 @@
         </td>
         <td><p>Create a grattan colour palette</p></td>
       </tr><tr><td>
+          <p><code><a href="overleaf_cache_dir.html">overleaf_cache_dir()</a></code> </p>
+        </td>
+        <td><p>Where Overleaf projects are cached locally</p></td>
+      </tr><tr><td>
+          <p><code><a href="overleaf_clear_cache.html">overleaf_clear_cache()</a></code> </p>
+        </td>
+        <td><p>Delete cached Overleaf clones</p></td>
+      </tr><tr><td>
+          <p><code><a href="overleaf_push.html">overleaf_push()</a></code> </p>
+        </td>
+        <td><p>Send saved charts to Overleaf</p></td>
+      </tr><tr><td>
           <p><code><a href="palette_order.html">palette_order</a></code> </p>
         </td>
-        <td><p>Set the palette order as needed in the</p></td>
+        <td><p>The order of colours in discrete Grattan palettes</p></td>
       </tr><tr><td>
           <p><code><a href="paulify_classifications.html">paulify_classifications()</a></code> </p>
         </td>
@@ -730,10 +734,6 @@
           <p><code><a href="plot_opts_vanilla.html">plot_opts_vanilla</a></code> </p>
         </td>
         <td><p>The vanilla plotting options</p></td>
-      </tr><tr><td>
-          <p><code><a href="register_palette.html">register_palette()</a></code> </p>
-        </td>
-        <td><p>Register the option for which palette to use.</p></td>
       </tr><tr><td>
           <p><code><a href="remove_endash.html">remove_endash()</a></code> </p>
         </td>
@@ -763,6 +763,10 @@
         </td>
         <td><p>Set or reset the Overleaf project location</p></td>
       </tr><tr><td>
+          <p><code><a href="set_overleaf_token.html">set_overleaf_token()</a></code> </p>
+        </td>
+        <td><p>Store your Overleaf git authentication token</p></td>
+      </tr><tr><td>
           <p><code><a href="stitch_pdfs.html">stitch_pdfs()</a></code> </p>
         </td>
         <td><p>Combine multiple PDFs into a single PDF</p></td>
@@ -782,6 +786,10 @@
           <p><code><a href="wrap_labs.html">wrap_labs()</a></code> </p>
         </td>
         <td><p>Format title, subtitle, and caption of a ggplot2 chart in the Grattan style.</p></td>
+      </tr><tr><td>
+          <p><code><a href="write_overleaf_tex.html">write_overleaf_tex()</a></code> </p>
+        </td>
+        <td><p>Write a number or short text to your Overleaf project</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -791,7 +799,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Matt Cowgill, Will Mackey, Grattan Institute.</p>
+  <p></p><p>Developed by Matt Cowgill, Will Mackey, Matthew Bowes, Grattan Institute.</p>
 </div>
 
 <div class="pkgdown">

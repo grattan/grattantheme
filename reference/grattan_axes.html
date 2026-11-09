@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
       </span>
     </div>
 
@@ -57,13 +57,37 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">grattan_y_continuous</span><span class="op">(</span>expand_bottom <span class="op">=</span> <span class="fl">0</span>, expand_top <span class="op">=</span> <span class="fl">0.015</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">grattan_y_continuous</span><span class="op">(</span></span>
+<span>  expand_bottom <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  expand_top <span class="op">=</span> <span class="fl">0.015</span>,</span>
+<span>  expand <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  labels <span class="op">=</span> <span class="va">grattan_label_hide_zero</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">scale_y_continuous_grattan</span><span class="op">(</span>expand_bottom <span class="op">=</span> <span class="fl">0</span>, expand_top <span class="op">=</span> <span class="fl">0.015</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">scale_y_continuous_grattan</span><span class="op">(</span></span>
+<span>  expand_bottom <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  expand_top <span class="op">=</span> <span class="fl">0.015</span>,</span>
+<span>  expand <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  labels <span class="op">=</span> <span class="va">grattan_label_hide_zero</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">grattan_x_continuous</span><span class="op">(</span>expand_left <span class="op">=</span> <span class="fl">0</span>, expand_right <span class="op">=</span> <span class="fl">0.015</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">grattan_x_continuous</span><span class="op">(</span></span>
+<span>  expand_left <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  expand_right <span class="op">=</span> <span class="fl">0.015</span>,</span>
+<span>  expand <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  labels <span class="op">=</span> <span class="va">grattan_label_hide_zero</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">scale_x_continuous_grattan</span><span class="op">(</span>expand_left <span class="op">=</span> <span class="fl">0</span>, expand_right <span class="op">=</span> <span class="fl">0.015</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">scale_x_continuous_grattan</span><span class="op">(</span></span>
+<span>  expand_left <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  expand_right <span class="op">=</span> <span class="fl">0.015</span>,</span>
+<span>  expand <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  labels <span class="op">=</span> <span class="va">grattan_label_hide_zero</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -84,10 +108,24 @@ white space is added to the top of your chart. Increase to add more white
 space.</p></dd>
 
 
+<dt id="arg-expand">expand<a class="anchor" aria-label="anchor" href="#arg-expand"></a></dt>
+<dd><p>a vector of expansion constants, as you would pass to
+`scale_y_continuous()` or `scale_x_continuous()`, typically created with
+`ggplot2::expansion()`. Defaults to NULL, in which case the expansion is
+set by `expand_bottom` and `expand_top` (or `expand_left` and
+`expand_right`). If you supply `expand`, those arguments are ignored.</p></dd>
+
+
+<dt id="arg-labels">labels<a class="anchor" aria-label="anchor" href="#arg-labels"></a></dt>
+<dd><p>labels for the axis breaks, passed to `scale_y_continuous()`
+or `scale_x_continuous()`. The default uses comma formatting and hides the
+'0' label when the axis starts at 0. Supplying your own labels (such as
+`scales::label_percent()`) replaces this, so the '0' label will be shown.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>arguments passed to scale_y_continuous or scale_x_continuous. Note
-that if you provide a custom `labels` argument, it will override the default
-behavior of hiding the '0' label.</p></dd>
+<dd><p>other arguments passed to `scale_y_continuous()` or
+`scale_x_continuous()`, such as `limits` and `breaks`.</p></dd>
 
 
 <dt id="arg-expand-left">expand_left<a class="anchor" aria-label="anchor" href="#arg-expand-left"></a></dt>
@@ -161,7 +199,7 @@ white space is added to the right of your chart.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Matt Cowgill, Will Mackey, Grattan Institute.</p>
+  <p></p><p>Developed by Matt Cowgill, Will Mackey, Matthew Bowes, Grattan Institute.</p>
 </div>
 
 <div class="pkgdown">
