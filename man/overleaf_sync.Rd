@@ -4,14 +4,19 @@
 \alias{overleaf_sync}
 \title{Send changed charts to Overleaf}
 \usage{
-overleaf_sync(push = TRUE)
+overleaf_sync(since = NULL, push = TRUE)
 }
 \arguments{
-\item{push}{Logical. If \code{FALSE}, the chart stays in the local clone
+\item{since}{Optional. A time just before the caller wrote its files. Files
+in \code{atlas} changed since then are checked against Overleaf even if
+they match what was last pushed, so a file edited or deleted in Overleaf
+is put back.}
+
+\item{push}{Logical. If \code{FALSE}, the files stay in the local clone
 until \code{overleaf_push()} is called.}
 }
 \value{
-\code{TRUE} if charts were pushed, otherwise \code{FALSE},
+\code{TRUE} if files were pushed, otherwise \code{FALSE},
   invisibly.
 }
 \description{
@@ -20,9 +25,9 @@ Called by \code{grattan_save_overleaf()} after a chart is
   project is synced over git.
 
   The clone is managed by the package and never edited by hand, so there is
-  never anything to merge. Charts that have changed since the last push are
-  noted, the clone is moved onto whatever Overleaf has now, and just those
-  charts are committed on top and pushed. If someone edits the project in
-  between, the push is rejected and this is tried again.
+  never anything to merge. The files to send are noted, the clone is moved
+  onto whatever Overleaf has now, and just those files are committed on top
+  and pushed. If someone edits the project in between, the push is rejected
+  and this is tried again.
 }
 \keyword{internal}

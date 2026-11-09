@@ -262,8 +262,38 @@ test_that("write_overleaf_tex pushes to Overleaf, or waits for overleaf_push()",
   expect_equal(remote_atlas(fake$remote)[["interest.tex"]], "5.6%")
 })
 
+test_that("writing a file again puts it back if it was deleted in Overleaf", {
 
-# Reading the report with overleaf_report() -----------------------------------
+  fake <- make_fake_overleaf()
+  use_fake_project(fake$remote)
+
+  delete_in_overleaf <- function() {
+    gert::git_pull(repo = fake$seed, verbose = FALSE)
+    unlink(file.path(fake$seed, "atlas", "test.tex"))
+    edit_in_overleaf(fake$seed)
+    expect_false("test.tex" %in% names(remote_atlas(fake$remote)))
+  }
+
+  write_overleaf_tex("A test", "test")
+  delete_in_overleaf()
+
+  # The same value, written again, is sent again
+  write_overleaf_tex("A test", "test")
+  expect_equal(remote_atlas(fake$remote)[["test.tex"]], "A test%")
+
+  # Likewise when it's held back for overleaf_push()
+  delete_in_overleaf()
+  expect_message(write_overleaf_tex("A test", "test", push = FALSE),
+                 "overleaf_push")
+  expect_true(overleaf_push())
+  expect_equal(remote_atlas(fake$remote)[["test.tex"]], "A test%")
+
+  # Once sent, there's nothing left to push
+  expect_false(overleaf_push())
+})
+
+
+# Reading the report with fetch_overleaf_report() -----------------------------
 
 # Give the fake project a report's worth of files
 add_report_files <- function(seed) {
@@ -278,7 +308,7 @@ add_report_files <- function(seed) {
 
 copied_files <- function(dir) sort(list.files(dir, recursive = TRUE))
 
-test_that("overleaf_report copies the report's text, read-only", {
+test_that("fetch_overleaf_report copies the report's text, read-only", {
 
   fake <- make_fake_overleaf()
   add_report_files(fake$seed)
@@ -287,7 +317,7 @@ test_that("overleaf_report copies the report's text, read-only", {
   dir <- tempfile("report-cache-")
   on.exit(unlink(dir, recursive = TRUE))
 
-  expect_message(overleaf_report(dir), "2 chapter files")
+  expect_message(fetch_overleaf_report(dir), "2 chapter files")
 
   # The report and its stats, but not charts or other top-level files
   expect_equal(copied_files(dir),
@@ -299,7 +329,7 @@ test_that("overleaf_report copies the report's text, read-only", {
   expect_equal(readLines(file.path(dir, ".gitignore")), "*")
 })
 
-test_that("overleaf_report picks up later edits without touching unsent charts", {
+test_that("fetch_overleaf_report gets later edits, leaving unsent charts", {
 
   fake <- make_fake_overleaf()
   add_report_files(fake$seed)
@@ -307,7 +337,7 @@ test_that("overleaf_report picks up later edits without touching unsent charts",
 
   dir <- tempfile("report-cache-")
   on.exit(unlink(dir, recursive = TRUE))
-  overleaf_report(dir)
+  fetch_overleaf_report(dir)
 
   # A chart saved but not yet sent
   writeLines("unsent chart", file.path(clone, "atlas", "unsent.pdf"))
@@ -317,7 +347,7 @@ test_that("overleaf_report picks up later edits without touching unsent charts",
   unlink(file.path(fake$seed, "chapters", "appendix"), recursive = TRUE)
   edit_in_overleaf(fake$seed)
 
-  overleaf_report(dir)
+  fetch_overleaf_report(dir)
 
   expect_equal(readLines(file.path(dir, "chapters", "1-intro.tex")),
                "Chapter 1, edited")
@@ -325,7 +355,7 @@ test_that("overleaf_report picks up later edits without touching unsent charts",
   expect_true(file.exists(file.path(clone, "atlas", "unsent.pdf")))
 })
 
-test_that("overleaf_report finds the main file and won't replace other folders", {
+test_that("fetch_overleaf_report finds the main file, guards other folders", {
 
   project <- use_local_project()
   writeLines("\\documentclass{report}", file.path(project, "Main.tex"))
@@ -334,16 +364,16 @@ test_that("overleaf_report finds the main file and won't replace other folders",
   dir <- tempfile("report-cache-")
   on.exit(unlink(dir, recursive = TRUE))
 
-  overleaf_report(dir)
+  fetch_overleaf_report(dir)
   expect_true(file.exists(file.path(dir, "Main.tex")))
   expect_false(file.exists(file.path(dir, "notes.tex")))
 
-  # A folder overleaf_report() didn't make is left alone
+  # A folder fetch_overleaf_report() didn't make is left alone
   other <- tempfile("someone-elses-work-")
   dir.create(other)
   on.exit(unlink(other, recursive = TRUE), add = TRUE)
   writeLines("important", file.path(other, "analysis.R"))
 
-  expect_error(overleaf_report(other), "wasn't made by overleaf_report")
+  expect_error(fetch_overleaf_report(other), "wasn't made by")
   expect_true(file.exists(file.path(other, "analysis.R")))
 })

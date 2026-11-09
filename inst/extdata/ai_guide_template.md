@@ -160,7 +160,7 @@ grattan_save_overleaf("chart.pdf", my_chart, type = "normal")
 ```
 
 - Charts are pushed to Overleaf over git as soon as they're saved.
-  Re-saving an unchanged chart doesn't contact Overleaf.
+  Re-saving a chart puts it back if it was edited or deleted in Overleaf.
 - When saving several charts, you can use `push = FALSE` on each and call
   `overleaf_push()` once at the end of the script in order to minimise pushes.
 - Each computer needs a one-off Overleaf git token, stored with
@@ -201,20 +201,20 @@ data %>%
 - Like `grattan_save_overleaf()`, it pushes unless `push = FALSE`; with
   many stats, use `push = FALSE` and one `overleaf_push()` at the end.
 
-### overleaf_report()
+### fetch_overleaf_report()
 
 Copy the latest text of the report from Overleaf into a read-only
 `report_cache/` folder in the working directory:
 
 ``` r
-overleaf_report()
+fetch_overleaf_report()
 ```
 
 The copy holds `Report.tex`, the `.tex` files in `chapters/`, the
 `.bib` bibliography and the `.tex` statistics in `atlas/`. Use it as an easy
 way to compare the report text against the analysis.
 
-- Run `overleaf_report()` before reading, so the copy is up to date.
+- Run `fetch_overleaf_report()` before reading, so the copy is up to date.
 - Never edit files in `report_cache/`. Nothing there is sent to Overleaf,
   and edits are lost the next time it runs. 
 - The text uses `\input{atlas/name}` for statistics; read the matching

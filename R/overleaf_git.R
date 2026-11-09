@@ -258,7 +258,8 @@ overleaf_cache_dir <- function() {
 #' Delete cached Overleaf clones
 #'
 #' @description Removes the local clones of Overleaf projects kept by
-#'   \code{\link{grattan_save_overleaf}} and \code{\link{overleaf_report}}.
+#'   \code{\link{grattan_save_overleaf}} and
+#'   \code{\link{fetch_overleaf_report}}.
 #'   Anything already pushed to Overleaf is unaffected; a clone is downloaded
 #'   again the next time it's needed.
 #'
@@ -287,7 +288,7 @@ overleaf_clear_cache <- function(project = NULL) {
       stop("'", project, "' isn't an Overleaf project URL.")
     }
     # The clone used for saving charts, and the read-only one used by
-    # overleaf_report()
+    # fetch_overleaf_report()
     path <- file.path(path, c(id, file.path("report", id)))
   }
 
@@ -406,6 +407,10 @@ overleaf_git_error_message <- function(e) {
 
 # Syncing ---------------------------------------------------------------------
 
+# Files saved with push = FALSE, or whose push failed, for each clone: they
+# may match what was last pushed, so wouldn't otherwise be found again
+.overleaf_pending <- new.env(parent = emptyenv())
+
 #' Which Overleaf backend is in use?
 #'
 #' @return Either "git" or "dropbox".
@@ -423,19 +428,23 @@ overleaf_backend <- function() {
 #'   project is synced over git.
 #'
 #'   The clone is managed by the package and never edited by hand, so there is
-#'   never anything to merge. Charts that have changed since the last push are
-#'   noted, the clone is moved onto whatever Overleaf has now, and just those
-#'   charts are committed on top and pushed. If someone edits the project in
-#'   between, the push is rejected and this is tried again.
+#'   never anything to merge. The files to send are noted, the clone is moved
+#'   onto whatever Overleaf has now, and just those files are committed on top
+#'   and pushed. If someone edits the project in between, the push is rejected
+#'   and this is tried again.
 #'
-#' @param push Logical. If \code{FALSE}, the chart stays in the local clone
+#' @param since Optional. A time just before the caller wrote its files. Files
+#'   in \code{atlas} changed since then are checked against Overleaf even if
+#'   they match what was last pushed, so a file edited or deleted in Overleaf
+#'   is put back.
+#' @param push Logical. If \code{FALSE}, the files stay in the local clone
 #'   until \code{overleaf_push()} is called.
 #'
-#' @return \code{TRUE} if charts were pushed, otherwise \code{FALSE},
+#' @return \code{TRUE} if files were pushed, otherwise \code{FALSE},
 #'   invisibly.
 #'
 #' @keywords internal
-overleaf_sync <- function(push = TRUE) {
+overleaf_sync <- function(since = NULL, push = TRUE) {
 
   if (overleaf_backend() != "git") {
     return(invisible(FALSE))
@@ -443,22 +452,39 @@ overleaf_sync <- function(push = TRUE) {
 
   repo <- dirname(get_overleaf_project())
 
-  # Charts that differ from what we last pushed. Re-saving an unchanged chart
-  # finds nothing, so costs no trip to Overleaf.
+  # Files to send: any that differ from what we last pushed (including ones
+  # whose push failed earlier), ones held back with push = FALSE, and ones
+  # just written - even if unchanged, since they may have been edited or
+  # deleted in Overleaf since we last pushed them.
   # Only ever files in atlas/: nothing else in the project is ours to change
   gert::git_add("atlas", repo = repo)
-  charts <- gert::git_status(staged = TRUE, repo = repo)$file
-  charts <- charts[startsWith(charts, "atlas/")]
+  files <- gert::git_status(staged = TRUE, repo = repo)$file
 
-  if (length(charts) == 0) {
+  held <- .overleaf_pending[[repo]]
+  files <- c(files, held[file.exists(file.path(repo, held))])
+
+  if (!is.null(since)) {
+    atlas <- file.path("atlas", list.files(file.path(repo, "atlas"),
+                                           recursive = TRUE))
+    # A second's leeway, as some file systems only store times to the second
+    files <- c(files, atlas[file.mtime(file.path(repo, atlas)) >= since - 1])
+  }
+
+  files <- unique(files[startsWith(files, "atlas/")])
+
+  if (length(files) == 0) {
     return(invisible(FALSE))
   }
 
   if (!isTRUE(push)) {
+    .overleaf_pending[[repo]] <- files
     message("Saved locally. Call overleaf_push() to send your changes ",
             "to Overleaf.")
     return(invisible(FALSE))
   }
+
+  # Kept until they're pushed, in case pushing fails
+  .overleaf_pending[[repo]] <- files
 
   token <- overleaf_token()
   remote_branch <- paste0("origin/", gert::git_branch(repo = repo))
@@ -473,15 +499,18 @@ overleaf_sync <- function(push = TRUE) {
       error = function(e) stop(overleaf_git_error_message(e), call. = FALSE)
     )
     gert::git_reset_mixed(remote_branch, repo = repo)
-    gert::git_add(charts, repo = repo)
+    gert::git_add(files, repo = repo)
 
-    if (nrow(gert::git_status(staged = TRUE, repo = repo)) == 0) {
-      # Overleaf already has these exact charts
+    changed <- gert::git_status(staged = TRUE, repo = repo)$file
+
+    if (length(changed) == 0) {
+      # Overleaf already has these exact files
       gert::git_reset_hard(remote_branch, repo = repo)
+      .overleaf_pending[[repo]] <- NULL
       return(invisible(FALSE))
     }
 
-    gert::git_commit(overleaf_commit_message(charts), repo = repo)
+    gert::git_commit(overleaf_commit_message(changed), repo = repo)
     # Bring everything else in the clone up to date with Overleaf
     gert::git_reset_hard("HEAD", repo = repo)
 
@@ -492,6 +521,7 @@ overleaf_sync <- function(push = TRUE) {
     }, error = function(e) e)
 
     if (isTRUE(result)) {
+      .overleaf_pending[[repo]] <- NULL
       return(invisible(TRUE))
     }
 

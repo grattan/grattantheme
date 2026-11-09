@@ -45,8 +45,8 @@ The file ends with a \code{\%}, so that LaTeX doesn't add a space
   \code{"50\%"}.
 
   Like \code{\link{grattan_save_overleaf}}, this writes to the project set
-  with \code{\link{set_overleaf_project}}. Rewriting a value that hasn't
-  changed doesn't contact Overleaf.
+  with \code{\link{set_overleaf_project}}. If the file has been edited or
+  deleted in Overleaf, writing it again puts your version back.
 }
 \examples{
 \dontrun{

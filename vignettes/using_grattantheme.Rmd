@@ -424,10 +424,10 @@ In Overleaf, `\input{atlas/mean-mpg}` then shows 20.1. Numbers are written in fu
 
 #### Reading the report from R
 
-`overleaf_report()` copies the text of your report - `Report.tex`, the files in `chapters/`, the bibliography and the `.tex` files in the atlas - into a `report_cache/` folder in your working directory:
+`fetch_overleaf_report()` copies the text of your report - `Report.tex`, the files in `chapters/`, the bibliography and the `.tex` files in the atlas - into a `report_cache/` folder in your working directory:
 
 ```{r, eval = FALSE}
-overleaf_report()
+fetch_overleaf_report()
 ```
 
-This is useful for checking the report against your analysis, or for letting an AI assistant such as Claude Code read the latest draft. The copy is read-only and is never sent back to Overleaf: make changes in Overleaf itself. Run `overleaf_report()` again to refresh it.
+This is useful for checking the report against your analysis, or for letting an AI assistant such as Claude Code read the latest draft. The copy is read-only and is never sent back to Overleaf: make changes in Overleaf itself. Run `fetch_overleaf_report()` again to refresh it.

@@ -7,7 +7,7 @@
 #'
 #' @param dir Folder to put the copy in, relative to your working directory.
 #'   Defaults to \code{"report_cache"}. It is replaced each time
-#'   \code{overleaf_report()} runs.
+#'   \code{fetch_overleaf_report()} runs.
 #' @param main The report's main file. Defaults to \code{"Report.tex"}. If
 #'   there's no such file, the top-level \code{.tex} file containing
 #'   \code{\\documentclass} is used instead.
@@ -30,9 +30,9 @@
 #'   The files are marked read-only, and the folder holds a \code{.gitignore}
 #'   so it's never committed if your analysis is in a git repository.
 #'
-#'   Nothing in the copy is connected to Overleaf: \code{overleaf_report()}
-#'   never commits or pushes anything, and edits to the copy are lost the
-#'   next time it runs.
+#'   Nothing in the copy is connected to Overleaf:
+#'   \code{fetch_overleaf_report()} never commits or pushes anything, and
+#'   edits to the copy are lost the next time it runs.
 #'
 #'   For a project that syncs over git, this keeps a second copy of the
 #'   project in the package's cache, separate from the one used to send your
@@ -48,11 +48,11 @@
 #' @examples
 #' \dontrun{
 #' set_overleaf_project("https://www.overleaf.com/project/0123456789abcdef01234567")
-#' overleaf_report()
+#' fetch_overleaf_report()
 #' }
-overleaf_report <- function(dir = "report_cache",
-                            main = "Report.tex",
-                            chapters = "chapters") {
+fetch_overleaf_report <- function(dir = "report_cache",
+                                  main = "Report.tex",
+                                  chapters = "chapters") {
 
   project_path <- Sys.getenv("GRATTANTHEME_OVERLEAF_PROJECT_PATH", unset = "")
 
@@ -104,12 +104,12 @@ overleaf_report <- function(dir = "report_cache",
 
 
 # The note left in the copy, which also marks the folder as one that
-# overleaf_report() made and so can safely replace
+# fetch_overleaf_report() made and so can safely replace
 report_note_file <- "SYNCED_FROM_OVERLEAF.txt"
 
 overleaf_report_note <- function(version = NULL) {
   c(paste0("A read-only copy of the report, made by ",
-           "grattantheme::overleaf_report() on ",
+           "grattantheme::fetch_overleaf_report() on ",
            format(Sys.time(), "%d %B %Y at %H:%M"),
            if (!is.null(version)) {
              paste0(" from Overleaf version ", substr(version, 1, 7))
@@ -117,7 +117,8 @@ overleaf_report_note <- function(version = NULL) {
            "."),
     "",
     paste0("Nothing here is sent to Overleaf. Any edits are lost the next ",
-           "time overleaf_report() runs - make changes in Overleaf instead."))
+           "time fetch_overleaf_report() runs - make changes in Overleaf ",
+           "instead."))
 }
 
 
@@ -199,8 +200,8 @@ overleaf_main_file <- function(source, main) {
 
 #' Empty the folder that holds the copy of the report
 #'
-#' Refuses to delete a folder that \code{overleaf_report()} didn't make, so a
-#' mistyped \code{dir} can't remove someone's work.
+#' Refuses to delete a folder that \code{fetch_overleaf_report()} didn't
+#' make, so a mistyped \code{dir} can't remove someone's work.
 #'
 #' @param dir The folder.
 #'
@@ -217,8 +218,8 @@ overleaf_clear_report_dir <- function(dir) {
     if (length(existing) > 0 &&
         !file.exists(file.path(dir, report_note_file))) {
       stop("'", dir, "' already exists and wasn't made by ",
-           "overleaf_report(), so it hasn't been replaced. Choose another ",
-           "folder with `dir`.", call. = FALSE)
+           "fetch_overleaf_report(), so it hasn't been replaced. Choose ",
+           "another folder with `dir`.", call. = FALSE)
     }
 
     # Read-only files can't be deleted on Windows

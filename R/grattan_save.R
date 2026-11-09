@@ -665,6 +665,8 @@ grattan_save_overleaf <- function(filename,
   # Construct full path
   full_path <- file.path(overleaf_dir, filename)
 
+  started <- Sys.time()
+
   # Call grattan_save with appropriate parameters
   grattan_save(filename = full_path,
                object = object,
@@ -675,7 +677,7 @@ grattan_save_overleaf <- function(filename,
                ...)
 
   # Send the chart to Overleaf; does nothing if the project syncs via Dropbox
-  overleaf_sync(push = push)
+  overleaf_sync(since = started, push = push)
 
   invisible(full_path)
 }

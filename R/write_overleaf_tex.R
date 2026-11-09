@@ -30,8 +30,8 @@
 #'   \code{"50\%"}.
 #'
 #'   Like \code{\link{grattan_save_overleaf}}, this writes to the project set
-#'   with \code{\link{set_overleaf_project}}. Rewriting a value that hasn't
-#'   changed doesn't contact Overleaf.
+#'   with \code{\link{set_overleaf_project}}. If the file has been edited or
+#'   deleted in Overleaf, writing it again puts your version back.
 #'
 #' @return The path of the file written, invisibly.
 #'
@@ -89,12 +89,13 @@ write_overleaf_tex <- function(value,
   }
 
   path <- file.path(get_overleaf_project(), filename)
+  started <- Sys.time()
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
 
   # The trailing % stops LaTeX adding a space where the line ends
   writeLines(paste0(text, "%"), path)
 
-  overleaf_sync(push = push)
+  overleaf_sync(since = started, push = push)
 
   invisible(path)
 }

@@ -15,7 +15,8 @@ The paths that were deleted, invisibly.
 }
 \description{
 Removes the local clones of Overleaf projects kept by
-  \code{\link{grattan_save_overleaf}} and \code{\link{overleaf_report}}.
+  \code{\link{grattan_save_overleaf}} and
+  \code{\link{fetch_overleaf_report}}.
   Anything already pushed to Overleaf is unaffected; a clone is downloaded
   again the next time it's needed.
 }
