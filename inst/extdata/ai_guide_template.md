@@ -88,6 +88,11 @@ theme_grattan(
 )
 ```
 
+Fonts: slide, blog and web charts use DM Serif Display (titles) and
+Avenir Next (body text). These must be installed on the computer; the
+message shown when grattantheme loads says if either is missing, in which
+case those charts fall back to the default sans-serif font.
+
 Note: as of grattantheme 1.5, `flipped` defaults to `NULL` and
 auto-detects horizontal/flipped charts (e.g. `coord_flip()` or bar
 charts with a discrete y-axis). A message is shown when auto-detection
@@ -110,7 +115,8 @@ grattan_save(
   force_labs = FALSE       # Keep title/subtitle/caption
 )
 
-# Shortcut for all formats with pptx and data to a named subdirectory:
+# Shortcut for all formats, plus pptx, chart data and web-ready PNGs, to a
+# named subdirectory:
 grattan_save_all("chart.pdf", my_chart)
 ```
 
@@ -140,15 +146,79 @@ grattan_save_web("chart.png", my_chart, type = "blog")
 
 ### grattan_save_overleaf()
 
-Save directly to Overleaf project atlas folder. You must first define
-the atlas path using `set_overleaf_project()`. Usually this can be done
-in a separate 'setup.R' file, which is then loaded before chart-making
-scripts.
+Save a chart's PDF straight to the Overleaf project's `atlas` folder.
+Set the project first with `set_overleaf_project()`, giving it the
+project's Overleaf URL. This is usually best done once, in a separate
+`setup.R` that chart-making scripts can then `source()`.
 
 ``` r
-set_overleaf_project("project-name")  # Set once per session
+# In setup.R
+set_overleaf_project("https://www.overleaf.com/project/0123456789abcdef01234567")
+
+# In a chart script
 grattan_save_overleaf("chart.pdf", my_chart, type = "normal")
 ```
+
+- Charts are pushed to Overleaf over git as soon as they're saved.
+  Re-saving an unchanged chart doesn't contact Overleaf.
+- When saving several charts, you can use `push = FALSE` on each and call
+  `overleaf_push()` once at the end of the script in order to minimise pushes.
+- Each computer needs a one-off Overleaf git token, stored with
+  `set_overleaf_token()`. If saving fails with an authentication error,
+  ask the user to run `set_overleaf_token()` themselves - never ask for,
+  print or write the token.
+- Only the `atlas` folder is ever sent to Overleaf; the report's text is
+  never changed.
+- Giving `set_overleaf_project()` a project *name* instead of a URL uses
+  the older Dropbox route, which is being phased out. Prefer the URL.
+- Typically a script saves each chart twice: `grattan_save_all()` to a
+  local folder (all formats, for later use), then
+  `grattan_save_overleaf()` for the report.
+
+### write_overleaf_tex()
+
+Write a key statistic to the `atlas` folder as a `.tex` file, to be
+included in the report's text with `\input{atlas/name}`. It takes one
+value, so it fits at the end of a pipe:
+
+``` r
+data %>%
+  filter(metric == "Gross debt", jur == "Commonwealth", year == 2025) %>%
+  mutate(pct = pct * 100) %>%
+  pull(pct) %>%
+  write_overleaf_tex("debt-cwth-2025", accuracy = 0.1)
+```
+
+- `value` must be exactly one non-missing value; it errors otherwise,
+  which catches a `filter()` that matched no rows or several.
+- Numbers are written in full (`1000000`, never `1e+06`). Use `accuracy`
+  to round them; this also adds commas between thousands
+  (`1,234.6`).
+- Text is written as it is, so format it first if needed. Escape LaTeX
+  special characters: write `"50\\%"`, not `"50%"`, since a bare `%`
+  starts a LaTeX comment.
+- The file ends with `%`, so LaTeX adds no space after the value.
+- Like `grattan_save_overleaf()`, it pushes unless `push = FALSE`; with
+  many stats, use `push = FALSE` and one `overleaf_push()` at the end.
+
+### overleaf_report()
+
+Copy the latest text of the report from Overleaf into a read-only
+`report_cache/` folder in the working directory:
+
+``` r
+overleaf_report()
+```
+
+The copy holds `Report.tex`, the `.tex` files in `chapters/`, the
+`.bib` bibliography and the `.tex` statistics in `atlas/`. Use it as an easy
+way to compare the report text against the analysis.
+
+- Run `overleaf_report()` before reading, so the copy is up to date.
+- Never edit files in `report_cache/`. Nothing there is sent to Overleaf,
+  and edits are lost the next time it runs. 
+- The text uses `\input{atlas/name}` for statistics; read the matching
+  file in `report_cache/atlas/` to see the number.
 
 ## Axis Scales - Avoiding Gaps
 
@@ -178,6 +248,9 @@ grattan_y_continuous(
   expand_bottom = 0,      # Default 0 - no gap at bottom
   expand_top = 0.015      # Default 0.015 - small gap at top
 )
+
+# Or the usual ggplot2 way, which overrides expand_bottom/expand_top
+grattan_y_continuous(expand = expansion(mult = c(0, 0.05)))
 ```
 
 ### grattan_x_continuous() / scale_x_continuous_grattan()
@@ -538,25 +611,11 @@ Grattan data warehouse. Use the `read_microdata` function from the
 
 ### Exporting key stats to LaTeX
 
-For reports using Overleaf, export key statistics to `.tex` files. You
-must first define the atlas path - either manually or via
-`set_overleaf_project()`:
+For reports using Overleaf, you can export statistics to be quoted in-text 
+with `write_overleaf_tex()` (see above), so the report updates when the
+analysis does. Never hard-code a path to the atlas folder, and don't
+write the files with `writeLines()`: `write_overleaf_tex()` handles the
+formatting, the trailing `%` and sending the file to Overleaf.
 
-``` r
-# Option 1: Define atlas path manually (required at start of script)
-atlas <- "C:/Users/username/Grattan Institute Dropbox/.../Apps/Overleaf/project-name/atlas/"
-
-# Option 2: Or use set_overleaf_project() and get the path
-set_overleaf_project("project-name")
-atlas <- get_overleaf_project()
-
-# Write single values
-writeLines(as.character(my_value), paste0(atlas, "stat_name.tex"))
-
-# Format with commas for large numbers
-formatted <- format(round(value, -3), big.mark = ",", scientific = FALSE)
-writeLines(formatted, file.path(atlas, "stat_name.tex"))
-
-# Format percentages
-writeLines(as.character(round(pct_value, 0)), paste0(atlas, "pct_stat.tex"))
-```
+Give stats short, descriptive file names, prefixed by topic so related
+numbers sort together (e.g. `debt-cwth-2025`, `debt-states-2025`).

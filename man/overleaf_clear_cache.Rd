@@ -11,12 +11,13 @@ overleaf_clear_cache(project = NULL)
 every cached project is deleted.}
 }
 \value{
-The path that was deleted, invisibly.
+The paths that were deleted, invisibly.
 }
 \description{
 Removes the local clones of Overleaf projects kept by
-  \code{\link{grattan_save_overleaf}}. Anything already pushed to Overleaf is
-  unaffected; the clone is downloaded again next time you save a chart.
+  \code{\link{grattan_save_overleaf}} and \code{\link{overleaf_report}}.
+  Anything already pushed to Overleaf is unaffected; a clone is downloaded
+  again the next time it's needed.
 }
 \examples{
 \dontrun{

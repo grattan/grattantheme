@@ -258,13 +258,14 @@ overleaf_cache_dir <- function() {
 #' Delete cached Overleaf clones
 #'
 #' @description Removes the local clones of Overleaf projects kept by
-#'   \code{\link{grattan_save_overleaf}}. Anything already pushed to Overleaf is
-#'   unaffected; the clone is downloaded again next time you save a chart.
+#'   \code{\link{grattan_save_overleaf}} and \code{\link{overleaf_report}}.
+#'   Anything already pushed to Overleaf is unaffected; a clone is downloaded
+#'   again the next time it's needed.
 #'
 #' @param project An Overleaf project URL or ID. If \code{NULL} (the default),
 #'   every cached project is deleted.
 #'
-#' @return The path that was deleted, invisibly.
+#' @return The paths that were deleted, invisibly.
 #'
 #' @export
 #'
@@ -285,15 +286,20 @@ overleaf_clear_cache <- function(project = NULL) {
     if (is.null(id)) {
       stop("'", project, "' isn't an Overleaf project URL.")
     }
-    path <- file.path(path, id)
+    # The clone used for saving charts, and the read-only one used by
+    # overleaf_report()
+    path <- file.path(path, c(id, file.path("report", id)))
   }
 
-  if (dir.exists(path)) {
-    unlink(path, recursive = TRUE)
-    message("Deleted ", path)
-  } else {
-    message("Nothing cached at ", path)
+  path <- path[dir.exists(path)]
+
+  if (length(path) == 0) {
+    message("Nothing in the Overleaf cache to delete.")
+    return(invisible(path))
   }
+
+  unlink(path, recursive = TRUE)
+  message("Deleted ", paste(path, collapse = " and "))
 
   invisible(path)
 }
@@ -449,7 +455,7 @@ overleaf_sync <- function(push = TRUE) {
   }
 
   if (!isTRUE(push)) {
-    message("Chart saved locally. Call overleaf_push() to send your charts ",
+    message("Saved locally. Call overleaf_push() to send your changes ",
             "to Overleaf.")
     return(invisible(FALSE))
   }
@@ -520,7 +526,7 @@ overleaf_commit_message <- function(files) {
   what <- if (length(charts) <= 3) {
     paste(charts, collapse = ", ")
   } else {
-    paste0(length(charts), " charts")
+    paste0(length(charts), " files")
   }
 
   paste0("Update ", what, " (grattantheme)")

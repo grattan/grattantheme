@@ -118,7 +118,7 @@ test_that("overleaf_commit_message names charts, then counts them", {
   expect_equal(overleaf_commit_message(c("atlas/a.pdf", "atlas/b.pdf")),
                "Update a.pdf, b.pdf (grattantheme)")
   expect_equal(overleaf_commit_message(paste0("atlas/chart", 1:5, ".pdf")),
-               "Update 5 charts (grattantheme)")
+               "Update 5 files (grattantheme)")
 })
 
 
@@ -193,4 +193,157 @@ test_that("overleaf_sync is a no-op for Dropbox projects", {
 
   expect_false(overleaf_sync())
   expect_message(expect_false(overleaf_push()), "Dropbox")
+})
+
+
+# Writing values with write_overleaf_tex() ------------------------------------
+
+# Point the package at a plain local folder, as a Dropbox project would be
+use_local_project <- function(env = parent.frame()) {
+  skip_if_not_installed("withr")
+
+  project <- tempfile("overleaf-local-")
+  dir.create(project)
+  withr::defer(unlink(project, recursive = TRUE), envir = env)
+
+  withr::local_envvar(
+    GRATTANTHEME_OVERLEAF_BACKEND = "dropbox",
+    GRATTANTHEME_OVERLEAF_PROJECT = "local",
+    GRATTANTHEME_OVERLEAF_PROJECT_PATH = project,
+    .local_envir = env
+  )
+
+  project
+}
+
+read_tex <- function(path) readLines(path, warn = FALSE)
+
+test_that("write_overleaf_tex writes values that LaTeX won't add a space to", {
+
+  project <- use_local_project()
+  atlas <- file.path(project, "atlas")
+
+  write_overleaf_tex(3.4, "debt")
+  expect_equal(read_tex(file.path(atlas, "debt.tex")), "3.4%")
+
+  # Big numbers are written in full, and rounded with commas on request
+  write_overleaf_tex(1e6, "big.tex")
+  expect_equal(read_tex(file.path(atlas, "big.tex")), "1000000%")
+  write_overleaf_tex(1234.567, "rounded", accuracy = 0.1)
+  expect_equal(read_tex(file.path(atlas, "rounded.tex")), "1,234.6%")
+
+  # Text is written as it is, including into a subfolder
+  write_overleaf_tex("\\$2.5 billion", "stats/cost")
+  expect_equal(read_tex(file.path(atlas, "stats", "cost.tex")),
+               "\\$2.5 billion%")
+})
+
+test_that("write_overleaf_tex needs exactly one value", {
+
+  use_local_project()
+
+  expect_error(write_overleaf_tex(numeric(), "x"), "0 values")
+  expect_error(write_overleaf_tex(c(1, 2), "x"), "2 values")
+  expect_error(write_overleaf_tex(NA, "x"), "missing value")
+})
+
+test_that("write_overleaf_tex pushes to Overleaf, or waits for overleaf_push()", {
+
+  fake <- make_fake_overleaf()
+  use_fake_project(fake$remote)
+
+  write_overleaf_tex(3.4, "debt")
+  expect_equal(remote_atlas(fake$remote)[["debt.tex"]], "3.4%")
+
+  expect_message(write_overleaf_tex(5.6, "interest", push = FALSE),
+                 "overleaf_push")
+  expect_false("interest.tex" %in% names(remote_atlas(fake$remote)))
+  expect_true(overleaf_push())
+  expect_equal(remote_atlas(fake$remote)[["interest.tex"]], "5.6%")
+})
+
+
+# Reading the report with overleaf_report() -----------------------------------
+
+# Give the fake project a report's worth of files
+add_report_files <- function(seed) {
+  dir.create(file.path(seed, "chapters", "appendix"), recursive = TRUE)
+  writeLines("\\documentclass{report}", file.path(seed, "Report.tex"))
+  writeLines("Chapter 1", file.path(seed, "chapters", "1-intro.tex"))
+  writeLines("Appendix A", file.path(seed, "chapters", "appendix", "a.tex"))
+  writeLines("@book{key}", file.path(seed, "references.bib"))
+  writeLines("3.4%", file.path(seed, "atlas", "debt.tex"))
+  edit_in_overleaf(seed, "Add report")
+}
+
+copied_files <- function(dir) sort(list.files(dir, recursive = TRUE))
+
+test_that("overleaf_report copies the report's text, read-only", {
+
+  fake <- make_fake_overleaf()
+  add_report_files(fake$seed)
+  use_fake_project(fake$remote)
+
+  dir <- tempfile("report-cache-")
+  on.exit(unlink(dir, recursive = TRUE))
+
+  expect_message(overleaf_report(dir), "2 chapter files")
+
+  # The report and its stats, but not charts or other top-level files
+  expect_equal(copied_files(dir),
+               sort(c("Report.tex", "SYNCED_FROM_OVERLEAF.txt",
+                      "atlas/debt.tex", "chapters/1-intro.tex",
+                      "chapters/appendix/a.tex", "references.bib")))
+
+  expect_equal(file.access(file.path(dir, "Report.tex"), mode = 2)[[1]], -1L)
+  expect_equal(readLines(file.path(dir, ".gitignore")), "*")
+})
+
+test_that("overleaf_report picks up later edits without touching unsent charts", {
+
+  fake <- make_fake_overleaf()
+  add_report_files(fake$seed)
+  clone <- use_fake_project(fake$remote)
+
+  dir <- tempfile("report-cache-")
+  on.exit(unlink(dir, recursive = TRUE))
+  overleaf_report(dir)
+
+  # A chart saved but not yet sent
+  writeLines("unsent chart", file.path(clone, "atlas", "unsent.pdf"))
+
+  # A colleague edits one chapter and deletes another
+  writeLines("Chapter 1, edited", file.path(fake$seed, "chapters", "1-intro.tex"))
+  unlink(file.path(fake$seed, "chapters", "appendix"), recursive = TRUE)
+  edit_in_overleaf(fake$seed)
+
+  overleaf_report(dir)
+
+  expect_equal(readLines(file.path(dir, "chapters", "1-intro.tex")),
+               "Chapter 1, edited")
+  expect_false(file.exists(file.path(dir, "chapters", "appendix", "a.tex")))
+  expect_true(file.exists(file.path(clone, "atlas", "unsent.pdf")))
+})
+
+test_that("overleaf_report finds the main file and won't replace other folders", {
+
+  project <- use_local_project()
+  writeLines("\\documentclass{report}", file.path(project, "Main.tex"))
+  writeLines("Not the main file", file.path(project, "notes.tex"))
+
+  dir <- tempfile("report-cache-")
+  on.exit(unlink(dir, recursive = TRUE))
+
+  overleaf_report(dir)
+  expect_true(file.exists(file.path(dir, "Main.tex")))
+  expect_false(file.exists(file.path(dir, "notes.tex")))
+
+  # A folder overleaf_report() didn't make is left alone
+  other <- tempfile("someone-elses-work-")
+  dir.create(other)
+  on.exit(unlink(other, recursive = TRUE), add = TRUE)
+  writeLines("important", file.path(other, "analysis.R"))
+
+  expect_error(overleaf_report(other), "wasn't made by overleaf_report")
+  expect_true(file.exists(file.path(other, "analysis.R")))
 })
