@@ -36,8 +36,8 @@ The copy holds:
   \itemize{
     \item the main file;
     \item every \code{.tex} file in the chapters folder;
-    \item the bibliography (every \code{.bib} file at the top level of
-      the project);
+    \item the bibliography (every \code{.bib} file in the project, such as
+      those in the \code{bib} folder);
     \item every \code{.tex} file in \code{atlas}, such as the statistics
       written by \code{\link{write_overleaf_tex}}.
   }

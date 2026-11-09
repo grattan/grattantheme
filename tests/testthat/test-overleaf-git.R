@@ -302,6 +302,8 @@ add_report_files <- function(seed) {
   writeLines("Chapter 1", file.path(seed, "chapters", "1-intro.tex"))
   writeLines("Appendix A", file.path(seed, "chapters", "appendix", "a.tex"))
   writeLines("@book{key}", file.path(seed, "references.bib"))
+  dir.create(file.path(seed, "bib"))
+  writeLines("@book{other}", file.path(seed, "bib", "more.bib"))
   writeLines("3.4%", file.path(seed, "atlas", "debt.tex"))
   edit_in_overleaf(seed, "Add report")
 }
@@ -317,13 +319,15 @@ test_that("fetch_overleaf_report copies the report's text, read-only", {
   dir <- tempfile("report-cache-")
   on.exit(unlink(dir, recursive = TRUE))
 
-  expect_message(fetch_overleaf_report(dir), "2 chapter files")
+  expect_message(fetch_overleaf_report(dir),
+                 "2 chapter files, 2 bibliography files")
 
   # The report and its stats, but not charts or other top-level files
   expect_equal(copied_files(dir),
                sort(c("Report.tex", "SYNCED_FROM_OVERLEAF.txt",
                       "atlas/debt.tex", "chapters/1-intro.tex",
-                      "chapters/appendix/a.tex", "references.bib")))
+                      "chapters/appendix/a.tex", "references.bib",
+                      "bib/more.bib")))
 
   expect_equal(file.access(file.path(dir, "Report.tex"), mode = 2)[[1]], -1L)
   expect_equal(readLines(file.path(dir, ".gitignore")), "*")

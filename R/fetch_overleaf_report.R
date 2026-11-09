@@ -18,8 +18,8 @@
 #'   \itemize{
 #'     \item the main file;
 #'     \item every \code{.tex} file in the chapters folder;
-#'     \item the bibliography (every \code{.bib} file at the top level of
-#'       the project);
+#'     \item the bibliography (every \code{.bib} file in the project, such as
+#'       those in the \code{bib} folder);
 #'     \item every \code{.tex} file in \code{atlas}, such as the statistics
 #'       written by \code{\link{write_overleaf_tex}}.
 #'   }
@@ -76,7 +76,9 @@ fetch_overleaf_report <- function(dir = "report_cache",
                           ignore.case = TRUE)
   chapter_files <- tex_files[startsWith(tex_files, paste0(chapters, "/"))]
   atlas_files <- tex_files[startsWith(tex_files, "atlas/")]
-  bib_files <- list.files(source, pattern = "\\.bib$", ignore.case = TRUE)
+  # Anywhere in the project: Grattan's template keeps them in bib/
+  bib_files <- list.files(source, pattern = "\\.bib$", recursive = TRUE,
+                          ignore.case = TRUE)
   files <- c(main, chapter_files, bib_files, atlas_files)
 
   overleaf_clear_report_dir(dir)
