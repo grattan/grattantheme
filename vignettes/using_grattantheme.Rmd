@@ -260,9 +260,9 @@ grattan_save(filename = file.path(iris_dir, "iris.png"),
 
 Which produces a chart that can fit into a report. Note that the title, subtitle and notes/sources have been removed.
 
-```{r, out.width = "300px", echo = FALSE}
-knitr::include_graphics(file.path(iris_dir, "iris", "iris_normal.png"),
-                        rel_path = FALSE)
+```{r, echo = FALSE, results = "asis"}
+cat(sprintf('<img src="%s" width="300" alt="Example chart saved with grattan_save()">',
+            knitr::image_uri(file.path(iris_dir, "iris", "iris_normal.png"))))
 ```
 
 <!-- ## Saving full-slide charts - have removed for now given issues with functionality -->

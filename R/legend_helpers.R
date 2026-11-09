@@ -25,8 +25,8 @@
 #'                                    {colour_text('#0072B2','setosa')}
 #'                                    {colour_text('#D55E00','versicolor')}
 #'                                    {colour_text('#009E73','virginica')}
-#'                                        </span>"),
-#'                                          theme(plot.title = element_markdown(lineheight = 1.1) )
+#'                                        </span>")) +
+#'   theme(plot.title = element_markdown(lineheight = 1.1))
 #' }
 colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
   if (!is.character(colour)) stop("`colour` should be a character")
