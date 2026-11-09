@@ -1,5 +1,5 @@
 # grattantheme 1.7.0
-* Powerpoint and Excel files created by `grattan_save_pptx()`, `save_chartdata()`, `grattan_save()` and `grattan_save_all()` now record "Grattan Institute" as their author and "last modified by" name. Each of these functions gains an `author` argument to change this; use `author = ""` to leave both fields blank.
+* Powerpoint and Excel files created by `grattan_save_pptx()`, `save_chartdata()`, `grattan_save()` and `grattan_save_all()` now record "Grattan Institute" as their author, rather than the template's original author.
 * `grattan_save_overleaf()` can now sync charts to Overleaf over Overleaf's git integration, as well as via Dropbox. Which one you get depends on how you set up the project: give `set_overleaf_project()` an Overleaf project URL and charts are committed and pushed straight to Overleaf; give it a project name, as before, and charts are written to your local Dropbox folder. Saving a chart otherwise works the same way.
   * Added `set_overleaf_token()`, which stores the Overleaf git authentication token needed for git syncing.
   * Added `overleaf_push()`, for sending charts to Overleaf in a batch. `grattan_save_overleaf()` gains a `push` argument: save a run of charts locally with `push = FALSE` and call `overleaf_push()` once at the end, which is quicker than pushing to Overleaf for each chart.
@@ -11,6 +11,8 @@
 * Removed the internal geom-aesthetics code that only ran on ggplot2 versions earlier than 4.0.0 (which grattantheme no longer supports), along with the `all_geoms` data object.
 * Removed the defunct internal functions `create_pptx_shell()` and `create_slide_shell()`. `rmarkdown` is no longer needed to use the package.
 * Various other unused code components removed as part of package tidy-up.
+* Update handling of fonts and improve start-up message in cases where key fonts are not installed.
+* File locations in Powerpoint speaker notes are now shortened for SharePoint and OneDrive folders.
 
 # grattantheme 1.6.5
 * Fixed the fonts used for on-chart annotations when `grattan_save_all()` or `grattan_save(type = "all")` are used.

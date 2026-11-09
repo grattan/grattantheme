@@ -236,13 +236,7 @@ importFrom(purrr,
   walk2
 )
 importFrom(rlang,quo_get_expr)
-importFrom(systemfonts,
-  font_feature,
-  register_font,
-  register_variant,
-  registry_fonts,
-  system_fonts
-)
+importFrom(systemfonts,system_fonts)
 importFrom(tools,file_path_sans_ext)
 importFrom(utils,
   menu,

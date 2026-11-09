@@ -227,16 +227,14 @@ doc_authors <- function(filename) {
 }
 
 test_that("grattan_save_pptx records Grattan Institute as the author", {
-  user_before <- Sys.getenv("USER", unset = NA)
   filename <- file.path(tempdir(), "author.pptx")
 
   grattan_save_pptx(p = p1, filename = filename, type = "fullslide")
 
-  expect_equal(doc_authors(file.path(tempdir(), "author_fullslide.pptx")),
-               c(creator = "Grattan Institute",
-                 last_modified_by = "Grattan Institute"))
-  # The USER environment variable is restored after saving
-  expect_identical(Sys.getenv("USER", unset = NA), user_before)
+  # Only the author can be set: officer always records the login name as
+  # "last modified by"
+  expect_equal(doc_authors(file.path(tempdir(), "author_fullslide.pptx"))[["creator"]],
+               "Grattan Institute")
 })
 
 test_that("grattan_save_pptx accepts a custom or blank author", {
@@ -244,16 +242,32 @@ test_that("grattan_save_pptx accepts a custom or blank author", {
 
   grattan_save_pptx(p = p1, filename = filename, type = "fullslide",
                     author = "Someone Else")
-  expect_equal(doc_authors(file.path(tempdir(), "author_custom_fullslide.pptx")),
-               c(creator = "Someone Else", last_modified_by = "Someone Else"))
+  expect_equal(doc_authors(file.path(tempdir(), "author_custom_fullslide.pptx"))[["creator"]],
+               "Someone Else")
 
   grattan_save_pptx(p = p1, filename = filename, type = "fullslide",
                     author = "")
-  expect_false(any(grepl("Cowgill|Clay|Reysenbach|Bowes",
-                         doc_authors(file.path(tempdir(),
-                                               "author_custom_fullslide.pptx")))))
+  expect_equal(doc_authors(file.path(tempdir(),
+                                     "author_custom_fullslide.pptx"))[["creator"]],
+               "")
 
   expect_error(grattan_save_pptx(p = p1, filename = filename,
                                  type = "fullslide", author = c("a", "b")),
                "`author` must be a single string")
+})
+
+test_that("trim_synced_path() keeps the shared part of synced paths", {
+  paths <- c(
+    "C:\\Users\\jo\\Grattan Institute Dropbox\\a.pptx",
+    "/Users/jo/Library/CloudStorage/OneDrive-SharedLibraries-Grattan/Team/a.pptx",
+    "C:\\Users\\jo\\Grattan Institute\\Team\\a.pptx",
+    "//server/share/a.pptx"
+  )
+  expected <- c(
+    "Dropbox/a.pptx",                   # Dropbox
+    "Team/a.pptx",                      # SharePoint on a Mac
+    "Grattan Institute/Team/a.pptx",    # SharePoint on Windows
+    "//server/share/a.pptx"             # outside the home folder: unchanged
+  )
+  expect_equal(vapply(paths, trim_synced_path, "", USE.NAMES = FALSE), expected)
 })

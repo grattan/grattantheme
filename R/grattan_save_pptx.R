@@ -26,9 +26,10 @@
 #' uses "slide" for fullslide and blog chart types and "normal" for other
 #' types. "slide" uses Avenir Next for body text (if available). "normal" uses
 #' Arial.
-#' @param author Character. The name recorded as both the author and the
-#' "last modified by" name in the Powerpoint file's document properties.
-#' Defaults to `"Grattan Institute"`. Use `""` to leave both blank.
+#' @param author Character. The name recorded as the author in the Powerpoint
+#' file's document properties. Defaults to `"Grattan Institute"`. Use `""` to
+#' leave it blank. (The "last modified by" name is always your computer's
+#' login name.)
 #' @examples
 #' \dontrun{
 #' library(ggplot2)
@@ -299,8 +300,8 @@ return_script_and_chart_location <- function(filename) {
 
   graph_location <- normalizePath(filename, mustWork = FALSE)
 
-  script_location <- gsub("^.*(?=(Dropbox))", "", script_location, perl = TRUE)
-  graph_location <- gsub("^.*(?=(Dropbox))", "", graph_location, perl = TRUE)
+  script_location <- trim_synced_path(script_location)
+  graph_location <- trim_synced_path(graph_location)
 
   script_loc_note <- ifelse(script_location == "",
                             "",
@@ -313,4 +314,43 @@ return_script_and_chart_location <- function(filename) {
   final_note <- paste0(script_loc_note, "\n", graph_loc_note)
 
   return(final_note)
+}
+
+
+#' Shorten a file path to the part a colleague would recognise
+#'
+#' Paths in speaker notes are more useful without the start that is specific
+#' to one person's computer. This keeps the path from the shared folder down:
+#' \itemize{
+#'   \item Dropbox: from "Dropbox" onwards, e.g.
+#'     "Dropbox/Projects/chart.pptx".
+#'   \item SharePoint libraries synced with OneDrive on a Mac: from the
+#'     library onwards, e.g. "Team - Documents/Projects/chart.pptx".
+#'   \item Anything else in the home folder, including OneDrive and SharePoint
+#'     on Windows: from just below the home folder, e.g.
+#'     "Grattan Institute/Team - Documents/Projects/chart.pptx".
+#' }
+#' Paths outside the home folder, such as network drives, are left as they are.
+#'
+#' @param path A file path.
+#'
+#' @return A character string.
+#'
+#' @keywords internal
+trim_synced_path <- function(path) {
+
+  if (path == "") return(path)
+
+  path <- gsub("\\\\", "/", path)
+
+  if (grepl("Dropbox", path, fixed = TRUE)) {
+    return(sub("^.*(?=Dropbox)", "", path, perl = TRUE))
+  }
+
+  if (grepl("/Library/CloudStorage/", path, fixed = TRUE)) {
+    path <- sub("^.*/Library/CloudStorage/", "", path)
+    return(sub("^OneDrive-SharedLibraries-[^/]+/", "", path))
+  }
+
+  sub("^([A-Za-z]:)?/(Users|home)/[^/]+/", "", path)
 }

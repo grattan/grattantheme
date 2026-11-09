@@ -113,7 +113,7 @@ plot +
 - For normal charts: uses system sans-serif fonts
 - For slide charts: uses DM Serif Display for titles and Avenir Next for body text
 
-The package checks your system fonts and, if you have Dropbox synced with Grattan's shared font folder, will automatically register fonts from there. When you load the package, you'll see which fonts are being used.
+The package uses these fonts if they are installed on your computer, and the default sans-serif font otherwise. When you load the package, you'll see which fonts are being used. If a slide font is missing, install it on your computer; this is the only way for it to appear in PDF and Powerpoint outputs as well as PNGs.
 
 
 \newpage

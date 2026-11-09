@@ -105,10 +105,11 @@ decimal places. Default is NULL, which does not round numbers.}
 \item{sheet_name}{Character. Name of the worksheet in the exported chart-data
 Excel file. Only used when `save_data = TRUE`. Defaults to `"data"`.}
 
-\item{author}{Character. The name recorded as both the author and the
-"last modified by" name in the document properties of any Powerpoint and
-Excel files created (with `save_pptx = TRUE` or `save_data = TRUE`).
-Defaults to `"Grattan Institute"`. Use `""` to leave both blank.}
+\item{author}{Character. The name recorded as the author in the document
+properties of any Powerpoint and Excel files created (with
+`save_pptx = TRUE` or `save_data = TRUE`), and as the "last modified by"
+name in Excel files. Defaults to `"Grattan Institute"`. Use `""` to leave
+these blank.}
 
 \item{force_labs}{Logical. By default, `grattan_save()` will remove your
 title, subtitle, and caption (if present) from your graph before saving it,
