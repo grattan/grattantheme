@@ -29,8 +29,8 @@
 #'                                          theme(plot.title = element_markdown(lineheight = 1.1) )
 #' }
 colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
-  assertthat::assert_that(is.character(colour), msg = "`colour` should be a character")
-  assertthat::assert_that(is.character(text), msg = "`text` should be a character")
+  if (!is.character(colour)) stop("`colour` should be a character")
+  if (!is.character(text)) stop("`text` should be a character")
   if (!is_note) {
     if (bold_labs) {
       ret <- glue::glue("<b style='color:{colour}'>{text}</b>")

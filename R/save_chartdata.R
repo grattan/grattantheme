@@ -25,10 +25,14 @@
 #' number of decimal places. Default is NULL, which does not round numbers.
 #' @param sheet_name Character. Name of the worksheet in the Excel file.
 #' Defaults to `"data"`.
+#' @param author Character. The name recorded as both the author and the
+#' "last modified by" name in the Excel file's document properties. Defaults
+#' to `"Grattan Institute"`. Use `""` to leave both blank.
 #'
 #' @export
 #' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage
 #' @importFrom openxlsx createStyle addStyle setColWidths saveWorkbook
+#' @importFrom openxlsx setLastModifiedBy
 #' @importFrom ggplot2 last_plot
 #' @importFrom purrr map
 #' @importFrom rlang quo_get_expr
@@ -53,7 +57,8 @@ save_chartdata <- function(filename,
                            height = NULL,
                            select_data = TRUE,
                            round = NULL,
-                           sheet_name = "data") {
+                           sheet_name = "data",
+                           author = "Grattan Institute") {
 
   if (tools::file_ext(filename) != "xlsx") {
     stop(filename, " is not a valid filename; filename must end in .xlsx")
@@ -71,6 +76,8 @@ save_chartdata <- function(filename,
   if (!is.character(sheet_name) || length(sheet_name) != 1 || !nzchar(sheet_name)) {
     stop("`sheet_name` must be a single non-empty string.")
   }
+
+  check_author(author)
 
   # Expand height of graph if not set manually & labels are present
 
@@ -168,7 +175,9 @@ save_chartdata <- function(filename,
 
   # Create workbook and add title, caption, footnotes, and chart
 
-  wb <- openxlsx::createWorkbook()
+  # Record `author` rather than the user's login name in the file's properties
+  wb <- openxlsx::createWorkbook(creator = author)
+  openxlsx::setLastModifiedBy(wb, author)
 
   openxlsx::addWorksheet(wb,
                          sheetName = sheet_name,

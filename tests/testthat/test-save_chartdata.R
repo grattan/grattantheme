@@ -173,3 +173,22 @@ test_that("save_chartdata handles patchwork without proper annotations", {
     unlink("Rplots.pdf")
   }
 })
+
+test_that("save_chartdata records Grattan Institute as the author", {
+  filename <- file.path(tempdir(), "author_chartdata.xlsx")
+  save_chartdata(filename, p)
+
+  dir <- tempfile("core_")
+  utils::unzip(filename, files = "docProps/core.xml", exdir = dir)
+  core <- paste(readLines(file.path(dir, "docProps", "core.xml"),
+                          warn = FALSE), collapse = "")
+
+  expect_match(core, "<dc:creator>Grattan Institute</dc:creator>", fixed = TRUE)
+  expect_match(core, "<cp:lastModifiedBy>Grattan Institute</cp:lastModifiedBy>",
+               fixed = TRUE)
+
+  expect_error(save_chartdata(filename, p, author = NA_character_),
+               "`author` must be a single string")
+
+  unlink(c(filename, dir), recursive = TRUE)
+})

@@ -7,7 +7,7 @@ devtools::load_all()
 check_subclass <- utils::getFromNamespace("check_subclass", "ggplot2")
 
 # Library any packages that add geoms so you can take their defaults
-# Check the geom names are in all_geoms in data_raw/all_geoms.R
+source("data-raw/all_geoms.R")
 
 invisible(lapply(geom_packs, library, character.only = TRUE))
 

@@ -125,9 +125,11 @@ function.
 Save your chart in all Grattan formats - along with chart data - using
 `grattan_save_all()`.
 
-Use `set_overleaf_project("project_name")` and then
-`grattan_save_overleaf()` to conveniently save your chart to an ongoing
-Overleaf report project.
+Use `set_overleaf_project()` and then `grattan_save_overleaf()` to
+conveniently save your chart to an ongoing Overleaf report project.
+Charts can be synced either via git (using a local cache), or via a
+synced Dropbox folder. Syncing via git can be set up using
+`set_overleaf_token()`.
 
 ## Save animated charts
 

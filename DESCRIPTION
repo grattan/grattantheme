@@ -1,15 +1,17 @@
 Package: grattantheme
 Type: Package
 Title: Create Graphs in the Grattan Institute Style
-Version: 1.6.5
+Version: 1.7.0
 Authors@R: c(
     person("Matt", "Cowgill", 
                 role = c("aut")),
     person(given = "Will", family = "Mackey",
                 role = c("aut")),
+    person(given = "Matthew", family = "Bowes",
+                email = "matthew.bowes@grattan.edu.au",
+                role = c("aut", "cre")),
     person(given = "Grattan Institute",
-                email = "info@grattan.edu.au",
-                role = c("cre")))
+                role = c("fnd")))
 Description: Enables the user to create ggplot2 charts that conform 
     to the Grattan Institute style guide. 
 License: MIT + file LICENSE
@@ -29,26 +31,29 @@ Imports:
     purrr (>= 0.3.0),
     officer,
     openxlsx (>= 4.1.0.1),
-    rstudioapi,
     rvg,
     rlang,
     scales,
     stringr,
     systemfonts,
-    utils,
+    tools,
+    utils
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 Suggests:
-    assertthat,
+    askpass,
     clipr,
     covr,
+    gert,
     ggtext,
     gridExtra,
     knitr,
     magick,
     png,
     rmarkdown (>= 1.12),
+    rstudioapi,
     testthat (>= 3.0.0),
-    vdiffr
+    vdiffr,
+    withr
 Config/roxygen2/version: 8.1.0

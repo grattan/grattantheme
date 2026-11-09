@@ -8,6 +8,7 @@ export(create_blog)
 export(create_fullslide)
 export(export_latex_code)
 export(fct_case_when)
+export(fetch_overleaf_report)
 export(get_overleaf_project)
 export(grattan_arrow)
 export(grattan_black)
@@ -164,9 +165,11 @@ export(grattan_yellow7)
 export(grattan_yellow8)
 export(make_grattan_pal)
 export(make_grattan_pal_discrete)
+export(overleaf_cache_dir)
+export(overleaf_clear_cache)
+export(overleaf_push)
 export(palette_order)
 export(paulify_classifications)
-export(register_palette)
 export(remove_endash)
 export(save_chartdata)
 export(scale_colour_grattan)
@@ -175,11 +178,13 @@ export(scale_x_continuous_grattan)
 export(scale_y_continuous_grattan)
 export(set_aesthetics)
 export(set_overleaf_project)
+export(set_overleaf_token)
 export(stitch_pdfs)
 export(str_wrap_factor)
 export(theme_grattan)
 export(watermark)
 export(wrap_labs)
+export(write_overleaf_tex)
 import(ggplot2)
 import(ggrepel)
 import(grid)
@@ -193,7 +198,6 @@ importFrom(dplyr,
 )
 importFrom(ggplot2,
   .pt,
-  expand_scale,
   ggplot_add,
   last_plot,
   scale_y_continuous,
@@ -219,6 +223,7 @@ importFrom(openxlsx,
   insertImage,
   saveWorkbook,
   setColWidths,
+  setLastModifiedBy,
   writeData
 )
 importFrom(patchwork,
@@ -233,17 +238,9 @@ importFrom(purrr,
   walk2
 )
 importFrom(rlang,quo_get_expr)
-importFrom(rstudioapi,getActiveDocumentContext)
-importFrom(systemfonts,
-  font_feature,
-  register_font,
-  register_variant,
-  registry_fonts,
-  system_fonts
-)
+importFrom(systemfonts,system_fonts)
 importFrom(tools,file_path_sans_ext)
 importFrom(utils,
-  getFromNamespace,
   menu,
   tail
 )

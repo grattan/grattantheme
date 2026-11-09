@@ -18,37 +18,22 @@ grattan_palettes <- list(
 )
 
 
-#' Set the palette order as needed in the
+#' The order of colours in discrete Grattan palettes
 #'
-#' This is a list of grattan colours combined into palettes. The palettes are used
-#' for different plots and maps.
+#' A character vector giving the order in which the graph palette's colours
+#' appear when \code{\link{make_grattan_pal_discrete}} picks a subset of them.
 #' @export
-palette_order <- list(
-  `old` =
-                                c(
-                                  grattan_yellow,
-                                  grattan_orange,
-                                  grattan_darkorange,
-                                  grattan_red,
-                                  grattan_darkred,
-                                  grattan_blue,
-                                  grattan_darkblue,
-                                  grattan_lightgrey,
-                                  grattan_darkgrey
-                                ),
-  `new` =
-                                c(
-                                  grattan_yellow,
-                                  grattan_orange,
-                                  grattan_darkorange,
-                                  grattan_red,
-                                  grattan_darkred,
-                                  grattan_blue,
-                                  grattan_darkblue,
-                                  grattan_lightgrey,
-                                  grattan_darkgrey
-                                ))
-
+palette_order <- c(
+  grattan_yellow,
+  grattan_orange,
+  grattan_darkorange,
+  grattan_red,
+  grattan_darkred,
+  grattan_blue,
+  grattan_darkblue,
+  grattan_lightgrey,
+  grattan_darkgrey
+)
 
 
 #' Interpolate a grattan colour palette
@@ -82,8 +67,9 @@ make_grattan_pal <- function(palette = "sequential",
                              reverse = FALSE,
                              ...) {
 
-  assertthat::assert_that(palette %in% c("graph", "sequential", "diverging"),
-                          msg = "Palette isn't one of `graph`, `sequential` or `diverging`")
+  if (!palette %in% c("graph", "sequential", "diverging")) {
+    stop("Palette isn't one of `graph`, `sequential` or `diverging`")
+  }
 
   pal <- grattan_palettes[[palette]]
 
@@ -110,31 +96,16 @@ make_grattan_pal <- function(palette = "sequential",
 #'
 #' @export
 make_grattan_pal_discrete <- function(n) {
-  assertthat::assert_that(n <= length(grattan_palettes[["graph"]]),
-                          msg = "Chart requires more colours than the graph palette holds. Consider a continuous palette or make a palette with more colours own using `make_grattan_pal(palette = 'graph')` e.g. `scale_colour_manual(values = make_grattan_pal(palette = 'graph')(29))")
+  if (n > length(grattan_palettes[["graph"]])) {
+    stop("Chart requires more colours than the graph palette holds. ",
+         "Consider a continuous palette or make a palette with more colours ",
+         "using `make_grattan_pal(palette = 'graph')`, e.g. ",
+         "`scale_colour_manual(values = make_grattan_pal(palette = 'graph')(29))`")
+  }
+
   pal <- grattan_palettes[["graph"]][1:n]
 
-  order_name <- dplyr::if_else(options("grattan_palette") == "old", "old", "new")
-
-  order <- palette_order[[order_name]]
-
-  ordered_pal <- order[order %in% pal]
-
-  return(ordered_pal)
-}
-
-#' Register the option for which palette to use.
-#'
-#' Grattan now has an old palette and a new palette. Depending which is needed users can
-#' set options("grattan_palette" = "old") to have the colours map to the old colours. Otherwise the colours
-#' default to the new colours.
-#'
-#' @export
-register_palette <- function() {
-  palette_option <- options("grattan_palette")
-  if (is.null(palette_option$grattan_palette)) {
-    options("grattan_palette" = "latest")
-  }
+  palette_order[palette_order %in% pal]
 }
 
 ### Deprecated ####

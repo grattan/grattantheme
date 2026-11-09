@@ -26,6 +26,10 @@
 #' uses "slide" for fullslide and blog chart types and "normal" for other
 #' types. "slide" uses Avenir Next for body text (if available). "normal" uses
 #' Arial.
+#' @param author Character. The name recorded as the author in the Powerpoint
+#' file's document properties. Defaults to `"Grattan Institute"`. Use `""` to
+#' leave it blank. (The "last modified by" name is always your computer's
+#' login name.)
 #' @examples
 #' \dontrun{
 #' library(ggplot2)
@@ -59,7 +63,10 @@ grattan_save_pptx <- function(filename,
                               type = "fullslide",
                               rich_subtitle = FALSE,
                               png_dpi = 300,
-                              font = NULL) {
+                              font = NULL,
+                              author = "Grattan Institute") {
+
+  check_author(author)
 
   plot <- p
 
@@ -144,7 +151,8 @@ grattan_save_pptx <- function(filename,
                         num_slides = num_slides,
                         rich_subtitle = rich_subtitle,
                         png_dpi = png_dpi,
-                        font = fnt)
+                        font = fnt,
+                        author = author)
     }
   )
 
@@ -158,7 +166,8 @@ add_graph_to_pptx <- function(p,
                               num_slides,
                               rich_subtitle = FALSE,
                               png_dpi = 300,
-                              font = "slide") {
+                              font = "slide",
+                              author = "Grattan Institute") {
 
   message(glue::glue("Making {type}"))
 
@@ -201,6 +210,13 @@ add_graph_to_pptx <- function(p,
     plot <- p[[slide]]
     labs <- extract_labs(plot)
 
+    # Set the body font on every part of the chart - for a patchwork plot,
+    # that means each of its plots, not just the last one
+    body_font <- get_grattan_font(font, "body")
+    plot <- add_theme_to_all(plot,
+                             theme(text = element_text(family = body_font)))
+    plot <- apply_font_to_geom_text(plot, body_font)
+
     x <- x %>%
       officer::add_slide(layout="Two Content", master = master) %>%
       officer::set_notes(value = notes, officer::notes_location_type(type = "body"))
@@ -210,16 +226,12 @@ add_graph_to_pptx <- function(p,
     }
 
     if (rich_subtitle) {
-      # Get the font family to use
-      body_font <- get_grattan_font(font, "body")
-
       # Save as high-quality PNG using ragg (uses systemfonts)
       png_file <- file.path(temp_dir, paste0("slide_", slide, ".png"))
 
-      plot <- plot +
-        theme(plot.title = element_blank(),
-              plot.caption = element_blank(),
-              text = element_text(family = body_font))
+      plot <- add_theme_to_all(plot,
+                               theme(plot.title = element_blank(),
+                                     plot.caption = element_blank()))
 
       ragg::agg_png(png_file,
                     width = image_width_in,
@@ -246,7 +258,6 @@ add_graph_to_pptx <- function(p,
 
       # Build font mapping for rvg::dml()
       # Note: rvg uses gdtools for fonts, which only sees system-installed fonts
-      body_font <- get_grattan_font(font, "body")
       pptx_fonts <- if (body_font == "sans") list() else list(sans = body_font)
 
       x <- officer::ph_with(x,
@@ -267,7 +278,7 @@ add_graph_to_pptx <- function(p,
 
   }
 
-  print(x, filename)
+  save_pptx_with_author(x, target = filename, author = author)
 }
 
 
@@ -280,7 +291,7 @@ add_graph_to_pptx <- function(p,
 #'
 #' @return a character
 return_script_and_chart_location <- function(filename) {
-  if (isTRUE(requireNamespace("rstudioapi")) &&
+  if (isTRUE(requireNamespace("rstudioapi", quietly = TRUE)) &&
       isTRUE(rstudioapi::isAvailable())) {
     script_location <- rstudioapi::getActiveDocumentContext()$path
   } else {
@@ -289,8 +300,8 @@ return_script_and_chart_location <- function(filename) {
 
   graph_location <- normalizePath(filename, mustWork = FALSE)
 
-  script_location <- gsub("^.*(?=(Dropbox))", "", script_location, perl = TRUE)
-  graph_location <- gsub("^.*(?=(Dropbox))", "", graph_location, perl = TRUE)
+  script_location <- trim_synced_path(script_location)
+  graph_location <- trim_synced_path(graph_location)
 
   script_loc_note <- ifelse(script_location == "",
                             "",
@@ -305,155 +316,41 @@ return_script_and_chart_location <- function(filename) {
   return(final_note)
 }
 
-#' Check that pandoc is available and is an appropriate version
+
+#' Shorten a file path to the part a colleague would recognise
+#'
+#' Paths in speaker notes are more useful without the start that is specific
+#' to one person's computer. This keeps the path from the shared folder down:
+#' \itemize{
+#'   \item Dropbox: from "Dropbox" onwards, e.g.
+#'     "Dropbox/Projects/chart.pptx".
+#'   \item SharePoint libraries synced with OneDrive on a Mac: from the
+#'     library onwards, e.g. "Team - Documents/Projects/chart.pptx".
+#'   \item Anything else in the home folder, including OneDrive and SharePoint
+#'     on Windows: from just below the home folder, e.g.
+#'     "Grattan Institute/Team - Documents/Projects/chart.pptx".
+#' }
+#' Paths outside the home folder, such as network drives, are left as they are.
+#'
+#' @param path A file path.
+#'
+#' @return A character string.
+#'
 #' @keywords internal
-pandoc_test <- function() {
+trim_synced_path <- function(path) {
 
-  if (!rmarkdown::pandoc_available()) {
-    stop("To use this function, you must install 'pandoc' on your system",
-         " from pandoc.org. See the grattantheme administrators",
-         " if you need help.")
+  if (path == "") return(path)
+
+  path <- gsub("\\\\", "/", path)
+
+  if (grepl("Dropbox", path, fixed = TRUE)) {
+    return(sub("^.*(?=Dropbox)", "", path, perl = TRUE))
   }
 
-  if (rmarkdown::pandoc_version() < 2.1) {
-    stop("The version of 'pandoc' on your system is too old to use this",
-         " function. Install a newer version from pandoc.org.",
-         " See the grattantheme administrators if you need help.")
+  if (grepl("/Library/CloudStorage/", path, fixed = TRUE)) {
+    path <- sub("^.*/Library/CloudStorage/", "", path)
+    return(sub("^OneDrive-SharedLibraries-[^/]+/", "", path))
   }
 
-  invisible(TRUE)
-
+  sub("^([A-Za-z]:)?/(Users|home)/[^/]+/", "", path)
 }
-
-### deprecated 1.0.0------------------
-
-# nocov start
-
-#' Create a Powerpoint document containing no content other than the
-#' template + slide-specific speaker notes (extracted from a ggplot2 object)
-#' @param p list containing ggplot2 object(s)
-#' @param filename filename (incl. path if needed) to save a .pptx file
-#' @param type graph type
-#' @importFrom purrr map
-#' @keywords internal
-create_pptx_shell <- function(p,
-                              filename,
-                              type) {
-
-  lifecycle::deprecate_stop(when = "1.0.0",
-                            what = "create_pptx_shell()",
-                            details = "We no longer make a powerpoint shell in markdown, as officer has functionality to edit the notes directly.")
-  pandoc_test()
-
-  backticks <- paste0((rep("\x60", 3)), collapse = "")
-
-  # Get path to appropriate PPTX template from `grattantheme`
-  template_filename <- system.file("extdata",
-                                   chart_types_all$pptx_template[chart_types_all$type == type],
-                                   package = "grattantheme")
-
-  if (isFALSE(file.exists(template_filename))) {
-    stop("Could not find template for type ", type)
-  }
-
-  ref_doc <- paste0('    reference_doc: "',
-                    template_filename,
-                    '"')
-
-  yaml_header <- paste("---",
-                       "output:",
-                       "  powerpoint_presentation: ",
-                       ref_doc,
-                       "---",
-                       "\n",
-                       sep = "\n")
-
-  knitr_setup <- paste0(backticks,
-                        "{r setup-makeslide-chunk, include=FALSE, message=FALSE}\n",
-                        backticks,
-                        "\n")
-
-  temp_dir <- file.path(tempdir(), "pptx")
-  if (!dir.exists(temp_dir)) {
-    dir.create(temp_dir, recursive = TRUE)
-    on.exit(unlink(temp_dir, recursive = TRUE))
-  }
-
-  plot_areas <- purrr::map2(p, filename, create_slide_shell)
-
-  plot_areas <- paste0(plot_areas, collapse = "")
-
-  fulldoc <- paste(yaml_header,
-                   knitr_setup,
-                   plot_areas,
-                   sep = "\n")
-
-  temp_rmd_file <- file.path(temp_dir, "temp_rmd.Rmd")
-  writeLines(fulldoc, temp_rmd_file, useBytes = TRUE)
-  on.exit(unlink(temp_rmd_file))
-
-  rmarkdown::render(temp_rmd_file,
-                    output_file = basename(filename),
-                    output_dir = dirname(filename),
-                    quiet = TRUE)
-
-  invisible(TRUE)
-}
-
-#' Generate the R Markdown code for an individual slide in a PPTX shell
-#' @importFrom rstudioapi getActiveDocumentContext
-#' @keywords internal
-create_slide_shell <- function(p, filename) {
-  lifecycle::deprecate_stop(when = "1.0.0",
-                            what = "create_slide_shell()",
-                            details = "We no longer make a powerpoint shell in markdown, as officer has functionality to edit the notes directly.")
-
-  if (isTRUE(requireNamespace("rstudioapi")) &&
-      isTRUE(rstudioapi::isAvailable())) {
-    script_location <- rstudioapi::getActiveDocumentContext()$path
-  } else {
-    script_location <- ""
-  }
-
-  graph_location <- normalizePath(filename, mustWork = FALSE)
-
-  script_location <- gsub("^.*(?=(Dropbox))", "", script_location, perl = TRUE)
-  graph_location <- gsub("^.*(?=(Dropbox))", "", graph_location, perl = TRUE)
-
-  script_loc_note <- ifelse(script_location == "",
-                            "",
-                            paste0("R script location: ",
-                                   script_location))
-
-  graph_loc_note <- paste0("Powerpoint file location: ",
-                           graph_location)
-
-  plot_labels <- extract_labs(p)
-
-  plot_area <- paste("",
-                     ":::::::::::::: {.columns}",
-                     "::: {.column}",
-                     "",
-                     ":::",
-                     "::: {.column}",
-                     "",
-                     ":::",
-                     "::::::::::::::",
-                     "::: notes",
-                     paste("Title:",
-                           plot_labels$title,
-                           "\n"),
-                     paste("Subtitle:",
-                           plot_labels$subtitle,
-                           "\n"),
-                     paste(plot_labels$caption,
-                           "\n"),
-                     script_loc_note,
-                     graph_loc_note,
-                     ":::\n",
-                     sep = "\n")
-
-  plot_area
-}
-
-# nocov end

@@ -1,4 +1,4 @@
-## code to prepare `all_geoms` dataset goes here
+## Helper for data-raw/vanilla_geom_aesthetics.R; not shipped with the package
 
 # This script loads a bunch of supporting packages and extracts their geoms.
 # These geom names are then used to set the default aesthetics.
@@ -29,5 +29,3 @@ all_geoms <- purrr::map(geom_packs, get_geoms) |>
   stringr::str_remove("^geom_") |>
   sort()
 
-
-usethis::use_data(all_geoms, overwrite = TRUE)

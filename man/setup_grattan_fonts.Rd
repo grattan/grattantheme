@@ -10,6 +10,7 @@ setup_grattan_fonts()
 Invisible NULL
 }
 \description{
-Initialize font configuration on package load
+Uses Avenir Next and DM Serif Display for slide charts if they are installed
+on the computer, and the default sans-serif font otherwise.
 }
 \keyword{internal}

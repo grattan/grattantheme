@@ -56,7 +56,7 @@ create_blog <- function(plot = ggplot2::last_plot(),
                                 caption = NULL))
 
   # Apply body font to theme text and text geom layers
-  p <- p + ggplot2::theme(text = ggplot2::element_text(family = main_font))
+  p <- add_theme_to_all(p, ggplot2::theme(text = ggplot2::element_text(family = main_font)))
   p <- apply_font_to_geom_text(p, main_font)
 
   stored_title <- labs$title

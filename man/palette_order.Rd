@@ -2,11 +2,11 @@
 % Please edit documentation in R/grattan_pal.R
 \name{palette_order}
 \alias{palette_order}
-\title{Set the palette order as needed in the}
+\title{The order of colours in discrete Grattan palettes}
 \usage{
 palette_order
 }
 \description{
-This is a list of grattan colours combined into palettes. The palettes are used
-for different plots and maps.
+A character vector giving the order in which the graph palette's colours
+appear when \code{\link{make_grattan_pal_discrete}} picks a subset of them.
 }

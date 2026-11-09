@@ -8,6 +8,7 @@ grattan_save_overleaf(
   filename,
   object = ggplot2::last_plot(),
   type = "normal",
+  push = TRUE,
   ...
 )
 }
@@ -18,20 +19,29 @@ grattan_save_overleaf(
 
 \item{type}{Chart type - see \code{?grattan_save} for options. Defaults to "normal".}
 
+\item{push}{Logical. Only used when your Overleaf project syncs over git.
+\code{TRUE} by default, meaning the chart is sent to Overleaf as soon as
+it's saved. Set to \code{FALSE} when saving a batch of charts, then call
+\code{\link{overleaf_push}} once at the end - it's quicker.}
+
 \item{...}{Additional arguments passed to \code{grattan_save()}, such as
 \code{height}, \code{dpi}, \code{force_labs}, etc.}
 }
 \description{
 A wrapper around \code{grattan_save()} that saves PDF charts directly to
-your Overleaf project's atlas folder via Dropbox sync. On first use, you'll
-be prompted to select which Overleaf project to use. This choice is stored
-for the current R session, or can be set with \code{set_overleaf_project()}.
+your Overleaf project's atlas folder. On first use, you'll be prompted to
+select which Overleaf project to use. This choice is stored for the current
+R session, or can be set with \code{set_overleaf_project()}.
 }
 \details{
 The function saves only the PDF version of your chart to the
   \code{atlas} subfolder of your chosen Overleaf project. No PPTX or data
   files are created. Charts are saved directly to the Overleaf directory
   without creating subdirectories.
+
+  Charts reach Overleaf either over git or via Dropbox, depending on how you
+  set the project - see \code{\link{set_overleaf_project}}. Either way,
+  saving a chart works the same.
 
   Since the Overleaf project setting only persists for the current R session,
   we recommend calling \code{set_overleaf_project()} in your script (or a
@@ -41,7 +51,11 @@ The function saves only the PDF version of your chart to the
 \dontrun{
 library(ggplot2)
 
-# Set the Overleaf project at the start of your script
+# Set the Overleaf project at the start of your script, either by URL
+# (syncs over git) ...
+set_overleaf_project("https://www.overleaf.com/project/0123456789abcdef01234567")
+
+# ... or by name (syncs via Dropbox)
 set_overleaf_project("Orange")  # Searches for matching project
 
 # Create and save charts
@@ -51,8 +65,13 @@ grattan_save_overleaf("my_chart.pdf", p)
 # Save with 'wholecolumn' chart type
 grattan_save_overleaf("tall_chart.pdf", p, type = 'wholecolumn')
 
-# Change to a different project
-set_overleaf_project("transport-report")
-grattan_save_overleaf("another_chart.pdf", p)
+# Saving a batch of charts: push once at the end
+grattan_save_overleaf("chart1.pdf", p1, push = FALSE)
+grattan_save_overleaf("chart2.pdf", p2, push = FALSE)
+overleaf_push()
 }
+}
+\seealso{
+\code{\link{set_overleaf_project}} to choose the project,
+  \code{\link{overleaf_push}} to send batched charts to Overleaf
 }

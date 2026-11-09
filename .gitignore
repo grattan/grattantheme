@@ -4,7 +4,6 @@
 .Ruserdata
 test.png
 .DS_Store
-R/.Rapp.history
 doc
 Meta
 test.gif
@@ -13,3 +12,4 @@ docs
 data-raw/~$*
 CLAUDE.md
 .positai
+.Rapp.history

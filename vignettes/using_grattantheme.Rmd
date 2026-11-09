@@ -113,7 +113,7 @@ plot +
 - For normal charts: uses system sans-serif fonts
 - For slide charts: uses DM Serif Display for titles and Avenir Next for body text
 
-The package checks your system fonts and, if you have Dropbox synced with Grattan's shared font folder, will automatically register fonts from there. When you load the package, you'll see which fonts are being used.
+The package uses these fonts if they are installed on your computer, and the default sans-serif font otherwise. When you load the package, you'll see which fonts are being used. If a slide font is missing, install it on your computer; this is the only way for it to appear in PDF and Powerpoint outputs as well as PNGs.
 
 
 \newpage
@@ -240,18 +240,29 @@ plot_final <- plot_f +
                  y = "",
                  caption = "Notes: A classic dataset. Source: Fisher (1936)")
 
+```
+
+```{r, eval = FALSE}
 # Save the plot
 grattan_save(filename = "iris.pdf",
              object = plot_final,
              type = "normal")
-
 ```
 
+```{r, include = FALSE}
+# Actually save the plot (as a PNG, so it shows in this web page) to a
+# temporary folder, rather than leaving files in the package source
+iris_dir <- tempfile("iris")
+grattan_save(filename = file.path(iris_dir, "iris.png"),
+             object = plot_final,
+             type = "normal")
+```
 
 Which produces a chart that can fit into a report. Note that the title, subtitle and notes/sources have been removed.
 
 ```{r, out.width = "300px", echo = FALSE}
-knitr::include_graphics("iris.pdf")
+knitr::include_graphics(file.path(iris_dir, "iris", "iris_normal.png"),
+                        rel_path = FALSE)
 ```
 
 <!-- ## Saving full-slide charts - have removed for now given issues with functionality -->
@@ -322,11 +333,56 @@ save_chartdata("plot_final.xlsx", object = plot_final)
 
 ### Saving to an Overleaf atlas
 
-Grattan reports are drafted in Overleaf, with charts saved to an 'atlas' folder. Once this folder has been set up to sync locally via Dropbox, you can save charts directly from R to your Overleaf project using `grattan_save_overleaf()`.
+Grattan reports are drafted in Overleaf, with charts saved to an 'atlas' folder. You can save charts directly from R to your Overleaf project using `grattan_save_overleaf()`.
 
-The first time you use `grattan_save_overleaf()` in an R session, you'll be prompted to select which Overleaf project to use from those synced in your Dropbox. Your choice is stored for the current R session only.
+Charts get to Overleaf one of two ways, and you choose which by how you set the project with `set_overleaf_project()`:
 
-For reproducibility, we recommend setting your Overleaf project at the start of your script:
+* **Over git**, by giving it your project's URL. Charts are pushed straight to Overleaf, so nothing needs to be synced to your computer.
+* **Via Dropbox**, by giving it a project name. Charts are written to the project folder in your Dropbox, which Dropbox syncs to Overleaf.
+
+Saving a chart works the same either way.
+
+#### Syncing over git
+
+Copy your project's URL out of your browser's address bar while the project is open in Overleaf, and hand it to `set_overleaf_project()`:
+
+```{r, eval = FALSE}
+library(grattantheme)
+
+# Set the Overleaf project
+set_overleaf_project("https://www.overleaf.com/project/0123456789abcdef01234567")
+
+# Create and save your chart
+plot_final <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  theme_grattan()
+
+grattan_save_overleaf("my_chart.pdf", plot_final)
+```
+
+Putting that URL in your script is worth doing: it travels with your code, so a colleague who runs your script saves to the same Overleaf project without setting anything up.
+
+The one-off bit of setup is a token. Overleaf's git integration authenticates with a personal token rather than your password, so the first time you do this on a computer, generate one at [overleaf.com/user/settings](https://www.overleaf.com/user/settings) (under 'Git integration') and store it:
+
+```{r, eval = FALSE}
+set_overleaf_token()
+```
+
+That saves the token to your `.Renviron`, so you won't be asked again. One token covers every Overleaf project you can open, and they last a year.
+
+If you're saving a batch of charts, push them in one go rather than one at a time:
+
+```{r, eval = FALSE}
+grattan_save_overleaf("chart1.pdf", plot1, push = FALSE)
+grattan_save_overleaf("chart2.pdf", plot2, push = FALSE)
+
+overleaf_push()
+```
+
+#### Syncing via Dropbox
+
+If your Overleaf project's folder syncs locally via Dropbox, give `set_overleaf_project()` a project name instead of a URL, or nothing at all to pick from a menu of the projects in your Dropbox:
+
 ```{r, eval = FALSE}
 library(grattantheme)
 
@@ -334,7 +390,7 @@ library(grattantheme)
 set_overleaf_project("Orange-Book-2025")  # Searches for matching project name
 
 # Create and save your chart
-plot_final <- ggplot(mtcars, aes(x = wt, y = mpg)) + 
+plot_final <- ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point() +
   theme_grattan()
 
@@ -352,3 +408,26 @@ To change which project you're saving to during your session:
 set_overleaf_project("transport-report")
 grattan_save_overleaf("another_chart.pdf", plot_final)
 ```
+
+#### Writing statistics to Overleaf
+
+Key numbers quoted in the text of a report can be written to the atlas too, and pulled into the report with `\input{}`. `write_overleaf_tex()` writes a single value, so it fits at the end of a pipe:
+
+```{r, eval = FALSE}
+mtcars %>%
+  summarise(mpg = mean(mpg)) %>%
+  pull(mpg) %>%
+  write_overleaf_tex("mean-mpg", accuracy = 0.1)
+```
+
+In Overleaf, `\input{atlas/mean-mpg}` then shows 20.1. Numbers are written in full unless you set `accuracy`, and text is written as it is. The file ends with a `%`, so LaTeX doesn't add a space after the value. Like `grattan_save_overleaf()`, it pushes straight to Overleaf unless you set `push = FALSE`.
+
+#### Reading the report from R
+
+`fetch_overleaf_report()` copies the text of your report - `Report.tex`, the files in `chapters/`, the bibliography and the `.tex` files in the atlas - into a `report_cache/` folder in your working directory:
+
+```{r, eval = FALSE}
+fetch_overleaf_report()
+```
+
+This is useful for checking the report against your analysis, or for letting an AI assistant such as Claude Code read the latest draft. The copy is read-only and is never sent back to Overleaf: make changes in Overleaf itself. Run `fetch_overleaf_report()` again to refresh it.

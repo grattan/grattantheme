@@ -22,9 +22,8 @@ test_that("saved fullslides look as expected", {
   # Use font = "normal" for consistent tests across platforms
   plots <- purrr::map(fullslide_types, create_fullslide, plot = p, font = "normal")
   plots <- setNames(plots, fullslide_types)
-  filename <- file.path("test", "saved_plots.rda")
-
-  if (!dir.exists("test")) dir.create("test")
+  filename <- tempfile(fileext = ".rda")
+  on.exit(unlink(filename))
 
   save(plots, file = filename)
 

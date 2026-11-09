@@ -1,5 +1,9 @@
 library(ggplot2)
 
+# Run every test in this file from a temporary directory, so the Powerpoint
+# files they write don't end up in the package source
+withr::local_dir(withr::local_tempdir())
+
 base_p1 <- mtcars %>%
   ggplot(aes(x = wt, y = mpg)) +
   geom_point()
@@ -47,28 +51,6 @@ pptx_typefaces <- function(filename) {
   matches <- regmatches(xml, gregexpr('typeface="[^"]*"', xml))
   unique(gsub('typeface="|"', "", unlist(matches)))
 }
-
-test_that("create_pptx_shell creates an empty pptx document with the appropriate number of slides", {
-  skip("Deprecated")
-
-  # Plot argument to create_pptx_shell() must be a list of ggplot2 object(s)
-  expect_error(create_pptx_shell(p1,
-                                 "test.pptx",
-                                 type = "fullslide_43"))
-
-  create_pptx_shell(list(p1, p2), "temp.pptx", "fullslide_43")
-  on.exit(unlink("temp.pptx"))
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 2)
-
-  create_pptx_shell(list(p1, p2), "temp.pptx", "fullslide")
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 2)
-
-  create_pptx_shell(list(p1), "temp.pptx", "fullslide")
-  expect_true(is_valid_pptx("temp.pptx"))
-  expect_equal(no_slides("temp.pptx"), 1)
-})
 
 test_that("add_graph_to_pptx adds ggplot2 object(s) to pptx shell", {
 
@@ -208,4 +190,84 @@ test_that("blog pptx charts use the slide body font", {
   typefaces <- pptx_typefaces(file.path(tempdir(), "font_blog.pptx"))
   expect_true(get_grattan_font("slide", "body") %in% typefaces)
   expect_false("Arial" %in% typefaces)
+})
+
+test_that("all plots in a patchwork pptx chart use the same font", {
+
+  skip_on_cran()
+
+  pw_p1 <- ggplot(mtcars, aes(x = wt, y = mpg, label = cyl)) +
+    geom_text() +
+    theme_grattan(base_family = "mono")
+  pw_p2 <- ggplot(mtcars, aes(x = hp, y = mpg, label = gear)) +
+    geom_text() +
+    theme_grattan()
+  pw <- (pw_p1 + pw_p2) +
+    patchwork::plot_annotation(title = "title", subtitle = "subtitle")
+
+  pptx <- file.path(tempdir(), "patchwork.pptx")
+  grattan_save_pptx(pptx, pw, type = "fullslide")
+
+  typefaces <- pptx_typefaces(file.path(tempdir(), "patchwork_fullslide.pptx"))
+  expect_length(typefaces, 1)
+})
+
+# Read the author and "last modified by" fields from an Office file's
+# document properties (docProps/core.xml inside the zip archive)
+doc_authors <- function(filename) {
+  dir <- tempfile("core_")
+  utils::unzip(filename, files = "docProps/core.xml", exdir = dir)
+  core <- paste(readLines(file.path(dir, "docProps", "core.xml"),
+                          warn = FALSE), collapse = "")
+  unlink(dir, recursive = TRUE)
+  field <- function(tag) {
+    sub(paste0(".*<", tag, ">(.*?)</", tag, ">.*"), "\\1", core, perl = TRUE)
+  }
+  c(creator = field("dc:creator"), last_modified_by = field("cp:lastModifiedBy"))
+}
+
+test_that("grattan_save_pptx records Grattan Institute as the author", {
+  filename <- file.path(tempdir(), "author.pptx")
+
+  grattan_save_pptx(p = p1, filename = filename, type = "fullslide")
+
+  # Only the author can be set: officer always records the login name as
+  # "last modified by"
+  expect_equal(doc_authors(file.path(tempdir(), "author_fullslide.pptx"))[["creator"]],
+               "Grattan Institute")
+})
+
+test_that("grattan_save_pptx accepts a custom or blank author", {
+  filename <- file.path(tempdir(), "author_custom.pptx")
+
+  grattan_save_pptx(p = p1, filename = filename, type = "fullslide",
+                    author = "Someone Else")
+  expect_equal(doc_authors(file.path(tempdir(), "author_custom_fullslide.pptx"))[["creator"]],
+               "Someone Else")
+
+  grattan_save_pptx(p = p1, filename = filename, type = "fullslide",
+                    author = "")
+  expect_equal(doc_authors(file.path(tempdir(),
+                                     "author_custom_fullslide.pptx"))[["creator"]],
+               "")
+
+  expect_error(grattan_save_pptx(p = p1, filename = filename,
+                                 type = "fullslide", author = c("a", "b")),
+               "`author` must be a single string")
+})
+
+test_that("trim_synced_path() keeps the shared part of synced paths", {
+  paths <- c(
+    "C:\\Users\\jo\\Grattan Institute Dropbox\\a.pptx",
+    "/Users/jo/Library/CloudStorage/OneDrive-SharedLibraries-Grattan/Team/a.pptx",
+    "C:\\Users\\jo\\Grattan Institute\\Team\\a.pptx",
+    "//server/share/a.pptx"
+  )
+  expected <- c(
+    "Dropbox/a.pptx",                   # Dropbox
+    "Team/a.pptx",                      # SharePoint on a Mac
+    "Grattan Institute/Team/a.pptx",    # SharePoint on Windows
+    "//server/share/a.pptx"             # outside the home folder: unchanged
+  )
+  expect_equal(vapply(paths, trim_synced_path, "", USE.NAMES = FALSE), expected)
 })

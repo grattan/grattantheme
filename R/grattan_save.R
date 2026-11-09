@@ -69,6 +69,11 @@
 #' decimal places. Default is NULL, which does not round numbers.
 #' @param sheet_name Character. Name of the worksheet in the exported chart-data
 #' Excel file. Only used when `save_data = TRUE`. Defaults to `"data"`.
+#' @param author Character. The name recorded as the author in the document
+#' properties of any Powerpoint and Excel files created (with
+#' `save_pptx = TRUE` or `save_data = TRUE`), and as the "last modified by"
+#' name in Excel files. Defaults to `"Grattan Institute"`. Use `""` to leave
+#' these blank.
 #' @param force_labs Logical. By default, `grattan_save()` will remove your
 #'   title, subtitle, and caption (if present) from your graph before saving it,
 #'   unless `type` = "fullslide". By setting `force_labs` to TRUE, your
@@ -168,6 +173,7 @@ grattan_save <- function(filename,
                          select_data = TRUE,
                          round = NULL,
                          sheet_name = "data",
+                         author = "Grattan Institute",
                          force_labs = FALSE,
                          watermark = NULL,
                          latex = FALSE,
@@ -205,6 +211,8 @@ grattan_save <- function(filename,
     stop("save_web must be either TRUE or FALSE.")
   }
 
+  check_author(author)
+
 
   # create subdirectory
   if (!no_new_folder) {
@@ -234,7 +242,8 @@ grattan_save <- function(filename,
                        height = height,
                        select_data = select_data,
                        round = round,
-                       sheet_name = sheet_name)
+                       sheet_name = sheet_name,
+                       author = author)
     }
     ## export single pptx
     if (isTRUE(save_pptx)) {
@@ -250,7 +259,8 @@ grattan_save <- function(filename,
                           type = type,
                           filename = file.path(dir, paste0(file_name, ".pptx")),
                           rich_subtitle = rich_subtitle,
-                          font = font)
+                          font = font,
+                          author = author)
       }
     }
     ## export single image
@@ -283,7 +293,8 @@ grattan_save <- function(filename,
                      select_data = select_data,
                      height = height,
                      round = round,
-                     sheet_name = sheet_name)
+                     sheet_name = sheet_name,
+                     author = author)
     }
 
     ## export pptx
@@ -297,7 +308,8 @@ grattan_save <- function(filename,
                         filename = file.path(dir, paste0(file_name, ".pptx")),
                         type = valid_pptx_types,
                         rich_subtitle = rich_subtitle,
-                        font = font)
+                        font = font,
+                        author = author)
 
     }
 
@@ -397,8 +409,8 @@ grattan_save_ <- function(filename,
     # device default (which can resolve to Avenir Next via systemfonts/ragg).
     if (!is.null(font) && font == "slide") {
       body_font <- get_grattan_font("slide", "body")
-      object <- object +
-        theme(text = element_text(family = body_font))
+      object <- add_theme_to_all(object,
+                                 theme(text = element_text(family = body_font)))
     } else {
       body_font <- get_grattan_font("normal", "body")
     }
@@ -407,10 +419,10 @@ grattan_save_ <- function(filename,
     if (isFALSE(force_labs)) {
       # Otherwise, unless force_labs == TRUE remove title, subtitle and caption
 
-      object <- object +
-        theme(plot.title = element_blank(),
-                plot.subtitle = element_blank(),
-                plot.caption = element_blank())
+      object <- add_theme_to_all(object,
+                                 theme(plot.title = element_blank(),
+                                       plot.subtitle = element_blank(),
+                                       plot.caption = element_blank()))
 
     } else {
     # non-fullslide, force_labs = TRUE
@@ -461,7 +473,7 @@ grattan_save_ <- function(filename,
                     width = width, height = height, units = "cm",
                     dpi = dpi, device = device, ...)
   } else if (file_ext == "png") {
-    # Use ragg for PNG (supports systemfonts-registered fonts)
+    # Use ragg for PNG (finds fonts via systemfonts)
     ggplot2::ggsave(filename, object,
                     width = width, height = height, units = "cm",
                     dpi = dpi, device = ragg::agg_png, ...)
@@ -489,13 +501,22 @@ grattan_save_ <- function(filename,
 #' Iterates through a ggplot object's layers and updates the font family
 #' for text-based geoms (GeomText, GeomLabel, GeomTextRepel, GeomLabelRepel,
 #' and the `ggtext` geoms GeomRichText and GeomTextBox) where the user has not
-#' explicitly set a font family.
+#' explicitly set a font family. For patchwork plots, every component plot is
+#' updated, not just the last one.
 #'
 #' @param plot A ggplot2 object
 #' @param font_family Font family string to apply
 #' @return The modified ggplot2 object
 #' @keywords internal
 apply_font_to_geom_text <- function(plot, font_family) {
+  # A patchwork object is its last plot, with the other plots stored in
+  # `patches$plots`
+  if (inherits(plot, "patchwork")) {
+    plot$patches$plots <- lapply(plot$patches$plots,
+                                 apply_font_to_geom_text,
+                                 font_family = font_family)
+  }
+
   text_geom_classes <- c("GeomText", "GeomLabel",
                          "GeomTextRepel", "GeomLabelRepel",
                          "GeomGrattanRichLegend",
@@ -519,6 +540,25 @@ apply_font_to_geom_text <- function(plot, font_family) {
   }
 
   plot
+}
+
+#' Add a theme to a plot, including every part of a patchwork plot
+#'
+#' Adding a theme to a patchwork plot with `+` only changes its last plot, and
+#' leaves the other plots and the `plot_annotation()` title, subtitle and
+#' caption as they were. This uses `&` for patchwork plots, which changes all
+#' of them, and `+` for other plots.
+#'
+#' @param plot A ggplot2 object
+#' @param theme A ggplot2 theme
+#' @return The modified ggplot2 object
+#' @keywords internal
+add_theme_to_all <- function(plot, theme) {
+  if (inherits(plot, "patchwork")) {
+    plot & theme
+  } else {
+    plot + theme
+  }
 }
 
 #' Copy a ggplot2 layer
@@ -558,13 +598,17 @@ grattan_save_all <- function(filename,
 #' Save chart to Overleaf project directory
 #'
 #' A wrapper around \code{grattan_save()} that saves PDF charts directly to
-#' your Overleaf project's atlas folder via Dropbox sync. On first use, you'll
-#' be prompted to select which Overleaf project to use. This choice is stored
-#' for the current R session, or can be set with \code{set_overleaf_project()}.
+#' your Overleaf project's atlas folder. On first use, you'll be prompted to
+#' select which Overleaf project to use. This choice is stored for the current
+#' R session, or can be set with \code{set_overleaf_project()}.
 #'
 #' @param filename Filename for the chart, with or without .pdf extension
 #' @param object A ggplot object. Defaults to the last plot created.
 #' @param type Chart type - see \code{?grattan_save} for options. Defaults to "normal".
+#' @param push Logical. Only used when your Overleaf project syncs over git.
+#'   \code{TRUE} by default, meaning the chart is sent to Overleaf as soon as
+#'   it's saved. Set to \code{FALSE} when saving a batch of charts, then call
+#'   \code{\link{overleaf_push}} once at the end - it's quicker.
 #' @param ... Additional arguments passed to \code{grattan_save()}, such as
 #'   \code{height}, \code{dpi}, \code{force_labs}, etc.
 #'
@@ -573,9 +617,16 @@ grattan_save_all <- function(filename,
 #'   files are created. Charts are saved directly to the Overleaf directory
 #'   without creating subdirectories.
 #'
+#'   Charts reach Overleaf either over git or via Dropbox, depending on how you
+#'   set the project - see \code{\link{set_overleaf_project}}. Either way,
+#'   saving a chart works the same.
+#'
 #'   Since the Overleaf project setting only persists for the current R session,
 #'   we recommend calling \code{set_overleaf_project()} in your script (or a
 #'   setup script, if used). This improves reproducibility of your code.
+#'
+#' @seealso \code{\link{set_overleaf_project}} to choose the project,
+#'   \code{\link{overleaf_push}} to send batched charts to Overleaf
 #'
 #' @export
 #'
@@ -583,7 +634,11 @@ grattan_save_all <- function(filename,
 #' \dontrun{
 #' library(ggplot2)
 #'
-#' # Set the Overleaf project at the start of your script
+#' # Set the Overleaf project at the start of your script, either by URL
+#' # (syncs over git) ...
+#' set_overleaf_project("https://www.overleaf.com/project/0123456789abcdef01234567")
+#'
+#' # ... or by name (syncs via Dropbox)
 #' set_overleaf_project("Orange")  # Searches for matching project
 #'
 #' # Create and save charts
@@ -593,13 +648,15 @@ grattan_save_all <- function(filename,
 #' # Save with 'wholecolumn' chart type
 #' grattan_save_overleaf("tall_chart.pdf", p, type = 'wholecolumn')
 #'
-#' # Change to a different project
-#' set_overleaf_project("transport-report")
-#' grattan_save_overleaf("another_chart.pdf", p)
+#' # Saving a batch of charts: push once at the end
+#' grattan_save_overleaf("chart1.pdf", p1, push = FALSE)
+#' grattan_save_overleaf("chart2.pdf", p2, push = FALSE)
+#' overleaf_push()
 #' }
 grattan_save_overleaf <- function(filename,
                                   object = ggplot2::last_plot(),
                                   type = "normal",
+                                  push = TRUE,
                                   ...) {
 
   # Get the Overleaf atlas directory
@@ -607,6 +664,8 @@ grattan_save_overleaf <- function(filename,
 
   # Construct full path
   full_path <- file.path(overleaf_dir, filename)
+
+  started <- Sys.time()
 
   # Call grattan_save with appropriate parameters
   grattan_save(filename = full_path,
@@ -616,6 +675,9 @@ grattan_save_overleaf <- function(filename,
                save_pptx = FALSE,
                save_data = FALSE,
                ...)
+
+  # Send the chart to Overleaf; does nothing if the project syncs via Dropbox
+  overleaf_sync(since = started, push = push)
 
   invisible(full_path)
 }
