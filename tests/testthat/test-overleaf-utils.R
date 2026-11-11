@@ -150,6 +150,49 @@ test_that("grattan_save_overleaf saves to correct location", {
   unlink(temp_project, recursive = TRUE)
 })
 
+test_that("grattan_save_overleaf saves a vector of types, and 'all' means report types", {
+  skip_on_cran()
+
+  temp_project <- withr::local_tempdir()
+  temp_atlas <- file.path(temp_project, "atlas")
+  dir.create(temp_atlas, recursive = TRUE, showWarnings = FALSE)
+
+  withr::local_envvar(GRATTANTHEME_OVERLEAF_PROJECT = "Test-Project",
+                      GRATTANTHEME_OVERLEAF_PROJECT_PATH = temp_project)
+
+  test_plot <- ggplot2::ggplot(mtcars, ggplot2::aes(x = wt, y = mpg)) +
+    ggplot2::geom_point()
+
+  grattan_save_overleaf("vec.pdf", object = test_plot,
+                        type = c("normal", "wholecolumn"))
+  expect_setequal(list.files(temp_atlas, pattern = "^vec_"),
+                  c("vec_normal.pdf", "vec_wholecolumn.pdf"))
+
+  grattan_save_overleaf("all.pdf", object = test_plot, type = "all")
+  expect_setequal(list.files(temp_atlas, pattern = "^all_"),
+                  c("all_normal.pdf", "all_wholecolumn.pdf",
+                    "all_fullpage.pdf"))
+})
+
+test_that("grattan_save_overleaf checks every type before saving any", {
+  skip_on_cran()
+
+  temp_project <- withr::local_tempdir()
+  temp_atlas <- file.path(temp_project, "atlas")
+  dir.create(temp_atlas, recursive = TRUE, showWarnings = FALSE)
+
+  withr::local_envvar(GRATTANTHEME_OVERLEAF_PROJECT = "Test-Project",
+                      GRATTANTHEME_OVERLEAF_PROJECT_PATH = temp_project)
+
+  test_plot <- ggplot2::ggplot(mtcars, ggplot2::aes(x = wt, y = mpg)) +
+    ggplot2::geom_point()
+
+  expect_error(grattan_save_overleaf("bad.pdf", object = test_plot,
+                                     type = c("normal", "nonsense")),
+               "nonsense")
+  expect_length(list.files(temp_atlas), 0)
+})
+
 test_that("grattan_save_overleaf uses last_plot by default", {
   skip_on_cran()
 

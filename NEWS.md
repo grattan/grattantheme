@@ -1,3 +1,6 @@
+# grattantheme 1.7.1
+* `grattan_save_overleaf()` now accepts a vector of chart types, saving a PDF of each and sending them to Overleaf together. `type = "all"` saves the three report chart types - `normal`, `wholecolumn` and `fullpage`.
+
 # grattantheme 1.7.0
 * Powerpoint and Excel files created by `grattan_save_pptx()`, `save_chartdata()`, `grattan_save()` and `grattan_save_all()` now record "Grattan Institute" as their author, rather than the template's original author.
 * `grattan_save_overleaf()` can now sync charts to Overleaf over Overleaf's git integration, as well as via Dropbox. Which one you get depends on how you set up the project: give `set_overleaf_project()` an Overleaf project URL and charts are committed and pushed straight to Overleaf; give it a project name, as before, and charts are written to your local Dropbox folder. Saving a chart otherwise works the same way.

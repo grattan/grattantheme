@@ -140,6 +140,23 @@ test_that("grattan_save_overleaf pushes a chart, and re-saving it is a no-op", {
   expect_equal(nrow(gert::git_log(repo = clone)), commits)
 })
 
+test_that("grattan_save_overleaf pushes several types in one commit", {
+
+  fake <- make_fake_overleaf()
+  clone <- use_fake_project(fake$remote)
+
+  p <- ggplot2::ggplot(mtcars, ggplot2::aes(x = wt, y = mpg)) +
+    ggplot2::geom_point()
+
+  commits <- nrow(gert::git_log(repo = clone))
+  grattan_save_overleaf("multi.pdf", object = p, type = "all")
+
+  expect_true(all(c("multi_normal.pdf", "multi_wholecolumn.pdf",
+                    "multi_fullpage.pdf") %in%
+                    names(remote_atlas(fake$remote))))
+  expect_equal(nrow(gert::git_log(repo = clone)), commits + 1)
+})
+
 test_that("push = FALSE holds charts back until overleaf_push()", {
 
   fake <- make_fake_overleaf()
