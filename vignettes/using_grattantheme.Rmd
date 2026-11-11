@@ -401,6 +401,12 @@ The function saves only the PDF version of your chart to the atlas folder. No su
 ```{r, eval = FALSE}
 # Save as a taller chart
 grattan_save_overleaf("tall_chart.pdf", plot_final, type = "wholecolumn")
+
+# Save several types at once
+grattan_save_overleaf("my_chart.pdf", plot_final, type = c("normal", "wholecolumn"))
+
+# Save all three report types: normal, wholecolumn and fullpage
+grattan_save_overleaf("my_chart.pdf", plot_final, type = "all")
 ```
 
 To change which project you're saving to during your session:

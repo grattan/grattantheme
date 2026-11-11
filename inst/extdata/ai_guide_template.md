@@ -159,6 +159,9 @@ set_overleaf_project("https://www.overleaf.com/project/0123456789abcdef01234567"
 grattan_save_overleaf("chart.pdf", my_chart, type = "normal")
 ```
 
+- `type` can be a vector, e.g. `type = c("normal", "wholecolumn")`, and
+  `type = "all"` saves the three report types (`normal`, `wholecolumn`,
+  `fullpage`). Each is saved as `chart_<type>.pdf`.
 - Charts are pushed to Overleaf over git as soon as they're saved.
   Re-saving a chart puts it back if it was edited or deleted in Overleaf.
 - When saving several charts, you can use `push = FALSE` on each and call

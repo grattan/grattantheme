@@ -604,7 +604,11 @@ grattan_save_all <- function(filename,
 #'
 #' @param filename Filename for the chart, with or without .pdf extension
 #' @param object A ggplot object. Defaults to the last plot created.
-#' @param type Chart type - see \code{?grattan_save} for options. Defaults to "normal".
+#' @param type Chart type, or a vector of types - see \code{?grattan_save}
+#'   for options. Defaults to "normal". \code{"all"} saves the three report
+#'   chart types: "normal", "wholecolumn" and "fullpage". Each type is saved
+#'   as its own PDF, with the type added to the filename (e.g.
+#'   \code{my_chart_wholecolumn.pdf}).
 #' @param push Logical. Only used when your Overleaf project syncs over git.
 #'   \code{TRUE} by default, meaning the chart is sent to Overleaf as soon as
 #'   it's saved. Set to \code{FALSE} when saving a batch of charts, then call
@@ -648,6 +652,10 @@ grattan_save_all <- function(filename,
 #' # Save with 'wholecolumn' chart type
 #' grattan_save_overleaf("tall_chart.pdf", p, type = 'wholecolumn')
 #'
+#' # Save several types at once, or all three report types with "all"
+#' grattan_save_overleaf("my_chart.pdf", p, type = c("normal", "wholecolumn"))
+#' grattan_save_overleaf("my_chart.pdf", p, type = "all")
+#'
 #' # Saving a batch of charts: push once at the end
 #' grattan_save_overleaf("chart1.pdf", p1, push = FALSE)
 #' grattan_save_overleaf("chart2.pdf", p2, push = FALSE)
@@ -659,6 +667,20 @@ grattan_save_overleaf <- function(filename,
                                   push = TRUE,
                                   ...) {
 
+  # Only report chart types belong in a report's atlas, so "all" means the
+  # 'normal' class (normal, wholecolumn, fullpage), not every chart type
+  report_types <- chart_types$type[chart_types$class == "normal"]
+  if ("all" %in% type) {
+    type <- union(setdiff(type, "all"), report_types)
+  }
+  type <- unique(type)
+
+  # Check every type before saving any, so a typo doesn't leave a partial set
+  bad_types <- setdiff(type, all_chart_types)
+  if (length(bad_types) > 0) {
+    stop(check_chart_type_message(bad_types), call. = FALSE)
+  }
+
   # Get the Overleaf atlas directory
   overleaf_dir <- get_overleaf_project()
 
@@ -667,14 +689,15 @@ grattan_save_overleaf <- function(filename,
 
   started <- Sys.time()
 
-  # Call grattan_save with appropriate parameters
-  grattan_save(filename = full_path,
-               object = object,
-               type = type,
-               no_new_folder = TRUE,
-               save_pptx = FALSE,
-               save_data = FALSE,
-               ...)
+  for (t in type) {
+    grattan_save(filename = full_path,
+                 object = object,
+                 type = t,
+                 no_new_folder = TRUE,
+                 save_pptx = FALSE,
+                 save_data = FALSE,
+                 ...)
+  }
 
   # Send the chart to Overleaf; does nothing if the project syncs via Dropbox
   overleaf_sync(since = started, push = push)

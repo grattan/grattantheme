@@ -17,7 +17,11 @@ grattan_save_overleaf(
 
 \item{object}{A ggplot object. Defaults to the last plot created.}
 
-\item{type}{Chart type - see \code{?grattan_save} for options. Defaults to "normal".}
+\item{type}{Chart type, or a vector of types - see \code{?grattan_save}
+for options. Defaults to "normal". \code{"all"} saves the three report
+chart types: "normal", "wholecolumn" and "fullpage". Each type is saved
+as its own PDF, with the type added to the filename (e.g.
+\code{my_chart_wholecolumn.pdf}).}
 
 \item{push}{Logical. Only used when your Overleaf project syncs over git.
 \code{TRUE} by default, meaning the chart is sent to Overleaf as soon as
@@ -64,6 +68,10 @@ grattan_save_overleaf("my_chart.pdf", p)
 
 # Save with 'wholecolumn' chart type
 grattan_save_overleaf("tall_chart.pdf", p, type = 'wholecolumn')
+
+# Save several types at once, or all three report types with "all"
+grattan_save_overleaf("my_chart.pdf", p, type = c("normal", "wholecolumn"))
+grattan_save_overleaf("my_chart.pdf", p, type = "all")
 
 # Saving a batch of charts: push once at the end
 grattan_save_overleaf("chart1.pdf", p1, push = FALSE)
