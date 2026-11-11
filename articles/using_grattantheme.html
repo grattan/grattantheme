@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.1</span>
       </span>
     </div>
 
@@ -470,7 +470,13 @@ folder. No subfolders, PowerPoint slides, or chart data files are
 created. You can still specify chart types:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save as a taller chart</span></span>
-<span><span class="fu"><a href="../reference/grattan_save_overleaf.html">grattan_save_overleaf</a></span><span class="op">(</span><span class="st">"tall_chart.pdf"</span>, <span class="va">plot_final</span>, type <span class="op">=</span> <span class="st">"wholecolumn"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/grattan_save_overleaf.html">grattan_save_overleaf</a></span><span class="op">(</span><span class="st">"tall_chart.pdf"</span>, <span class="va">plot_final</span>, type <span class="op">=</span> <span class="st">"wholecolumn"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save several types at once</span></span>
+<span><span class="fu"><a href="../reference/grattan_save_overleaf.html">grattan_save_overleaf</a></span><span class="op">(</span><span class="st">"my_chart.pdf"</span>, <span class="va">plot_final</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>, <span class="st">"wholecolumn"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save all three report types: normal, wholecolumn and fullpage</span></span>
+<span><span class="fu"><a href="../reference/grattan_save_overleaf.html">grattan_save_overleaf</a></span><span class="op">(</span><span class="st">"my_chart.pdf"</span>, <span class="va">plot_final</span>, type <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 <p>To change which project you’re saving to during your session:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/set_overleaf_project.html">set_overleaf_project</a></span><span class="op">(</span><span class="st">"transport-report"</span><span class="op">)</span></span>

@@ -20,7 +20,7 @@ R session, or can be set with set_overleaf_project()."><!-- mathjax --><script s
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.1</span>
       </span>
     </div>
 
@@ -85,7 +85,11 @@ R session, or can be set with <code><a href="set_overleaf_project.html">set_over
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>Chart type - see <code><a href="grattan_save.html">?grattan_save</a></code> for options. Defaults to "normal".</p></dd>
+<dd><p>Chart type, or a vector of types - see <code><a href="grattan_save.html">?grattan_save</a></code>
+for options. Defaults to "normal". <code>"all"</code> saves the three report
+chart types: "normal", "wholecolumn" and "fullpage". Each type is saved
+as its own PDF, with the type added to the filename (e.g.
+<code>my_chart_wholecolumn.pdf</code>).</p></dd>
 
 
 <dt id="arg-push">push<a class="anchor" aria-label="anchor" href="#arg-push"></a></dt>
@@ -137,6 +141,10 @@ it's saved. Set to <code>FALSE</code> when saving a batch of charts, then call
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Save with 'wholecolumn' chart type</span></span></span>
 <span class="r-in"><span><span class="fu">grattan_save_overleaf</span><span class="op">(</span><span class="st">"tall_chart.pdf"</span>, <span class="va">p</span>, type <span class="op">=</span> <span class="st">'wholecolumn'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Save several types at once, or all three report types with "all"</span></span></span>
+<span class="r-in"><span><span class="fu">grattan_save_overleaf</span><span class="op">(</span><span class="st">"my_chart.pdf"</span>, <span class="va">p</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>, <span class="st">"wholecolumn"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">grattan_save_overleaf</span><span class="op">(</span><span class="st">"my_chart.pdf"</span>, <span class="va">p</span>, type <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Saving a batch of charts: push once at the end</span></span></span>
 <span class="r-in"><span><span class="fu">grattan_save_overleaf</span><span class="op">(</span><span class="st">"chart1.pdf"</span>, <span class="va">p1</span>, push <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
