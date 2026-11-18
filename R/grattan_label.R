@@ -20,7 +20,9 @@
 #' of text are closer together. Default is `0.8`.
 #' @param linewidth Size of label border line, in mm. Default is `NA`, which means no border.
 #' @param label.size `r lifecycle::badge("deprecated")` Use `linewidth` instead.
-#' @param fill Colour of label background; default is `"white"`.
+#' @param fill Colour of label background; default is `"white"`. When a chart
+#'   is saved with a box or grey background (see the \code{background} argument
+#'   of \code{grattan_save()}), a white fill takes the background colour.
 #'
 #' @examples
 #' library(ggplot2)

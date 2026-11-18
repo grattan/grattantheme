@@ -95,6 +95,23 @@
 #' uses "slide" for fullslide types and PowerPoint output, and "normal" for
 #' other types. "slide" uses DM Serif Display for titles and Avenir Next for
 #' body text (if available). "normal" uses Arial.
+#' @param background The chart's background in each format. One of:
+#'   \describe{
+#'     \item{"white"}{ The default.}
+#'     \item{"box" (or "orange")}{ For a chart in a report box. Report charts
+#'       (\code{normal}, \code{wholecolumn} and \code{fullpage}) and their
+#'       Powerpoint slides get the box's light orange background. Fullslide,
+#'       blog and web-ready charts stay white.}
+#'     \item{"grey_blog"}{ Blog charts, and their Powerpoint and web-ready
+#'       versions, are light grey all over, like the header. Other charts stay
+#'       white.}
+#'     \item{c("box", "grey_blog")}{ Both: useful with
+#'       \code{grattan_save_all()}.}
+#'   }
+#'   Label boxes with a white fill, such as \code{grattan_label()} and
+#'   \code{grattan_richlegend()}, take the background colour. A chart made
+#'   with \code{theme_grattan(background = "box")} is treated as
+#'   \code{background = "box"}.
 #' @param device The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.
 #' @param ... Any additional arguments passed to `ggsave()`.
 #' For `grattan_save_all()`, the `...` are passed to `grattan_save()`.
@@ -182,6 +199,7 @@ grattan_save <- function(filename,
                          no_new_folder = FALSE,
                          rich_subtitle = FALSE,
                          font = NULL,
+                         background = "white",
                          device = cairo_pdf,
                          ...) {
 
@@ -193,6 +211,10 @@ grattan_save <- function(filename,
   if (isFALSE(inherits(object, "gg"))) {
     stop("`object` is not a ggplot2 object.")
   }
+
+  requested_background <- check_background(background)
+  if (type != "all") message_unused_background(requested_background, type)
+  background <- resolve_background(object, background)
 
   # set up
   original_object <- object
@@ -260,6 +282,7 @@ grattan_save <- function(filename,
                           filename = file.path(dir, paste0(file_name, ".pptx")),
                           rich_subtitle = rich_subtitle,
                           font = font,
+                          background = background,
                           author = author)
       }
     }
@@ -273,6 +296,7 @@ grattan_save <- function(filename,
                   save_pptx = save_pptx,
                   ignore_long_title = ignore_long_title,
                   font = font,
+                  background = background,
                   device = device,
                   ...)
   }
@@ -309,6 +333,7 @@ grattan_save <- function(filename,
                         type = valid_pptx_types,
                         rich_subtitle = rich_subtitle,
                         font = font,
+                        background = background,
                         author = author)
 
     }
@@ -324,6 +349,7 @@ grattan_save <- function(filename,
                  save_pptx = save_pptx,
                  ignore_long_title = ignore_long_title,
                  font = font,
+                 background = background,
                  device = device,
                  ...)
 
@@ -357,6 +383,8 @@ grattan_save <- function(filename,
                     save_pptx = FALSE,
                     ignore_long_title = ignore_long_title,
                     font = "slide",
+                    background = background,
+                    web = TRUE,
                     device = ragg::agg_png,
                     ...)
     })
@@ -380,9 +408,14 @@ grattan_save_ <- function(filename,
                           ignore_long_title,
                           font,
                           device,
+                          background = character(0),
+                          web = FALSE,
                           ...) {
 
   plot_class <- chart_types$class[chart_types$type == type]
+
+  colour <- background_colour(type, background, web = web)
+  if (!is.null(colour)) object <- apply_background(object, colour)
 
     # Create an image the size of a 16:9 Powerpoint slide complete with logo
   if (plot_class == "fullslide") {
@@ -401,7 +434,8 @@ grattan_save_ <- function(filename,
     blog_font <- if (is.null(font)) "slide" else font
     object <- create_blog(plot = object,
                           font = blog_font,
-                          ignore_long_title = ignore_long_title)
+                          ignore_long_title = ignore_long_title,
+                          background = if (identical(colour, grattan_header_grey)) "grey" else "white")
 
   } else { # following code only applies if type != "fullslide" / "blog"
 
@@ -723,6 +757,10 @@ grattan_save_overleaf <- function(filename,
 #'   saved in a new subdirectory named after \code{filename}. If \code{TRUE},
 #'   no subdirectory is created.
 #' @param font Default is "slide", appropriate for web purposes.
+#' @param background "white" (default) or "grey_blog", which makes a blog
+#'   chart light grey all over. Web charts never use the "box" background,
+#'   since a web page can't put them in a report box; a chart made with
+#'   \code{theme_grattan(background = "box")} is saved white.
 #' @param ... Additional arguments passed to \code{grattan_save()}, such as
 #'   \code{height}, \code{dpi}, \code{force_labs}, etc.
 #'
@@ -748,7 +786,16 @@ grattan_save_web <- function(filename,
                              type = "normal",
                              font = "slide",
                              no_new_folder = FALSE,
+                             background = "white",
                              ...) {
+
+  # Web charts can't sit in a report box, so only a blog's grey applies
+  requested_background <- check_background(background)
+  message_unused_background(requested_background, type, web = TRUE)
+  background <- resolve_background(object, background)
+  if ("box" %in% background) object <- apply_background(object, "white")
+  background <- intersect(background, "grey_blog")
+  if (length(background) == 0) background <- "white"
 
   filename <- as.character(filename)
   ext <- tolower(tools::file_ext(filename))
@@ -767,6 +814,7 @@ grattan_save_web <- function(filename,
                save_pptx = FALSE,
                save_data = FALSE,
                no_new_folder = no_new_folder,
+               background = background,
                ...)
 
   invisible(filename)

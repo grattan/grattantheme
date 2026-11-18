@@ -37,7 +37,9 @@ panel. Defaults to `"topright"`.}
 
 \item{lineheight}{Line height between legend entries. Default is `0.8`.}
 
-\item{fill}{Background fill colour. Default is `"white"`.}
+\item{fill}{Background fill colour. Default is `"white"`. When a chart is
+saved with a box or grey background (see the \code{background} argument
+of \code{grattan_save()}), a white fill takes the background colour.}
 
 \item{facet}{Controls which panel the legend is drawn on when the chart is
 faceted. Either `NULL` (the default) to draw the legend only on the

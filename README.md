@@ -58,7 +58,7 @@ consistent with the Grattan style guide, including elements such as
 gridline colours and line width, font size, etc. For scatter plots,
 `theme_grattan(chart_type = "scatter")` provides a black y-axis. For
 charts with discrete values on the y axis,
-`theme_grattan(flipped = 'TRUE')` provides a vertical axis line and
+`theme_grattan(flipped = TRUE)` provides a vertical axis line and
 rotates gridlines.
 
 Use `scale_y_continuous_grattan()` (or `scale_x_continuous_grattan` if
@@ -66,8 +66,6 @@ flipped) to set default values for your vertical axis that will work
 well with most Grattan charts.
 
 The colours that will be used in your plot are:
-
-    #> grattantheme: Auto-detected a horizontal/flipped chart and applied `flipped = TRUE`. Set `theme_grattan(flipped = TRUE)` explicitly to silence this message.
 
 <img src="man/figures/README-show-cols-image-1.png" alt="" width="75%" />
 

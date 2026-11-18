@@ -11,6 +11,7 @@ grattan_save_pptx(
   rich_subtitle = FALSE,
   png_dpi = 300,
   font = NULL,
+  background = "white",
   author = "Grattan Institute"
 )
 }
@@ -36,6 +37,14 @@ anywhere else in the package.}
 uses "slide" for fullslide and blog chart types and "normal" for other
 types. "slide" uses Avenir Next for body text (if available). "normal" uses
 Arial.}
+
+\item{background}{"white" (default), "box" (or "orange"), "grey_blog", or
+\code{c("box", "grey_blog")}. "box" gives report-chart slides
+(\code{normal}, \code{wholecolumn} and \code{fullpage}) the box's light
+orange background. "grey_blog" uses the \code{blog} template's grey
+layout, which is the header's light grey all over. Fullslide slides are always white. Label
+boxes with a white fill take the background colour. A chart made with
+\code{theme_grattan(background = "box")} is treated as \code{"box"}.}
 
 \item{author}{Character. The name recorded as the author in the Powerpoint
 file's document properties. Defaults to `"Grattan Institute"`. Use `""` to

@@ -7,7 +7,8 @@
 create_blog(
   plot = ggplot2::last_plot(),
   font = c("slide", "normal"),
-  ignore_long_title = FALSE
+  ignore_long_title = FALSE,
+  background = c("white", "grey")
 )
 }
 \arguments{
@@ -20,6 +21,11 @@ Display for the title and Avenir Next for body text (if available).
 \item{ignore_long_title}{Default is FALSE. If TRUE, the check on a long
 title won't be performed. This is useful if using ggtext syntax within
 titles.}
+
+\item{background}{Either "white" (default) or "grey". "grey" fills the whole
+image, not just the header, with the header's light grey, and gives label
+boxes with a white fill the same grey. When saving, use
+\code{background = "grey_blog"} in \code{grattan_save()}.}
 }
 \value{
 An object of class "patchwork" sized for a 23.16cm x 23.16cm blog

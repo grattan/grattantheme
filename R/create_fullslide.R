@@ -112,7 +112,7 @@ create_fullslide <- function(plot = last_plot(),
                                    clip = "off")
 
     grey_box <- grid::editGrob(
-      grid::rectGrob(gp = gpar(fill = "#F2F2F2", col = "#F2F2F2")),
+      grid::rectGrob(gp = gpar(fill = grattan_header_grey, col = grattan_header_grey)),
       vp = grey_box_vp
     )
 

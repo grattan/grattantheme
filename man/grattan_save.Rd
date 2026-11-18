@@ -25,6 +25,7 @@ grattan_save(
   no_new_folder = FALSE,
   rich_subtitle = FALSE,
   font = NULL,
+  background = "white",
   device = cairo_pdf,
   ...
 )
@@ -139,6 +140,24 @@ markdown text in the subtitles and plots.}
 uses "slide" for fullslide types and PowerPoint output, and "normal" for
 other types. "slide" uses DM Serif Display for titles and Avenir Next for
 body text (if available). "normal" uses Arial.}
+
+\item{background}{The chart's background in each format. One of:
+\describe{
+  \item{"white"}{ The default.}
+  \item{"box" (or "orange")}{ For a chart in a report box. Report charts
+    (\code{normal}, \code{wholecolumn} and \code{fullpage}) and their
+    Powerpoint slides get the box's light orange background. Fullslide,
+    blog and web-ready charts stay white.}
+  \item{"grey_blog"}{ Blog charts, and their Powerpoint and web-ready
+    versions, are light grey all over, like the header. Other charts stay
+    white.}
+  \item{c("box", "grey_blog")}{ Both: useful with
+    \code{grattan_save_all()}.}
+}
+Label boxes with a white fill, such as \code{grattan_label()} and
+\code{grattan_richlegend()}, take the background colour. A chart made
+with \code{theme_grattan(background = "box")} is treated as
+\code{background = "box"}.}
 
 \item{device}{The device to use for saving pdf images `ggsave()`. Default is `cairo_pdf`.}
 

@@ -26,6 +26,13 @@
 #' uses "slide" for fullslide and blog chart types and "normal" for other
 #' types. "slide" uses Avenir Next for body text (if available). "normal" uses
 #' Arial.
+#' @param background "white" (default), "box" (or "orange"), "grey_blog", or
+#' \code{c("box", "grey_blog")}. "box" gives report-chart slides
+#' (\code{normal}, \code{wholecolumn} and \code{fullpage}) the box's light
+#' orange background. "grey_blog" uses the \code{blog} template's grey
+#' layout, which is the header's light grey all over. Fullslide slides are always white. Label
+#' boxes with a white fill take the background colour. A chart made with
+#' \code{theme_grattan(background = "box")} is treated as \code{"box"}.
 #' @param author Character. The name recorded as the author in the Powerpoint
 #' file's document properties. Defaults to `"Grattan Institute"`. Use `""` to
 #' leave it blank. (The "last modified by" name is always your computer's
@@ -64,9 +71,11 @@ grattan_save_pptx <- function(filename,
                               rich_subtitle = FALSE,
                               png_dpi = 300,
                               font = NULL,
+                              background = "white",
                               author = "Grattan Institute") {
 
   check_author(author)
+  background <- check_background(background)
 
   plot <- p
 
@@ -152,6 +161,7 @@ grattan_save_pptx <- function(filename,
                         rich_subtitle = rich_subtitle,
                         png_dpi = png_dpi,
                         font = fnt,
+                        background = background,
                         author = author)
     }
   )
@@ -167,9 +177,17 @@ add_graph_to_pptx <- function(p,
                               rich_subtitle = FALSE,
                               png_dpi = 300,
                               font = "slide",
+                              background = character(0),
                               author = "Grattan Institute") {
 
   message(glue::glue("Making {type}"))
+
+  # The blog template's "1_Two Content" layout is grey all over
+  layout <- if (identical(type, "blog") && "grey_blog" %in% background) {
+    "1_Two Content"
+  } else {
+    "Two Content"
+  }
 
   # Get path to appropriate PPTX template
   template_filename <- system.file("extdata",
@@ -218,8 +236,12 @@ add_graph_to_pptx <- function(p,
     plot <- apply_font_to_geom_text(plot, body_font)
 
     x <- x %>%
-      officer::add_slide(layout="Two Content", master = master) %>%
+      officer::add_slide(layout = layout, master = master) %>%
       officer::set_notes(value = notes, officer::notes_location_type(type = "body"))
+
+    # A chart made with theme_grattan(background = "box") counts as "box"
+    colour <- background_colour(type, resolve_background(plot, background))
+    if (!is.null(colour)) plot <- apply_background(plot, colour)
 
     replace_null <- function(string) {
       ifelse(is.null(string), " ", string)

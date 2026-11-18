@@ -53,7 +53,7 @@ Once grattantheme is installed, you can load it the same way you normally load a
 
 See the [grattantheme vignette](https://grattan.github.io/grattantheme/articles/using_grattantheme.html) for a more complete guide.
 
-Use `theme_grattan()` to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots,  `theme_grattan(chart_type = "scatter")` provides a black y-axis. For charts with discrete values on the y axis, `theme_grattan(flipped = 'TRUE')` provides a vertical axis line and rotates gridlines.
+Use `theme_grattan()` to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots,  `theme_grattan(chart_type = "scatter")` provides a black y-axis. For charts with discrete values on the y axis, `theme_grattan(flipped = TRUE)` provides a vertical axis line and rotates gridlines.
 
 Use `scale_y_continuous_grattan()` (or `scale_x_continuous_grattan` if flipped) to set default values for your vertical axis that will work well with most Grattan charts. 
 
@@ -85,7 +85,7 @@ col_plot <- grattan_colours %>%
   geom_tile(col = "white", linewidth = 1) +
   scale_fill_manual(values = levels(grattan_colours$col)) +
   coord_flip(expand = FALSE, ylim = c(0, 13)) +
-  theme_grattan() +
+  theme_grattan(flipped = TRUE) +
   theme(panel.grid = element_blank(),
         axis.title = element_blank(),
         axis.ticks = element_blank(),

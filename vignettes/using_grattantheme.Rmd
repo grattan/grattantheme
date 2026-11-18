@@ -288,6 +288,25 @@ cat(sprintf('<img src="%s" width="300" alt="Example chart saved with grattan_sav
 <!-- knitr::include_graphics("iris_fullslide.pdf") -->
 <!-- ``` -->
 
+### Box and grey backgrounds
+
+Charts that go in a report box have a light orange background, and blog charts can be light grey all over. Set these when saving, with `background`:
+
+```{r, eval = FALSE}
+# Report charts (and their Powerpoint slides) get the box's orange
+grattan_save("iris.pdf", plot_final, type = "normal", background = "box")
+
+# A blog chart that's grey all over, like its header
+grattan_save("iris.pdf", plot_final, type = "blog", background = "grey_blog")
+
+# Both, for every format at once
+grattan_save_all("iris.pdf", plot_final, background = c("box", "grey_blog"))
+```
+
+The box colour is only used for the report chart types (`normal`, `wholecolumn` and `fullpage`) and their Powerpoint slides. Fullslide, blog and web-ready charts stay white, since they can't sit in a report box. Label boxes made with `grattan_label()`, `grattan_label_repel()` or `grattan_richlegend()` take the background colour, so they don't show up as white boxes.
+
+To see how a chart will look, use `check_chart()` with the same `background`, such as `check_chart("normal", background = "box")`. `theme_grattan(background = "box")` still works, and is treated the same as `background = "box"` when you save.
+
 ### Saving Powerpoint files
 
 It's convenient to also save your files in Powerpoint format. This allows PDs to easily use your graphs in their presentations. Saving in this format also means you can include speaker notes -- such as information about the script used to create the file -- which can help us to keep track of things.

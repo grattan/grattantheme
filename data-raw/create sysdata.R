@@ -7,15 +7,16 @@ logo <- magick::image_read("data-raw/GrattanPNGlogo.png")
 
 logogrob <- grid::rasterGrob(logo)
 
+# `caption` is the wrap width in characters.
 chart_types <- tibble::tribble(
                          ~type,      ~status,  ~width, ~height, ~caption, ~title,  ~subtitle, ~class,     ~pptx_template,
                       "normal",     "active",   22.16,   14.50,    120,     70,         75, "normal",    "template_normal.pptx",
                  "wholecolumn",     "active",   22.16,   22.16,    120,     70,         75, "normal",    "template_wholecolumn.pptx",
                     "fullpage",     "active",   44.32,   22.16,    240,    140,        150, "normal",    "template_fullpage.pptx",
                    "fullslide",     "active",    31.7,    11.9,    240,     50,         95, "fullslide", "template_fullslide.pptx",
-            "fullslide_narrow",     "active",    23.0,    11.9,    175,     50,         95, "fullslide", "template_fullslide_narrow.pptx",
+            "fullslide_narrow",     "active",    23.0,    11.9,    240,     50,         95, "fullslide", "template_fullslide_narrow.pptx",
               "fullslide_half",     "active",    15.3,    11.9,    120,     50,         47, "fullslide", "template_fullslide_half.pptx",
-                        "blog",     "active",   23.16,   23.16,    120,     40,         65, "blog",      "template_blog.pptx",
+                        "blog",     "active",   23.16,   23.16,    165,     36,         70, "blog",      "template_blog.pptx",
 
 # Following the `lifecycle` convention, 'deprecated' types still work but warn:
 # they have a surviving .pptx template in inst/extdata, so `grattan_save_pptx()`

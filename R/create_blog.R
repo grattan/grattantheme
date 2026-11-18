@@ -16,6 +16,10 @@
 #' @param ignore_long_title Default is FALSE. If TRUE, the check on a long
 #'   title won't be performed. This is useful if using ggtext syntax within
 #'   titles.
+#' @param background Either "white" (default) or "grey". "grey" fills the whole
+#'   image, not just the header, with the header's light grey, and gives label
+#'   boxes with a white fill the same grey. When saving, use
+#'   \code{background = "grey_blog"} in \code{grattan_save()}.
 #'
 #' @return An object of class "patchwork" sized for a 23.16cm x 23.16cm blog
 #'   image.
@@ -36,13 +40,16 @@
 #' @import grid
 create_blog <- function(plot = ggplot2::last_plot(),
                         font = c("slide", "normal"),
-                        ignore_long_title = FALSE) {
+                        ignore_long_title = FALSE,
+                        background = c("white", "grey")) {
 
   if (!inherits(plot, "ggplot")) {
     stop(deparse(substitute(plot)), " is not a ggplot2 object.")
   }
 
   font <- match.arg(font)
+  background <- match.arg(background)
+  background_colour <- if (background == "grey") grattan_header_grey else "white"
   title_font <- get_grattan_font(font, "title")
   main_font <- get_grattan_font(font, "body")
 
@@ -59,6 +66,11 @@ create_blog <- function(plot = ggplot2::last_plot(),
   p <- add_theme_to_all(p, ggplot2::theme(text = ggplot2::element_text(family = main_font)))
   p <- apply_font_to_geom_text(p, main_font)
 
+  # Labels with a white fill turn grey too
+  if (background == "grey") {
+    p <- apply_background(p, grattan_header_grey)
+  }
+
   stored_title <- labs$title
   stored_subtitle <- labs$subtitle
   stored_caption <- labs$caption
@@ -68,14 +80,25 @@ create_blog <- function(plot = ggplot2::last_plot(),
   caption_font_size <- 8
 
   # Dimensions (cm). Total image is 23.16 x 23.16; heights below sum to match.
+  # They follow template_blog.pptx: a 3.90cm grey header (room for a title of
+  # up to three lines), the subtitle centred between the header and the chart,
+  # and the chart from 6.20cm to 20.70cm.
   total_width <- 23.16
   side_margin <- 0.5
   inner_width <- total_width - 2 * side_margin   # 22.16
 
-  title_bar_height <- 3.61
-  subtitle_area_height <- 2.53
+  title_bar_height <- 3.90
+  subtitle_area_height <- 2.30
   chart_panel_height <- 14.50
-  caption_area_height <- 2.52
+  caption_area_height <- 2.46
+
+  # Grid centres text on its font metrics, not its ink, which puts the title
+  # 0.29cm too high, whatever its number of lines. The logo image has
+  # transparent padding, so its ink sits 0.395cm above the middle of its box.
+  # These offsets centre the ink of both in the header. (Measured from
+  # rendered images with DM Serif Display.)
+  title_ink_offset <- 0.29
+  logo_ink_offset <- 0.395
 
   logo_width <- 4
 
@@ -90,18 +113,17 @@ create_blog <- function(plot = ggplot2::last_plot(),
                                 clip = "off")
 
   grey_box <- grid::editGrob(
-    grid::rectGrob(gp = grid::gpar(fill = "#F2F2F2",
-                                   col = "#F2F2F2")),
+    grid::rectGrob(gp = grid::gpar(fill = grattan_header_grey,
+                                   col = grattan_header_grey)),
     vp = grey_box_vp
   )
 
-  # Title text grob — positioned within a viewport so vertical centring
-  # matches the fullslide approach (y=0.56 within a viewport whose centre sits
-  # at y=0.34 of the header area).
+  # Title text grob, centred vertically in the header so that one, two or
+  # three lines all fit, as in the template
   toptitle <- grid::textGrob(
     label = if (is.null(stored_title)) "" else stored_title,
     x = unit(0, "npc"),
-    y = 0.56,
+    y = unit(0.5, "npc") - unit(title_ink_offset, "cm"),
     just = c("left", "center"),
     gp = grid::gpar(col = "black",
                     fontsize = title_font_size,
@@ -115,7 +137,7 @@ create_blog <- function(plot = ggplot2::last_plot(),
 
   title_vp <- grid::viewport(
     x = 0,
-    y = 0.34,
+    y = 0.5,
     width = unit(title_width, "cm"),
     just = c("left", "center"),
     clip = "off"
@@ -123,7 +145,7 @@ create_blog <- function(plot = ggplot2::last_plot(),
 
   logo_vp <- grid::viewport(
     x = unit(1, "npc"),
-    y = 0.4,
+    y = unit(0.5, "npc") - unit(logo_ink_offset, "cm"),
     width = unit(logo_width, "cm"),
     just = c("right", "center"),
     clip = "off"
@@ -163,6 +185,14 @@ create_blog <- function(plot = ggplot2::last_plot(),
                     fontfamily = main_font)
   )
 
+  # Each area is its own patchwork panel with its own background, so give
+  # the text areas the image's background colour. (The chart keeps its own.)
+  text_area <- function(grob) {
+    patchwork::wrap_elements(full = grob) +
+      ggplot2::theme(plot.background = ggplot2::element_rect(
+        fill = background_colour, colour = NA))
+  }
+
   # Assemble layout
   if (subtitle_present) {
     layout <- "
@@ -178,10 +208,10 @@ create_blog <- function(plot = ggplot2::last_plot(),
                           "cm")
 
     assembled <- patchwork::wrap_plots(
-      H = patchwork::wrap_elements(full = header_grob),
-      S = patchwork::wrap_elements(full = subtitle_grob),
+      H = text_area(header_grob),
+      S = text_area(subtitle_grob),
       P = patchwork::wrap_elements(full = p),
-      C = patchwork::wrap_elements(full = caption_grob),
+      C = text_area(caption_grob),
       design = layout,
       heights = heights
     )
@@ -198,9 +228,9 @@ create_blog <- function(plot = ggplot2::last_plot(),
                           "cm")
 
     assembled <- patchwork::wrap_plots(
-      H = patchwork::wrap_elements(full = header_grob),
+      H = text_area(header_grob),
       P = patchwork::wrap_elements(full = p),
-      C = patchwork::wrap_elements(full = caption_grob),
+      C = text_area(caption_grob),
       design = layout,
       heights = heights
     )
@@ -208,10 +238,10 @@ create_blog <- function(plot = ggplot2::last_plot(),
 
   assembled +
     patchwork::plot_annotation(
-      theme = ggplot2::theme(plot.margin = ggplot2::margin(0,
-                                                           side_margin,
-                                                           0,
-                                                           side_margin,
-                                                           "cm"))
+      theme = ggplot2::theme(
+        plot.margin = ggplot2::margin(0, side_margin, 0, side_margin, "cm"),
+        plot.background = ggplot2::element_rect(fill = background_colour,
+                                                colour = NA)
+      )
     )
 }
