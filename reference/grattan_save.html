@@ -20,7 +20,7 @@ Grattan charts. Wrapper around ggsave().
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
       </span>
     </div>
 
@@ -83,6 +83,7 @@ Grattan charts. Wrapper around ggsave().
 <span>  no_new_folder <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  rich_subtitle <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  font <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  background <span class="op">=</span> <span class="st">"white"</span>,</span>
 <span>  device <span class="op">=</span> <span class="va">cairo_pdf</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -250,6 +251,32 @@ markdown text in the subtitles and plots.</p></dd>
 uses "slide" for fullslide types and PowerPoint output, and "normal" for
 other types. "slide" uses DM Serif Display for titles and Avenir Next for
 body text (if available). "normal" uses Arial.</p></dd>
+
+
+<dt id="arg-background">background<a class="anchor" aria-label="anchor" href="#arg-background"></a></dt>
+<dd><p>The chart's background in each format. One of:</p><dl><dt>"white"</dt>
+<dd><p>The default.</p></dd>
+
+  <dt>"box" (or "orange")</dt>
+<dd><p>For a chart in a report box. Report charts
+    (<code>normal</code>, <code>wholecolumn</code> and <code>fullpage</code>) and their
+    Powerpoint slides get the box's light orange background. Fullslide,
+    blog and web-ready charts stay white.</p></dd>
+
+  <dt>"grey_blog"</dt>
+<dd><p>Blog charts, and their Powerpoint and web-ready
+    versions, are light grey all over, like the header. Other charts stay
+    white.</p></dd>
+
+  <dt>c("box", "grey_blog")</dt>
+<dd><p>Both: useful with
+    <code>grattan_save_all()</code>.</p></dd>
+
+
+</dl><p>Label boxes with a white fill, such as <code><a href="grattan_label_functions.html">grattan_label()</a></code> and
+<code><a href="grattan_richlegend.html">grattan_richlegend()</a></code>, take the background colour. A chart made
+with <code>theme_grattan(background = "box")</code> is treated as
+<code>background = "box"</code>.</p></dd>
 
 
 <dt id="arg-device">device<a class="anchor" aria-label="anchor" href="#arg-device"></a></dt>

@@ -20,7 +20,7 @@ created.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/ma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
       </span>
     </div>
 
@@ -69,6 +69,7 @@ created.</p>
 <span>  type <span class="op">=</span> <span class="st">"normal"</span>,</span>
 <span>  font <span class="op">=</span> <span class="st">"slide"</span>,</span>
 <span>  no_new_folder <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  background <span class="op">=</span> <span class="st">"white"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -100,6 +101,13 @@ different extension is supplied).</p></dd>
 <dd><p>Default is <code>FALSE</code>, meaning the chart is
 saved in a new subdirectory named after <code>filename</code>. If <code>TRUE</code>,
 no subdirectory is created.</p></dd>
+
+
+<dt id="arg-background">background<a class="anchor" aria-label="anchor" href="#arg-background"></a></dt>
+<dd><p>"white" (default) or "grey_blog", which makes a blog
+chart light grey all over. Web charts never use the "box" background,
+since a web page can't put them in a report box; a chart made with
+<code>theme_grattan(background = "box")</code> is saved white.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

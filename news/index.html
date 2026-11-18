@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
       </span>
     </div>
 
@@ -51,6 +51,23 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.2" id="grattantheme-172">grattantheme 1.7.2<a class="anchor" aria-label="anchor" href="#grattantheme-172"></a></h2>
+<ul><li>The save functions gain a <code>background</code> argument for box and grey charts:
+<ul><li>
+<code>background = "box"</code> gives report charts (<code>normal</code>, <code>wholecolumn</code>, <code>fullpage</code>) and their Powerpoint versions the light orange background of a report box. Other chart formats stay with a white background.</li>
+<li>
+<code>background = "grey_blog"</code> makes <code>blog</code> charts, and their Powerpoint and web-ready versions, light grey.</li>
+<li>Use both with <code>grattan_save_all(..., background = c("box", "grey_blog"))</code>.</li>
+<li>
+<code><a href="../reference/check_chart.html">check_chart()</a></code> gains the same <code>background</code> argument, to see how a chart will look.</li>
+<li>Label boxes that usually have a white background fill, from <code><a href="../reference/grattan_label_functions.html">grattan_label()</a></code>, <code><a href="../reference/grattan_label_functions.html">grattan_label_repel()</a></code>, <code><a href="../reference/grattan_richlegend.html">grattan_richlegend()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label()</a></code>, will adjust to background colours.</li>
+</ul></li>
+<li>Charts made with <code>theme_grattan(background = "box")</code> (or <code>"orange"</code>) are now treated as <code>background = "box"</code> when saved, so their fullslide, blog and web-ready versions are white rather than orange.</li>
+<li>Minor updates have been made to <code>blog</code> chart types, including an updated Powerpoint template that more easily fits longer titles, and adjustments to the width of captions and subtitles in .pdf and .png exports.</li>
+<li>
+<code><a href="../reference/colour_text.html">colour_text()</a></code> no longer bolds text by default; set <code>bold_labs = TRUE</code> to bold it, as before. Notes no longer need a colour, so <code>colour_text("my note", is_note = TRUE)</code> works (#218).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.7.1" id="grattantheme-171">grattantheme 1.7.1<a class="anchor" aria-label="anchor" href="#grattantheme-171"></a></h2>
 <ul><li>

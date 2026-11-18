@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
       </span>
     </div>
 
@@ -94,10 +94,9 @@
 <h2 id="make-your-charts-look-nice">Make your charts look nice<a class="anchor" aria-label="anchor" href="#make-your-charts-look-nice"></a>
 </h2>
 <p>See the <a href="https://grattan.github.io/grattantheme/articles/using_grattantheme.html" class="external-link">grattantheme vignette</a> for a more complete guide.</p>
-<p>Use <code><a href="reference/theme_grattan.html">theme_grattan()</a></code> to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots, <code>theme_grattan(chart_type = "scatter")</code> provides a black y-axis. For charts with discrete values on the y axis, <code>theme_grattan(flipped = 'TRUE')</code> provides a vertical axis line and rotates gridlines.</p>
+<p>Use <code><a href="reference/theme_grattan.html">theme_grattan()</a></code> to format your ggplot2 charts in a style consistent with the Grattan style guide, including elements such as gridline colours and line width, font size, etc. For scatter plots, <code>theme_grattan(chart_type = "scatter")</code> provides a black y-axis. For charts with discrete values on the y axis, <code>theme_grattan(flipped = TRUE)</code> provides a vertical axis line and rotates gridlines.</p>
 <p>Use <code><a href="reference/grattan_axes.html">scale_y_continuous_grattan()</a></code> (or <code>scale_x_continuous_grattan</code> if flipped) to set default values for your vertical axis that will work well with most Grattan charts.</p>
 <p>The colours that will be used in your plot are:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#&gt; grattantheme: Auto-detected a horizontal/flipped chart and applied `flipped = TRUE`. Set `theme_grattan(flipped = TRUE)` explicitly to silence this message.</span></span></code></pre></div>
 <p><img src="reference/figures/README-show-cols-image-1.png" alt="" width="75%"></p>
 <p>A range of colours from the style guide (such as <code>grattan_orange</code>, <code>grattan_darkred</code>, and so on) are defined for your convenience. Each colour has eight tints available, e.g. <code>grattan_orange</code> has lighter variants <code>grattan_orange1</code> through <code>grattan_orange8</code> (closest to white). These can be used to allow highlighting or when filling in block colours behind text, such as when designing tables.</p>
 <p>Use <code>theme_grattan(background = "box")</code> to create a chart for a Grattan report box.</p>

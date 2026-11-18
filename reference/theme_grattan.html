@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grattantheme</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
       </span>
     </div>
 
@@ -95,8 +95,14 @@ to override auto-detection.</p></dd>
 
 
 <dt id="arg-background">background<a class="anchor" aria-label="anchor" href="#arg-background"></a></dt>
-<dd><p>"white" by default. Set to "orange" or "box" if you're
-making a chart to go in a Grattan report box.</p></dd>
+<dd><p>"white" by default. Set to "orange" or "box" for a chart
+in a Grattan report box. When saving, this is treated as
+<code>background = "box"</code> in <code><a href="grattan_save.html">grattan_save()</a></code>: the orange is used
+for report charts and their Powerpoint slides only, and fullslide, blog
+and web-ready charts are white. Setting <code>background = "box"</code> in
+<code><a href="grattan_save.html">grattan_save()</a></code> (or <code><a href="grattan_save.html">grattan_save_all()</a></code>) does the same, and
+is the better way to make a box chart; use <code>check_chart(background =
+"box")</code> to see how it will look.</p></dd>
 
 
 <dt id="arg-legend">legend<a class="anchor" aria-label="anchor" href="#arg-legend"></a></dt>
@@ -176,8 +182,10 @@ border around the plotting area.</p></dd>
 <span class="r-plt img"><img src="theme_grattan-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Making a chart to go in a box? Then you'll want the background = "orange"</span></span></span>
-<span class="r-in"><span><span class="co"># option, as in:</span></span></span>
+<span class="r-in"><span><span class="co"># Making a chart to go in a box? Save it with background = "box" in</span></span></span>
+<span class="r-in"><span><span class="co"># grattan_save() or grattan_save_all(), and check how it looks with</span></span></span>
+<span class="r-in"><span><span class="co"># check_chart(background = "box"). Setting background = "orange" here also</span></span></span>
+<span class="r-in"><span><span class="co"># works:</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
