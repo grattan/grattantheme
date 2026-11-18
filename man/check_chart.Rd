@@ -5,7 +5,11 @@
 \alias{check_chart_aspect_ratio}
 \title{Check that your chart looks alright in the different chart formats}
 \usage{
-check_chart(type = "normal", object = ggplot2::last_plot())
+check_chart(
+  type = "normal",
+  object = ggplot2::last_plot(),
+  background = "white"
+)
 
 check_chart_aspect_ratio(object = ggplot2::last_plot(), type = "normal")
 }
@@ -13,6 +17,11 @@ check_chart_aspect_ratio(object = ggplot2::last_plot(), type = "normal")
 \item{type}{The chart type (e.g. \code{"normal"}, \code{"fullslide"}).}
 
 \item{object}{A ggplot2 plot object. Defaults to the last plot.}
+
+\item{background}{The chart's background, as in \code{grattan_save()}:
+"white" (default), "box", "grey_blog" or \code{c("box", "grey_blog")}.
+Shows the chart as it will be saved, such as \code{check_chart("normal",
+background = "box")} for a chart in a report box.}
 }
 \description{
 Opens your plot in a new window with the aspect ratio of the chart type
@@ -31,6 +40,9 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
   labs(title = "My title", subtitle = "My subtitle") +
   theme_grattan()
 check_chart("fullslide")
+
+# Check a chart for a report box
+check_chart("normal", background = "box")
 }
 
 }

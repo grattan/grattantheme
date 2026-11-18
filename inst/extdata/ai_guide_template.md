@@ -124,6 +124,17 @@ Often chart-making scripts should end with `grattan_save_all()` as this
 ensures all chart formats and chart data are available at a later stage
 for use, without having to re-run the code.
 
+**Backgrounds:** for a chart in a report box, save with
+`background = "box"`: report charts and their Powerpoint slides get the
+box's light orange, while fullslide, blog and web-ready charts stay white.
+`background = "grey_blog"` makes the blog version grey all over. Use both
+with `grattan_save_all("chart.pdf", my_chart, background = c("box",
+"grey_blog"))`. Label boxes from `grattan_label()` and
+`grattan_richlegend()` take the background colour automatically, so don't
+set their `fill` to match. Check how a box chart looks with
+`check_chart("normal", background = "box")`. Prefer `background = "box"`
+when saving to `theme_grattan(background = "box")`.
+
 **Chart types:**
 
 - `normal` - Standard report chart (22.2cm x 14.5cm)
@@ -324,6 +335,18 @@ grattan_point_filled(
 # Common pattern - add filled points at end of lines
 geom_line() +
 grattan_point_filled(data = . %>% filter(date == max(date)))
+```
+
+### colour_text()
+
+Colours a piece of text with HTML, for titles, subtitles and annotations
+rendered by `ggtext` (e.g. `theme(plot.subtitle = ggtext::element_markdown())`
+or `ggtext::geom_richtext()`). Text isn't bold unless `bold_labs = TRUE`.
+Notes are grey and need no colour.
+
+``` r
+labs(subtitle = glue::glue("Share of {colour_text(grattan_orange, 'renters')}"))
+colour_text("Excludes the ACT", is_note = TRUE)
 ```
 
 ## Colour Palette

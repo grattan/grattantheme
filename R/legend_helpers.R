@@ -6,15 +6,23 @@
 #' `theme(plot.subtitle = element_markdown())`
 #'
 #'
-#' @param colour (a character) the colour you want to colour text
+#' @param colour (a character) the colour you want to colour text. Not needed
+#'   when \code{is_note = TRUE}, as notes are always grey.
 #' @param text (a character) what the coloured text should say
-#' @param is_note (logical; default = FALSE) is it a note?
-#' @param bold_labs (logical; default = TRUE) should the labels be bolded?
+#' @param is_note (logical; default = FALSE) is it a note? Notes are coloured
+#'   \code{grattan_grey3} and never bolded, so \code{colour} and
+#'   \code{bold_labs} are ignored. A note can be written as
+#'   \code{colour_text("my note", is_note = TRUE)}.
+#' @param bold_labs (logical; default = FALSE) should the labels be bolded?
 #'
 #' @return (a glue)
 #' @export
 #'
 #' @examples
+#' colour_text(grattan_orange, "Renters")
+#' colour_text(grattan_orange, "Renters", bold_labs = TRUE)
+#' colour_text("Excludes the ACT", is_note = TRUE)
+#'
 #' \dontrun{library(ggtext)
 #'
 #' ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
@@ -28,19 +36,26 @@
 #'                                        </span>")) +
 #'   theme(plot.title = element_markdown(lineheight = 1.1))
 #' }
-colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
-  if (!is.character(colour)) stop("`colour` should be a character")
-  if (!is.character(text)) stop("`text` should be a character")
-  if (!is_note) {
-    if (bold_labs) {
-      ret <- glue::glue("<b style='color:{colour}'>{text}</b>")
-    } else {
-      ret <- glue::glue("<span style='color:{colour}'>{text}</span>")
-    }
-  }
-  if (is_note) ret <- glue::glue("<span style='color:{grattan_grey3}'>{text}</span>")
+colour_text <- function(colour = NULL, text, is_note = FALSE, bold_labs = FALSE) {
 
-  return(ret)
+  if (isTRUE(is_note)) {
+    # Notes are always grey, so allow the colour to be left out. With only one
+    # unnamed argument, as in colour_text("my note", is_note = TRUE), it lands
+    # in `colour` but is really the text.
+    if (missing(text)) text <- colour
+    if (!is.character(text)) stop("`text` should be a character", call. = FALSE)
+    return(glue::glue("<span style='color:{grattan_grey3}'>{text}</span>"))
+  }
+
+  if (missing(text)) stop("`text` is missing.", call. = FALSE)
+  if (!is.character(colour)) stop("`colour` should be a character", call. = FALSE)
+  if (!is.character(text)) stop("`text` should be a character", call. = FALSE)
+
+  if (isTRUE(bold_labs)) {
+    glue::glue("<b style='color:{colour}'>{text}</b>")
+  } else {
+    glue::glue("<span style='color:{colour}'>{text}</span>")
+  }
 }
 
 #' Add an on-chart "rich" legend with a white background
@@ -62,7 +77,9 @@ colour_text <- function(colour, text, is_note = FALSE, bold_labs = TRUE) {
 #' @param padding Amount of white padding around the legend, measured in
 #'   "lines". Default is `0.2`.
 #' @param lineheight Line height between legend entries. Default is `0.8`.
-#' @param fill Background fill colour. Default is `"white"`.
+#' @param fill Background fill colour. Default is `"white"`. When a chart is
+#'   saved with a box or grey background (see the \code{background} argument
+#'   of \code{grattan_save()}), a white fill takes the background colour.
 #' @param facet Controls which panel the legend is drawn on when the chart is
 #'   faceted. Either `NULL` (the default) to draw the legend only on the
 #'   top-left panel, `"all"` to draw it on every panel, or a numeric vector of

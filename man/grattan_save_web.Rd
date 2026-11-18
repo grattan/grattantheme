@@ -10,6 +10,7 @@ grattan_save_web(
   type = "normal",
   font = "slide",
   no_new_folder = FALSE,
+  background = "white",
   ...
 )
 }
@@ -28,6 +29,11 @@ different extension is supplied).}
 \item{no_new_folder}{Default is \code{FALSE}, meaning the chart is
 saved in a new subdirectory named after \code{filename}. If \code{TRUE},
 no subdirectory is created.}
+
+\item{background}{"white" (default) or "grey_blog", which makes a blog
+chart light grey all over. Web charts never use the "box" background,
+since a web page can't put them in a report box; a chart made with
+\code{theme_grattan(background = "box")} is saved white.}
 
 \item{...}{Additional arguments passed to \code{grattan_save()}, such as
 \code{height}, \code{dpi}, \code{force_labs}, etc.}

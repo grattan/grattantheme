@@ -7,6 +7,10 @@
 #'
 #' @param type The chart type (e.g. \code{"normal"}, \code{"fullslide"}).
 #' @param object A ggplot2 plot object. Defaults to the last plot.
+#' @param background The chart's background, as in \code{grattan_save()}:
+#'   "white" (default), "box", "grey_blog" or \code{c("box", "grey_blog")}.
+#'   Shows the chart as it will be saved, such as \code{check_chart("normal",
+#'   background = "box")} for a chart in a report box.
 #'
 #' @return NULL
 #' @export
@@ -22,14 +26,24 @@
 #'   labs(title = "My title", subtitle = "My subtitle") +
 #'   theme_grattan()
 #' check_chart("fullslide")
+#'
+#' # Check a chart for a report box
+#' check_chart("normal", background = "box")
 #' }
 #'
 check_chart <- function(type = "normal",
-                        object = ggplot2::last_plot()) {
+                        object = ggplot2::last_plot(),
+                        background = "white") {
 
   if (!type %in% all_chart_types) {
     stop(check_chart_type_message(type))
   }
+
+  # Show the background the chart will be saved with
+  message_unused_background(check_background(background), type)
+  background <- resolve_background(object, background)
+  colour <- background_colour(type, background)
+  if (!is.null(colour)) object <- apply_background(object, colour)
 
   plot_class <- chart_types$class[chart_types$type == type]
 
@@ -45,7 +59,8 @@ check_chart <- function(type = "normal",
 
   } else if (plot_class == "blog") {
     # For blog type, create the full square blog image with header/logo
-    plot <- create_blog(plot = object, font = "slide")
+    plot <- create_blog(plot = object, font = "slide",
+                        background = if (identical(colour, grattan_header_grey)) "grey" else "white")
 
     width <- chart_types$width[chart_types$type == type]
     height <- chart_types$height[chart_types$type == type]

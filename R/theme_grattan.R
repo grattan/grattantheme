@@ -10,8 +10,14 @@
 #'   type = "scatter". When NULL (the default), flipped formatting is
 #'   auto-detected when the theme is added to a plot. Set to FALSE explicitly
 #'   to override auto-detection.
-#' @param background "white" by default. Set to "orange" or "box" if you're
-#'   making a chart to go in a Grattan report box.
+#' @param background "white" by default. Set to "orange" or "box" for a chart
+#'   in a Grattan report box. When saving, this is treated as
+#'   \code{background = "box"} in \code{grattan_save()}: the orange is used
+#'   for report charts and their Powerpoint slides only, and fullslide, blog
+#'   and web-ready charts are white. Setting \code{background = "box"} in
+#'   \code{grattan_save()} (or \code{grattan_save_all()}) does the same, and
+#'   is the better way to make a box chart; use \code{check_chart(background =
+#'   "box")} to see how it will look.
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
 #'   desired, or a two element numeric vector such as c(0.9, 0.1).
 #' @param panel_borders `FALSE` by default. Set to `TRUE` to enable a black
@@ -78,8 +84,10 @@
 #'     coord_flip()
 #'
 #'
-#' # Making a chart to go in a box? Then you'll want the background = "orange"
-#' # option, as in:
+#' # Making a chart to go in a box? Save it with background = "box" in
+#' # grattan_save() or grattan_save_all(), and check how it looks with
+#' # check_chart(background = "box"). Setting background = "orange" here also
+#' # works:
 #'
 #' ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
 #'     geom_point() +

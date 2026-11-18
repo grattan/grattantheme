@@ -40,7 +40,9 @@ of text are closer together. Default is `0.8`.}
 
 \item{linewidth}{Size of label border line, in mm. Default is `NA`, which means no border.}
 
-\item{fill}{Colour of label background; default is `"white"`.}
+\item{fill}{Colour of label background; default is `"white"`. When a chart
+is saved with a box or grey background (see the \code{background} argument
+of \code{grattan_save()}), a white fill takes the background colour.}
 
 \item{label.size}{`r lifecycle::badge("deprecated")` Use `linewidth` instead.}
 }

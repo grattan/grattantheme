@@ -8,6 +8,30 @@ test_that("colour_text works", {
   expect_type(text_not_bolder, "character")
 })
 
+test_that("colour_text is not bold by default", {
+  expect_equal(as.character(colour_text("#FF0000", "fine")),
+               "<span style='color:#FF0000'>fine</span>")
+  expect_equal(as.character(colour_text("#FF0000", "fine", bold_labs = TRUE)),
+               "<b style='color:#FF0000'>fine</b>")
+})
+
+test_that("colour_text notes don't need a colour", {
+  note <- paste0("<span style='color:", grattan_grey3, "'>a note</span>")
+
+  expect_equal(as.character(colour_text("a note", is_note = TRUE)), note)
+  expect_equal(as.character(colour_text(text = "a note", is_note = TRUE)), note)
+  # A colour, if given, is ignored, as is bold_labs
+  expect_equal(as.character(colour_text(grattan_red, "a note", is_note = TRUE,
+                                        bold_labs = TRUE)), note)
+})
+
+test_that("colour_text checks its inputs", {
+  expect_error(colour_text("#FF0000"), "text")
+  expect_error(colour_text(1, "fine"), "colour")
+  expect_error(colour_text("#FF0000", 1), "text")
+  expect_error(colour_text(is_note = TRUE), "text")
+})
+
 # Count the number of gridtext richtext grobs in a built ggplot - one per panel
 # on which grattan_richlegend() actually draws.
 count_richlegend_grobs <- function(p) {

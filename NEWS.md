@@ -1,3 +1,14 @@
+# grattantheme 1.7.2
+* The save functions gain a `background` argument for box and grey charts:
+  * `background = "box"` gives report charts (`normal`, `wholecolumn`, `fullpage`) and their Powerpoint versions the light orange background of a report box. Other chart formats stay with a white background.
+  * `background = "grey_blog"` makes `blog` charts, and their Powerpoint and web-ready versions, light grey. 
+  * Use both with `grattan_save_all(..., background = c("box", "grey_blog"))`.
+  * `check_chart()` gains the same `background` argument, to see how a chart will look.
+  * Label boxes that usually have a white background fill, from `grattan_label()`, `grattan_label_repel()`, `grattan_richlegend()` and `geom_label()`, will adjust to background colours.
+* Charts made with `theme_grattan(background = "box")` (or `"orange"`) are now treated as `background = "box"` when saved, so their fullslide, blog and web-ready versions are white rather than orange.
+* Minor updates have been made to `blog` chart types, including an updated Powerpoint template that more easily fits longer titles, and adjustments to the width of captions and subtitles in .pdf and .png exports.
+* `colour_text()` no longer bolds text by default; set `bold_labs = TRUE` to bold it, as before. Notes no longer need a colour, so `colour_text("my note", is_note = TRUE)` works (#218).
+
 # grattantheme 1.7.1
 * `grattan_save_overleaf()` now accepts a vector of chart types, saving a PDF of each and sending them to Overleaf together. `type = "all"` saves the three report chart types - `normal`, `wholecolumn` and `fullpage`.
 

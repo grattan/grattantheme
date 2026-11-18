@@ -4,16 +4,20 @@
 \alias{colour_text}
 \title{Create the css needed to colour text using ggtext}
 \usage{
-colour_text(colour, text, is_note = FALSE, bold_labs = TRUE)
+colour_text(colour = NULL, text, is_note = FALSE, bold_labs = FALSE)
 }
 \arguments{
-\item{colour}{(a character) the colour you want to colour text}
+\item{colour}{(a character) the colour you want to colour text. Not needed
+when \code{is_note = TRUE}, as notes are always grey.}
 
 \item{text}{(a character) what the coloured text should say}
 
-\item{is_note}{(logical; default = FALSE) is it a note?}
+\item{is_note}{(logical; default = FALSE) is it a note? Notes are coloured
+\code{grattan_grey3} and never bolded, so \code{colour} and
+\code{bold_labs} are ignored. A note can be written as
+\code{colour_text("my note", is_note = TRUE)}.}
 
-\item{bold_labs}{(logical; default = TRUE) should the labels be bolded?}
+\item{bold_labs}{(logical; default = FALSE) should the labels be bolded?}
 }
 \value{
 (a glue)
@@ -25,6 +29,10 @@ or if being used in a sub-title or title it should be used in the `labs()` call 
 `theme(plot.subtitle = element_markdown())`
 }
 \examples{
+colour_text(grattan_orange, "Renters")
+colour_text(grattan_orange, "Renters", bold_labs = TRUE)
+colour_text("Excludes the ACT", is_note = TRUE)
+
 \dontrun{library(ggtext)
 
 ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
